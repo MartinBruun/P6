@@ -14,4 +14,4 @@ jobs:
     - name: Build the Docker image (previously used this syntax after P6 :$(date +%s) )
       run: docker build . --file Dockerfile --tag p6
     - name: Run tests (Setup as python test now)
-      run: docker run P6 sh -c "python -m pytest -vv"
+      run: docker run p6 sh -c "python -m pytest -vv"
