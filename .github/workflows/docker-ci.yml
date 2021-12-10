@@ -15,6 +15,6 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Build the Docker image (previously used this syntax after P6 :$(date +%s) )
-      run: docker build . --file Dockerfile --tag P6
+      run: docker build . --file Dockerfile --tag p6
     - name: Run tests (Setup as python test now)
-      run: docker run P6 sh -c "pytest -vv"
+      run: docker run P6 sh -c "python -m pytest -vv"
