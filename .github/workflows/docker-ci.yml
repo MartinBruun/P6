@@ -1,0 +1,20 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build the Docker image (previously used this syntax after P6 :$(date +%s) )
+      run: docker build . --file Dockerfile --tag P6
+    - name: Run tests (Setup as python test now)
+      run: docker run P6 sh -c "pytest -vv"
