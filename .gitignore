@@ -13,7 +13,7 @@ a.out
 build_src
 .flymake*
 .idea
-.DS_Store
+*.DS_Store
 docs/_build
 docs/_static
 docs/_templates
