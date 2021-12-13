@@ -26,4 +26,3 @@ CURRENTLY SETUP AS A PYTHON PROJECT BUT IS SUBJECT TO CHANGE!
 - A way to test Docker maybe: https://github.com/avast/pytest-docker
 
 
-## saxjax prøver lige
