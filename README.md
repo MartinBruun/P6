@@ -25,4 +25,10 @@ CURRENTLY SETUP AS A PYTHON PROJECT BUT IS SUBJECT TO CHANGE!
 - Dockerfile made from this: https://docs.docker.com/language/python/build-images/
 - A way to test Docker maybe: https://github.com/avast/pytest-docker
 
+## Crazy ideas 
+-a smell detector: recognize cinamon, rose, shit, cat piss, skimmel swamp. as a Tampen Brænder game.
+
+-Electronic bookshelf: Tapetser din ebogreol, elektronisk papir viser ryg coveret på en bog eller en musik udgivelse, når du trykker på den vises for og bagsiden , hvis du dragger overføres den til din e reader. hook up med biblioteket og fyld din reol med alt hvad biblioteket ligger inde med. når bøger tages ud lånes de på biblioteket, hook up til spotify (her kan søges funding), hav dine foto albums, og film liggende. Det kan være et pladssparrende møbel, smukke malerier kan måske lånes på biblioteket, eller eKunst. Forskellige tapeter kan uploades.
+
+-Byg en tuner
 
