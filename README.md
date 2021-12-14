@@ -16,6 +16,15 @@ Jakob:
 Rasmus:
 - 
 
+## Structure of the code as of now
+- .github/workflows: Contains yml files which run commands on the github server (right now makes a docker continious integraiton flow)
+- src: Contains source code. Right now only a main function, and a test of that main function
+- gitignore: Ignores docker related files and python related files
+- app.py: Contains a Flask implementation, making the docker serve as a webserver
+- Dockerfile: A File installing app-get (linux standard that functions like pythons pip sort of) and installs requirements.txt + starts app.py
+- Readme.md: What you are reading right now
+- requirements.txt: A compilation of all libraries in this project. Right now only supports Flask and pytest.
+
 ## Project board
 - Use githubs own project overview instead of trello perhaps? An example of it can be found in "Projects" at the top
 - Right now has implemented the "Sprint Backlog -> Test Branch created -> Implementing -> Done" workflow
