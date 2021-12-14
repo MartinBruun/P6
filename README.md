@@ -13,6 +13,7 @@ CURRENTLY SETUP AS A PYTHON PROJECT BUT IS SUBJECT TO CHANGE!
 
 ## Future ideas
 - Setup more action flows. Automatic labelling when pull requests or issues are created, setup deletion of stale branches, setup workflows which can be run manually, etc.
+- Setup action flow, so that a reduction in coverage cannot be merged?
 - Make an action that set the person initially pushing the code as the Assignee, and setting everyone else as reviewers maybe?
 - Create milestones which are the Sprint Goal, and its work items?
 
@@ -22,13 +23,20 @@ CURRENTLY SETUP AS A PYTHON PROJECT BUT IS SUBJECT TO CHANGE!
 - All branches can only be merged, if they pass the CI
 
 ## Maybe Useful Resources and Libraries
+- Overview of cyber physical systems: https://ptolemy.berkeley.edu/projects/cps/
 - Dockerfile made from this: https://docs.docker.com/language/python/build-images/
 - A way to test Docker maybe: https://github.com/avast/pytest-docker
+- Show automatically which lines are not covered by tests https://stackoverflow.com/questions/67482906/show-coverage-in-github-pr
+- List of github actions idea https://github.com/sdras/awesome-actions
 
 ## Crazy ideas 
 -a smell detector: recognize cinamon, rose, shit, cat piss, skimmel swamp. as a Tampen Brænder game.
 
 -Electronic bookshelf: Tapetser din ebogreol, elektronisk papir viser ryg coveret på en bog eller en musik udgivelse, når du trykker på den vises for og bagsiden , hvis du dragger overføres den til din e reader. hook up med biblioteket og fyld din reol med alt hvad biblioteket ligger inde med. når bøger tages ud lånes de på biblioteket, hook up til spotify (her kan søges funding), hav dine foto albums, og film liggende. Det kan være et pladssparrende møbel, smukke malerier kan måske lånes på biblioteket, eller eKunst. Forskellige tapeter kan uploades.
 
--Byg en tuner
+-Build a tuner
+
+- Automatic mini farm, expandable from simple sensor readings, to automatic harvesting
+
+- "Smart house", a collection of integrated small utility internet of things objects for the house, connected to a website/app/rest API
 
