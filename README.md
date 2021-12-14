@@ -6,7 +6,8 @@ This description should be replaced with a proper presentation, when it has been
 CURRENTLY SETUP AS A PYTHON PROJECT BUT IS SUBJECT TO CHANGE!
 
 ## What do we want?
-- Give short descriptions of what we want out of the bachelor project, if any:
+Give short descriptions of what we want out of the bachelor project, if any:
+
 Martin:
 - I would like to try to be the product owner
 - I want that the product is cyber-physical. It should not be an app with a "fun" cyber-physical thing on top.
