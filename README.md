@@ -43,6 +43,7 @@ Rasmus:
 - A way to test Docker maybe: https://github.com/avast/pytest-docker
 - Show automatically which lines are not covered by tests https://stackoverflow.com/questions/67482906/show-coverage-in-github-pr
 - List of github actions idea https://github.com/sdras/awesome-actions
+- List of actions also (discord integration) https://blog.mergify.com/the-best-github-action-you-should-use/
 
 ## Crazy ideas 
 - A smell detector: recognize cinamon, rose, shit, cat piss, skimmel swamp. as a Tampen Brænder game.
