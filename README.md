@@ -26,6 +26,10 @@ Rasmus:
 - Readme.md: What you are reading right now
 - requirements.txt: A compilation of all libraries in this project. Right now only supports Flask and pytest.
 
+## Project
+- The P6 latex document: https://www.overleaf.com/project/61bb5e63bb88b104a305ad37
+- An overview of LaTeX commands: https://www.overleaf.com/project/61bb5d39bb88b12fc6058f7a
+
 ## Project board
 - Use githubs own project overview instead of trello perhaps? An example of it can be found in "Projects" at the top
 - Right now has implemented the "Sprint Backlog -> Test Branch created -> Implementing -> Done" workflow
@@ -34,7 +38,7 @@ Rasmus:
 - We would still need some form of user story board to get a better overview though. But the details should be on github.
 
 # Wiki
-- - Use githubs wiki when we make problem analysis and want to document difficult parts of the code? Can serve as an appendix like in aSTEP.? Or maybe we can copy-paste parts of the wiki into the project, such as theory / problem analysis / etc. ? An example of it can be found in "Wiki" at the top 
+- Use githubs wiki when we make problem analysis and want to document difficult parts of the code? Can serve as an appendix like in aSTEP.? Or maybe we can copy-paste parts of the wiki into the project, such as theory / problem analysis / etc. ? An example of it can be found in "Wiki" at the top 
 
 ## Future ideas
 - Setup more action flows. Automatic labelling when pull requests or issues are created, setup deletion of stale branches, setup workflows which can be run manually, etc.
