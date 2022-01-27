@@ -8,15 +8,6 @@ CURRENTLY SETUP AS A PYTHON PROJECT BUT IS SUBJECT TO CHANGE!
 ## What do we want?
 Give short descriptions of what we want out of the bachelor project, if any:
 
-Martin:
-- I would like to try to be the product owner
-- I want that the product is cyber-physical. It should not be an app with a "fun" cyber-physical thing on top.
-- 
-Jakob:
-- 
-Rasmus:
-- 
-
 ## Structure of the code as of now
 - .github/workflows: Contains yml files which run commands on the github server (right now makes a docker continious integraiton flow)
 - src: Contains source code. Right now only a main function, and a test of that main function
@@ -26,15 +17,20 @@ Rasmus:
 - Readme.md: What you are reading right now
 - requirements.txt: A compilation of all libraries in this project. Right now only supports Flask and pytest.
 
-## Project board
-- Use githubs own project overview instead of trello perhaps? An example of it can be found in "Projects" at the top
-- Right now has implemented the "Sprint Backlog -> Test Branch created -> Implementing -> Done" workflow
-- Can be automated to be moved to done, after a successfull review have accepted the implementation + other stuff.
-- The features in a product backlog could be issues, managed in Releases (Milestones). Tasks would then be Pull Requests. (just an idea, don't know if its a good idea though)
-- We would still need some form of user story board to get a better overview though. But the details should be on github.
+## Project
+- The P6 latex document: https://www.overleaf.com/project/61f26cc5fdacee638b780cda
+- An overview of LaTeX commands: https://www.overleaf.com/project/61bb5d39bb88b12fc6058f7a
 
-# Wiki
-- - Use githubs wiki when we make problem analysis and want to document difficult parts of the code? Can serve as an appendix like in aSTEP.? Or maybe we can copy-paste parts of the wiki into the project, such as theory / problem analysis / etc. ? An example of it can be found in "Wiki" at the top 
+## Project board
+- We use githubs Issues/Milestones/Project system
+- Milestones = Releases
+- Issues = User Stories and work that needs to be done
+- Pull Requests = Tasks, where they have defined test names in the branch
+- Pull requests are automatically put into the "Product Backlog" column of the Project Board
+- The Project board has a "Sprint Backlog" column for the sprint, a "Doing" column for work being done and a "Done" column for done tasks.
+- Cards are moved from the Product Backlog to the Sprint Backlog by all developers during the sprint planning meeting
+- When a person is assigned a Card, the pull request is moved to the "Doing" column (Need automation!)
+- When a Card passes the tests and has an accepted review, it is moved to the "Done" column (Need automation!)
 
 ## Future ideas
 - Setup more action flows. Automatic labelling when pull requests or issues are created, setup deletion of stale branches, setup workflows which can be run manually, etc.
