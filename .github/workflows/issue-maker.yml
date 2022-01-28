@@ -1,0 +1,14 @@
+name: "Set Issue Label, Assignee, Project and Pre-Fix"
+on:
+  issues:
+    types: [opened]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: Naturalclar/issue-action@v2.0.2
+        with:
+          title-or-body: "both"
+          parameters: '[ {"keywords": ["bug", "error"], "labels": ["Need documentation"], "assignees": ["username"]}, {"keywords": ["help", "guidance"], "labels": ["Need grooming"], "assignees": ["username"]}]'
+          github-token: "${{ secrets.GITHUB_TOKEN }}"
