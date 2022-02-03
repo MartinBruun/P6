@@ -7,12 +7,15 @@ assignees: MartinBruun
 
 ---
 
-**Who wants the feature?**
+**Who wants it?**
 Developer: A
 Stakeholder: B
 
-**The user story**
+**Userstory**
 As an (Persona/Contact) i want (Feature) because of (Reason/Value)
+
+**Usecases and Abusecases**
+An (Actor) might interact with the feature by (Action) giving (Consequence)
 
 **Any ideas for how it can be done?**
 Option 1 might be ...
