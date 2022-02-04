@@ -2,7 +2,7 @@
 name: Bug report
 about: Create a report to help us improve
 title: '1: [BUG]'
-labels: '1: Highest Priority, Need documentation, Need grooming'
+labels: '1: Highest Priority, Need documentation, Need grooming, Security'
 assignees: MartinBruun
 
 ---

@@ -1,8 +1,8 @@
 ---
 name: Feature Request
 about: Suggest an idea for this project
-title: '0: [TITLE]'
-labels: '0: Suggestion, Need documentation, Need grooming'
+title: '0: [FEATURE]'
+labels: '0: Suggestion, Feature, Need documentation, Need grooming'
 assignees: MartinBruun
 
 ---
@@ -11,8 +11,10 @@ assignees: MartinBruun
 Developer: A
 Stakeholder: B
 
-**Userstory**
-As an (Persona/Contact) i want (Feature) because of (Reason/Value)
+**Usecases and Abusecases**
+An (Actor) might interact with the feature by (Action) giving (Consequence)
+
+Should be made as a flowchart in complex usecases.
 
 **Usecases and Abusecases**
 An (Actor) might interact with the feature by (Action) giving (Consequence)
