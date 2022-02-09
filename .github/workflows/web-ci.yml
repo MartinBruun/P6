@@ -1,0 +1,21 @@
+name: Web CI
+
+on:
+  pull_request:
+    paths:
+      - 'web_app/**'
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Move into correct folder
+      run: cd web_app
+    - name: Build Web App
+      run: 
+    - name: Run tests
+      run: 
