@@ -15,7 +15,7 @@ jobs:
     - uses: actions/checkout@v2
     - name: Move into correct folder
       run: cd web_app
-    - name: Build Mobile App
+    - name: Build Web App
       run: 
     - name: Run tests
       run: 
