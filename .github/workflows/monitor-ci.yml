@@ -1,0 +1,21 @@
+name: Monitor CI
+
+on:
+  pull_request:
+    paths:
+      - 'monitor_app/**'
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Move into correct folder
+      run: cd monitor_app
+    - name: Build Monitor Docker Image
+      run: docker build . --file Dockerfile --tag monitor
+    - name: Run tests
+      run: docker run monitor sh -c "python -m pytest -vv"
