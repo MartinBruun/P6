@@ -45,15 +45,13 @@ dependencies:
   cached_network_image: ^3.1.0
   flutter_screenutil: ^5.0.0+2
   flutter_svg: ^0.22.0
-  flutter_test: 
-    sdk: flutter
-    version: ^0.0.0
   
 dev_dependencies:
-  # flutter_test:
-  #   sdk: flutter
+  flutter_test:
+    sdk: flutter
   test: ^1.17.10
-
+  mockito: ^5.0.14 
+  build_runner: ^2.1.1
 
 flutter:
 
