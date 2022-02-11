@@ -26,6 +26,7 @@ bundles/
 vendor/pkg/
 pyenv
 Vagrantfile
+*.code-workspace
 
 # ------------------------------- PYTHON IGNORES ---------------------------
 # Byte-compiled / optimized / DLL files
