@@ -1,9 +1,9 @@
-name: Monitor CI
+name: Washee-box CI
 
 on:
   pull_request:
     paths:
-      - 'monitor_app/**'
+      - 'Washee_box/**'
 
 jobs:
 
