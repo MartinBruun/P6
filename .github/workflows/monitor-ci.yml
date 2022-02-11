@@ -3,7 +3,7 @@ name: Washee-box CI
 on:
   pull_request:
     paths:
-      - 'Washee_box/**'
+      - 'washee_box/**'
 
 jobs:
 
