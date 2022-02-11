@@ -1,5 +1,7 @@
 # -------------------- CUSTOM IGNORES -------------------
 
+web_app/web_env/*
+
 # -------------------- DOCKER IGNORES -------------------
 # Docker project generated files to ignore
 #  if you want to ignore files created by your editor/tools,
