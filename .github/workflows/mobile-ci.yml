@@ -3,7 +3,7 @@ name: Mobile CI
 on:
   pull_request:
     paths:
-      - 'mobile_app/**'
+      - 'washee_app/**'
 
 jobs:
 
@@ -24,6 +24,9 @@ jobs:
         channel: 'beta' # 'dev', 'alpha', default to: 'stable'
         # flutter-version: '1.12.x' # you can also specify exact version of flutter
     
+    # Get into correct folder
+    - run: cd washee_app
+
     # Get flutter dependencies.
     - run: flutter pub get
     
