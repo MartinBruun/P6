@@ -24,20 +24,11 @@ jobs:
         channel: 'beta' # 'dev', 'alpha', default to: 'stable'
         # flutter-version: '1.12.x' # you can also specify exact version of flutter
     
-    # Get into correct folder
-    - run: cd washee_app
-
-    # Get flutter dependencies.
-    - run: flutter pub get
-    
-    # Check for any formatting issues in the code.
-    - run: flutter format --set-exit-if-changed .
-    
-    # Statically analyze the Dart code for any errors.
-    - run: flutter analyze .
-    
-    # Run widget tests for our flutter project.
-    - run: flutter test
-    
-    # Build apk.
-    - run: flutter build apk
+    - name: Run flutter commands
+      working-directory: ./washee_app
+      run: |
+        flutter pub get
+        flutter format --set-exit-if-changed .
+        flutter analyze .
+        flutter test
+        flutter build apk
