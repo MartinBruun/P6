@@ -1,5 +1,10 @@
 # -------------------- CUSTOM IGNORES -------------------
 
+# Python should ignore "lib" folders, however, flutter uses a "lib" folder that should not be ignored
+washee_web/**/lib/**
+washee_box/**/lib/**
+
+
 # -------------------- DOCKER IGNORES -------------------
 # Docker project generated files to ignore
 #  if you want to ignore files created by your editor/tools,
@@ -165,7 +170,6 @@ dist/
 downloads/
 eggs/
 .eggs/
-lib/
 lib64/
 parts/
 sdist/
