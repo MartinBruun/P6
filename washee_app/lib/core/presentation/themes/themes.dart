@@ -7,7 +7,7 @@ ThemeData getMainTheme() => ThemeData(
     primarySwatch: AppColors.createMaterialColor(AppColors.mainBackground),
     canvasColor: AppColors.createMaterialColor(AppColors.mainBackground),
     primaryColor: AppColors.main,
-    accentColor: AppColors.createMaterialColor(AppColors.main),
+    //accentColor: AppColors.createMaterialColor(AppColors.main),
     hintColor: AppColors.main,
     errorColor: Colors.red,
     visualDensity: VisualDensity.adaptivePlatformDensity);
