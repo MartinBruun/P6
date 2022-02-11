@@ -14,8 +14,8 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Move into correct folder
-      run: cd monitor_app
+      run: cd washee_box
     - name: Build Monitor Docker Image
       run: docker build . --file Dockerfile --tag monitor
     - name: Run tests
-      run: docker run monitor sh -c "python -m pytest -vv"
+      run: docker run washee_box sh -c "python -m pytest -vv"
