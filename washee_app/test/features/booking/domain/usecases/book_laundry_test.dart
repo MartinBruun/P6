@@ -1,13 +1,13 @@
-import 'package:dartz/dartz.dart';
-import 'package:mockito/mockito.dart';
-import 'package:mockito/annotations.dart';
-import 'package:flutter_test/flutter_test.dart';
-import 'package:washee/core/errors/failures.dart';
-import 'package:washee/core/usecases/usecase.dart';
-import 'package:washee/features/booking/domain/repositories/book_laundry_repository.dart';
-import 'package:washee/features/booking/domain/usecases/book_laundry.dart';
+//import 'package:dartz/dartz.dart';
+//import 'package:mockito/mockito.dart';
+//import 'package:mockito/annotations.dart';
+//import 'package:flutter_test/flutter_test.dart';
+//import 'package:washee/core/errors/failures.dart';
+//import 'package:washee/core/usecases/usecase.dart';
+//import 'package:washee/features/booking/domain/repositories/book_laundry_repository.dart';
+//import 'package:washee/features/booking/domain/usecases/book_laundry.dart';
 
-@GenerateMocks([BookLaundryRepository])
+//@GenerateMocks([BookLaundryRepository])
 void main() {
   // var mockBookLaundryRepository = MockBookLaundryRepository();
   // var usecase = BookLaundryUseCase(repository: mockBookLaundryRepository);
