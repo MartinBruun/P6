@@ -5,10 +5,6 @@ void main() {
   test(
     'should just run the test for initial commit',
     () async {
-      // arrange
-
-      // act
-
       // assert
       assert(true);
     },
