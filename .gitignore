@@ -1,5 +1,8 @@
 # -------------------- CUSTOM IGNORES -------------------
 
+# Ignore files with codes
+washee_web/.env.dev
+
 # Python should ignore "lib" folders, however, flutter uses a "lib" folder that should not be ignored
 washee_web/**/lib/**
 washee_box/**/lib/**
