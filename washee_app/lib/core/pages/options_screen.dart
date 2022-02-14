@@ -6,14 +6,15 @@ import '../presentation/themes/dimens.dart';
 import '../presentation/themes/themes.dart';
 import '../widgets/common_used_widgets.dart';
 
-class BookingScreen extends StatefulWidget {
-  const BookingScreen({Key? key}) : super(key: key);
+class OptionsScreen extends StatefulWidget {
+  static const routeName = "/options-screen";
+  const OptionsScreen({Key? key}) : super(key: key);
 
   @override
-  _BookingScreenState createState() => _BookingScreenState();
+  _OptionsScreenState createState() => _OptionsScreenState();
 }
 
-class _BookingScreenState extends State<BookingScreen> {
+class _OptionsScreenState extends State<OptionsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -71,7 +72,7 @@ class BookDialog extends StatelessWidget {
                   },
                   child: Container(
                     height: 84.h,
-                    width: 254.w,
+                    width: 500.w,
                     decoration: BoxDecoration(
                       color: AppColors.dialogLightGray,
                       borderRadius: BorderRadius.circular(20.h),
