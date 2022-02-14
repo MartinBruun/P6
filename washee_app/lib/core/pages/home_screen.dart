@@ -5,9 +5,10 @@ import 'package:washee/core/pages/washee_screen.dart';
 class HomeScreen extends StatefulWidget {
   static const routeName = "/home-screen";
   final Object page;
-  final bool setBackToOp;
 
-  HomeScreen({this.page = OptionsScreen, this.setBackToOp = false});
+  HomeScreen({
+    this.page = WasheeScreen,
+  });
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }

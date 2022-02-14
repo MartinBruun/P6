@@ -48,9 +48,9 @@ class BookDialog extends StatelessWidget {
               padding: EdgeInsets.only(top: 45.h, bottom: 24.h),
               child: Container(
                 width: 600.w,
-                height: 180.h,
+                height: 110.h,
                 child: Text(
-                  "Welcome, please choose an option",
+                  "Welcome to Washee ",
                   style: textStyle.copyWith(
                     fontSize: textSize_40,
                     fontWeight: FontWeight.w500,
