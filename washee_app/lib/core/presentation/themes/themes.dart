@@ -6,13 +6,13 @@ import 'dimens.dart';
 ThemeData getMainTheme() => ThemeData(
     canvasColor: AppColors.createMaterialColor(AppColors.mainBackground),
     primaryColor: AppColors.main,
-    accentColor: AppColors.createMaterialColor(AppColors.main),
     hintColor: AppColors.main,
     errorColor: Colors.red,
     visualDensity: VisualDensity.adaptivePlatformDensity,
     colorScheme: ColorScheme.fromSwatch(
             primarySwatch:
                 AppColors.createMaterialColor(AppColors.mainBackground))
+        .copyWith(secondary: AppColors.createMaterialColor(AppColors.main))
         .copyWith(secondary: AppColors.createMaterialColor(AppColors.main)));
 
 // TextStyles
