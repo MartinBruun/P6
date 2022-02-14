@@ -4,13 +4,15 @@ import 'colors.dart';
 import 'dimens.dart';
 
 ThemeData getMainTheme() => ThemeData(
-    primarySwatch: AppColors.createMaterialColor(AppColors.mainBackground),
     canvasColor: AppColors.createMaterialColor(AppColors.mainBackground),
     primaryColor: AppColors.main,
-    accentColor: AppColors.createMaterialColor(AppColors.main),
     hintColor: AppColors.main,
     errorColor: Colors.red,
-    visualDensity: VisualDensity.adaptivePlatformDensity);
+    visualDensity: VisualDensity.adaptivePlatformDensity,
+    colorScheme: ColorScheme.fromSwatch(
+            primarySwatch:
+                AppColors.createMaterialColor(AppColors.mainBackground))
+        .copyWith(secondary: AppColors.createMaterialColor(AppColors.main)));
 
 // TextStyles
 TextStyle get textStyle => TextStyle(
