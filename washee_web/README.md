@@ -9,15 +9,17 @@ docker-compose up -d --build
 To start the container in the terminal
 docker-compose up
 
-To start the container in a hidden terminal
+To start the container as a subprocess, making it possible to run "exec" commands (see Running commands in the docker containers)
 docker-compose up -d
 
 # Shutting down
+Shutting it down, persisting all changes
+docker-compose down
+
+Shutting it down, while also removing all data (called volumes) including any superuser created.
 docker-compose down -v
 
 # Running commands in the docker containers
-
-## List of what the command parts mean
 `docker-compose exec` => 
 run the docker compose file and execute a command in the web OR the db container (as seen in below commands)
 
