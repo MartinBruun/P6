@@ -26,7 +26,7 @@ run the docker compose file and execute a command in the web OR the db container
 `*` = `docker-compose exec`
 
 `* web python manage.py createsuperuser` =>
-Django creates a superuser (for the database) where you should give a username and password, which should be set in the .env.dev file.
+Django creates a superuser (for the database and website) where you should give a username and password, which should be set in the .env.dev file.
 
 `* web python manage.py makemigrations` =>
 Django goes through the models.py files and make a migration file that maps to the database.
