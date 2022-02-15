@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:washee/core/pages/options_screen.dart';
+import 'package:washee/core/pages/washee_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   static const routeName = "/home-screen";
   final Object page;
-  final bool setBackToOp;
 
-  HomeScreen({this.page = BookingScreen, this.setBackToOp = false});
+  HomeScreen({
+    this.page = WasheeScreen,
+  });
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
@@ -18,7 +20,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
-    _pages = [BookingScreen()];
+    _pages = [
+      WasheeScreen(),
+      OptionsScreen(),
+    ];
     _selectedPageIndex = _pages
         .indexWhere((element) => element.toString() == widget.page.toString());
     print(widget.page.toString());
@@ -38,25 +43,27 @@ class _HomeScreenState extends State<HomeScreen> {
       body: _pages[_selectedPageIndex],
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
-          boxShadow: [
-            BoxShadow(
-              color: Colors.green,
+          color: Colors.white,
+          border: Border(top: BorderSide(color: Colors.white, width: 2.0)),
+        ),
+        child: BottomNavigationBar(
+          type: BottomNavigationBarType.fixed,
+          onTap: _selectPage,
+          backgroundColor: Theme.of(context).canvasColor,
+          unselectedItemColor: Colors.white54,
+          selectedItemColor: Colors.white,
+          currentIndex: _selectedPageIndex,
+          items: [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home),
+              label: 'Home',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.bookmark_add_outlined),
+              label: 'Book',
             ),
           ],
         ),
-        child: BottomNavigationBar(
-            type: BottomNavigationBarType.fixed,
-            onTap: _selectPage,
-            backgroundColor: Theme.of(context).canvasColor,
-            unselectedItemColor: Colors.white54,
-            selectedItemColor: Colors.white,
-            currentIndex: _selectedPageIndex,
-            items: [
-              BottomNavigationBarItem(
-                icon: Icon(Icons.home),
-                label: 'Home',
-              ),
-            ]),
       ),
     );
   }

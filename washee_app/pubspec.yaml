@@ -33,7 +33,7 @@ dependencies:
   open_file: ^3.2.1
 
   # Permissions handler
-  connectivity: ^3.0.6
+  connectivity_plus: ^2.2.0
   wifi_info_flutter: ^2.0.2
   dio: ^4.0.0
   permission_handler: ^8.1.4+2
