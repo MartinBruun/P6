@@ -1,9 +1,17 @@
+# Web
+This app is created as a docker-compose that starts a database and a django application.
+
+It is presently only useable for development, meaning it is not meant for persisting any data. To make it possible to deploy for production, follow this guide:
 https://testdriven.io/blog/dockerizing-django-with-postgres-gunicorn-and-nginx/
+
+To run these commands, docker should be installed (to call the docker-compose command) but otherwise, it should not need anything further.
+
+However, if you use a mac or linux, remember to grant execution rights to the entrypoint for the application:
+
+chmod +x app/entrypoint.sh
 
 # Building
 docker-compose build
-or
-docker-compose up -d --build
 
 # Starting
 To start the container in the terminal
@@ -16,7 +24,7 @@ docker-compose up -d
 Shutting it down, persisting all changes
 docker-compose down
 
-Shutting it down, while also removing all data (called volumes) including any superuser created.
+Shutting it down, while also removing all data (called volumes)
 docker-compose down -v
 
 # Running commands in the docker containers
