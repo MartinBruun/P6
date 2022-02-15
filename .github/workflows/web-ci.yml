@@ -13,9 +13,10 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Build, test and tear down containers
+    - name: Give access rights, build, test and tear down containers
       working-directory: ./washee_web
       run: |
+        chmod +x app/entrypoint.sh
         docker-compose up -d --build
         docker-compose exec web pytest
         docker-compose down -v
