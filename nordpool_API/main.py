@@ -4,32 +4,57 @@ import json
 import ftplib
 
 
-def get_nordpool_access_data():
-    file = open('nordpool.json')
+class NordpoolAPI:
+    __url = ""
+    __username = ""
+    __password = ""
+    __access_data_path = "nordpool.json"
 
-    nordpool = json.load(file)
+    def __init__(self):
+        data = self.__get_nordpool_access_data()
 
-    return nordpool
+        self.__url = data["url"]
+        self.__username = data["username"]
+        self.__password = data["password"]
 
+    def __get_nordpool_access_data(self):
+        file = open(self.__access_data_path)
 
-def ftp_request(nordpool):
-    url = nordpool["url"]
-    username = nordpool["username"]
-    password = nordpool["password"]
+        data = json.load(file)
 
-    ftp = ftplib.FTP(url)
-    ftp.login(username, password)
+        return data
 
-    data = []
+    def __save_data(self, data):
+        file = open("data.csv", 'w')
 
-    ftp.dir(data.append)
+        for line in data:
+            file.write(line + "\n")
 
-    ftp.quit()
-    for line in data:
-        print(line)
+        file.close()
 
+    def __print_data(self, data):
+        for line in data:
+            print(line)
+        print("-----END-----")
+
+    def ftp_retrieve(self, path, filename):
+        ftp = ftplib.FTP(self.__url)
+        ftp.login(self.__username, self.__password)
+
+        ftp.cwd(path)
+
+        data = []
+
+        ftp.retrlines("RETR " + filename, data.append)
+
+        self.__save_data(data)
+
+        ftp.quit()
 
 
 if __name__ == '__main__':
-    nordpool = get_nordpool_access_data()
-    ftp_request(nordpool)
+    nordpool = NordpoolAPI()
+    path = "/Operating_data/Denmark"
+    file = "podk2207.sdv"
+    nordpool.ftp_retrieve(path, file)
+
