@@ -1,0 +1,21 @@
+name: Box CI
+
+on:
+  pull_request:
+    paths:
+      - 'washee_box/**'
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Move into correct folder
+      working-directory: ./washee_box
+      run: |
+        docker build --tag box .
+        docker run -d --name box --rm box        
+        docker stop box
