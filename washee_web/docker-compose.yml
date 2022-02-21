@@ -18,10 +18,12 @@ services:
     image: postgres:13.0-alpine
     volumes:
       - postgres_data:/var/lib/postgresql/data/
+    env_file:
+      - ./.env.dev
     environment:
-      - POSTGRES_DB=washee_web_dev
-      - POSTGRES_USER=admin
-      - POSTGRES_PASSWORD=Mimtop9?
+      - POSTGRES_DB=$${DB_NAME}
+      - POSTGRES_USER=$${DB_USER}
+      - POSTGRES_PASSWORD=$${DB_PASSWORD}
     ports:
       - 5432:5432
 volumes:
