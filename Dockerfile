@@ -6,7 +6,7 @@ RUN apt-get update
 RUN apt-get install -y --no-install-recommends
 
 # for flask web server
-EXPOSE 8081
+EXPOSE 8082
 
 WORKDIR /src
 
