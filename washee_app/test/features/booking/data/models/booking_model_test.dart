@@ -6,7 +6,7 @@ void main() {
   test(
     'should be a subclass of Booking entity',
     () async {
-      // arrange
+      // arrange & act
       final tBookingModel =
           BookingModel(date: DateTime.now(), bookingID: 1, bookingName: "test");
 
