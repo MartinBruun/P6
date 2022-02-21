@@ -1,4 +1,4 @@
-name: Monitor CI
+name: Box CI
 
 on:
   pull_request:
@@ -14,8 +14,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Move into correct folder
-      run: cd washee_box
-    - name: Build box Docker Image
-      run: docker build . --file Dockerfile --tag box
-    - name: Run tests
-      run: docker run box sh -c "python -m pytest -vv"
+    working-directory: ./washee_box
+      run: |
+       docker build --tag box .
+       docker run box 
