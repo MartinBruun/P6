@@ -11,13 +11,13 @@ assignees: MartinBruun
 Developer: A
 Stakeholder: B
 
+**Userstory**
+As an (Actor) i want (Feature) because of (Reason)
+
 **Usecases and Abusecases**
 An (Actor) might interact with the feature by (Action) giving (Consequence)
 
 Should be made as a flowchart in complex usecases.
-
-**Usecases and Abusecases**
-An (Actor) might interact with the feature by (Action) giving (Consequence)
 
 **Any ideas for how it can be done?**
 Option 1 might be ...
