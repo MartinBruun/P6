@@ -39,11 +39,17 @@ CORE_APPS = [
     'django.contrib.staticfiles',
 ]
 
+OWN_APPS = [
+    "account",
+    "booking",
+    "location"
+]
+
 THIRD_PARTY = [
     'rest_framework'
 ]
 
-INSTALLED_APPS = CORE_APPS+THIRD_PARTY
+INSTALLED_APPS = CORE_APPS+OWN_APPS+THIRD_PARTY
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -90,7 +96,7 @@ DATABASES = {
     "default": {
         "ENGINE": os.environ.get("DB_ENGINE", "django.db.backends.sqlite3"),
         "NAME": os.environ.get("DB_NAME", BASE_DIR / "db.sqlite3"),
-        "USER": os.environ.get("DB_USER", "user"),
+        "USER": os.environ.get("DB_USER", "postgres"),
         "PASSWORD": os.environ.get("DB_PASSWORD", "password"),
         "HOST": os.environ.get("DB_HOST", "db"),
         "PORT": os.environ.get("DB_PORT", "5432"),
