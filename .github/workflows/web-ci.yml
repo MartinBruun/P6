@@ -3,7 +3,7 @@ name: Web CI
 on:
   pull_request:
     paths:
-      - 'web_app/**'
+      - 'washee_web/**'
 
 jobs:
 
@@ -13,9 +13,10 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Move into correct folder
-      run: cd web_app
-    - name: Build Web App
-      run: 
-    - name: Run tests
-      run: 
+    - name: Setup, build, test and tear down containers
+      working-directory: ./washee_web
+      run: |
+        chmod +x app/entrypoint.sh
+        docker-compose up -d --build
+        docker-compose exec -T web pytest
+        docker-compose down -v
