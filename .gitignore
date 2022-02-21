@@ -30,6 +30,7 @@ bundles/
 vendor/pkg/
 pyenv
 Vagrantfile
+*.code-workspace
 
 # ------------------------------- FLUTTER IGNORES --------------------------
 # Miscellaneous

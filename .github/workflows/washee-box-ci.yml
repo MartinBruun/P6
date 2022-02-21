@@ -1,0 +1,23 @@
+name: Washee-box CI
+
+on:
+  pull_request:
+    paths:
+      - 'washee_box/**'
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+    - uses: actions/checkout@v2
+
+    - name: Set working directory to washee_box
+      working-directory: ./washee_box
+    - name: Build Washee_box Docker Image
+      run: docker build . --file Dockerfile --tag washee_box
+    - name: Run tests
+      run: docker run --rm  --name box washee_box:latest sh -c "python -m pytest -vv"
