@@ -15,6 +15,6 @@ jobs:
     - uses: actions/checkout@v2
     - name: Move into correct folder
     working-directory: ./washee_box
-      run: |
+    run: |
        docker build --tag box .
        docker run box 
