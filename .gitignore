@@ -307,3 +307,4 @@ cython_debug/
 
 # ------------------------------- NORDPOOL IGNORES --------------------------
 nordpool.json
+washee_web/app/ml_electricity/nordpool_API/data.csv
