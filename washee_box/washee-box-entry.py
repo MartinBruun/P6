@@ -1,3 +1,4 @@
+import os
 from flask import Flask
 app = Flask(__name__)
 
@@ -18,4 +19,5 @@ def light():
     return "<a href='/'> Machine has been unlocked </a>"
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    debug = False if int(os.environ.get("DEBUG",default="1")) == 0 else True
+    app.run(debug=debug)

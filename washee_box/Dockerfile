@@ -8,12 +8,25 @@ RUN apt-get install -y --no-install-recommends
 # for flask web server
 EXPOSE 8082
 
-WORKDIR /src
+# set work directory
+WORKDIR /usr/src/washee_box
 
-COPY requirements.txt requirements.txt
-RUN pip3 install -r requirements.txt
+# install dependencies
+RUN pip install --upgrade pip
+COPY ./requirements.txt .
+RUN pip install -r requirements.txt
 
-COPY . /src
+# Flask environment variables
 ENV FLASK_APP=washee-box-entry.py
-# RUN  export FLASK_APP=washee-box-entry.py
-CMD [ "python3", "-m" , "flask", "run", "--host=0.0.0.0"]
+ENV FLASK_DEBUG=${DEBUG}
+
+# copy entrypoint.sh
+COPY ./entrypoint.sh .
+RUN sed -i 's/\r$//g' /usr/src/washee_box/entrypoint.sh
+RUN chmod +x /usr/src/washee_box/entrypoint.sh
+
+# copy project
+COPY . .
+
+# run entrypoint.sh
+ENTRYPOINT ["/usr/src/washee_box/entrypoint.sh"]
