@@ -8,8 +8,9 @@ import os
 class NordpoolAPI:
 
     def __init__(self):
+        
         self.__access_data_path = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__), "nordpool.json"))
-
+        
         data = self.__get_nordpool_access_data()
 
         self.__url = data["url"]
@@ -38,39 +39,35 @@ class NordpoolAPI:
 
     def __decode(self, data):
 
-        decoded_data = []
-
+        # make all bytes into strings
         for i in range(0, len(data)):
             data[i] = str(data[i])
 
+        # split data chunks into lines and remove byte encoding (b'string here')
+        data_lines = []
         for chunk in data:
             for line in chunk.split('\\r\\n'):
                 line = (str(line)).lstrip("b'").rstrip("'")
                 
-                decoded_data.append(line)
+                data_lines.append(line)
 
+        # join lines that are split incorrecly
+        # lines are considered to be split incorrecly if they:
+        #   Are not in the header section (the first 5 lines)
+        #   And they have fewer than 35 semicolons
+        #   And that that end of file have not been reached
+        i = 0
+        for line in data_lines:
+            if (i > 5 
+                and self.__number_of_semicolon(line) < 35
+                and len(data_lines) > i + 1):
 
-        # while len(data) > 0:
-        #     chunk = data[0]
-        #     # print(len(data))
-        #     for line in chunk.split('\\r\\n'):
-        #         line = (str(line)).lstrip("b'").rstrip("'")
-                
-        #         print(self.__number_of_semicolon(line))                
+                    data_lines[i+1] = str(line) + str(data_lines[i+1])
+                    data_lines.pop(i)
 
-        #         if self.__number_of_semicolon(line) >= 35 or len(decoded_data) < 5:
-        #             decoded_data.append(line)
-        #             print("number of semi appended")
-        #         elif len(data) >= 1:
-        #             data[1] = str(line) + str(data[1])
-        #             print("pushed to next")
-        #         else:
-        #             decoded_data.append(line)
-        #             print("else appended")
+            i += 1
 
-        #     data.pop(0)
-
-        return decoded_data
+        return data_lines
 
     def __number_of_semicolon(self, line):
         count = 0
