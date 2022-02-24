@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 
 abstract class BoxCommunicator {
-  Future<Response> lockOrUnlock(String command);
+  Future<bool> lockOrUnlock(String command);
   String get lockURL;
   String get unlockURL;
   String get lockCMD;
@@ -13,38 +13,38 @@ class BoxCommunicatorImpl implements BoxCommunicator {
 
   BoxCommunicatorImpl({required this.dio});
 
-  Future<Response> _lock() async {
+  Future<bool> _lock() async {
     Response response;
 
     response = await dio.post(lockURL, data: {'command': lockCMD});
     if (response.statusCode == 200) {
-      return response;
+      return true;
     } else {
       print("Something went wrong, status code and response: " +
           response.statusCode.toString() +
           " " +
           response.data['response']);
-      return response;
+      return false;
     }
   }
 
-  Future<Response> _unlock() async {
+  Future<bool> _unlock() async {
     Response response;
 
     response = await dio.post(unlockURL, data: {'command': unlockCMD});
     if (response.statusCode == 200) {
-      return response;
+      return true;
     } else {
       print("Something went wrong, status code and response: " +
           response.statusCode.toString() +
           " " +
           response.data['response']);
-      return response;
+      return false;
     }
   }
 
   @override
-  Future<Response> lockOrUnlock(String command) {
+  Future<bool> lockOrUnlock(String command) {
     if (command == "lock") {
       return _lock();
     }
