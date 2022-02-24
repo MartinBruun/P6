@@ -30,16 +30,6 @@ services:
     env_file:
       - ./.env.dev
     ports:
-      - "5000:5000"
-  #NOT POSSIBLE, nor necessary, at the moment.
-  #app:
-  #  build: ./washee_app
-  #  command: flutter run web-server --web-port ????
-  #  volumes:
-  #    - ./washee_app/:/usr/src/washee_app/
-  #  ports:
-  #    - ????:????
-  #  env_file:
-  #    - ./.env.dev
+      - "7000:5000"
 volumes:
   postgres_data:

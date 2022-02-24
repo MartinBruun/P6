@@ -6,12 +6,11 @@ machine_name = ['#1','#2','#3','#4']
 
 @app.route('/')
 def menu():
-    text = os.environ.get("BOX_DEVELOPER")
     machine_name_string = ""
     for machineName in machine_name:
         machine_name_string = machine_name_string + "\n  <a href='/light'>" + machineName +"</a>"
 
-    return "<p> booking kalender</p> \n <p>oplås maskine:" + machine_name_string + text + "</p>"
+    return "<p> booking kalender</p> \n <p>oplås maskine:" + machine_name_string + "</p>"
 
 @app.route('/light')
 def light():
