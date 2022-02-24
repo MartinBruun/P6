@@ -23,5 +23,5 @@ ENV FLASK_DEBUG=${BOX_DEBUG}
 # copy project
 COPY . .
 
-# run entrypoint.sh
+# run the entrypoint
 CMD ["python3", "washee-box-entry.py"]

@@ -13,7 +13,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Move into correct folder
+    - name: Build, run, test and tear down
       run: |
         docker-compose build
         docker-compose run -d box
