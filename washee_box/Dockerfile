@@ -18,15 +18,10 @@ RUN pip install -r requirements.txt
 
 # Flask environment variables
 ENV FLASK_APP=washee-box-entry.py
-ENV FLASK_DEBUG=${DEBUG}
-
-# copy entrypoint.sh
-COPY ./entrypoint.sh .
-RUN sed -i 's/\r$//g' /usr/src/washee_box/entrypoint.sh
-RUN chmod +x /usr/src/washee_box/entrypoint.sh
+ENV FLASK_DEBUG=${BOX_DEBUG}
 
 # copy project
 COPY . .
 
 # run entrypoint.sh
-ENTRYPOINT ["/usr/src/washee_box/entrypoint.sh"]
+CMD ["python3", "washee-box-entry.py"]

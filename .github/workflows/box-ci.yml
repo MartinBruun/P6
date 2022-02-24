@@ -14,8 +14,8 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Move into correct folder
-      working-directory: ./washee_box
       run: |
-        docker build --tag box .
-        docker run -d --name box --rm box        
-        docker stop box
+        docker-compose build
+        docker-compose run -d box
+        docker-compose exec -T box pytest       
+        docker-compose down -v

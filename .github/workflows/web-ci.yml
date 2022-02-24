@@ -16,7 +16,8 @@ jobs:
     - name: Setup, build, test and tear down containers
       working-directory: ./washee_web
       run: |
-        chmod +x app/entrypoint.sh
-        docker-compose up -d --build
+        docker-compose build
+        chmod +x washee_web/entrypoint.sh
+        docker-compose run -d web
         docker-compose exec -T web pytest
         docker-compose down -v

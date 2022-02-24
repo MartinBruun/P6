@@ -19,5 +19,8 @@ def light():
     return "<a href='/'> Machine has been unlocked </a>"
 
 if __name__ == "__main__":
-    debug = False if int(os.environ.get("DEBUG",default="1")) == 0 else True
-    app.run(debug=debug)
+    debug = False if int(os.environ.get("BOX_DEBUG",default="1")) == 0 else True
+    port= int(os.environ.get("BOX_PORT"))
+    host = os.environ.get("BOX_HOST")
+    app.run(debug=debug, port=port, host=host)
+    
