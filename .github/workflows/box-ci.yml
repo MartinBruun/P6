@@ -1,9 +1,9 @@
-name: Web CI
+name: Box CI
 
 on:
   pull_request:
     paths:
-      - 'washee_web/**'
+      - 'washee_box/**'
 
 jobs:
 
@@ -14,9 +14,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Build, run, test and tear down
-      working-directory: ./washee_web
       run: |
-        chmod +x entrypoint.sh
-        docker-compose up -d --build web
-        docker-compose exec -T web pytest
+        docker-compose up -d --build box
+        docker-compose exec -T box pytest       
         docker-compose down -v
