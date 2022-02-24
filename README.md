@@ -9,6 +9,11 @@ Give short descriptions of what we want out of the bachelor project, if any:
 ## How to run it
 This repository contains 3 apps and a database.
 
+## Environment variables
+The `.env.dev` file contains environment variables for development mode, while `.env.prod.web/app/box` contain specialized environment variables for running that singular application in production. When running a `docker-compose` command, the `.env.dev` is used as default. Presently, the `washee_app` is not dockerized (see below)
+
+Please be aware that changing the environment variables should not be done lightly, since it changes the environment for all developers. This is an anti-pattern, and there should be a dedicated test environment (that is shared) and a developer environment (that is unique to each developer), but given the small amount of developers, it is argued it is not seen as necessary in the current iteration of the project.
+
 ### Developer mode
 Before starting any of these commands, make sure to go into the Docker Dashboard, find Settings > Resources > Filesharing and then make sure that your computer give rights to the `P6` folder, otherwise some containers might not build.
 
@@ -37,7 +42,6 @@ To run the mobile application, first install flutter, then write:
 
 This should give you the option to start the app in Edge or Chrome.
 If possible, flutter should also be able to be dockerized, but presently it is not needed and takes up too much space.
-This way, flutter also comes with `hot reload` out of the box!
 
 ### Production mode
 Each app has its own seperate production ready docker-compose.NAME.yml file, which when run in the correct environment, will start a production ready build.

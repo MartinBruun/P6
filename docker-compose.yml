@@ -3,13 +3,13 @@ version: '3.8'
 services:
   web:
     build: ./washee_web
-    command: python manage.py runserver 0.0.0.0:${DJANGO_PORT}
+    command: python manage.py runserver 0.0.0.0:8000
     volumes:
       - ./washee_web/:/usr/src/washee_web/
     ports:
-      - "${DJANGO_HOST_PORT}:${DJANGO_PORT}"
+      - 8000:8000
     env_file:
-      - ./.env
+      - ./.env.dev
     depends_on:
       - db
     links:
@@ -20,17 +20,17 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data/
     env_file:
-      - ./.env
+      - ./.env.dev
     ports:
-      - "${DB_HOST_PORT}:${DB_PORT}"
+      - 65432:5432
   box:
     build: ./washee_box
     volumes:
       - ./washee_box/:/usr/src/washee_box/
     env_file:
-      - ./.env
+      - ./.env.dev
     ports:
-      - "${BOX_HOST_PORT}:${BOX_PORT}"
+      - "5000:5000"
   #NOT POSSIBLE, nor necessary, at the moment.
   #app:
   #  build: ./washee_app
@@ -40,6 +40,6 @@ services:
   #  ports:
   #    - ????:????
   #  env_file:
-  #    - ./.env
+  #    - ./.env.dev
 volumes:
   postgres_data:
