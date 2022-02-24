@@ -12,9 +12,7 @@ This repository contains 3 apps and a database.
 ### Developer mode
 Before starting any of these commands, make sure to go into the Docker Dashboard, find Settings > Resources > Filesharing and then make sure that your computer give rights to the `P6` folder, otherwise some containers might not build.
 
-Also, be sure to know that the developer container uses up towards `3 GB` of space, primarily because of the mobile image!
-
-To run all apps in developer mode, simply write:
+To run the web and box apps in developer mode, be in the root directory of the `P6` project, and simply write:
 
 `docker-compose build`
 `docker-compose up`
@@ -27,21 +25,19 @@ To shut the containers down, simply write:
 
 The `-v` option signals that all volumes should be removed. To persist data between runs, simply omit the option.
 
-To run a container by its own, write:
-
-`docker-compose run app`
-OR
-`docker-compose run box`
-OR
-`docker-compose run web`
-
-The `web` container will automatically start the `db` container, because it is linked to it. 
-
 To access the different applications, open the browser and go into:
 
-app: localhost:9000
 web: localhost:8000
 box: localhost:5000
+
+To run the mobile application, first install flutter, then write:
+
+`cd washee_app`
+`flutter run`
+
+This should give you the option to start the app in Edge or Chrome.
+If possible, flutter should also be able to be dockerized, but presently it is not needed and takes up too much space.
+This way, flutter also comes with `hot reload` out of the box!
 
 ### Production mode
 Each app has its own seperate production ready docker-compose.NAME.yml file, which when run in the correct environment, will start a production ready build.

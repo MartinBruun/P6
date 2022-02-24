@@ -25,12 +25,9 @@ jobs:
         # flutter-version: '1.12.x' # you can also specify exact version of flutter
     
     - name: Run flutter commands
+      working-directory: ./washee_app
       run: |
-        docker-compose build
-        chmod +x washee_app/server/server.sh
-        docker-compose run -d app
-        docker-compose exec app flutter pub get
-        docker-compose exec app flutter analyze .
-        docker-compose exec app flutter test
-        docker-compose exec app flutter build apk
-        docker-compose down -v
+        flutter pub get
+        flutter analyze .
+        flutter test
+        flutter build apk

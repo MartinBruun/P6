@@ -31,14 +31,5 @@ services:
       - 5000:5000
     env_file:
       - ./.env.dev
-  app:
-    build: ./washee_app
-    restart: always
-    volumes:
-      - ./washee_app/:/usr/src/washee_app/
-    ports:
-      - 5000:5000
-    env_file:
-      - ./.env.dev
 volumes:
   postgres_data:
