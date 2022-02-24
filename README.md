@@ -3,67 +3,54 @@
 This is the repository used for the bachelor project for the 6. Semester Software 2022
 This description should be replaced with a proper presentation, when it has been done.
 
-CURRENTLY SETUP AS A PYTHON PROJECT BUT IS SUBJECT TO CHANGE!
-
 ## What do we want?
 Give short descriptions of what we want out of the bachelor project, if any:
 
-## Structure of the code as of now
-- .github/workflows: Contains yml files which run commands on the github server (right now makes a docker continious integraiton flow)
-- src: Contains source code. Right now only a main function, and a test of that main function
-- gitignore: Ignores docker related files and python related files
-- app.py: Contains a Flask implementation, making the docker serve as a webserver
-- Dockerfile: A File installing app-get (linux standard that functions like pythons pip sort of) and installs requirements.txt + starts app.py
-- Readme.md: What you are reading right now
-- requirements.txt: A compilation of all libraries in this project. Right now only supports Flask and pytest.
+## How to run it
+This repository contains 3 apps and a database.
 
-## Project
-- The P6 latex document: https://www.overleaf.com/project/61f26cc5fdacee638b780cda
-- An overview of LaTeX commands: https://www.overleaf.com/project/61bb5d39bb88b12fc6058f7a
+## Environment variables
+The `.env.dev` file contains environment variables for development mode, while `.env.prod.web/app/box` contain specialized environment variables for running that singular application in production. When running a `docker-compose` command, the `.env.dev` is used as default. Presently, the `washee_app` is not dockerized (see below)
 
-## Project board
-- We use githubs Issues/Milestones/Project system
-- Milestones = Releases
-- Issues = User Stories and work that needs to be done
-- Pull Requests = Tasks, where they have defined test names in the branch
-- Pull requests are automatically put into the "Product Backlog" column of the Project Board
-- The Project board has a "Sprint Backlog" column for the sprint, a "Doing" column for work being done and a "Done" column for done tasks.
-- Cards are moved from the Product Backlog to the Sprint Backlog by all developers during the sprint planning meeting
-- When a person is assigned a Card, the pull request is moved to the "Doing" column (Need automation!)
-- When a Card passes the tests and has an accepted review, it is moved to the "Done" column (Need automation!)
+Please be aware that changing the environment variables should not be done lightly, since it changes the environment for all developers. This is an anti-pattern, and there should be a dedicated test environment (that is shared) and a developer environment (that is unique to each developer), but given the small amount of developers, it is argued it is not seen as necessary in the current iteration of the project.
 
-## Future ideas
-- Setup more action flows. Automatic labelling when pull requests or issues are created, setup deletion of stale branches, setup workflows which can be run manually, etc.
-- Setup action flow, so that a reduction in coverage cannot be merged?
-- Make an action that set the person initially pushing the code as the Assignee, and setting everyone else as reviewers maybe?
-- Create milestones which are the Sprint Goal, and its work items?
+### Developer mode
+Before starting any of these commands, make sure to go into the Docker Dashboard, find Settings > Resources > Filesharing and then make sure that your computer give rights to the `P6` folder, otherwise some containers might not build.
 
-## Setup done in the settings
-- It is only possible to Squash merge. What this means is that all commits are "squashed" together into one single commit, so that one branch only fills up one commit.
-- All branches can only be merged, if they are reviewed by at least one other person
-- All branches can only be merged, if they pass the CI
+To run the web and box apps in developer mode, be in the root directory of the `P6` project, and simply write:
 
-## Maybe Useful Resources and Libraries
-- Overview of cyber physical systems: https://ptolemy.berkeley.edu/projects/cps/
-- Dockerfile made from this: https://docs.docker.com/language/python/build-images/
-- A way to test Docker maybe: https://github.com/avast/pytest-docker
-- Show automatically which lines are not covered by tests https://stackoverflow.com/questions/67482906/show-coverage-in-github-pr
-- List of github actions idea https://github.com/sdras/awesome-actions
-- List of actions also (discord integration) https://blog.mergify.com/the-best-github-action-you-should-use/
+`docker-compose build`
+`docker-compose up`
+OR
+`docker-compose up --build`
 
-## Crazy ideas 
-- A smell detector: recognize cinamon, rose, shit, cat piss, skimmel swamp. as a Tampen Brænder game.
+To shut the containers down, simply write:
 
-- Electronic bookshelf: Tapetser din ebogreol, elektronisk papir viser ryg coveret på en bog eller en musik udgivelse, når du trykker på den vises for og bagsiden , hvis du dragger overføres den til din e reader. hook up med biblioteket og fyld din reol med alt hvad biblioteket ligger inde med. når bøger tages ud lånes de på biblioteket, hook up til spotify (her kan søges funding), hav dine foto albums, og film liggende. Det kan være et pladssparrende møbel, smukke malerier kan måske lånes på biblioteket, eller eKunst. Forskellige tapeter kan uploades.
+`docker-compose down -v`
 
-- Build a tuner
+The `-v` option signals that all volumes should be removed. To persist data between runs, simply omit the option.
 
-- Automatic mini farm, expandable from simple sensor readings, to automatic harvesting
+To access the different applications, open the browser and go into:
 
-- "Smart house", a collection of integrated small utility internet of things objects for the house, connected to a website/app/rest API
+box: localhost:7000
+web: localhost:8000
 
-- AutoFood: Optimized bread baking? Automatic Pizza Machine?
+To run the mobile application, first install flutter, then write:
 
-- ButlerBot: A general purpose butler robot, that can water plants indoors, bring you items and maybe boil an egg? (smart house expanded)
+`cd washee_app`
+`flutter run`
 
-- CrisisApp: An app recognizing if a person feigns / shouts for help /etc. to call for the proper help.
+This should give you the option to start the app in Edge or Chrome.
+If possible, flutter should also be able to be dockerized, but presently it is not needed and takes up too much space.
+
+### Production mode
+Each app has its own seperate production ready docker-compose.NAME.yml file, which when run in the correct environment, will start a production ready build.
+
+#### Web
+HOW TO
+
+#### Mobile
+HOW TO
+
+#### Box
+HOW TO
