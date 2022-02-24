@@ -7,6 +7,7 @@ class UnlockUseCase implements UseCase<bool, NoParams> {
 
   UnlockUseCase({required this.repository});
 
+  // As params, it might need the ID of the washing machine or something similar
   @override
   Future<bool> call(NoParams params) async {
     return await repository.unlock();
