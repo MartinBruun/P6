@@ -1,4 +1,4 @@
-import numpy
+import pandas
 from nordpool_API.Nordpool import NordpoolAPI
 from machine_learning.machine_learning import NordpoolML
 
@@ -8,10 +8,10 @@ def learn(path, file):
     
     data = get_data()
     
-    ml = NordpoolML(data)
-    ml.train_linear_regression()
-    ml.predict([[1,2]])
-
+    # ml = NordpoolML(data)
+    # ml.train_linear_regression()
+    # result = ml.predict([[1,2]])
+    # print(result)
 
 def get_data():
 
