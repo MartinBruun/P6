@@ -47,7 +47,14 @@ If possible, flutter should also be able to be dockerized, but presently it is n
 Each app has its own seperate production ready docker-compose.NAME.yml file, which when run in the correct environment, will start a production ready build.
 
 #### Web
-HOW TO
+To make a production ready server, create a `.env.prod.web` and a `.env.prod.db` file in the root directory.
+The configuration of these files are secret and outside version control, so ask someone who knows what it should be.
+
+To start the production server
+`docker-compose -f docker-compose.web.yml up -d --build`
+
+To see the logs
+`docker-compose -f docker-compose.web.yml logs -f`
 
 #### Mobile
 HOW TO

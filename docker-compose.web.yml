@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  web:
+    build: ./washee_web
+    command: gunicorn washee_web.wsgi:application --bind 0.0.0.0:8000
+    ports:
+      - 8000:8000
+    env_file:
+      - ./.env.prod.web
+    depends_on:
+      - db
+    links:
+      - db:db
+  db:
+    image: postgres:13.0-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    env_file:
+      - ./.env.prod.db
+
+volumes:
+  postgres_data:
