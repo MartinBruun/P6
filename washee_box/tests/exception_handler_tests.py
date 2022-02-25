@@ -1,10 +1,93 @@
-# Test that an Exception Handler Class can be initialized
+import pytest
+import sys
 
-# Test that the Exception Handler can take an Exception, and then
-# either write to a log, print to the console OR crash the program
-# (This represents different security levels 
-#  / if we work in development or production)
+from datetime import datetime
+from dateutil.parser import parse
 
-# Writes to a log should be timestamped and (if applicable) 
-# what user did it, and what action was the cause
-s
+from washee_box.exception_handling.exception_handler import ExceptionHandler
+
+
+def test_exception_handler_can_be_initialized():
+    #Arrange
+    #Act
+    handler = ExceptionHandler()
+    #Assert
+    assert True
+
+
+def test_exception_handler_can_write_exception_to_a_log():
+    #Arrange
+    eh = ExceptionHandler()
+    eh.reset_log()
+    
+    #Act
+    try:
+        raise Exception("Some Exception")
+    except Exception as exc:
+        eh.handle(exc, log=True)
+        
+    #Assert
+    with open(eh.log_location, "r+") as f:
+        line = f.readline()
+        assert "Some Exception" in line
+    eh.reset_log()
+    
+    
+def test_exception_handler_can_fail_silently_and_show_to_console(capsys):
+    # Arrange
+    eh = ExceptionHandler()
+    
+    # Act
+    try:
+        raise Exception("Some Exception")
+    except Exception as exc:
+        eh.handle(exc, show=True)    
+    
+    # Assert
+    captured = capsys.readouterr()
+    assert "Some Exception" in captured.out
+    
+    
+def test_exception_handler_can_fail_and_crash_the_program():
+    # Arrange
+    eh = ExceptionHandler()
+    
+    #Act
+    try:
+        raise Exception("Some Exception")
+    except Exception as exc:
+        with pytest.raises(Exception) as eh_info:
+            eh.handle(exc)
+        #Assert
+        assert "Some Exception" in str(eh_info.value)
+    
+    
+def test_exception_handler_should_crash_and_warn_if_no_option_has_been_given():
+    #Arrange
+    eh = ExceptionHandler()
+    
+    #Act
+    try:
+        raise Exception("Some Exception")
+    except Exception as exc:
+        with pytest.raises(Exception) as eh_info:
+            eh.handle(exc)
+        #Assert
+        assert "Some Exception" in str(eh_info.value)
+
+def test_exception_handlers_log_is_timestamped():
+    #Arrange
+    eh = ExceptionHandler()
+    eh.reset_log()
+    
+    #Act
+    try:
+        raise Exception("Some Exception")
+    except Exception as exc:
+        eh.handle(exc, log=True)
+        
+    #Assert
+    with open(eh.log_location, "r+") as f:
+        line = f.readline()
+        assert parse(line, fuzzy=False).date == datetime.date
+    eh.reset_log()

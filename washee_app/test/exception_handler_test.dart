@@ -9,4 +9,3 @@
 
 // Writes to a log should be timestamped and (if applicable) 
 //what user did it, and what action was the cause
-s
