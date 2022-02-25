@@ -7,7 +7,6 @@ RUN apt-get install -y --no-install-recommends
 
 # for flask web server
 EXPOSE 8082
-
 # set work directory
 WORKDIR /usr/src/washee_box
 
@@ -22,6 +21,7 @@ ENV FLASK_DEBUG=${BOX_DEBUG}
 
 # copy project
 COPY . .
+
 
 # run the entrypoint
 CMD ["python3", "washee-box-entry.py"]
