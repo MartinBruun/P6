@@ -1,11 +1,75 @@
+import 'package:flutter_test/flutter_test.dart';
 
+void main() {
+  test(
+    'test_exception_handler_can_be_initialized',
+    () async {
+      // arrange
 
-// Test that an Exception Handler Class can be initialized
+      // act
 
-// Test that the Exception Handler can take an Exception, and then
-// either write to a log, print to the console OR crash the program
-// (This represents different security levels 
-//  / if we work in development or production)
+      // assert
+      expect(true, false);
+    },
+  );
 
-// Writes to a log should be timestamped and (if applicable) 
-//what user did it, and what action was the cause
+  test(
+    'test_exception_handler_can_write_exception_to_a_log',
+    () async {
+      // arrange
+
+      // act
+
+      // assert
+      expect(true, false);
+    },
+  );
+
+  test(
+    'test_exception_handler_can_fail_silently_and_show_to_console',
+    () async {
+      // arrange
+
+      // act
+
+      // assert
+      expect(true, false);
+    },
+  );
+
+  test(
+    'test_exception_handler_can_fail_and_crash_the_program',
+    () async {
+      // arrange
+
+      // act
+
+      // assert
+      expect(true, false);
+    },
+  );
+
+  test(
+    'test_exception_handler_should_crash_and_warn_if_no_option_has_been_given',
+    () async {
+      // arrange
+
+      // act
+
+      // assert
+      expect(true, false);
+    },
+  );
+
+  test(
+    'test_exception_handlers_log_is_timestamped',
+    () async {
+      // arrange
+
+      // act
+
+      // assert
+      expect(true, false);
+    },
+  );
+}

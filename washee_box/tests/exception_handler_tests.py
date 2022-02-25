@@ -1,11 +1,8 @@
 import pytest
-import sys
 
 from datetime import datetime
-from dateutil.parser import parse
 
 from washee_box.exception_handling.exception_handler import ExceptionHandler
-
 
 def test_exception_handler_can_be_initialized():
     #Arrange
@@ -28,7 +25,7 @@ def test_exception_handler_can_write_exception_to_a_log():
         
     #Assert
     with open(eh.log_location, "r+") as f:
-        line = f.readline()
+        line = f.readlines()
         assert "Some Exception" in line
     eh.reset_log()
     
@@ -88,6 +85,7 @@ def test_exception_handlers_log_is_timestamped():
         
     #Assert
     with open(eh.log_location, "r+") as f:
-        line = f.readline()
-        assert parse(line, fuzzy=False).date == datetime.date
+        lines_list = f.readlines()
+        lines_str = "\n".join(lines_list)
+        assert str(datetime.now().strftime("%Y/%m/%d, %H:%M")) in lines_str
     eh.reset_log()
