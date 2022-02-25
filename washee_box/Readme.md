@@ -6,6 +6,30 @@ logging errors
 communication with washee-web (potentially)
 communication with input devices like fingerprint scanner,nfc,wifi-to mobileapp, water sensor, maintennance sensors...
 
+
+# Startup procedure on hardware
+## if not created create virtual environment
+python3 -m venv venv
+## start virtual environment
+. venv/bin/activate
+## to check that the folder is owned by the washee-user (pi)
+stat venv
+## pip install -r requirements.txt
+### (touch washee-box-entry.py)
+### (opret flask route file kommandoer)
+## export FLASK_APP=washee-box-entry.py
+## flask run --host=0.0.0.0
+## (sudo shutdown)
+
+
+
+
+
+
+
+
+
+
 # install flask
 ## cd washee_box/
 ## python3 -m venv venv
@@ -116,8 +140,10 @@ bridge_ports eth0 wlan0
 
 
 
-## . venv/bin/activate
-## stat venv #to check that the folder is owned by the washee-user (pi)
+## start virtual environment
+. venv/bin/activate
+## to check that the folder is owned by the washee-user (pi)
+stat venv
 ## pip install -r requirements.txt
 ## touch washee-box-entry.py
 ## opret flask route file kommandoer
