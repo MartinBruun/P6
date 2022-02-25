@@ -30,6 +30,6 @@ services:
     env_file:
       - ./.env.dev
     ports:
-      - "7000:5000"
+      - "8001:5000"
 volumes:
   postgres_data:
