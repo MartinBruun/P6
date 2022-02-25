@@ -32,7 +32,7 @@ The `-v` option signals that all volumes should be removed. To persist data betw
 
 To access the different applications, open the browser and go into:
 
-box: localhost:7000
+box: localhost:8001
 web: localhost:8000
 
 To run the mobile application, first install flutter, then write:
