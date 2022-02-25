@@ -1,3 +1,5 @@
+# # syntax=docker/dockerfile:1
+
 # syntax=docker/dockerfile:1
 
 FROM python:3
@@ -7,36 +9,74 @@ RUN apt-get install -y --no-install-recommends
 
 # for flask web server
 EXPOSE 8082
+# set work directory
+WORKDIR /usr/src/washee_box
 
-WORKDIR /src
+# install dependencies
+RUN pip install --upgrade pip
+COPY ./requirements.txt .
+RUN pip install -r requirements.txt
 
-COPY requirements.txt requirements.txt
-RUN pip3 install -r requirements.txt
-
-COPY . /src
-
-
-
-# Install packages
-RUN apk update && apk add hostapd iw dhcp vim iptables
-
-# Configure Hostapd (default will be open)
-ADD confs/hostapd_confs/open.conf /etc/hostapd/hostapd.conf
-# Configure DHCPD
-ADD confs/dhcpd.conf /etc/dhcp/dhcpd.conf
-RUN touch /var/lib/dhcp/dhcpd.leases
-
-# Configure networking
-ADD confs/interfaces /etc/network/interfaces
-ADD confs/iptables.sh /iptables.sh
-ADD confs/iptables_off.sh /iptables_off.sh
-
-# Copy and execute init file
-ADD confs/start.sh /start.sh
-
-
-
+# Flask environment variables
 ENV FLASK_APP=washee-box-entry.py
-# RUN  export FLASK_APP=washee-box-entry.py
-CMD [ "python3", "-m" , "flask", "run", "--host=0.0.0.0"]
-CMD ["/bin/sh", "/start.sh"]
+ENV FLASK_DEBUG=${BOX_DEBUG}
+
+# copy project
+COPY . .
+
+
+# run the entrypoint
+CMD ["python3", "washee-box-entry.py"]
+
+# FROM python:3
+
+# RUN apt-get update
+# RUN apt-get install -y --no-install-recommends
+
+# # for flask web server
+# EXPOSE 8082
+
+# # set work directory
+# WORKDIR /usr/src/washee_box
+
+# # install dependencies
+# RUN pip install --upgrade pip
+# COPY ./requirements.txt .
+# RUN pip install -r requirements.txt
+
+# COPY . /src
+
+
+
+# # Install packages
+# RUN apk update && apk add hostapd iw dhcp vim iptables
+
+# # Configure Hostapd (default will be open)
+# ADD confs/hostapd_confs/open.conf /etc/hostapd/hostapd.conf
+# # Configure DHCPD
+# ADD confs/dhcpd.conf /etc/dhcp/dhcpd.conf
+# RUN touch /var/lib/dhcp/dhcpd.leases
+
+# # Configure networking
+# ADD confs/interfaces /etc/network/interfaces
+# ADD confs/iptables.sh /iptables.sh
+# ADD confs/iptables_off.sh /iptables_off.sh
+
+# # Copy and execute init file
+# ADD confs/start.sh /start.sh
+
+
+
+# ENV FLASK_APP=washee-box-entry.py
+# # RUN  export FLASK_APP=washee-box-entry.py
+# CMD [ "python3", "-m" , "flask", "run", "--host=0.0.0.0"]
+# CMD ["/bin/sh", "/start.sh"]
+# # Flask environment variables
+# ENV FLASK_APP=washee-box-entry.py
+# ENV FLASK_DEBUG=${BOX_DEBUG}
+
+# # copy project
+# COPY . .
+
+# # run the entrypoint
+# CMD ["python3", "washee-box-entry.py"]

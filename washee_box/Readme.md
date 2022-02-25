@@ -125,3 +125,16 @@ bridge_ports eth0 wlan0
 ## flask run --host=0.0.0.0
 ## sudo shutdown
 
+
+## Backup the pi:
+```ssh pi@raspberrypi.local “sudo dd if=/dev/mmcblk0 bs=1M | gzip -” | dd of=~/Desktop/backup_2022_02_24.gz````
+change the ip and the backupname
+
+## Restore the pi:
+Open the terminal session and fire the following line, adjusting the red parts (target disk {SD card} and file name of the backup):
+ 
+```
+diskutil unmountDisk /dev/disk1
+gzip -dc ~/Desktop/backup_2017-11-14.gz | sudo dd of=/dev/rdisk1 bs=1m conv=noerror,sync
+```
+
