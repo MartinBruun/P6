@@ -25,7 +25,7 @@ class NordpoolAPI:
         return data
 
     def __save_data(self, data):
-        file = open("data.csv", 'w')
+        file = open("ml_electricity/data.csv", 'w')
 
         for line in data:
             file.write(line + "\n")
