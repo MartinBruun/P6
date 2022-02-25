@@ -95,6 +95,8 @@ class NordpoolAPI:
 
         self.__save_data(data)
 
+        return data
+
     def ftp_dir(self, path):
         ftp = ftplib.FTP(self.__url)
         ftp.login(self.__username, self.__password)

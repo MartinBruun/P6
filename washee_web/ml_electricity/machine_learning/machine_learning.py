@@ -22,7 +22,13 @@ class NordpoolML:
 
         self.model.fit(x_train.values.reshape(-1, 2), y_train.values.reshape(-1, 1))
 
-        return self.model.score(x_test.values.reshape(-1, 2), y_test.values.reshape(-1, 1))
+        return self.model
+
+    def train(self):
+        return self.train_linear_regression()
+
+    def score(self):
+        return self.model.score
 
     def predict(self, data):
         return self.model.predict(data)
