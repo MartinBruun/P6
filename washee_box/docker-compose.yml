@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  
+  box:
+    build: .
+    # volumes:
+    #   - ./washee_box/:/usr/src/washee_box/
+    env_file:
+      - ../.env.dev
+    ports:
+      - "8001:5000"
