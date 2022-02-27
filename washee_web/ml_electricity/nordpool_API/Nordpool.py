@@ -97,7 +97,7 @@ class NordpoolAPI:
 
         return data
 
-    def ftp_dir(self, path):
+    def __ftp_dir(self, path):
         ftp = ftplib.FTP(self.__url)
         ftp.login(self.__username, self.__password)
 
@@ -125,4 +125,4 @@ if __name__ == '__main__':
 
     # print("hello")
     nordpool.ftp_retrieve(path, file)
-    # nordpool.ftp_dir(path)
+    # nordpool.__ftp_dir(path)

@@ -1,33 +1,45 @@
 import pandas
-from preprocessing.preprocessor import preprocessor
+from preprocessing.preprocessor import Preprocessor
 from nordpool_API.Nordpool import NordpoolAPI
 from machine_learning.machine_learning import NordpoolML
 
 class MIcontroller:
 
-    def update_data(self, path, file):
+    def __init__(self):
+        self.ml = NordpoolML()
+        self.preproces = Preprocessor()
+
+    def update_data(self):
+        path = "/Elspot/Elspot_prices/Denmark/Denmark_West"
+        file = "odedkk22.sdv"
+        
         nordpool = NordpoolAPI()
         nordpool.ftp_retrieve(path, file)
 
-    def training(self):
-        data = preprocessor.get_data("path")
-        
-        ml = NordpoolML(data)
-        self.model = ml.train_linear_regression()
+    def train(self):
+        data = self.preproces.get_data()
+        self.ml.split(data)
+        self.ml.train()
 
-
-        # result = ml.predict([[1,2]])
-        # print(result)
 
     def predict(self, data):
-        return self.model.predict(data)
+        return self.ml.predict(data)
 
+    # def score(self):
+    #     return self.model.score()
 
 if __name__ == '__main__':
-    path = "/Elspot/Elspot_prices/Denmark/Denmark_West"
-    file = "odedkk22.sdv"
-    
+
+    dataset = {
+            'day': [1, 2, 3, 3, 5, 6, 7],
+            'time': [1 ,2 ,3 ,4 ,5 ,6 , 7],
+            'price': [123, 234, 45, 456, 456, 567, 234]
+        }
+    data = pandas.DataFrame(dataset)
+
     controller = MIcontroller()
 
-    controller.training(path, file)
+    controller.train()
+    print(controller.predict([[1,2], [2,4]]))
+    print(controller.ml.score())
     
