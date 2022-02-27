@@ -4,6 +4,13 @@ from pathlib import Path
 from datetime import datetime
 
 class ExceptionHandler:
+    # ExceptionHandler is a class where all try/exceåt blocks in the codebase use the .handle() method on any catched Exception.
+    # This is to reuse and standardise how errors are handled across the codebase.
+    
+    # Should (probably?) be configured to use djangos own (more secure?) system:
+    # https://docs.djangoproject.com/en/4.0/topics/logging/
+    # Likewise, "Security" could also be made as its own app (where ExceptionHandler would be a Model)
+    # However, so far it is just important to get used to the ExceptionHandler.handle(exception) method and see if it works.
     
     def __init__(self):
         self.debug = False if int(os.environ.get("BOX_DEBUG")) == 0 else True
@@ -23,7 +30,7 @@ class ExceptionHandler:
     def handle(self, exception, log=False,show=False,crash=False):
         if not log and not show and not crash:
             raise Exception("ExceptionHandler not configured properly.\n" +
-                        "ExceptionHandler has to have set at least one parameter of (log, print or crash) to True\n" +
+                        "ExceptionHandler has to have set at least one parameter of (log, show or crash) to True\n" +
                         "Error occured with the following exception:\n" +
                         str(exception))
             
@@ -33,4 +40,4 @@ class ExceptionHandler:
         if show:
             print(str(exception))
         if crash:
-            raise Exception(exception)
+            raise Exception(str(exception))

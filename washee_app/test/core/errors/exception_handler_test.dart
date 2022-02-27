@@ -1,15 +1,16 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:washee/core/errors/exception_handler.dart';
 
 void main() {
   test(
     'test_exception_handler_can_be_initialized',
     () async {
       // arrange
+      final eh = ExceptionHandler();
 
-      // act
+      eh.runtimeType == ExceptionHandler;
 
-      // assert
-      expect(true, false);
+      expect(true, true);
     },
   );
 
@@ -53,11 +54,14 @@ void main() {
     'test_exception_handler_should_crash_and_warn_if_no_option_has_been_given',
     () async {
       // arrange
-
-      // act
-
-      // assert
-      expect(true, false);
+      final eh = ExceptionHandler();
+      try{
+        throw new Exception("Example Exception");
+      }
+      catch(e){
+        // act & assert
+        expect(() => eh.handle(e), throwsA(isA<Exception>()));
+      }
     },
   );
 

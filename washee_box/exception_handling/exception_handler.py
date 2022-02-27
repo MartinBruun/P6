@@ -4,6 +4,8 @@ from pathlib import Path
 from datetime import datetime
 
 class ExceptionHandler:
+    # ExceptionHandler is a class where all try/exceåt blocks in the codebase use the .handle() method on any catched Exception.
+    # This is to reuse and standardise how errors are handled across the codebase.
     
     def __init__(self):
         self.debug = False if int(os.environ.get("BOX_DEBUG")) == 0 else True
@@ -23,7 +25,7 @@ class ExceptionHandler:
     def handle(self, exception, log=False,show=False,crash=False):
         if not log and not show and not crash:
             raise Exception("ExceptionHandler not configured properly.\n" +
-                        "ExceptionHandler has to have set at least one parameter of (log, print or crash) to True\n" +
+                        "ExceptionHandler has to have set at least one parameter of (log, show or crash) to True\n" +
                         "Error occured with the following exception:\n" +
                         str(exception))
             
