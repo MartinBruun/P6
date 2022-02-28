@@ -1,5 +1,5 @@
 # pull official base image
-FROM nickgryg/alpine-pandas
+FROM python:3.9.5-slim
 
 # set work directory
 WORKDIR /usr/src/washee_web
@@ -9,8 +9,10 @@ ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
 # install psycopg2 dependencies
-RUN apk update \
-    && apk add postgresql-dev gcc python3-dev musl-dev
+RUN apt-get update \
+    && apt-get -y install build-essential libssl-dev libffi-dev libblas3 libc6 liblapack3 gcc python3-dev python3-pip cython \
+    && apt-get -y install libpq-dev gcc \
+    && apt install -y netcat
 
 # install dependencies
 RUN pip install --upgrade pip
