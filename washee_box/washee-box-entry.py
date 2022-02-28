@@ -38,7 +38,7 @@ def update_accepted_users():
 
 @app.route('/booking')
 def display_booking():
-    file = open(r'/home/pi/Code/P6/washee_box/use_cases/relay.py', 'r').read()
+    file = open(r'./use_cases/relay.py', 'r').read()
     exec(file)
     return '<div class="Calendar"><a href="/"> Mandag | | </a><a href="/"> Tirsdag | | </a><a href="/"> Onsdag | | </a><a href="/"> Torsdag | | </a><a href="/"> Fredag | | </a><a href="/"> Lørdag | | </a><a href="/"> Søndag | | </a></div>'
 
