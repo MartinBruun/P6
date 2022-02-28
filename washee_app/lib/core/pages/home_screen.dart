@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:washee/core/pages/options_screen.dart';
+import 'package:washee/features/unlock/presentation/pages/options_screen.dart';
 import 'package:washee/core/pages/washee_screen.dart';
 
 class HomeScreen extends StatefulWidget {
