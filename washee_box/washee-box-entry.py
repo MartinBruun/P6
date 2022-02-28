@@ -43,8 +43,8 @@ def display_booking():
     return '<div class="Calendar"><a href="/"> Mandag | | </a><a href="/"> Tirsdag | | </a><a href="/"> Onsdag | | </a><a href="/"> Torsdag | | </a><a href="/"> Fredag | | </a><a href="/"> Lørdag | | </a><a href="/"> Søndag | | </a></div>'
 
 if __name__ == "__main__":
-    debug = True #False if int(os.environ.get("BOX_DEBUG",default="1")) == 0 else True
-    port= 5001 #int(os.environ.get("BOX_PORT"))
-    host = '0.0.0.0' #os.environ.get("BOX_HOST")
+    debug = False if int(os.environ.get("BOX_DEBUG",default="1")) == 0 else True
+    port= int(os.environ.get("BOX_PORT"))
+    host = os.environ.get("BOX_HOST")
     app.run(debug=debug, port=port, host=host)
     
