@@ -10,6 +10,9 @@ class UnlockRepositoryImpl implements UnlockRepository {
   UnlockRepositoryImpl({required this.remote, required this.networkInfo});
   @override
   Future<bool> unlock() async {
-    return await remote.unlock();
+    if (await networkInfo.isConnected) {
+      return await remote.unlock();
+    }
+    return false;
   }
 }
