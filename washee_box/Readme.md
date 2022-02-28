@@ -6,6 +6,16 @@ logging errors
 communication with washee-web (potentially)
 communication with input devices like fingerprint scanner,nfc,wifi-to mobileapp, water sensor, maintennance sensors...
 
+
+Access raspberry from VSC:
+install remote ssh
+F1, 
+    ssh pi@washeebox.local 
+    raspberry
+select the folder you want to work from in VSC, retype password when prompted
+some files has to be edited using nano, due to restrictions.
+
+
 washee-box wifi is setup to use 10.10.80.0/24 network
 the washee-box is 10.10.80.1 
 
