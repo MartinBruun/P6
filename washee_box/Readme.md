@@ -6,6 +6,17 @@ logging errors
 communication with washee-web (potentially)
 communication with input devices like fingerprint scanner,nfc,wifi-to mobileapp, water sensor, maintennance sensors...
 
+washee-box wifi is setup to use 10.10.80.0/24 network
+the washee-box is 10.10.80.1 
+
+eth0 gets a dynamic DHCP address
+
+When flask has been started it is availlable on <eth0 IP>:5000, or wifi 10.10.80.1:5000, or washeebox.local:5000
+the availlable endpoints can be seen in washee-box-entry.py
+
+To use the washee-box as standalone accesspoint, is not advised for now, it floods the eth0 with DHCP.
+
+
 
 # Startup procedure on hardware
 ## if not created create virtual environment
@@ -17,11 +28,12 @@ stat venv
 ## pip install -r requirements.txt
 ### (touch washee-box-entry.py)
 ### (opret flask route file kommandoer)
-## export FLASK_APP=washee-box-entry.py
-## flask run --host=0.0.0.0
+flask starts automatically 
+else run 
+sudo /home/pi/code/P6/washee_box/start-box.sh 
+## (export FLASK_APP=washee-box-entry.py)
+## (flask run --host=0.0.0.0)
 ## (sudo shutdown)
-
-
 
 
 
@@ -30,6 +42,10 @@ stat venv
 
 # Setup:
 without accesspoint functionality
+
+sudo raspi-config
+    activate ssh
+    maybe connect to network
 
 cd home/pi/
 git clone https://github.com/MartinBruun/P6.git
@@ -41,18 +57,21 @@ sudo cp washee_box/RaspberrySetupFiles/etc/rc.local /etc/
 sudo cp washee_box/RaspberrySetupFiles/etc/dhcpcd.conf /etc/
 sudo cp washee_box/RaspberrySetupFiles/etc/dnsmasq.conf. /etc/
 sudo cp /media/pi/rootfs/etc/hosts /etc/
+sudo cp /media/pi/rootfs/etc/hostname /etc/
+
 
 sudo chmod +x /etc/rc.local
 
 cd washee_box
 python3 -m venv venv
 . venv/bin/activate
-pip install -r requirents.txt
+pip install -r requirements.txt
+
+check that flask can be started:
+sudo ./start-box.sh
 
 
-sudo raspi-config
-	activate ssh
-	maybe connect to network
+
 
 
 
@@ -74,8 +93,8 @@ sudo DEBIAN_FRONTEND=noninteractive apt install -y netfilter-persistent iptables
 ### add to file
 ```
 inteface wlan0
-	static ip_address=10.10.80.1/24
-	nohook wpa_supplicant
+    static ip_address=10.10.80.1/24
+    nohook wpa_supplicant
 ```
 
 ## to enable routing via eth0 create a new file
@@ -149,42 +168,42 @@ stat venv
 ## touch washee-box-entry.py
 ## opret flask route file kommandoer
 ## update etc/rc.local
-		#!/bin/sh -e
-		#
-		# rc.local
-		#
-		# This script is executed at the end of each multiuser runlevel.
-		# Make sure that the script will "exit 0" on success or any other
-		# value on error.
-		#
-		# In order to enable or disable this script just change the execution
-		# bits.
-		#
-		# By default this script does nothing.
+        #!/bin/sh -e
+        #
+        # rc.local
+        #
+        # This script is executed at the end of each multiuser runlevel.
+        # Make sure that the script will "exit 0" on success or any other
+        # value on error.
+        #
+        # In order to enable or disable this script just change the execution
+        # bits.
+        #
+        # By default this script does nothing.
 
-		# Print the IP address
-		_IP=$(hostname -I) || true
-		if [ "$_IP" ]; then
-		printf "My IP address is %s\n" "$_IP"
-		fi
+        # Print the IP address
+        _IP=$(hostname -I) || true
+        if [ "$_IP" ]; then
+        printf "My IP address is %s\n" "$_IP"
+        fi
 
-		echo "starting up the washee box flask server" > $home/home/pi/Desktop/washee_log.log
-		PWD='pwd'
+        echo "starting up the washee box flask server" > $home/home/pi/Desktop/washee_log.log
+        PWD='pwd'
 
-		echo $PWD
-		activate () {
-			cd $home/home/pi/code/P6/washee_box
-			. venv/bin/activate
-			export FLASK_APP=washee-box-entry.py
-			flask run --host=0.0.0.0
-		}
-		activate &
+        echo $PWD
+        activate () {
+            cd $home/home/pi/code/P6/washee_box
+            . venv/bin/activate
+            export FLASK_APP=washee-box-entry.py
+            flask run --host=0.0.0.0
+        }
+        activate &
 
 
 
-		exit 0
+        exit 0
 ## make etc/rc.local executable
-sudo chmod +x etc/rc.local
+    sudo chmod +x etc/rc.local
 ## export FLASK_APP=washee-box-entry.py
 ## flask run --host=0.0.0.0
 ## sudo shutdown
