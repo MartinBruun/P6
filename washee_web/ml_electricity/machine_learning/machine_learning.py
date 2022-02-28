@@ -32,6 +32,9 @@ class NordpoolML:
         
         x_train, x_test, y_train, y_test = train_test_split(x, y)
 
+        print(x_train)
+        print(type(x_train))
+
         self.train_data = {'x': x_train, 'y': y_train}
         self.test_data = {'x': x_test, 'y': y_test}
 
@@ -40,8 +43,10 @@ class NordpoolML:
     def train(self, train_data = None):
         return self.__train_linear_regression(train_data)
 
-    def score(self):
-        return self.model.score(self.test_data['x'].values.reshape(-1, 2), self.test_data['y'].values.reshape(-1, 1))
+    def score(self, test_data = None):
+        if test_data == None:
+            test_data = self.test_data
+        return self.model.score(test_data['x'].values.reshape(-1, 2), test_data['y'].values.reshape(-1, 1))
 
     def predict(self, data):
         return self.model.predict(data)
@@ -55,11 +60,16 @@ if __name__ == '__main__':
             }
     data = pandas.DataFrame(dataset)
 
+    x_train = data[['day', 'time']]
+    y_train = data[['price']]
+
+    train_data = {'x': x_train, 'y': y_train}
+
     ml = NordpoolML()
-    train_data, test_data = ml.split(data)
+    # train_data, test_data = ml.split(data)
+    
+    ml.train(train_data)
 
-    ml.train()
-
-    print(ml.score())
+    # print(ml.score())
 
     print(ml.predict([[1,2]]))
