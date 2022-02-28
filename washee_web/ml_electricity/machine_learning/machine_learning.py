@@ -3,7 +3,6 @@ from sklearn.linear_model import LinearRegression
 from sklearn.model_selection import train_test_split
 import pandas
 
-
 class NordpoolML:
 
     def __init__(self, ):
@@ -27,13 +26,9 @@ class NordpoolML:
         # x represents independent variables
         # y represents the dependent variable
         x = data[['day', 'time']]
-
         y = data[['price']]
         
         x_train, x_test, y_train, y_test = train_test_split(x, y)
-
-        print(x_train)
-        print(type(x_train))
 
         self.train_data = {'x': x_train, 'y': y_train}
         self.test_data = {'x': x_test, 'y': y_test}
