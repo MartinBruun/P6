@@ -1,27 +1,26 @@
-import 'dart:async';
 import 'dart:io';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:washee/core/errors/exception_handler.dart';
 
 void main() {
   test(
-    'test_exception_handler_can_be_initialized',
+    'test exception handler can be initialized',
     () async {
       // arrange
       final eh = ExceptionHandler();
 
-      eh.runtimeType == ExceptionHandler;
-
-      expect(true, true);
+      if (eh.runtimeType == ExceptionHandler){
+        expect(true, true);
+      }
     },
   );
 
   test(
-    'test_exception_handler_can_write_exception_to_a_log',
+    'test exception handler can write exception to a log',
     () async {
       // arrange
       final eh = ExceptionHandler();
-      eh.reset_log();
+      eh.resetLog();
 
       // act
       try{
@@ -32,35 +31,34 @@ void main() {
       }
 
       // assert
-      var log_string = File(eh.log_location).readAsStringSync();
-      expect(log_string.contains("Example Exception"), true);
-      eh.reset_log();
+      var logString = File(eh.logLocation).readAsStringSync();
+      expect(logString.contains("Example Exception"), true);
+      eh.resetLog();
     },
   );
 
   test(
-    'test_exception_handler_can_fail_silently_and_show_to_console',
+    'test exception handler can fail silently and show to console',
     () async {
       // arrange
       final eh = ExceptionHandler();
-      var printLog = [];
+      var err;
 
       // act
       try{
         throw new Exception("Example Exception");
       }
       catch(e){
-        eh.handle(e, show:true);
-        printLog.add("Example Exception");
+        err = eh.handle(e, show:true);
       }
 
       // assert
-      expect(printLog[0].contains("Example Exception"), true);
+      expect(err.contains("Example Exception"), true);
     },
   );
 
   test(
-    'test_exception_handler_can_fail_and_crash_the_program',
+    'test exception handler can fail and crash the program',
     () async {
       // arrange
       final eh = ExceptionHandler();
@@ -76,7 +74,7 @@ void main() {
   );
 
   test(
-    'test_exception_handler_should_crash_and_warn_if_no_option_has_been_given',
+    'test exception handler should crash and warn if no option has been given',
     () async {
       // arrange
       final eh = ExceptionHandler();
@@ -92,11 +90,11 @@ void main() {
   );
 
   test(
-    'test_exception_handlers_log_is_timestamped',
+    'test exception handlers log is timestamped',
     () async {
       // arrange
       final eh = ExceptionHandler();
-      eh.reset_log();
+      eh.resetLog();
 
       // act
       try{
@@ -107,11 +105,11 @@ void main() {
       }
 
       // assert
-      var log_string = File(eh.log_location).readAsStringSync();
+      var logString = File(eh.logLocation).readAsStringSync();
       var now = DateTime.now();
-      var now_without_seconds = DateTime(now.year, now.month, now.day, now.hour, now.minute).toString().substring(0,16);
-      expect(log_string.contains(now_without_seconds), true);
-      eh.reset_log();
+      var nowWithoutSeconds = DateTime(now.year, now.month, now.day, now.hour, now.minute).toString().substring(0,16);
+      expect(logString.contains(nowWithoutSeconds), true);
+      eh.resetLog();
     },
   );
 }

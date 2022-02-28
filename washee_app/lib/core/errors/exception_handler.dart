@@ -7,18 +7,16 @@ class ExceptionHandler{
   // Flutter will highly likely have its own way of handling exceptions.
   // It would be nice though, if these ways of handling exceptions are "wrapped" in a custom class
   // So everyone knows where to look for, and improve, security "stuff", rather than it being spread out
-  String log_location = Directory.current.path + "/lib/core/errors/exception_log.txt";
+  String logLocation = Directory.current.path + "/lib/core/errors/exception_log.txt";
 
-  ExceptionHandler(){
-    
+  ExceptionHandler();
+
+  void resetLog(){
+    File(logLocation).writeAsStringSync("ExceptionHandler reset log file at: " + DateTime.now().toString() + "\n", mode: FileMode.write);
   }
 
-  void reset_log(){
-    File(log_location).writeAsStringSync("ExceptionHandler reset log file at: " + DateTime.now().toString() + "\n", mode: FileMode.write);
-  }
-
-  bool handle(exception, {log=false, show=false, crash=false}) {
-    File(log_location).writeAsStringSync("ExceptionHandler initialized at: " + DateTime.now().toString() + "\n", mode: FileMode.append);
+  String handle(exception, {log=false, show=false, crash=false}) {
+    File(logLocation).writeAsStringSync("ExceptionHandler initialized at: " + DateTime.now().toString() + "\n", mode: FileMode.append);
 
     if (log==false && show==false && crash==false){
       throw new Exception("ExceptionHandler not configured properly.\n" +
@@ -28,7 +26,7 @@ class ExceptionHandler{
     }
 
     if (log){
-      File(log_location).writeAsStringSync(exception.toString(), mode: FileMode.append);
+      File(logLocation).writeAsStringSync(exception.toString(), mode: FileMode.append);
     }
     if (show){
       print(exception.toString());
@@ -37,6 +35,6 @@ class ExceptionHandler{
       throw new Exception(exception.toString());
     }
 
-    return true;
+    return exception.toString();
   }
 }
