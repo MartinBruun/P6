@@ -21,9 +21,12 @@ echo "starting up the washee box flask server" > $home/home/pi/Desktop/washee_lo
 PWD='pwd'
 
 echo $PWD
+
 activate () {
 	cd $home/home/pi/code/P6/washee_box
+	python3 -m venv venv
 	. venv/bin/activate
+	pip install -r requirements.txt
 	export FLASK_APP=washee-box-entry.py
 	flask run --host=0.0.0.0
 }

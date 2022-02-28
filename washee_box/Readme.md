@@ -31,6 +31,29 @@ stat venv
 # Setup:
 without accesspoint functionality
 
+cd home/pi/
+git clone https://github.com/MartinBruun/P6.git
+cd P6
+#//git checkout box_ap
+
+new  image copy files :
+sudo cp washee_box/RaspberrySetupFiles/etc/rc.local /etc/
+sudo cp washee_box/RaspberrySetupFiles/etc/dhcpcd.conf /etc/
+sudo cp washee_box/RaspberrySetupFiles/etc/dnsmasq.conf. /etc/
+sudo cp /media/pi/rootfs/etc/hosts /etc/
+
+sudo chmod +x /etc/rc.local
+
+cd washee_box
+python3 -m venv venv
+. venv/bin/activate
+pip install -r requirents.txt
+
+
+sudo raspi-config
+	activate ssh
+	maybe connect to network
+
 
 
 ## accesspoint:
