@@ -3,7 +3,6 @@
 import json
 import ftplib
 import os
-import pathlib
 from unittest import mock
 
 
