@@ -3,29 +3,47 @@
 import json
 import ftplib
 import os
+import pathlib
+from unittest import mock
 
 
 class NordpoolAPI:
 
-    def __init__(self):
+    __REQUIRED_COLUMNS = 35
+
+    def __init__(self, access_data_path = None, save_data_path = None, ftp = None):
         
-        self.__access_data_path = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__), "nordpool.json"))
-        
-        data = self.__get_nordpool_access_data()
+        if access_data_path == None:
+            path = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__), "nordpool.json"))
+        else:
+            path = access_data_path
+
+        data = self.__get_nordpool_access_data(path)
 
         self.__url = data["url"]
         self.__username = data["username"]
         self.__password = data["password"]
 
-    def __get_nordpool_access_data(self):
-        file = open(self.__access_data_path)
+        if save_data_path == None:
+            self.__save_data_path = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__), "..", "data.csv"))
+        else:
+            self.__save_data_path = save_data_path
+
+        if ftp == None:
+            self.__ftp = ftplib.FTP(self.__url)
+        else:
+            self.__ftp = ftp
+
+    def __get_nordpool_access_data(self, path):
+        file = open(path)
 
         data = json.load(file)
         
         return data
 
     def __save_data(self, data):
-        file = open("ml_electricity/data.csv", 'w')
+        
+        file = open(self.__save_data_path, 'w')
 
         for line in data:
             file.write(line + "\n")
@@ -59,7 +77,7 @@ class NordpoolAPI:
         i = 0
         for line in data_lines:
             if (i > 5 
-                and self.__number_of_semicolon(line) < 35
+                and self.__number_of_columns(line) < self.__REQUIRED_COLUMNS
                 and len(data_lines) > i + 1):
 
                     data_lines[i+1] = str(line) + str(data_lines[i+1])
@@ -69,7 +87,7 @@ class NordpoolAPI:
 
         return data_lines
 
-    def __number_of_semicolon(self, line):
+    def __number_of_columns(self, line):
         count = 0
         for i in line:
             if i == ";":
@@ -77,19 +95,19 @@ class NordpoolAPI:
         return count
 
     def ftp_retrieve(self, path, filename):
-        ftp = ftplib.FTP(self.__url)
-        ftp.login(self.__username, self.__password)
+        
+        self.__ftp.login(self.__username, self.__password)
 
-        ftp.cwd(path)
+        self.__ftp.cwd(path)
 
         data = []
 
         # # The normal way to retrieve data with ftp. this doesn't work with the data we need for some reason
         # ftp.retrlines("RETR " + filename, data.append)
 
-        ftp.retrbinary("RETR " + filename, data.append)
+        self.__ftp.retrbinary("RETR " + filename, data.append)
 
-        ftp.quit()
+        self.__ftp.quit()
 
         data = self.__decode(data)
 
@@ -98,16 +116,15 @@ class NordpoolAPI:
         return data
 
     def __ftp_dir(self, path):
-        ftp = ftplib.FTP(self.__url)
-        ftp.login(self.__username, self.__password)
+        self.__ftp.login(self.__username, self.__password)
 
-        ftp.cwd(path)
+        self.__ftp.cwd(path)
 
         data = []
 
-        ftp.dir(data.append)
+        self.__ftp.dir(data.append)
 
-        ftp.quit()
+        self.__ftp.quit()
 
         self.__print_data(data)
 
