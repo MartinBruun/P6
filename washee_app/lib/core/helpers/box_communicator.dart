@@ -29,18 +29,19 @@ class BoxCommunicatorImpl implements BoxCommunicator {
   }
 
   Future<bool> _unlock() async {
-    Response response;
+    // Response response;
 
-    response = await dio.post(unlockURL, data: {'command': unlockCMD});
-    if (response.statusCode == 200) {
-      return true;
-    } else {
-      print("Something went wrong, status code and response: " +
-          response.statusCode.toString() +
-          " " +
-          response.data['response']);
-      return false;
-    }
+    // response = await dio.post(unlockURL, data: {'command': unlockCMD});
+    // if (response.statusCode == 200) {
+    //   return true;
+    // } else {
+    //   print("Something went wrong, status code and response: " +
+    //       response.statusCode.toString() +
+    //       " " +
+    //       response.data['response']);
+    //   return false;
+    // }
+    return await Future.delayed(Duration(seconds: 3)).then((value) => true);
   }
 
   @override
