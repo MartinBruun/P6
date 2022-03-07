@@ -4,21 +4,22 @@ class MachineModel extends Machine {
   final String machineID;
   final String name;
   final String machineType;
-  final DateTime startTime;
-  final DateTime endTime;
+  final DateTime? startTime;
+  final DateTime? endTime;
 
   MachineModel({
     required this.machineID,
     required this.name,
     required this.machineType,
-    required this.startTime,
-    required this.endTime,
+    this.startTime,
+    this.endTime,
   }) : super(
-            endTime: endTime,
-            startTime: startTime,
-            name: name,
-            machineID: machineID,
-            machineType: machineType);
+          endTime: endTime,
+          startTime: startTime,
+          name: name,
+          machineID: machineID,
+          machineType: machineType,
+        );
 
   @override
   List<Object?> get props => [
@@ -36,5 +37,15 @@ class MachineModel extends Machine {
         machineType: json['machineType'],
         startTime: DateTime.parse(json['startTime']),
         endTime: DateTime.parse(json['endTime']));
+  }
+
+  bool get isAvailable {
+    if (startTime == null || endTime == null) {
+      return true;
+    } else if (DateTime.now().isBefore(endTime!) &&
+        DateTime.now().isAfter(startTime!)) {
+      return false;
+    }
+    return true;
   }
 }

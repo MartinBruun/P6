@@ -41,7 +41,7 @@ class BoxCommunicatorImpl implements BoxCommunicator {
     //       response.data['response']);
     //   return false;
     // }
-    return await Future.delayed(Duration(seconds: 3)).then((value) => true);
+    return Future.delayed(Duration(seconds: 3)).then((value) => true);
   }
 
   @override

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:washee/core/washee_box/machine_model.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../../core/washee_box/machine_entity.dart';
 import '../../../../core/widgets/unlock_button.dart';
 
 class MachineOverview extends StatefulWidget {
@@ -11,22 +14,31 @@ class MachineOverview extends StatefulWidget {
 }
 
 class _MachineOverviewState extends State<MachineOverview> {
+  List<MachineModel> machines = [];
   bool _isConnecting = false;
-  _mockConnectingToBox() async {
+  Future<List<MachineModel>> _mockConnectingToBox() async {
     await Future.delayed(Duration(seconds: 3));
+    return [
+      MachineModel(
+          machineID: "ID1", name: "Test1", machineType: "LaundryMachine"),
+      MachineModel(
+          machineID: "ID2", name: "Test2", machineType: "LaundryMachine"),
+      MachineModel(machineID: "ID3", name: "Test3", machineType: "Tumbler")
+    ];
   }
 
   @override
   void initState() {
-    setState(() {
-      _isConnecting = true;
+    SchedulerBinding.instance?.addPostFrameCallback((_) async {
+      setState(() {
+        _isConnecting = true;
+      });
+      machines = await _mockConnectingToBox();
+      setState(() {
+        _isConnecting = false;
+      });
     });
-    SchedulerBinding.instance?.addPostFrameCallback((_) {
-      _mockConnectingToBox();
-    });
-    setState(() {
-      _isConnecting = false;
-    });
+
     super.initState();
   }
 
@@ -34,22 +46,24 @@ class _MachineOverviewState extends State<MachineOverview> {
   Widget build(BuildContext context) {
     return Center(
       child: _isConnecting
-          ? CircularProgressIndicator()
-          : Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+          ? CircularProgressIndicator(
+              color: Colors.white,
+            )
+          : Column(
               children: [
-                UnlockButton(
-                  text: "Washee 1",
-                  available: true,
+                SizedBox(
+                  height: 500.h,
                 ),
-                UnlockButton(
-                  text: "Washee 2",
-                  available: true,
-                ),
-                UnlockButton(
-                  text: "Tørre 1",
-                  available: false,
-                ),
+                Expanded(
+                    child: ListView.builder(
+                  itemBuilder: (context, index) => Padding(
+                    padding: EdgeInsets.all(20.h),
+                    child: UnlockButton(
+                        text: machines[index].name,
+                        available: machines[index].isAvailable),
+                  ),
+                  itemCount: machines.length,
+                ))
               ],
             ),
     );

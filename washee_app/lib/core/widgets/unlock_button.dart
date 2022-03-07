@@ -16,7 +16,7 @@ class UnlockButton extends StatelessWidget {
       width: 320.w,
       height: 100.h,
       child: ElevatedButton(
-        child: Text(text),
+        child: Text(available ? "Book " + text : text),
         onPressed: () async {
           if (available) {
             if (fakeUser.washCoupon > 0) {

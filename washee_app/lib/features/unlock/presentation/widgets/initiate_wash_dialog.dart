@@ -22,18 +22,6 @@ class InitiateWashDialog extends StatefulWidget {
 class _InitiateWashDialogState extends State<InitiateWashDialog> {
   @override
   void initState() {
-    SchedulerBinding.instance?.addPostFrameCallback(
-      (_) async {
-        var unlockProvider =
-            Provider.of<UnlockProvider>(context, listen: false);
-        unlockProvider.isUnlocking = true;
-        var status = await sl<UnlockUseCase>().call(NoParams());
-        if (status) {
-          unlockProvider.isUnlocking = false;
-        }
-      },
-    );
-
     super.initState();
   }
 
@@ -43,40 +31,97 @@ class _InitiateWashDialogState extends State<InitiateWashDialog> {
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: Center(
-        child: unlockProvider.isUnlocking
-            ? CircularProgressIndicator()
-            : Container(
-                decoration: BoxDecoration(
-                  color: AppColors.dialogLightGray,
-                  borderRadius: BorderRadius.circular(30.h),
-                ),
-                height: 586.h,
-                width: 754.w,
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.only(top: 90.h),
-                      child: svgAsset('question_mark_icon.svg',
-                          size: iconSize_120, color: AppColors.lightGray),
+        child: Container(
+          decoration: BoxDecoration(
+            color: AppColors.dialogLightGray,
+            borderRadius: BorderRadius.circular(30.h),
+          ),
+          height: 586.h,
+          width: 754.w,
+          child: Column(
+            children: [
+              Padding(
+                padding: EdgeInsets.only(top: 90.h),
+                child: svgAsset('question_mark_icon.svg',
+                    size: iconSize_120, color: AppColors.lightGray),
+              ),
+              Padding(
+                padding: EdgeInsets.only(
+                    top: 45.h, bottom: 24.h, left: 10.w, right: 10.w),
+                child: Container(
+                  width: 760.w,
+                  height: 200.h,
+                  child: Text(
+                    "Vil du låse maskinen op? Det vil koste dig ét klip",
+                    style: textStyle.copyWith(
+                      fontSize: textSize_40,
+                      fontWeight: FontWeight.w500,
                     ),
-                    Padding(
-                      padding: EdgeInsets.only(top: 45.h, bottom: 24.h),
-                      child: Container(
-                        width: 600.w,
-                        height: 110.h,
-                        child: Text(
-                          "Welcome to Washee",
-                          style: textStyle.copyWith(
-                            fontSize: textSize_40,
-                            fontWeight: FontWeight.w500,
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 30.w),
+                    child: Container(
+                      height: 84.h,
+                      width: 254.w,
+                      decoration: BoxDecoration(
+                        color: Colors.green[600],
+                        borderRadius: BorderRadius.circular(20.h),
+                      ),
+                      child: Center(
+                        child: InkWell(
+                          onTap: () async {
+                            var status =
+                                await sl<UnlockUseCase>().call(NoParams());
+                          },
+                          child: Text(
+                            'Ja',
+                            style: textStyle.copyWith(
+                              fontSize: textSize_32,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.black,
+                            ),
                           ),
-                          textAlign: TextAlign.center,
                         ),
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 30.w),
+                    child: Container(
+                      height: 84.h,
+                      width: 254.w,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(20.h),
+                      ),
+                      child: Center(
+                        child: InkWell(
+                          onTap: () async {
+                            Navigator.of(context).pop();
+                          },
+                          child: Text(
+                            'Nej',
+                            style: textStyle.copyWith(
+                              fontSize: textSize_32,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
+            ],
+          ),
+        ),
       ),
     );
   }

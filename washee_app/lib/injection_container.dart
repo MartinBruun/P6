@@ -16,7 +16,9 @@ import 'features/booking/domain/repositories/book_repository.dart';
 
 final GetIt sl = GetIt.instance;
 
-void initAll() {}
+void initAll() {
+  initUnlock();
+}
 
 void initBooking() {
   // Usecases
