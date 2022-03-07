@@ -1,9 +1,11 @@
 # Press Shift+F10 to execute it or replace it with your code.
 # Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+from hashlib import new
 import json
 import ftplib
 import os
 from unittest import mock
+import csv
 
 
 class NordpoolAPI:
@@ -42,10 +44,11 @@ class NordpoolAPI:
 
     def __save_data(self, data):
         
-        file = open(self.__save_data_path, 'w')
+        file = open(self.__save_data_path, 'w', newline="")
+        writer = csv.writer(file)
 
         for line in data:
-            file.write(line + "\n")
+            writer.writerow(line.split(";"))
 
         file.close()
 
