@@ -1,35 +1,30 @@
 import 'package:washee/core/washee_box/washee_entity.dart';
 
+import 'machine_entity.dart';
+
 class WasheeBoxModel extends WasheeBox {
   final String ssid;
   final String name;
-  final String machineType;
-  final DateTime startTime;
-  final DateTime endTime;
+  final List<Machine> machines;
 
-  WasheeBoxModel({
-    required this.ssid,
-    required this.name,
-    required this.machineType,
-    required this.startTime,
-    required this.endTime,
-  }) : super(
-            name: name,
-            ssid: ssid,
-            machineType: machineType,
-            startTime: startTime,
-            endTime: endTime);
+  WasheeBoxModel(
+      {required this.ssid, required this.name, this.machines = const []})
+      : super(
+          name: name,
+          ssid: ssid,
+          machines: machines,
+        );
 
   @override
-  List<Object?> get props => [ssid, name, machineType, startTime, endTime];
+  List<Object?> get props => [
+        ssid,
+        name,
+      ];
 
   factory WasheeBoxModel.fromJson(Map<String, dynamic> json) {
     return WasheeBoxModel(
-      ssid: json['ssid'],
-      name: json['name'],
-      machineType: json['machineType'],
-      startTime: DateTime.parse(json['startTime']),
-      endTime: DateTime.parse(json['endTime']),
-    );
+        ssid: json['ssid'],
+        name: json['name'],
+        machines: List<Machine>.from(json['machines']));
   }
 }

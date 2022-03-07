@@ -1,19 +1,18 @@
 import 'package:equatable/equatable.dart';
 
+import 'machine_entity.dart';
+
 class WasheeBox extends Equatable {
   final String ssid;
   final String name;
-  final String machineType;
-  final DateTime startTime;
-  final DateTime endTime;
+  final List<Machine> machines;
 
-  WasheeBox(
-      {required this.ssid,
-      required this.name,
-      required this.machineType,
-      required this.startTime,
-      required this.endTime});
+  WasheeBox({required this.ssid, required this.name, this.machines = const []});
 
   @override
-  List<Object?> get props => [ssid, name, machineType, startTime, endTime];
+  List<Object?> get props => [
+        ssid,
+        name,
+        machines,
+      ];
 }
