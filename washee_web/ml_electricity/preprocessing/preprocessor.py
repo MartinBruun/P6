@@ -58,7 +58,7 @@ class Preprocessor:
 
         df.dropna(inplace=True)
         
-        df.to_csv(self.pandas_data_path)
+        df.to_csv(self.pandas_data_path, index=False)
 
         return self.pandas_data_path
 
