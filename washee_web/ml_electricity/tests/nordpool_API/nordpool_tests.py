@@ -48,7 +48,7 @@ def test_Nordpool_API_can_be_mocked():
     # Assert
     assert True
 
-# def test_data_decodes_correctly():
+# def test_decoded_data_do_not_have_unnecesary_line_breaks():
 #     # Arrange
 #     mock_data_path = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__), "..", "coded_data.csv"))
 #     mock_ftp = Mock_FTP(mock_data_path) 
