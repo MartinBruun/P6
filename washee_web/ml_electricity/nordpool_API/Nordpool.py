@@ -43,7 +43,6 @@ class NordpoolAPI:
         return data
 
     def __save_data(self, data):
-        
         file = open(self.__save_data_path, 'w', newline="")
         writer = csv.writer(file)
 
@@ -74,8 +73,8 @@ class NordpoolAPI:
         # join lines that are split incorrecly
         # lines are considered to be split incorrecly if they:
         #   Are not in the header section (the first 5 lines)
-        #   And they have fewer than 35 semicolons
-        #   And that that end of file have not been reached
+        #   && they have fewer than 35 semicolons
+        #   && that that end of file have not been reached
         i = 0
         for line in data_lines:
             if (i > 5 
