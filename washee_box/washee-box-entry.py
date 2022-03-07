@@ -1,5 +1,7 @@
+import json
 import os
 from flask import Flask
+import data_models
 app = Flask(__name__)
 
 machine_name = ['#1','#2','#3','#4']
@@ -12,6 +14,14 @@ def menu():
 
     return "<p> booking kalender</p> \n <p>oplås maskine:" + machine_name_string + "</p>"
 
+@app.route('/getMachinesInfo')
+def getMachinesInfo():
+    with open("data_models/machineList.json", "r") as file:
+        mList = json.loads(file.read())
+    
+    return mList
+
+
 @app.route('/light')
 def light():
     file = open(r'./use_cases/relay.py', 'r').read()
@@ -23,4 +33,6 @@ if __name__ == "__main__":
     port= int(os.environ.get("BOX_PORT"))
     host = os.environ.get("BOX_HOST")
     app.run(debug=debug, port=port, host=host)
+    # app.run(debug=True, port=5000, host='0.0.0.0')
+
     
