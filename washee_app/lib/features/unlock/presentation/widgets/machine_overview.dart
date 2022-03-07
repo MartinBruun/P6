@@ -59,8 +59,8 @@ class _MachineOverviewState extends State<MachineOverview> {
                   itemBuilder: (context, index) => Padding(
                     padding: EdgeInsets.all(20.h),
                     child: UnlockButton(
-                        text: machines[index].name,
-                        available: machines[index].isAvailable),
+                      machine: machines[index],
+                    ),
                   ),
                   itemCount: machines.length,
                 ))
