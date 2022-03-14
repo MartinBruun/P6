@@ -1,0 +1,24 @@
+ 
+{ "machines":[
+     {
+          "machinetype": "washingmachine", 
+          "id": "v1",
+          "startTime": "nil", 
+          "endTime": "nil"
+     },
+     {
+          "machinetype": "washingmachine", 
+          "id": "v2",
+          "startTime": "2022-03-07T08:15:26",
+          "endTime": "2022-03-07T10:15:26"
+     },
+     {
+          "machinetype": "tumblermachine", 
+          "id": "t3",
+          "startTime": "2022-03-07T08:15:26",
+          "endTime": "2022-03-07T10:15:26"
+     }
+     ]
+}
+
+

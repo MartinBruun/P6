@@ -1,11 +1,18 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
+import 'package:washee/core/washee_box/machine_entity.dart';
+import 'package:washee/core/washee_box/machine_model.dart';
+
+import '../errors/failures.dart';
 
 abstract class BoxCommunicator {
-  Future<bool> lockOrUnlock(String command);
+  Future<List<MachineModel>> getMachines();
+  Future<Response> lockOrUnlock(
+      String command, MachineModel machine, Duration duration);
   String get lockURL;
   String get unlockURL;
-  String get lockCMD;
-  String get unlockCMD;
+  String get getMachinesURL;
 }
 
 class BoxCommunicatorImpl implements BoxCommunicator {
@@ -13,53 +20,77 @@ class BoxCommunicatorImpl implements BoxCommunicator {
 
   BoxCommunicatorImpl({required this.dio});
 
-  Future<bool> _lock() async {
+  Future<Response> _lock() async {
     Response response;
 
-    response = await dio.post(lockURL, data: {'command': lockCMD});
+    response = await dio.post(lockURL);
     if (response.statusCode == 200) {
-      return true;
+      return response.data['machine'];
     } else {
       print("Something went wrong, status code and response: " +
           response.statusCode.toString() +
           " " +
           response.data['response']);
-      return false;
+      return response.data;
     }
   }
 
-  Future<bool> _unlock() async {
+  Future<Response> _unlock(MachineModel machine, Duration duration) async {
     Response response;
-
-    response = await dio.post(unlockURL, data: {'command': unlockCMD});
-    if (response.statusCode == 200) {
-      return true;
-    } else {
-      print("Something went wrong, status code and response: " +
-          response.statusCode.toString() +
-          " " +
-          response.data['response']);
-      return false;
+    var startTime = DateTime.now();
+    machine.startTime = startTime;
+    machine.endTime = startTime.add(duration);
+    try {
+      response = await dio.post(unlockURL, data: {"machine": machine.toJson()});
+      if (response.statusCode == 200) {
+        return response.data;
+      } else {
+        print("Something went wrong, status code and response: " +
+            response.statusCode.toString() +
+            " " +
+            response.data['response']);
+        return response.data;
+      }
+    } on HttpException catch (e) {
+      print(e.toString());
+      throw new HTTPFailure();
     }
   }
 
   @override
-  Future<bool> lockOrUnlock(String command) {
+  Future<Response> lockOrUnlock(
+      String command, MachineModel machine, Duration duration) {
     if (command == "lock") {
       return _lock();
     }
-    return _unlock();
+    return _unlock(machine, duration);
   }
 
   @override
-  String get lockCMD => throw UnimplementedError();
+  String get lockURL => 'http://washeebox.local/lock';
 
   @override
-  String get lockURL => 'http://ip:8888/unlock';
+  String get unlockURL => 'http://washeebox.local/unlock';
 
   @override
-  String get unlockCMD => throw UnimplementedError();
+  Future<List<MachineModel>> getMachines() async {
+    Response response;
+
+    response = await dio.post(getMachinesURL);
+    if (response.statusCode == 200) {
+      if (response.data != null) {
+        return response.data['machines'];
+      }
+    } else {
+      print("Something went wrong, status code and response: " +
+          response.statusCode.toString() +
+          " " +
+          response.data['response']);
+      return [];
+    }
+    return List.empty();
+  }
 
   @override
-  String get unlockURL => 'http://ip:8888/lock';
+  String get getMachinesURL => "http://ip:washeebox.local/getMachinesInfo";
 }

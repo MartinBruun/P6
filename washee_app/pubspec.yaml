@@ -32,6 +32,9 @@ dependencies:
   package_info: ^2.0.2
   open_file: ^3.2.1
 
+  # WIFI
+  wifi_iot: ^0.3.15
+
   # Permissions handler
   connectivity_plus: ^2.2.0
   wifi_info_flutter: ^2.0.2

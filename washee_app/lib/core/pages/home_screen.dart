@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:washee/features/unlock/presentation/pages/options_screen.dart';
+import 'package:washee/features/unlock/presentation/pages/wash_screen.dart';
 import 'package:washee/core/pages/washee_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -7,7 +7,7 @@ class HomeScreen extends StatefulWidget {
   final Object page;
 
   HomeScreen({
-    this.page = WasheeScreen,
+    this.page = WashScreen,
   });
   @override
   _HomeScreenState createState() => _HomeScreenState();
@@ -21,8 +21,8 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     _pages = [
+      WashScreen(),
       WasheeScreen(),
-      OptionsScreen(),
     ];
     _selectedPageIndex = _pages
         .indexWhere((element) => element.toString() == widget.page.toString());
@@ -55,12 +55,12 @@ class _HomeScreenState extends State<HomeScreen> {
           currentIndex: _selectedPageIndex,
           items: [
             BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              label: 'Home',
+              icon: Icon(Icons.bookmark_add_outlined),
+              label: 'Wash',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.bookmark_add_outlined),
-              label: 'Book',
+              icon: Icon(Icons.home),
+              label: 'Home',
             ),
           ],
         ),
