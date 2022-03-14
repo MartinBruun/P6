@@ -9,7 +9,7 @@ from gpiozero.pins.pigpio import PiGPIOFactory
 from time import sleep
 # import data_models
 # from use_cases.boxFunctionality import unlockMachine
-factory = PiGPIOFactory(host='192.168.1.5')
+factory = PiGPIOFactory(host='192.168.88.32')
 
 app = Flask(__name__)
 
