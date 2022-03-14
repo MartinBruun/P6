@@ -40,9 +40,8 @@ class BoxCommunicatorImpl implements BoxCommunicator {
     var startTime = DateTime.now();
     machine.startTime = startTime;
     machine.endTime = startTime.add(duration);
-
     try {
-      response = await dio.post(unlockURL, data: {"machine": machine});
+      response = await dio.post(unlockURL, data: {"machine": machine.toJson()});
       if (response.statusCode == 200) {
         return response.data;
       } else {
@@ -53,7 +52,8 @@ class BoxCommunicatorImpl implements BoxCommunicator {
         return response.data;
       }
     } on HttpException catch (e) {
-      throw new HTTPFailure(message: e.toString());
+      print(e.toString());
+      throw new HTTPFailure();
     }
   }
 
@@ -67,10 +67,10 @@ class BoxCommunicatorImpl implements BoxCommunicator {
   }
 
   @override
-  String get lockURL => 'http://ip:washeebox.local/unlock';
+  String get lockURL => 'http://washeebox.local/lock';
 
   @override
-  String get unlockURL => 'http://ip:washeebox.local/lock';
+  String get unlockURL => 'http://washeebox.local/unlock';
 
   @override
   Future<List<MachineModel>> getMachines() async {

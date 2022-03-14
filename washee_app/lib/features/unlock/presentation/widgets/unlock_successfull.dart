@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:washee/core/errors/error_handler.dart';
-import 'package:washee/core/errors/failures.dart';
 import 'package:washee/core/errors/http_error_prompt.dart';
 import 'package:washee/core/washee_box/machine_model.dart';
 
 import '../../../../core/presentation/themes/colors.dart';
 import '../../../../core/presentation/themes/dimens.dart';
 import '../../../../core/presentation/themes/themes.dart';
-import '../../../../core/usecases/usecase.dart';
 import '../../../../injection_container.dart';
 import '../../domain/usecases/unlock.dart';
 
@@ -76,13 +74,23 @@ class _UnlockSuccessfullState extends State<UnlockSuccessfull> {
                               UnlockParams(
                                   machine: widget.machine,
                                   duration: Duration(hours: 2, minutes: 30)));
-                        } on HTTPFailure catch (e) {
-                          ErrorHandler.errorHandlerView(
-                              context: context,
-                              prompt: HTTPErrorPrompt(message: e.toString()));
+                          if (status == null) {
+                            ErrorHandler.errorHandlerView(
+                                context: context,
+                                prompt: HTTPErrorPrompt(
+                                    message:
+                                        "Det ser ud til, at du ikke har forbindelse til WasheeBox"));
+                          }
+                        } catch (e) {
+                          await showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return HTTPErrorPrompt(
+                                  message:
+                                      "Noget gik galt da vi forsøgte at låse maskinen op! Prøv venligst igen");
+                            },
+                          );
                         }
-
-                        Navigator.of(context).pop();
                       },
                       child: Text(
                         'Start',

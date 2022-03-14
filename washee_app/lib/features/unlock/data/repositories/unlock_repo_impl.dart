@@ -13,10 +13,10 @@ class UnlockRepositoryImpl implements UnlockRepository {
 
   UnlockRepositoryImpl({required this.remote, required this.networkInfo});
   @override
-  Future<Response> unlock(MachineModel machine, Duration duration) async {
+  Future<Response?> unlock(MachineModel machine, Duration duration) async {
     if (await networkInfo.isConnected) {
       return await remote.unlock(machine, duration);
     }
-    throw new HTTPFailure(message: "No internet!");
+    return null;
   }
 }

@@ -24,7 +24,13 @@ class _MachineOverviewState extends State<MachineOverview> {
       setState(() {
         _isConnecting = true;
       });
-      machines = await sl<GetMachinesUseCase>().call(NoParams());
+      // machines = await sl<GetMachinesUseCase>().call(NoParams());
+      machines = [
+        MachineModel(
+            machineID: "testing1",
+            name: "Vaskemaskine",
+            machineType: "vaskemaskine")
+      ];
       setState(() {
         _isConnecting = false;
       });

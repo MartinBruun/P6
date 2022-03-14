@@ -30,6 +30,14 @@ class MachineModel extends Machine {
         endTime,
       ];
 
+  Map<String, dynamic> toJson() => {
+        'machineID': machineID,
+        'name': name,
+        'machineType': machineType,
+        'startTime': startTime.toString(),
+        'endTime': endTime.toString(),
+      };
+
   factory MachineModel.fromJson(Map<String, dynamic> json) {
     return MachineModel(
         machineID: json['machineID'],
