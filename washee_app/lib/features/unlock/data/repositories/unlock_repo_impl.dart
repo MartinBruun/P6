@@ -1,4 +1,8 @@
+import 'package:dio/dio.dart';
+import 'package:washee/core/errors/failures.dart';
+import 'package:washee/core/errors/http_error_prompt.dart';
 import 'package:washee/core/network/network_info.dart';
+import 'package:washee/core/washee_box/machine_model.dart';
 import 'package:washee/features/unlock/domain/repositories/unlock_repository.dart';
 
 import '../datasources/unlock_remote.dart';
@@ -9,11 +13,10 @@ class UnlockRepositoryImpl implements UnlockRepository {
 
   UnlockRepositoryImpl({required this.remote, required this.networkInfo});
   @override
-  Future<bool> unlock() async {
+  Future<Response?> unlock(MachineModel machine, Duration duration) async {
     if (await networkInfo.isConnected) {
-      return await remote.unlock();
+      return await remote.unlock(machine, duration);
     }
-    // debugging - should be false
-    return true;
+    return null;
   }
 }

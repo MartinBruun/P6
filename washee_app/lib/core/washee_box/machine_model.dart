@@ -4,8 +4,8 @@ class MachineModel extends Machine {
   final String machineID;
   final String name;
   final String machineType;
-  final DateTime? startTime;
-  final DateTime? endTime;
+  DateTime? startTime;
+  DateTime? endTime;
 
   MachineModel({
     required this.machineID,
@@ -29,6 +29,14 @@ class MachineModel extends Machine {
         startTime,
         endTime,
       ];
+
+  Map<String, dynamic> toJson() => {
+        'machineID': machineID,
+        'name': name,
+        'machineType': machineType,
+        'startTime': startTime.toString(),
+        'endTime': endTime.toString(),
+      };
 
   factory MachineModel.fromJson(Map<String, dynamic> json) {
     return MachineModel(

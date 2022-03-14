@@ -4,8 +4,8 @@ class Machine extends Equatable {
   final String machineID;
   final String name;
   final String machineType;
-  final DateTime? startTime;
-  final DateTime? endTime;
+  DateTime? startTime;
+  DateTime? endTime;
 
   Machine({
     required this.machineID,
