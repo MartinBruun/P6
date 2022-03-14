@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:washee/core/usecases/usecase.dart';
 import 'package:washee/core/washee_box/machine_model.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-import '../../../../core/washee_box/machine_entity.dart';
+import 'package:washee/features/get_machines/domain/usecases/get_machines.dart';
+import 'package:washee/injection_container.dart';
 import '../../../../core/widgets/unlock_button.dart';
 
 class MachineOverview extends StatefulWidget {
@@ -16,16 +17,6 @@ class MachineOverview extends StatefulWidget {
 class _MachineOverviewState extends State<MachineOverview> {
   List<MachineModel> machines = [];
   bool _isConnecting = false;
-  Future<List<MachineModel>> _mockConnectingToBox() async {
-    await Future.delayed(Duration(seconds: 3));
-    return [
-      MachineModel(
-          machineID: "ID1", name: "Test1", machineType: "LaundryMachine"),
-      MachineModel(
-          machineID: "ID2", name: "Test2", machineType: "LaundryMachine"),
-      MachineModel(machineID: "ID3", name: "Test3", machineType: "Tumbler")
-    ];
-  }
 
   @override
   void initState() {
@@ -33,7 +24,7 @@ class _MachineOverviewState extends State<MachineOverview> {
       setState(() {
         _isConnecting = true;
       });
-      machines = await _mockConnectingToBox();
+      machines = await sl<GetMachinesUseCase>().call(NoParams());
       setState(() {
         _isConnecting = false;
       });
