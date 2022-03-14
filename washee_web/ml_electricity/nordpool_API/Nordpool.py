@@ -57,7 +57,7 @@ class NordpoolAPI:
         print("-----END-----")
 
     def __decode(self, data):
-
+        
         # make all bytes into strings
         for i in range(0, len(data)):
             data[i] = str(data[i])
@@ -66,8 +66,7 @@ class NordpoolAPI:
         data_lines = []
         for chunk in data:
             for line in chunk.split('\\r\\n'):
-                line = (str(line)).lstrip("b'").rstrip("'")
-                
+                line = (str(line)).lstrip("b'").rstrip("'").rstrip("\\r").lstrip("\\n")
                 data_lines.append(line)
 
         # join lines that are split incorrecly
@@ -83,6 +82,8 @@ class NordpoolAPI:
 
                     data_lines[i+1] = str(line) + str(data_lines[i+1])
                     data_lines.pop(i)
+            elif line == "":
+                data_lines.pop(i)
 
             i += 1
 
@@ -111,7 +112,7 @@ class NordpoolAPI:
         self.__ftp.quit()
 
         data = self.__decode(data)
-
+        
         self.__save_data(data)
 
         return data
@@ -142,5 +143,23 @@ if __name__ == '__main__':
     file = "odedkk22.sdv"
 
     # print("hello")
-    nordpool.ftp_retrieve(path, file)
+    data = nordpool.ftp_retrieve(path, file)
+
+    column_count = 0
+    line_count = 0
+
+    is_ok = True
+
+    # # check each line below the headers has more than 35 columns
+    # for line in data:
+    #     for character in line:
+    #         if character == ";":
+    #             column_count += 1
+    #     print(column_count)
+    #     if line_count > 5 and column_count < 35:# 35:
+    #         is_ok = False 
+    #     column_count = 0
+    #     line_count += 1
+
+
     # nordpool.__ftp_dir(path)

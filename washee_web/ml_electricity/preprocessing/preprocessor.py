@@ -4,20 +4,18 @@ import os
 
 class Preprocessor:
 
-    def __init__(self):
-        self.data_path = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__), "..", "data.csv"))
-        self.pandas_data_path = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__), "..", "pandas.csv"))
-
-    def build_dataframe(self):
-        df = pandas.read_csv(self.pandas_data_path)
+    def __init__(self, data_path = None, pandas_data_path = None):
+        if data_path == None:
+            self.data_path = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__), "..", "data.csv"))
+        else:
+            self.data_path = data_path
         
-        df.drop(['3B', '25', '26', '27', '28', '29', '30', '31', '32', '33', '34' ], axis=1, inplace=True)
+        if pandas_data_path == None:
+            self.pandas_data_path = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__), "..", "pandas.csv"))
+        else:
+            self.pandas_data_path = pandas_data_path
 
-        df.to_csv(self.pandas_data_path)
-        
-        
-
-    def prune_data(self):
+    def __prune_data(self):
         file = open(self.data_path, 'r')
         reader = csv.reader(file)
         
@@ -65,7 +63,7 @@ class Preprocessor:
 
 
     def get_data(self):
-        path = self.prune_data()
+        path = self.__prune_data()
         df = pandas.read_csv(path)
         df['date'] = df[['date']].apply(pandas.to_datetime)
 
@@ -74,5 +72,4 @@ class Preprocessor:
 if __name__ == '__main__':
     p = Preprocessor()
 
-    print(p.get_data())
-    # p.build_dataframe()
+    print(type(p.get_data()))
