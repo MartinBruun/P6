@@ -6,10 +6,7 @@ import 'package:washee/core/washee_box/machine_model.dart';
 import '../../../../core/presentation/themes/colors.dart';
 import '../../../../core/presentation/themes/dimens.dart';
 import '../../../../core/presentation/themes/themes.dart';
-import '../../../../core/usecases/usecase.dart';
 import '../../../../core/widgets/common_used_widgets.dart';
-import '../../../../injection_container.dart';
-import '../../domain/usecases/unlock.dart';
 import '../provider/unlock_provider.dart';
 import 'unlock_successfull.dart';
 
@@ -34,7 +31,7 @@ class _InitiateWashDialogState extends State<InitiateWashDialog> {
       backgroundColor: Colors.transparent,
       body: Center(
         child: unlockProvider.isDoneUnlocking
-            ? UnlockSuccessfull()
+            ? UnlockSuccessfull(machine: widget.machine)
             : Container(
                 decoration: BoxDecoration(
                   color: AppColors.dialogLightGray,
@@ -80,16 +77,12 @@ class _InitiateWashDialogState extends State<InitiateWashDialog> {
                             child: Center(
                               child: InkWell(
                                 onTap: () async {
-                                  var status = await sl<UnlockUseCase>()
-                                      .call(NoParams());
-                                  if (status) {
-                                    unlockProvider.isUnlocking = true;
-                                    await Future.delayed(Duration(seconds: 3))
-                                        .then((_) {
-                                      unlockProvider.isUnlocking = false;
-                                      unlockProvider.isDoneUnlocking = true;
-                                    });
-                                  }
+                                  unlockProvider.isUnlocking = true;
+                                  await Future.delayed(Duration(seconds: 3))
+                                      .then((_) {
+                                    unlockProvider.isUnlocking = false;
+                                    unlockProvider.isDoneUnlocking = true;
+                                  });
                                 },
                                 child: unlockProvider.isUnlocking
                                     ? CircularProgressIndicator(

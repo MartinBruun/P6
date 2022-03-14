@@ -17,3 +17,11 @@ class BookingFailure extends Failure {
   @override
   List<Object?> get props => [message];
 }
+
+class HTTPFailure extends Failure {
+  final String message;
+  HTTPFailure({this.message = ""});
+
+  @override
+  List<Object?> get props => [message];
+}

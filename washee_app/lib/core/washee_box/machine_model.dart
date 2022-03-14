@@ -4,8 +4,8 @@ class MachineModel extends Machine {
   final String machineID;
   final String name;
   final String machineType;
-  final DateTime? startTime;
-  final DateTime? endTime;
+  DateTime? startTime;
+  DateTime? endTime;
 
   MachineModel({
     required this.machineID,

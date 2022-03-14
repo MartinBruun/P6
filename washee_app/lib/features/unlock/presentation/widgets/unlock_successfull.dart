@@ -1,12 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:washee/core/errors/error_handler.dart';
+import 'package:washee/core/errors/failures.dart';
+import 'package:washee/core/errors/http_error_prompt.dart';
+import 'package:washee/core/washee_box/machine_model.dart';
 
 import '../../../../core/presentation/themes/colors.dart';
 import '../../../../core/presentation/themes/dimens.dart';
 import '../../../../core/presentation/themes/themes.dart';
+import '../../../../core/usecases/usecase.dart';
+import '../../../../injection_container.dart';
+import '../../domain/usecases/unlock.dart';
 
 class UnlockSuccessfull extends StatefulWidget {
-  UnlockSuccessfull({Key? key}) : super(key: key);
+  final MachineModel machine;
+  UnlockSuccessfull({required this.machine});
 
   @override
   State<UnlockSuccessfull> createState() => _UnlockSuccessfullState();
@@ -63,7 +71,17 @@ class _UnlockSuccessfullState extends State<UnlockSuccessfull> {
                   child: Center(
                     child: InkWell(
                       onTap: () async {
-                        // sl<StartWashUseCase>().call()
+                        try {
+                          var status = await sl<UnlockUseCase>().call(
+                              UnlockParams(
+                                  machine: widget.machine,
+                                  duration: Duration(hours: 2, minutes: 30)));
+                        } on HTTPFailure catch (e) {
+                          ErrorHandler.errorHandlerView(
+                              context: context,
+                              prompt: HTTPErrorPrompt(message: e.toString()));
+                        }
+
                         Navigator.of(context).pop();
                       },
                       child: Text(
