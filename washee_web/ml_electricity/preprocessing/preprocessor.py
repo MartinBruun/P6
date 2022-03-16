@@ -69,8 +69,6 @@ class Preprocessor:
         # drops cells without values 
         df.dropna(inplace=True)
 
-        print(df)
-
         return df
 
 
