@@ -15,6 +15,9 @@ class MIcontroller:
         
         nordpool = NordpoolAPI()
         nordpool.ftp_retrieve(path, file)
+        data = self.preprocessor.prune_data()
+        data = self.preprocessor.reshape_Hour_on_day_prediction(data)
+        self.preprocessor.save_data(data)
 
     def train(self):
         data = self.preprocessor.get_data()
@@ -30,7 +33,8 @@ class MIcontroller:
 
 if __name__ == '__main__':
     controller = MIcontroller()
-
+    controller.update_data()
+    
     controller.train()
     print(controller.predict([[1], [2]]))
     print(controller.ml.score())
