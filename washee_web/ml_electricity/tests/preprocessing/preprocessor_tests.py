@@ -11,7 +11,7 @@ def test_that_we_can_get_data():
     
     p = Preprocessor(data_path=data_path, pandas_data_path=pandas_path)
     # Act
-    data = p.get_data()
+    data = p.prune_data()
 
     # Assert
     assert type(data) == pandas.DataFrame
@@ -27,7 +27,7 @@ def test_data_contains_the_correct_headers():
     
     has_correct_headers = True
     # Act
-    data = p.get_data()
+    data = p.prune_data()
 
     actual_headers = data.columns.values
     # Assert
@@ -55,7 +55,7 @@ def test_that_the_data_types_are_correct():
     has_correct_data_types = True
     
     # Act
-    data = p.get_data()
+    data = p.prune_data()
 
     # Assert
     if data['date'].dtype != np.dtype('datetime64[ns]'):

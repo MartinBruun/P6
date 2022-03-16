@@ -1,6 +1,8 @@
+from datetime import datetime
 import pandas
 import csv
 import os
+import numpy as np
 
 class Preprocessor:
 
@@ -15,7 +17,17 @@ class Preprocessor:
         else:
             self.pandas_data_path = pandas_data_path
 
-    def __prune_data(self):
+    def reshape_Hour_on_day_prediction(self, data: pandas.DataFrame):
+        reshaped_data = pandas.melt(data, id_vars="date", 
+        value_vars=['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24'],
+        var_name="hour",
+        value_name="price")
+        return reshaped_data
+
+    def save_data(self, data:pandas.DataFrame):
+        data.to_csv(self.pandas_data_path, index=False)
+
+    def prune_data(self):
         file = open(self.data_path, 'r')
         reader = csv.reader(file)
         
@@ -54,17 +66,17 @@ class Preprocessor:
         df[hours] = df[hours].apply(pandas.to_numeric)
         df['date'] = df[['date']].apply(pandas.to_datetime)
 
+        # drops cells without values 
         df.dropna(inplace=True)
-        
-        df.to_csv(self.pandas_data_path, index=False)
 
-        return self.pandas_data_path
+        print(df)
+
+        return df
 
 
 
     def get_data(self):
-        path = self.__prune_data()
-        df = pandas.read_csv(path)
+        df = pandas.read_csv(self.pandas_data_path)
         df['date'] = df[['date']].apply(pandas.to_datetime)
 
         return df
@@ -72,4 +84,10 @@ class Preprocessor:
 if __name__ == '__main__':
     p = Preprocessor()
 
-    print(type(p.get_data()))
+    data = p.get_data()
+    print(data)
+    
+    # data = p.prune_data()
+    # print(data)
+    # data = p.reshape_Hour_on_day_prediction(data)
+    # p.save_data(data)
