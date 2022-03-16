@@ -17,7 +17,7 @@ class NordpoolML:
 
         self.model = LinearRegression()
 
-        self.model.fit(train_data['x'].values.reshape(-1, 2), train_data['y'].values.reshape(-1, 1))
+        self.model.fit(train_data['x'].values.reshape(-1, 1), train_data['y'].values.reshape(-1, 1))
 
         return self.model
 
@@ -25,7 +25,7 @@ class NordpoolML:
  
         # x represents independent variables
         # y represents the dependent variable
-        x = data[['day', 'time']]
+        x = data[['hour']]
         y = data[['price']]
         
         x_train, x_test, y_train, y_test = train_test_split(x, y)
@@ -41,7 +41,7 @@ class NordpoolML:
     def score(self, test_data = None):
         if test_data == None:
             test_data = self.test_data
-        return self.model.score(test_data['x'].values.reshape(-1, 2), test_data['y'].values.reshape(-1, 1))
+        return self.model.score(test_data['x'].values.reshape(-1, 1), test_data['y'].values.reshape(-1, 1))
 
     def predict(self, data):
         return self.model.predict(data)
@@ -49,13 +49,12 @@ class NordpoolML:
 
 if __name__ == '__main__':
     dataset = {
-                'day': [1, 2, 3, 3, 5, 6, 7],
-                'time': [1 ,2 ,3 ,4 ,5 ,6 , 7],
+                'hour': [1 ,2 ,3 ,4 ,5 ,6 , 7],
                 'price': [123, 234, 45, 456, 456, 567, 234]
             }
     data = pandas.DataFrame(dataset)
 
-    x_train = data[['day', 'time']]
+    x_train = data[['hour']]
     y_train = data[['price']]
 
     train_data = {'x': x_train, 'y': y_train}
@@ -67,4 +66,4 @@ if __name__ == '__main__':
 
     # print(ml.score())
 
-    print(ml.predict([[1,2]]))
+    print(ml.predict([[1]]))
