@@ -3,8 +3,18 @@ import os
 import pandas
 import numpy as np
 
-
 def test_that_we_can_get_data():
+    # Arrange
+    pandas_path = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__), "test_pandas.csv"))
+    
+    p = Preprocessor(pandas_data_path=pandas_path)
+    # Act
+    data = p.get_data()
+
+    # Assert
+    assert type(data) == pandas.DataFrame
+
+def test_that_we_can_prune_data():
     # Arrange
     data_path = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__), "test_data.csv"))
     pandas_path = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__), "test_pandas.csv"))
@@ -17,7 +27,7 @@ def test_that_we_can_get_data():
     assert type(data) == pandas.DataFrame
 
 
-def test_data_contains_the_correct_headers():
+def test_pruned_data_contains_the_correct_headers():
     # Arrange
     data_path = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__), "test_data.csv"))
     pandas_path = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__), "test_pandas.csv"))
@@ -46,7 +56,7 @@ def test_data_contains_the_correct_headers():
 
     assert has_correct_headers
 
-def test_that_the_data_types_are_correct():
+def test_pruned_data_has_correct_data_types():
     # Arrange
     data_path = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__), "test_data.csv"))
     pandas_path = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__), "test_pandas.csv"))
@@ -69,6 +79,46 @@ def test_that_the_data_types_are_correct():
             has_correct_data_types = False
 
     assert has_correct_data_types
+
+def test_we_can_reshape_data():
+    # Arrange
+    pandas_path = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__), "test_pandas.csv"))
+    
+    p = Preprocessor(pandas_data_path=pandas_path)
+    # Act
+    data = p.reshape_Hour_on_day_prediction(p.get_data())
+    
+    # Assert
+    assert type(data) == pandas.DataFrame
+
+def test_reshaped_data_has_the_correct_headers():
+    # Arrange
+    pandas_path = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__), "test_pandas.csv"))
+    p = Preprocessor(pandas_data_path=pandas_path)
+
+    expected_headers = np.array(['date', 'hour', 'price'])
+    
+    has_correct_headers = True
+    # Act
+    data = p.reshape_Hour_on_day_prediction(p.get_data())
+
+    actual_headers = data.columns.values
+    # Assert
+    
+    if expected_headers.shape != actual_headers.shape:
+        has_correct_headers = False
+        print("Wrong shape")
+
+    i = 0
+    for header in expected_headers:
+        if header != actual_headers[i]:
+            has_correct_headers = False
+            print("Mismatched header")
+            print(header + "!=" + actual_headers[i])
+        i += 1
+
+    assert has_correct_headers
+
 
 
 # def test_():
