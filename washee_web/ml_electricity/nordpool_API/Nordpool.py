@@ -13,24 +13,18 @@ class NordpoolAPI:
 
     __REQUIRED_COLUMNS = 35
 
-    def __init__(self, access_data_path = None, save_data_path = None, ftp = None):
+    def __init__(self, ftp = None):
         
-        if access_data_path == None:
-            path = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__), "nordpool.json"))
-        else:
-            path = access_data_path
-
+        path = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__), "nordpool.json"))
+        
         data = self.__get_nordpool_access_data(path)
 
         self.__url = data["url"]
         self.__username = data["username"]
         self.__password = data["password"]
 
-        if save_data_path == None:
-            self.__save_data_path = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__), "..", "data.csv"))
-        else:
-            self.__save_data_path = save_data_path
-
+        self.__save_data_path = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__), "..", "data.csv"))
+        
         if ftp == None:
             self.__ftp = ftplib.FTP(self.__url)
         else:
