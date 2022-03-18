@@ -17,6 +17,17 @@ app = Flask(__name__)
 
 machine_name = ['l1', 'l2', 't1', 't2']
 
+#format of a machine:
+
+#     {
+#     "machineID" : "l1",
+#     "name" : "vaskemaskine1",
+#     "machineType" : "laundryMachine",
+#     "startTime" : "2022-02-27T13:27:00",
+#     "endTime" : "2022-03-27T13:27:00"
+# adds pin:xx in the code
+# }
+
 
 @app.route('/')
 def menu():
@@ -38,12 +49,10 @@ def menu():
 def getMachinesInfo():
     with open("data_models/machineList.json", "r") as file:
         mList = json.loads(file.read())
-    return mList  # boxFunctionality.getMachinesInfo()
-
-# recieves a json machine and a duration
-##
+    return mList 
 
 
+##Receives a json {user:xxx, machine:{xxxxxxxxxxx} }##
 @app.route('/unlock', methods=['GET', 'POST'])
 def unlock():
     data = request.get_json()
@@ -63,58 +72,37 @@ def unlock():
     startTime = data["startTime"]
     endTime = data["endTime"]
 
-    
     duration = int((endTime-startTime).total_seconds())
-
-    pprint(duration)
-
-
-
-    # duration = 120
     pin = getPin(id)
     machine = data
     machine["pin"]=pin
     pprint(machine)
+
+    #TODO: maybe we need to send the unlock timer to a thread in order to be able to activate other machines while this one is running
     # # unlockMachine(machine, 120)
     # # e = threading.Event()
     # # t = threading.Thread(name="non-block", target=unlockMachine,args=(e,machine,120))
     # # t.start()
     
-    # # machine = Machine(**tempobj)
-
     unlockMachine(machine, duration)  # maybe leaveout duration
-    # # boxFunctionality.scheduleLocking(id, endtime)
+
     return "<a href='/'> Machine has been unlocked and scheduled to lock in </a>"
 
-
-#     {
-#     "machineID" : "l1",
-#     "name" : "vaskemaskine1",
-#     "machineType" : "laundryMachine",
-#     "startTime" : "2022-02-27T13:27:00",
-#     "endTime" : "2022-03-27T13:27:00"
-# }
 
 
 @app.route('/lock', methods=['GET', 'POST'])
 def lock():
-    id = "l1"
-    machine = {"id":"l1"}
-    pin = getPin(machine["id"])
+    machineJson = request.get_json()
+    id = machineJson["machineID"]
+    machineJson["pin"] = getPin(id)
     # file = open(r'./use_cases/relay.py', 'r').read()
     # exec(file)
-    lockMachine(machine)
+    lockMachine(machineJson)
 
     return "<a href='/'> Machine id has been locked </a>"
 
 @app.route('/test', methods=['GET', 'POST'])
 def test():
-    # data = request.get_json()
-    # duration = int(data.get("duration"))
-    # machineId = data.get("id")
-    # print(data)
-    # print(machineId)
-    # print(duration)
     testRelay(2)
     return "<a href='/'> relay test performed </a>"
 
@@ -174,35 +162,23 @@ if __name__ == "__main__":
 #flyt til anden fil
 
 def lockMachine(machine):
-        pin = getPin(machine["id"])
-        LED(pin).close()
+        # pin = getPin(machine["id"])
+        LED(machine["pin"]).close()
 
-def unlockMachine(machine, duration):
-    tempmachine = machine
-    # tempmachine.startTime = datetime.now()
-    # tempmachine.endTime = datetime.now()+duration
+def unlockMachine(machine, duration,user = "user??"):
 
     logmessage = "startTime:"+str(machine["startTime"])+ " ; endTime:" + str(machine["endTime"])  +"; duration:" +str(duration).format(
         "hh:mm")
-    writeToLog("user?", machine, logmessage)
+    writeToLog(user , machine, logmessage)
 
     timeLeft = min(120,duration)
 
-    relayport = LED(machine["pin"])
+    relayport = LED(machine["pin"]) #power on relay
     while timeLeft > 0:
         print(timeLeft)
         sleep(1)
         timeLeft -= 1
-    relayport.close()
-
-
-    #scheduleLocking(tempmachine["id"], tempmachine.endTime)
-    
-    # raise Exception("not implemented")
-
-    # return tempmachine
-    # maybe leaveout duration
-
+    relayport.close() #make relay available for other functioncalls
 
 
 def scheduleLocking(id, endtime):
@@ -221,34 +197,6 @@ def _getMachinesInfo():
 
     return machines
 
-# private methods
-
-
-def writeToLog(user, machine, message):
-    timestamp = datetime.now()
-    machine["startTime"] = str(machine["startTime"])
-    machine["endTime"] = str(machine["endTime"])
-
-    with open("data_models/log.txt", "a+") as f:
-        string = f'{str(timestamp)};{user};{machine}; {message}' + "\n"
-        f.write(string)
-
-
-def getPin(machineID):
-    pin = 21
-    if machineID == "l1":
-        pin = 17
-
-    elif machineID == "l2":
-        pin = 27
-
-    elif machineID == "t1":
-        pin = 23
-
-    elif machineID == "t2":
-        pin = 12
-
-    return pin
 
 
 
@@ -329,3 +277,36 @@ def allOn():
         led.on()
         sleep(0.1)
         print("power On pin:" + str(i))
+
+# private methods
+
+
+def writeToLog(user, machine, message):
+    timestamp = datetime.now()
+    machine["startTime"] = str(machine["startTime"])
+    machine["endTime"] = str(machine["endTime"])
+
+    with open("data_models/log.txt", "a+") as f:
+        string = f'{str(timestamp)};{user};{machine}; {message}' + "\n"
+        f.write(string)
+
+
+def getPin(machineID):
+    pin = 21
+    if machineID == "l1":
+        pin = 17
+
+    elif machineID == "l2":
+        pin = 27
+
+    elif machineID == "t1":
+        pin = 23
+
+    elif machineID == "t2":
+        pin = 12
+
+    return pin
+
+
+
+
