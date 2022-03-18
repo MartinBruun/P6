@@ -1,8 +1,11 @@
 from ml_electricity.nordpool_API.Nordpool import NordpoolAPI
 from unittest.mock import MagicMock
 
-def test_Nordpool_API_can_be_mocked(mock_ftp):
+def test_Nordpool_API_can_be_mocked(mocker, mock_ftp, test_access_data):
     # Arrange    
+    mocker.patch('ml_electricity.nordpool_API.Nordpool.open', return_value=MagicMock())
+    mocker.patch('ml_electricity.nordpool_API.Nordpool.json.load', return_value=test_access_data)
+
     npAPI = NordpoolAPI(ftp=mock_ftp)
 
     # Act
