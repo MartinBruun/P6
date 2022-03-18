@@ -6,16 +6,10 @@ import numpy as np
 
 class Preprocessor:
 
-    def __init__(self, data_path = None, pandas_data_path = None):
-        if data_path == None:
-            self.data_path = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__), "..", "data.csv"))
-        else:
-            self.data_path = data_path
-        
-        if pandas_data_path == None:
-            self.pandas_data_path = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__), "..", "pandas.csv"))
-        else:
-            self.pandas_data_path = pandas_data_path
+    def __init__(self):
+        self.data_path = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__), "..", "data.csv"))
+
+        self.pandas_data_path = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__), "..", "pandas.csv"))
 
     def reshape_Hour_on_day_prediction(self, data: pandas.DataFrame):
         reshaped_data = pandas.melt(data, id_vars="date", 
@@ -30,7 +24,7 @@ class Preprocessor:
     def prune_data(self):
         file = open(self.data_path, 'r')
         reader = csv.reader(file)
-                
+
         data = []
 
         # only appends rows below the headers
