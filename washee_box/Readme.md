@@ -38,14 +38,16 @@ stat venv
 ## pip install -r requirements.txt
 ### (touch washee-box-entry.py)
 ### (opret flask route file kommandoer)
-flask starts automatically 
+flask starts automatically (because of a command saved in etc/rc.local)
 else run 
-sudo /home/pi/code/P6/washee_box/start-box.sh 
+sudo /home/pi/code/P6/washee_box/start-box.sh  (it it will not run you need to ```sudo chmod +x '/home/pi/code/P6/washee_box/start-box.sh'```)
 ## (export FLASK_APP=washee-box-entry.py)
-## (flask run --host=0.0.0.0)
+## (flask run --host=0.0.0.0 --port=8001)
 ## (sudo shutdown)
 
+## washeebox can now be accessed on ipaddress:8001
 
+##Stop flask: ```sudo kill $(pgrep -f flask)```
 
 
 
