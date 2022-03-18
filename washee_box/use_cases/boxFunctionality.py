@@ -8,17 +8,19 @@ from time import sleep
 
 class boxFunctionality:
 
-    def __init__(self) -> None:
-        pass
+    # def __init__(self) -> None:
+    #     pass
 
     # public methods
+    def lockMachine(pin):
+        LED(pin).close()
 
     def unlockMachine(machine, duration):
         tempmachine = machine
         tempmachine.startTime = datetime.utcnow()
         tempmachine.endTime = datetime.utcnow()+duration
 
-        led = LED(21)
+        led = LED(17)
         led.on()
 
         #scheduleLocking(tempmachine.id, tempmachine.endTime)
