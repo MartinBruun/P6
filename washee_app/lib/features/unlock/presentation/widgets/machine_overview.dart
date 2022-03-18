@@ -21,10 +21,10 @@ class _MachineOverviewState extends State<MachineOverview> {
         _isConnecting = true;
       });
       await Future.delayed(Duration(seconds: 3));
-      // This is the usecase to be called on every initstate fetching from backend
-      // Provider.of<GlobalProvider>(context, listen: false)
-      //     .updateMachines(await sl<GetMachinesUseCase>().call(NoParams()));
+      //This is the usecase to be called on every initstate fetching from backend
+      // await sl<GetMachinesUseCase>().call(NoParams()));
 
+      // should be provider
       setState(() {
         _isConnecting = false;
       });
