@@ -8,6 +8,7 @@ import '../presentation/themes/dimens.dart';
 import '../presentation/themes/themes.dart';
 import 'wash_timer_on_card.dart';
 
+// ignore: must_be_immutable
 class MachineCard extends StatelessWidget {
   MachineCard({required this.machine});
   MachineModel machine;

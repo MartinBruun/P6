@@ -7,6 +7,7 @@ import '../../../../core/presentation/themes/colors.dart';
 import '../../../../core/presentation/themes/dimens.dart';
 import '../../../../core/presentation/themes/themes.dart';
 
+// ignore: must_be_immutable
 class WashTimer extends StatefulWidget {
   MachineModel activeMachine;
   WashTimer({required this.activeMachine});

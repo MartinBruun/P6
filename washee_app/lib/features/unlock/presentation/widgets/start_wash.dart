@@ -8,11 +8,9 @@ import 'package:washee/core/washee_box/machine_model.dart';
 import '../../../../core/presentation/themes/colors.dart';
 import '../../../../core/presentation/themes/dimens.dart';
 import '../../../../core/presentation/themes/themes.dart';
-import '../pages/wash_screen.dart';
-import '../provider/unlock_provider.dart';
 
 class StartWash extends StatelessWidget {
-  MachineModel machine;
+  final MachineModel machine;
 
   StartWash({required this.machine});
 

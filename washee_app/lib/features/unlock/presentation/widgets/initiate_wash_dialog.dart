@@ -10,6 +10,7 @@ import '../../../../core/widgets/common_used_widgets.dart';
 import '../provider/unlock_provider.dart';
 import 'unlock_successfull.dart';
 
+// ignore: must_be_immutable
 class InitiateWashDialog extends StatefulWidget {
   MachineModel machine;
   InitiateWashDialog({required this.machine});

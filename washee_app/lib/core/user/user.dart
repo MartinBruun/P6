@@ -2,8 +2,8 @@ import 'package:equatable/equatable.dart';
 
 class User extends Equatable {
   final String userName;
-  int washCoupon;
-  int token;
+  final int washCoupon;
+  final int token;
 
   User({required this.userName, required this.washCoupon, required this.token});
 

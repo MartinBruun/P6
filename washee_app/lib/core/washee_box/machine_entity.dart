@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 
+// ignore: must_be_immutable
 class Machine extends Equatable {
   final String machineID;
   final String name;

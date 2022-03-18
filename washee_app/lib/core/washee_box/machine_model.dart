@@ -1,5 +1,6 @@
 import 'package:washee/core/washee_box/machine_entity.dart';
 
+// ignore: must_be_immutable
 class MachineModel extends Machine {
   final String machineID;
   final String name;

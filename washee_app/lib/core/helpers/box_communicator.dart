@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:washee/core/washee_box/machine_entity.dart';
 import 'package:washee/core/washee_box/machine_model.dart';
 
 import '../errors/failures.dart';
