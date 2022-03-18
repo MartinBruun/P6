@@ -1,61 +1,29 @@
 from ml_electricity.nordpool_API.Nordpool import NordpoolAPI
-import os
+from unittest.mock import MagicMock
 
-
-class Mock_FTP:
-    def __init__(self, path):
-        self.path = path
-    
-    def login(self, username, password):
-        self.username = username
-        self.password = password
-
-    def cwd(self, path):
-        return
-
-    def retrbinary(self, cmd, callback):
-        file = open(self.path)
-        data = file.read().splitlines()
-        for line in data:
-            callback(line)
-
-    def quit(self):
-        return
-
-
-def test_Nordpool_API_can_be_mocked():
-    # Arrange
-    mock_data_path = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__), "coded_data.csv")) 
-    mock_ftp = Mock_FTP(mock_data_path)
-    
-    test_access_data_path = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__), "test_nordpool.json"))
-    
-    test_save_data_path = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__), "test_nordpool_retrieved_data.csv"))
-    
-    np = NordpoolAPI(access_data_path=test_access_data_path, save_data_path=test_save_data_path, ftp=mock_ftp)
+def test_Nordpool_API_can_be_mocked(mock_ftp):
+    # Arrange    
+    npAPI = NordpoolAPI(ftp=mock_ftp)
 
     # Act
-    
-
-    data = np.ftp_retrieve("path", "filename")
+    npAPI.ftp_retrieve("path", "filename")
 
     # Assert
     assert True
 
-def test_decoded_data_does_not_have_unnecesary_line_breaks():
+def test_decoded_data_does_not_have_unnecesary_line_breaks(mocker, mock_ftp, test_access_data):
     # Arrange
-    mock_data_path = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__), "coded_data.csv")) 
-    mock_ftp = Mock_FTP(mock_data_path)
-    
-    test_access_data_path = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__), "test_nordpool.json"))
-    
-    test_save_data_path = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__), "test_nordpool_retrieved_data.csv"))
-    
-    np = NordpoolAPI(access_data_path=test_access_data_path, save_data_path=test_save_data_path, ftp=mock_ftp)
-    
+    mocker.patch('ml_electricity.nordpool_API.Nordpool.open', return_value=MagicMock())
+    mocker.patch('ml_electricity.nordpool_API.Nordpool.json.load', return_value=test_access_data)
+
+    npAPI = NordpoolAPI(ftp=mock_ftp)
+
+    # disables the save_data method
+    npAPI.__save_data = False
+
     # Act
-    
-    data = np.ftp_retrieve("path", "filename")
+
+    data = npAPI.ftp_retrieve("path", "filename")
     
     # Assert
     column_count = 0
@@ -77,20 +45,19 @@ def test_decoded_data_does_not_have_unnecesary_line_breaks():
     
     assert No_unnecesary_line_breaks
 
-def test_decoded_data_does_not_contain_byte_encoding():
+def test_decoded_data_does_not_contain_byte_encoding(mocker, mock_ftp, test_access_data):
     # Arrange
-    mock_data_path = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__), "coded_data.csv")) 
-    mock_ftp = Mock_FTP(mock_data_path)
-    
-    test_access_data_path = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__), "test_nordpool.json"))
-    
-    test_save_data_path = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__), "test_nordpool_retrieved_data.csv"))
-    
-    np = NordpoolAPI(access_data_path=test_access_data_path, save_data_path=test_save_data_path, ftp=mock_ftp)
-    
+    mocker.patch('ml_electricity.nordpool_API.Nordpool.open', return_value=MagicMock())
+    mocker.patch('ml_electricity.nordpool_API.Nordpool.json.load', return_value=test_access_data)
+
+    npAPI = NordpoolAPI(ftp=mock_ftp)
+
+    # disables the save_data method
+    npAPI.__save_data = False
+        
     # Act
     
-    data = np.ftp_retrieve("path", "filename")
+    data = npAPI.ftp_retrieve("path", "filename")
     
     # Assert
     No_byte_encoding = True
@@ -104,27 +71,25 @@ def test_decoded_data_does_not_contain_byte_encoding():
     
     assert No_byte_encoding
 
-def test_decoded_data_does_not_contain_new_lines():
+def test_decoded_data_does_not_contain_new_lines(mocker, mock_ftp, test_access_data):
     # Arrange
-    mock_data_path = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__), "coded_data.csv")) 
-    mock_ftp = Mock_FTP(mock_data_path)
+    mocker.patch('ml_electricity.nordpool_API.Nordpool.open', return_value=MagicMock())
+    mocker.patch('ml_electricity.nordpool_API.Nordpool.json.load', return_value=test_access_data)
 
-    test_access_data_path = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__), "test_nordpool.json"))
+    npAPI = NordpoolAPI(ftp=mock_ftp)
 
-    test_save_data_path = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__), "test_nordpool_retrieved_data.csv"))
-
-    np = NordpoolAPI(access_data_path=test_access_data_path, save_data_path=test_save_data_path, ftp=mock_ftp)
+    # disables the save_data method
+    npAPI.__save_data = False
 
     # Act
 
-    data = np.ftp_retrieve("path", "filename")
+    data = npAPI.ftp_retrieve("path", "filename")
 
     # Assert
     No_line_breaks = True
 
     # check each line below the headers has more than 35 columns
     for line in data:
-        
         if ("\\r\\n" in line
         or "\\n" in line
         or "\\r" in line):

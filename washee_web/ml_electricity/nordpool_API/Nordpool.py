@@ -4,6 +4,7 @@ from hashlib import new
 import json
 import ftplib
 import os
+from typing import Type
 from unittest import mock
 import csv
 
@@ -44,6 +45,8 @@ class NordpoolAPI:
 
     def __save_data(self, data):
         file = open(self.__save_data_path, 'w', newline="")
+        print(file)
+        print(type(file))
         writer = csv.writer(file)
 
         for line in data:
@@ -145,10 +148,7 @@ if __name__ == '__main__':
     # print("hello")
     data = nordpool.ftp_retrieve(path, file)
 
-    column_count = 0
-    line_count = 0
 
-    is_ok = True
 
     # # check each line below the headers has more than 35 columns
     # for line in data:

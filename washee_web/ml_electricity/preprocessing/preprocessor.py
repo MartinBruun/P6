@@ -30,7 +30,7 @@ class Preprocessor:
     def prune_data(self):
         file = open(self.data_path, 'r')
         reader = csv.reader(file)
-        
+                
         data = []
 
         # only appends rows below the headers

@@ -1,37 +1,42 @@
 from ml_electricity.preprocessing.preprocessor import Preprocessor
-import os
-import pandas
+import pandas as pd
 import numpy as np
+from unittest.mock import MagicMock
 
-def test_that_we_can_get_data():
+def test_that_we_can_get_data(mocker, test_pandas_data):
     # Arrange
-    pandas_path = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__), "test_pandas.csv"))
-    
-    p = Preprocessor(pandas_data_path=pandas_path)
+    df = pd.DataFrame(test_pandas_data)
+    mocker.patch('ml_electricity.preprocessing.preprocessor.pandas.read_csv', return_value=df)
+
+    p = Preprocessor()
+
     # Act
     data = p.get_data()
 
     # Assert
-    assert type(data) == pandas.DataFrame
+    assert type(data) == pd.DataFrame
 
-def test_that_we_can_prune_data():
+def test_that_we_can_prune_data(mocker, test_data):
     # Arrange
-    data_path = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__), "test_data.csv"))
-    pandas_path = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__), "test_pandas.csv"))
-    
-    p = Preprocessor(data_path=data_path, pandas_data_path=pandas_path)
+    mocker.patch('ml_electricity.preprocessing.preprocessor.open', return_value=MagicMock())
+
+    mocker.patch('ml_electricity.preprocessing.preprocessor.csv.reader', return_value=test_data)
+
+    p = Preprocessor()
     # Act
     data = p.prune_data()
 
     # Assert
-    assert type(data) == pandas.DataFrame
+    assert type(data) == pd.DataFrame
 
 
-def test_pruned_data_contains_the_correct_headers():
+def test_pruned_data_contains_the_correct_headers(mocker, test_data):
     # Arrange
-    data_path = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__), "test_data.csv"))
-    pandas_path = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__), "test_pandas.csv"))
-    p = Preprocessor(data_path=data_path, pandas_data_path=pandas_path)
+    mocker.patch('ml_electricity.preprocessing.preprocessor.open', return_value=MagicMock())
+
+    mocker.patch('ml_electricity.preprocessing.preprocessor.csv.reader', return_value=test_data)
+ 
+    p = Preprocessor()
 
     expected_headers = np.array(['date', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24'])
     
@@ -56,11 +61,15 @@ def test_pruned_data_contains_the_correct_headers():
 
     assert has_correct_headers
 
-def test_pruned_data_has_correct_data_types():
+
+def test_pruned_data_has_correct_data_types(mocker, test_data):
     # Arrange
-    data_path = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__), "test_data.csv"))
-    pandas_path = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__), "test_pandas.csv"))
-    p = Preprocessor(data_path=data_path, pandas_data_path=pandas_path)
+
+    mocker.patch('ml_electricity.preprocessing.preprocessor.open', return_value=MagicMock())
+
+    mocker.patch('ml_electricity.preprocessing.preprocessor.csv.reader', return_value=test_data)
+
+    p = Preprocessor()
     
     has_correct_data_types = True
     
@@ -80,27 +89,28 @@ def test_pruned_data_has_correct_data_types():
 
     assert has_correct_data_types
 
-def test_we_can_reshape_data():
+def test_we_can_reshape_data(test_pandas_data):
     # Arrange
-    pandas_path = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__), "test_pandas.csv"))
-    
-    p = Preprocessor(pandas_data_path=pandas_path)
+    df = pd.DataFrame(test_pandas_data)
+
+    p = Preprocessor()
     # Act
-    data = p.reshape_Hour_on_day_prediction(p.get_data())
+    test_pandas_data = p.reshape_Hour_on_day_prediction(df)
     
     # Assert
-    assert type(data) == pandas.DataFrame
+    assert type(test_pandas_data) == pd.DataFrame
 
-def test_reshaped_data_has_the_correct_headers():
+def test_reshaped_data_has_the_correct_headers(test_pandas_data):
     # Arrange
-    pandas_path = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__), "test_pandas.csv"))
-    p = Preprocessor(pandas_data_path=pandas_path)
+    df = pd.DataFrame(test_pandas_data)
+
+    p = Preprocessor()
 
     expected_headers = np.array(['date', 'hour', 'price'])
     
     has_correct_headers = True
     # Act
-    data = p.reshape_Hour_on_day_prediction(p.get_data())
+    data = p.reshape_Hour_on_day_prediction(df)
 
     actual_headers = data.columns.values
     # Assert
@@ -118,8 +128,6 @@ def test_reshaped_data_has_the_correct_headers():
         i += 1
 
     assert has_correct_headers
-
-
 
 # def test_():
 #     # Arrange
