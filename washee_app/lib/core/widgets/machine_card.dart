@@ -48,22 +48,34 @@ class MachineCard extends StatelessWidget {
               Spacer(),
               !machine.isAvailable
                   ? WashTimerOnCard(activeMachine: machine)
-                  : ElevatedButton(
-                      child: Text("Book now"),
-                      onPressed: () async {
-                        if (fakeUser.washCoupon > 0) {
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return InitiateWashDialog(machine: machine);
-                            },
-                          );
-                        }
-                      },
-                      style: ElevatedButton.styleFrom(
-                        primary: AppColors.deepGreen,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20.h),
+                  : Padding(
+                      padding: EdgeInsets.only(right: 38.w),
+                      child: Container(
+                        height: 90.h,
+                        width: 250.w,
+                        child: ElevatedButton(
+                          child: Text(
+                            "Book now",
+                            style: textStyle.copyWith(
+                                fontSize: textSize_30,
+                                fontWeight: FontWeight.w500),
+                          ),
+                          onPressed: () async {
+                            if (fakeUser.washCoupon > 0) {
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return InitiateWashDialog(machine: machine);
+                                },
+                              );
+                            }
+                          },
+                          style: ElevatedButton.styleFrom(
+                            primary: AppColors.deepGreen,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20.h),
+                            ),
+                          ),
                         ),
                       ),
                     ),

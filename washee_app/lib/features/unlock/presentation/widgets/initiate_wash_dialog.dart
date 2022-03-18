@@ -48,14 +48,14 @@ class _InitiateWashDialogState extends State<InitiateWashDialog> {
                     ),
                     Padding(
                       padding: EdgeInsets.only(
-                          top: 45.h, bottom: 24.h, left: 10.w, right: 10.w),
+                          top: 45.h, bottom: 14.h, left: 10.w, right: 10.w),
                       child: Container(
                         width: 760.w,
-                        height: 200.h,
+                        height: 170.h,
                         child: Text(
                           "Vil du låse ${widget.machine.name} op? Det vil koste dig ét klip",
                           style: textStyle.copyWith(
-                            fontSize: textSize_40,
+                            fontSize: textSize_32,
                             fontWeight: FontWeight.w500,
                           ),
                           textAlign: TextAlign.center,
@@ -71,7 +71,7 @@ class _InitiateWashDialogState extends State<InitiateWashDialog> {
                             height: 84.h,
                             width: 254.w,
                             decoration: BoxDecoration(
-                              color: Colors.green[600],
+                              color: AppColors.deepGreen,
                               borderRadius: BorderRadius.circular(20.h),
                             ),
                             child: Center(

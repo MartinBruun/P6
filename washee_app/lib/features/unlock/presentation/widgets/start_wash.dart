@@ -1,25 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:washee/core/pages/home_screen.dart';
+import 'package:washee/core/providers/global_provider.dart';
 import 'package:washee/core/washee_box/machine_model.dart';
 
-import '../../../../core/errors/error_handler.dart';
-import '../../../../core/errors/http_error_prompt.dart';
 import '../../../../core/presentation/themes/colors.dart';
 import '../../../../core/presentation/themes/dimens.dart';
 import '../../../../core/presentation/themes/themes.dart';
-import '../../../../injection_container.dart';
-import '../../domain/usecases/unlock.dart';
+import '../pages/wash_screen.dart';
 import '../provider/unlock_provider.dart';
 
 class StartWash extends StatelessWidget {
-  final MachineModel machine;
+  MachineModel machine;
 
   StartWash({required this.machine});
 
   @override
   Widget build(BuildContext context) {
-    var unlockProvier = Provider.of<UnlockProvider>(context, listen: false);
     return Container(
       decoration: BoxDecoration(
         color: AppColors.dialogLightGray,
@@ -62,13 +60,12 @@ class StartWash extends StatelessWidget {
                   height: 84.h,
                   width: 254.w,
                   decoration: BoxDecoration(
-                    color: Colors.green[600],
+                    color: AppColors.deepGreen,
                     borderRadius: BorderRadius.circular(20.h),
                   ),
                   child: Center(
                     child: InkWell(
                       onTap: () async {
-                        unlockProvier.hasInitiatedWash = true;
                         // try {
                         //   // var status = await sl<UnlockUseCase>().call(
                         //   //     UnlockParams(
@@ -96,6 +93,21 @@ class StartWash extends StatelessWidget {
                         //     },
                         //   );
                         // }
+                        var provider =
+                            Provider.of<GlobalProvider>(context, listen: false);
+                        var machineToStart = provider.machines
+                            .where((element) => element.name == machine.name)
+                            .first;
+                        provider.machines.removeWhere(
+                            (element) => element.name == machine.name);
+                        machineToStart.startTime = DateTime.now();
+                        machineToStart.endTime = machineToStart.startTime!
+                            .add(Duration(hours: 5, minutes: 30));
+                        provider.machines.add(machineToStart);
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => HomeScreen()));
                       },
                       child: Text(
                         'Start',

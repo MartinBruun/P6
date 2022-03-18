@@ -7,8 +7,8 @@ class GlobalProvider extends ChangeNotifier {
         machineID: "123",
         name: "VaskemaskineUNO",
         machineType: "laundry",
-        startTime: DateTime(2022, 03, 18, 12, 0, 0),
-        endTime: DateTime(2022, 03, 18, 12, 0, 0).add(Duration(hours: 1))),
+        startTime: DateTime(2022, 03, 18, 09, 0, 0),
+        endTime: DateTime(2022, 03, 18, 09, 0, 0).add(Duration(hours: 1))),
     MachineModel(
         machineID: "1234",
         name: "VaskemaskineDOS",

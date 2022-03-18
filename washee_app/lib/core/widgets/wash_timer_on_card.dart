@@ -53,7 +53,7 @@ class _WashTimerOnCardState extends State<WashTimerOnCard>
         height: 84.h,
         width: 254.w,
         decoration: BoxDecoration(
-          color: Colors.green[600],
+          color: Colors.red[600],
           borderRadius: BorderRadius.circular(20.h),
         ),
         child: Center(
