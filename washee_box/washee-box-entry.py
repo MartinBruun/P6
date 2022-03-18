@@ -53,13 +53,13 @@ def getMachinesInfo():
 
 
 ##Receives a json {user:xxx, machine:{xxxxxxxxxxx} }##
-@app.route('/unlock', methods=['GET', 'POST'])
+@app.route('/unlock', methods=['GET','POST'])
 def unlock():
     data = request.get_json()
     # if not data:
     #     return json.dumps("The url was called with no arguments")
     # machine = json.loads(data)
-    
+   
     id = data.get("machineID")
     name = data.get("name")
     machineType = data.get("machineType")
@@ -137,14 +137,11 @@ def reset():
 
 for i in range(1,28) :
     print("reset pin:" + str(i))
-    # LED(i).close()
-    # sleep(1)
+  
     led = LED(i)
     led.close()
     sleep(0.05)
-    # LED(i).off()
-    # sleep(1)
-    # LED(i).close()
+    
 
 
 
@@ -287,7 +284,7 @@ def writeToLog(user, machine, message):
     machine["endTime"] = str(machine["endTime"])
 
     with open("data_models/log.txt", "a+") as f:
-        string = f'{str(timestamp)};{user};{machine}; {message}' + "\n"
+        string = f'{str(timestamp)};{user};{machine["machineID"]};{machine["machineType"]};{machine}; {message}' + "\n"
         f.write(string)
 
 
