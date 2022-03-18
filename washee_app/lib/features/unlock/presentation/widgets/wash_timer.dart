@@ -25,6 +25,7 @@ class _WashTimerState extends State<WashTimer> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
+    // mocking the start and end times for now
     widget.activeMachine.startTime = DateTime.now();
     widget.activeMachine.endTime =
         widget.activeMachine.startTime!.add(Duration(hours: 2, minutes: 30));

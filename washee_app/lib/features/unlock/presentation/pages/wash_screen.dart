@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
-import 'package:washee/core/widgets/unlock_button.dart';
 
 import '../widgets/machine_overview.dart';
 

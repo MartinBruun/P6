@@ -7,7 +7,7 @@ import 'package:washee/core/washee_box/machine_model.dart';
 import '../errors/failures.dart';
 
 abstract class BoxCommunicator {
-  Future<List<MachineModel>> getMachines();
+  Future<Response> getMachines();
   Future<Response> lockOrUnlock(
       String command, MachineModel machine, Duration duration);
   String get lockURL;
@@ -73,10 +73,10 @@ class BoxCommunicatorImpl implements BoxCommunicator {
   String get unlockURL => 'http://washeebox.local/unlock';
 
   @override
-  Future<List<MachineModel>> getMachines() async {
+  Future<Response> getMachines() async {
     Response response;
 
-    response = await dio.post(getMachinesURL);
+    response = await dio.get(getMachinesURL);
     if (response.statusCode == 200) {
       if (response.data != null) {
         return response.data['machines'];
@@ -86,9 +86,9 @@ class BoxCommunicatorImpl implements BoxCommunicator {
           response.statusCode.toString() +
           " " +
           response.data['response']);
-      return [];
+      return response;
     }
-    return List.empty();
+    return response;
   }
 
   @override

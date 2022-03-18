@@ -40,11 +40,13 @@ class MachineModel extends Machine {
 
   factory MachineModel.fromJson(Map<String, dynamic> json) {
     return MachineModel(
-        machineID: json['machineID'],
-        name: json['name'],
-        machineType: json['machineType'],
-        startTime: DateTime.parse(json['startTime']),
-        endTime: DateTime.parse(json['endTime']));
+      machineID: json['machineID'],
+      name: json['name'],
+      machineType: json['machineType'],
+      startTime:
+          json['startTime'] != null ? DateTime.parse(json['startTime']) : null,
+      endTime: json['endTime'] != null ? DateTime.parse(json['endTime']) : null,
+    );
   }
 
   bool get isAvailable {

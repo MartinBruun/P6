@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:washee/core/pages/home_screen.dart';
+import 'package:washee/core/providers/global_provider.dart';
 import 'package:washee/features/unlock/presentation/provider/unlock_provider.dart';
 import 'injection_container.dart' as ic;
 import 'core/presentation/themes/themes.dart';
@@ -18,6 +19,7 @@ class WasheeApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (ctx) => UnlockProvider()),
+        ChangeNotifierProvider(create: (ctx) => GlobalProvider()),
       ],
       child: ScreenUtilInit(
         designSize: Size(1000, 1600),
