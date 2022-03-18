@@ -26,9 +26,11 @@ class _WashTimerOnCardState extends State<WashTimerOnCard>
   @override
   void initState() {
     super.initState();
-    Duration calculatedDuration = widget.activeMachine.endTime!
-        .difference(widget.activeMachine.startTime!)
-        .abs();
+    Duration? calculatedDuration;
+    if (!widget.activeMachine.isAvailable) {
+      calculatedDuration =
+          widget.activeMachine.endTime!.difference(DateTime.now()).abs();
+    }
 
     controller = AnimationController(vsync: this, duration: calculatedDuration);
 
