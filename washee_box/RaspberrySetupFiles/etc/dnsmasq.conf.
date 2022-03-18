@@ -1,8 +1,0 @@
-#listening interface
-interface=wlan0 
-#Pool of IP addresses served via DHCP
-dhcp-range=10.10.88.20,10.10.88.30,255.255.255.0,24h 
-#Local wireless DNS domain
-domain=wlan
-#Alias for the router
-address=/washee_box/10.10.88.1
