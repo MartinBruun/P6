@@ -1,6 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:washee/core/errors/failures.dart';
-import 'package:washee/core/errors/http_error_prompt.dart';
 import 'package:washee/core/network/network_info.dart';
 import 'package:washee/core/washee_box/machine_model.dart';
 import 'package:washee/features/unlock/domain/repositories/unlock_repository.dart';

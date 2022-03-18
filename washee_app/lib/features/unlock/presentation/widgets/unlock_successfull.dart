@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:washee/core/washee_box/machine_model.dart';
 import 'package:washee/features/unlock/presentation/widgets/start_wash.dart';
 
