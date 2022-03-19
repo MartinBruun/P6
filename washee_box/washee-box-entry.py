@@ -17,6 +17,7 @@ app = Flask(__name__)
 
 machine_name = ['l1', 'l2', 't1', 't2']
 
+
 #format of a machine:
 
 #     {
@@ -30,7 +31,7 @@ machine_name = ['l1', 'l2', 't1', 't2']
 
 
 @app.route('/')
-def menu():
+def menuEndPoint():
     machine_name_on_string = ""
     for machineName in machine_name:
         json_machine = {"id":machine_name}
@@ -46,15 +47,17 @@ def menu():
 
 
 @app.route('/getMachinesInfo')
-def getMachinesInfo():
-    with open("data_models/machineList.json", "r") as file:
-        mList = json.loads(file.read())
-    return mList 
+def getMachinesInfoEndPoint():
 
+    # with open("data_models/machineList.json", "r") as file:
+    #     mList = json.loads(file.read())
+    # return mList 
+
+    return getMachinesInfo()
 
 ##Receives a json {user:xxx, machine:{xxxxxxxxxxx} }##
 @app.route('/unlock', methods=['GET','POST'])
-def unlock():
+def unlockEndPoint():
     data = request.get_json()
     # if not data:
     #     return json.dumps("The url was called with no arguments")
@@ -91,7 +94,7 @@ def unlock():
 
 
 @app.route('/lock', methods=['GET', 'POST'])
-def lock():
+def lockEndPoint():
     machineJson = request.get_json()
     id = machineJson["machineID"]
     machineJson["pin"] = getPin(id)
@@ -102,27 +105,24 @@ def lock():
     return "<a href='/'> Machine id has been locked </a>"
 
 @app.route('/test', methods=['GET', 'POST'])
-def test():
+def testEndPoint():
     testRelay(2)
     return "<a href='/'> relay test performed </a>"
 
     
 
 @app.route('/allon', methods=['GET', 'POST'])
-def allPinsOn():
+def allPinsOnEndPoint():
     allOn()
     return "<a href='/'> all on relay test performed </a>"
 
 
 @app.route('/resetpins', methods=['GET', 'POST'])
-def reset():
+def resetEndPoint():
     resetAllPins()
     return "<a href='/'>all reset relay test performed </a>"
 
 
-    
-
-    return "<a href='/'> Test has been called </a>"
 
 
 # @app.route('/scheduleBooking', methods=['GET', 'POST'])
@@ -168,8 +168,8 @@ def unlockMachine(machine, duration,user = "user??"):
         "hh:mm")
     writeToLog(user , machine, logmessage)
 
+    
     timeLeft = min(120,duration)
-
     relayport = LED(machine["pin"]) #power on relay
     while timeLeft > 0:
         print(timeLeft)
@@ -188,11 +188,15 @@ def scheduleUnLocking(id, starttime):
     raise Exception("not implemented")
 
 
-def _getMachinesInfo():
+def getMachinesInfo():
     with open("data_models/machineList.json", "r") as file:
         machines = json.loads(file.read())
 
     return machines
+
+def updateMachineList(machine):
+    raise Exception("not implemented")
+
 
 
 
@@ -283,7 +287,7 @@ def writeToLog(user, machine, message):
     machine["startTime"] = str(machine["startTime"])
     machine["endTime"] = str(machine["endTime"])
 
-    with open("data_models/log.txt", "a+") as f:
+    with open("data_collection/log.txt", "a+") as f:
         string = f'{str(timestamp)};{user};{machine["machineID"]};{machine["machineType"]};{machine}; {message}' + "\n"
         f.write(string)
 
