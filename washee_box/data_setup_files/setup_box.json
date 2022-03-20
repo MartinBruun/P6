@@ -1,7 +1,7 @@
 {  "hostname":"washeebox",
 
-    "MAX_WASHINGTIME_IN_SEC":9000,
-    
+    "MAX_WASHINGTIME_IN_SEC":10,
+
     "machines":[
     {
          "machinetype": "laundrymachine", 

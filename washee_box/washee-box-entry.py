@@ -78,17 +78,12 @@ def unlockEndPoint():
     machine["pin"]=pin
     pprint(machine)
 
-    #TODO: maybe we need to send the unlock timer to a thread in order to be able to activate other machines while this one is running
-    # # unlockMachine(machine, 120)
-    # # e = threading.Event()
-    # # t = threading.Thread(name="non-block", target=unlockMachine,args=(e,machine,120))
-    # # t.start()
-    
-    success = unlockMachine(machine, duration)  # maybe leaveout duration
-    if success :
-        return "<a href='/'> Machine has been unlocked and scheduled to lock at "+ str(machine["endTime"]) + " </a>"
-    else :
-        return "<a href='/'> Machine cold not be unlocked </a>"
+    t = threading.Thread(name="powering_machine", target=unlockMachineInThread, args=(machine,duration))
+    t.start()
+   
+    return "<a href='/'> Machine has been unlocked and scheduled to lock at "+ str(machine["endTime"]) + " </a>"
+    # else :
+    #     return "<a href='/'> Machine cold not be unlocked </a>"
 
 
 
@@ -168,6 +163,10 @@ def lockMachine(machine):
         # pin = getPin(machine["id"])
         LED(machine["pin"]).close()
 
+def unlockMachineInThread(*arg):
+        unlockMachine(arg[0],arg[1])
+   
+
 def unlockMachine(machine, duration,user = "user??", account = "account??"):
     now = datetime.now()
 
@@ -179,11 +178,12 @@ def unlockMachine(machine, duration,user = "user??", account = "account??"):
         "hh:mm")
     writeToLog(account, user , machine, logmessage)
 
-    
-    timeLeft = min(MAX_WASHINGTIME_IN_SEC, duration)
+    #TODO: this should be optimized so that the max_wash_time value is fetched when this file is loaded
+    max_wash_time = getWashTimeLimit()
+    timeLeft = min(max_wash_time, duration)
     relayport = LED(machine["pin"]) #power on relay
     while timeLeft > 0:
-        print(timeLeft)
+        print(machine["machineID"],  timeLeft)
         sleep(1)
         timeLeft -= 1
     relayport.close() #make relay available for other functioncalls
@@ -211,11 +211,22 @@ def scheduleUnLocking(id, starttime):
 
 
 def getMachinesInfo():
-    with open("data_models/machineList.json", "r") as file:
+    with open("data_setup_files/machine_list.json", "r") as file:
         machines = json.loads(file.read())
-        machines["date_now"]=datetime.now()
+        machines["last_fetched"]=datetime.now()
 
     return machines
+
+def getUserssInfo():
+     with open("data_setup_files/allowed_users.json", "r") as file:
+        users = json.loads(file.read())
+        users["last_fetched"]=datetime.now()
+
+def getWashTimeLimit():
+     with open("data_setup_files/max_washing_time.json", "r") as file:
+        max_wash_time_json = json.loads(file.read())
+        return max_wash_time_json["MAX_WASHINGTIME_IN_SEC"]
+
 
 def getLogFile():
     with open("data_collection/log.txt", "r") as file:
