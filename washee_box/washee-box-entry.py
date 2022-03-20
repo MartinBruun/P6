@@ -16,7 +16,9 @@ machinefactory = PiGPIOFactory(host='192.168.88.32')
 app = Flask(__name__)
 
 machine_name = ['l1', 'l2', 't1', 't2']
-
+machine_list = []
+user_list = []
+MAX_WASHINGTIME_IN_SEC = 9000 #2timer og 30 min
 
 #format of a machine:
 
@@ -48,11 +50,6 @@ def menuEndPoint():
 
 @app.route('/getMachinesInfo')
 def getMachinesInfoEndPoint():
-
-    # with open("data_models/machineList.json", "r") as file:
-    #     mList = json.loads(file.read())
-    # return mList 
-
     return getMachinesInfo()
 
 ##Receives a json {user:xxx, machine:{xxxxxxxxxxx} }##
@@ -75,7 +72,7 @@ def unlockEndPoint():
     startTime = data["startTime"]
     endTime = data["endTime"]
 
-    duration = int((endTime-startTime).total_seconds())
+    duration = int((endTime-datetime.now()).total_seconds())
     pin = getPin(id)
     machine = data
     machine["pin"]=pin
@@ -87,9 +84,11 @@ def unlockEndPoint():
     # # t = threading.Thread(name="non-block", target=unlockMachine,args=(e,machine,120))
     # # t.start()
     
-    unlockMachine(machine, duration)  # maybe leaveout duration
-
-    return "<a href='/'> Machine has been unlocked and scheduled to lock in </a>"
+    success = unlockMachine(machine, duration)  # maybe leaveout duration
+    if success :
+        return "<a href='/'> Machine has been unlocked and scheduled to lock at "+ str(machine["endTime"]) + " </a>"
+    else :
+        return "<a href='/'> Machine cold not be unlocked </a>"
 
 
 
@@ -104,11 +103,10 @@ def lockEndPoint():
 
     return "<a href='/'> Machine id has been locked </a>"
 
-@app.route('/test', methods=['GET', 'POST'])
-def testEndPoint():
-    testRelay(2)
-    return "<a href='/'> relay test performed </a>"
-
+@app.route('/getlog', methods=['GET', 'POST'])
+def getLogEndPoint():
+    
+    return getLogFile()
     
 
 @app.route('/allon', methods=['GET', 'POST'])
@@ -135,6 +133,8 @@ def resetEndPoint():
 #     scheduleLocking(id, endtime)
 #     return "<a href='/'> Machine has been unlocked </a>"
 
+
+#### Reset All pins when restarting ###
 for i in range(1,28) :
     print("reset pin:" + str(i))
   
@@ -155,6 +155,9 @@ if __name__ == "__main__":
     # app.run(debug=True, port=5000, host='0.0.0.0')
 
 
+
+
+
 ###################################
 #flyt til anden fil
 
@@ -162,20 +165,36 @@ def lockMachine(machine):
         # pin = getPin(machine["id"])
         LED(machine["pin"]).close()
 
-def unlockMachine(machine, duration,user = "user??"):
+def unlockMachine(machine, duration,user = "user??", account = "account??"):
+    now = datetime.now()
 
-    logmessage = "startTime:"+str(machine["startTime"])+ " ; endTime:" + str(machine["endTime"])  +"; duration:" +str(duration).format(
+
+    #update machine so that users get notified of the changed machine status when fetching the machine list
+    #the update should write to the machinelist file
+    machine["startTime"] = now
+    logmessage = "startTime:"+str(now)+ " ; endTime:" + str(machine["endTime"])  +"; duration:" +str(duration).format(
         "hh:mm")
-    writeToLog(user , machine, logmessage)
+    writeToLog(account, user , machine, logmessage)
 
     
-    timeLeft = min(120,duration)
+    timeLeft = min(MAX_WASHINGTIME_IN_SEC, duration)
     relayport = LED(machine["pin"]) #power on relay
     while timeLeft > 0:
         print(timeLeft)
         sleep(1)
         timeLeft -= 1
     relayport.close() #make relay available for other functioncalls
+    
+    #update machine so that users get notified of the changed machine status when fetching the machine list
+    #the update should write to the machinelist file
+    machine["endTime"] = datetime.now()
+    logmessage = "machine turned off ; endTime:" + str(machine["endTime"])
+    writeToLog(account, user , machine, logmessage)
+
+    if duration > 0 :
+        return True
+    else :
+        return False
 
 
 def scheduleLocking(id, endtime):
@@ -191,15 +210,24 @@ def scheduleUnLocking(id, starttime):
 def getMachinesInfo():
     with open("data_models/machineList.json", "r") as file:
         machines = json.loads(file.read())
+        machines["date_now"]=datetime.now()
 
     return machines
 
-def updateMachineList(machine):
-    raise Exception("not implemented")
+def getLogFile():
+    with open("data_collection/log.txt", "r") as file:
+        logFile = file.read()
+
+    return logFile
+
+
+       
+
+    
 
 
 
-
+## hardware
 
 def testRelay(duration):
     from gpiozero import LED
@@ -282,17 +310,18 @@ def allOn():
 # private methods
 
 
-def writeToLog(user, machine, message):
+def writeToLog(account,user, machine, message):
     timestamp = datetime.now()
     machine["startTime"] = str(machine["startTime"])
     machine["endTime"] = str(machine["endTime"])
 
     with open("data_collection/log.txt", "a+") as f:
-        string = f'{str(timestamp)};{user};{machine["machineID"]};{machine["machineType"]};{machine}; {message}' + "\n"
+        string = f'{str(timestamp)};{account};{user};{machine["machineID"]};{machine["machineType"]};{machine}; {message}' + "\n"
         f.write(string)
 
 
 def getPin(machineID):
+
     pin = 21
     if machineID == "l1":
         pin = 17
@@ -308,6 +337,34 @@ def getPin(machineID):
 
     return pin
 
+def factory_setup(user=None,password=None):
+    if (allowedUser(user,password)):
+        with open("data_setup_files/machine_list.json", "r") as setup_data:
+            newMachineList(user,password, setup_data["machines"])
+            newUserList(user,password,setup_data["users"])
+            newWashTimeLimit(user,password,setup_data["MAX_WASHINGTIME_IN_SEC"])
+    
 
+def newMachineList(user,password,machines):
+
+    if allowedUser(user,password):
+        with open("data_setup_files/machine_list.json", "w") as file:
+            machines["setup_date"]=datetime.now()
+            file.write(machines) 
+
+def newUserList(user,password,users):
+    if allowedUser(user,password):
+        with open("data_setup_files/allowed_users.json", "w") as file:
+            users["setup_date"]=datetime.now()
+            file.write(users) 
+
+def newWashTimeLimit(user,password,timelimit_json):
+    if allowedUser(user,password):
+        with open("data_setup_files/max_washing_time.json", "w") as file:
+            # users["setup_date"]=datetime.now()
+            file.write(timelimit_json) 
+
+def allowedUser(user,password):
+    return True
 
 
