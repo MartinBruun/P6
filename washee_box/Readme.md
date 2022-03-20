@@ -21,7 +21,7 @@ the washee-box is 10.10.80.1
 
 eth0 gets a dynamic DHCP address
 
-When flask has been started it is availlable on <eth0 IP>:5000, or wifi 10.10.80.1:5000, or washeebox.local:5000
+When flask has been started it is availlable on <eth0 IP>:8001, or wifi 10.10.80.1:8001, or washeebox.local:8001
 the availlable endpoints can be seen in washee-box-entry.py
 
 To use the washee-box as standalone accesspoint, is not advised for now, it floods the eth0 with DHCP.
@@ -49,6 +49,16 @@ sudo /home/pi/code/P6/washee_box/start-box.sh  (it it will not run you need to `
 
 ##Stop flask: ```sudo kill $(pgrep -f flask)```
 
+
+
+
+
+
+
+
+
+##########
+this needs cleaning!!!!!
 
 
 

@@ -160,8 +160,8 @@ if __name__ == "__main__":
 #flyt til anden fil
 
 def lockMachine(machine):
-        # pin = getPin(machine["id"])
         LED(machine["pin"]).close()
+
 
 def unlockMachineInThread(*arg):
         unlockMachine(arg[0],arg[1])
