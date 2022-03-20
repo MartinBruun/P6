@@ -120,7 +120,10 @@ def resetEndPoint():
     resetAllPins()
     return "<a href='/'>all reset relay test performed </a>"
 
-
+@app.route('/factoryreset', methods=['GET', 'POST'])
+def reset():
+    reset_factory_setup()
+    return"<a href='/'>factory reset performed </a>"
 
 
 # @app.route('/scheduleBooking', methods=['GET', 'POST'])
@@ -337,9 +340,11 @@ def getPin(machineID):
 
     return pin
 
-def factory_setup(user=None,password=None):
+def reset_factory_setup(user=None,password=None):
     if (allowedUser(user,password)):
-        with open("data_setup_files/machine_list.json", "r") as setup_data:
+        print("DONE")
+        with open("data_setup_files/setup_box.json", "r") as file:
+            setup_data = json.loads(file.read())
             newMachineList(user,password, setup_data["machines"])
             newUserList(user,password,setup_data["users"])
             newWashTimeLimit(user,password,setup_data["MAX_WASHINGTIME_IN_SEC"])
@@ -349,20 +354,43 @@ def newMachineList(user,password,machines):
 
     if allowedUser(user,password):
         with open("data_setup_files/machine_list.json", "w") as file:
-            machines["setup_date"]=datetime.now()
-            file.write(machines) 
+            # machines["setup_date"]=str(datetime.now())
+            now = str(datetime.now())
+            data = {
+                "last-edited":now,
+                "machines":machines
+            }
+
+            json.dump(data, file)
+            print(data)
+        
 
 def newUserList(user,password,users):
     if allowedUser(user,password):
         with open("data_setup_files/allowed_users.json", "w") as file:
-            users["setup_date"]=datetime.now()
-            file.write(users) 
+            # users["setup_date"]=datetime.now()
+            now = str(datetime.now())
+            data = {
+                "last-edited":now,
+                "users":users
+            }
+
+            json.dump(data, file)
+            print(data)
+
 
 def newWashTimeLimit(user,password,timelimit_json):
     if allowedUser(user,password):
         with open("data_setup_files/max_washing_time.json", "w") as file:
             # users["setup_date"]=datetime.now()
-            file.write(timelimit_json) 
+            now = str(datetime.now())
+            data = {
+                "last-edited":now,
+                "MAX_WASHINGTIME_IN_SEC":timelimit_json
+            }
+
+            json.dump(data, file)
+            print(data)
 
 def allowedUser(user,password):
     return True
