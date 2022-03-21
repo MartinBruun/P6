@@ -6,3 +6,9 @@ class Machine:
         self.machineType = machineType
         self.startTime = startTime
         self.endTime = endTime
+    
+    def lock(self):
+        return
+    
+    def unlock(self):
+        return
