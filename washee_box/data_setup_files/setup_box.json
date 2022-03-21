@@ -1,0 +1,65 @@
+{  "hostname":"washeebox",
+
+    "MAX_WASHINGTIME_IN_SEC":10,
+
+    "machines":[
+    {
+         "machinetype": "laundrymachine", 
+         "id": "l1",
+         "name":"vaskemaskine 1",
+         "startTime": "nil", 
+         "endTime": "nil",
+         "pin":17
+    },
+    {
+         "machinetype": "laundrymachine", 
+         "id": "l2",
+         "name":"vaskemaskine 2",
+         "startTime": "2022-03-07T08:15:26",
+         "endTime": "2022-03-07T10:15:26",
+         "pin":27
+    },
+    {
+         "machinetype": "dryermachine", 
+         "id": "t1",
+         "name":"tørretumbler 1",
+         "startTime": "2022-03-07T08:15:26",
+         "endTime": "2022-03-07T10:15:26",
+         "pin":23
+    },
+    {
+        "machinetype": "dryermachine", 
+        "id": "t2",
+        "name":"tørretumbler 2",
+        "startTime": "2022-03-07T08:15:26",
+        "endTime": "2022-03-07T10:15:26",
+        "pin":12
+   }
+    ],
+   
+
+
+    "users": [
+        {
+            "userID":"HansOgGrethe"
+        },
+        {
+            "userID":"Morten"
+        },
+        {
+            "userID":"Martin"
+        },
+        {
+            "userID":"Marco"
+        },
+        {
+            "userID":"Rasmus"
+        },
+        {
+            "userID":"Jakob"
+        }
+    ]
+
+
+    
+}
