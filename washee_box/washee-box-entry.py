@@ -133,12 +133,12 @@ def reset():
 
 
 #### Reset All pins when restarting ###
-for i in range(1,28) :
-    print("reset pin:" + str(i))
+# for i in range(1,28) :
+#     print("reset pin:" + str(i))
   
-    led = LED(i)
-    led.close()
-    sleep(0.05)
+#     led = LED(i)
+#     led.close()
+#     sleep(0.05)
     
 
 
