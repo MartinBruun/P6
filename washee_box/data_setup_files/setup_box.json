@@ -1,6 +1,6 @@
 {  "hostname":"washeebox",
 
-    "MAX_WASHINGTIME_IN_SEC":10,
+    "MAX_WASHINGTIME_IN_SEC":9000,
 
     "machines":[
     {
