@@ -4,7 +4,7 @@ import os
 from flask import Flask, request
 
 from gpiozero import LED
-from gpiozero.pins.pigpio import PiGPIOFactory
+# from gpiozero.pins.pigpio import PiGPIOFactory
 from time import sleep
 import dateutil.parser
 import threading
@@ -12,7 +12,7 @@ from pprint import pprint
 
 # import data_models
 # from use_cases.boxFunctionality import unlockMachine
-machinefactory = PiGPIOFactory(host='192.168.88.32')
+# machinefactory = PiGPIOFactory(host='192.168.88.32')
 app = Flask(__name__)
 
 machine_name = ['l1', 'l2', 't1', 't2']
