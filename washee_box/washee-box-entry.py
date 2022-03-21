@@ -81,7 +81,7 @@ def unlockEndPoint():
     t = threading.Thread(name="powering_machine", target=unlockMachineInThread, args=(machine,duration))
     t.start()
    
-    return "<a href='/'> Machine has been unlocked and scheduled to lock at "+ str(machine["endTime"]) + " </a>"
+    return machine
     # else :
     #     return "<a href='/'> Machine cold not be unlocked </a>"
 
