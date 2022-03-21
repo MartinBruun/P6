@@ -1,12 +1,12 @@
-
+from data_models.Machine import Machine
 
 def test_washing_machine_can_be_initialized():
-    machine = WashingMachine()
+    machine = Machine()
     assert True
     
 def test_machine_can_be_unlocked():
     # Mock the locking mechanism
-    machine = WashingMachine()
+    machine = Machine()
     
     machine.unlock()
     
@@ -15,7 +15,7 @@ def test_machine_can_be_unlocked():
     
 def test_machine_can_be_locked():
     # Mock the locking mechanism
-    machine = WashingMachine()
+    machine = Machine()
     
     machine.lock()
     
