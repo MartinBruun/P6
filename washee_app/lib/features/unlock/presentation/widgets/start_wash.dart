@@ -100,7 +100,7 @@ class StartWash extends StatelessWidget {
                             (element) => element.name == machine.name);
                         machineToStart.startTime = DateTime.now();
                         machineToStart.endTime = machineToStart.startTime!
-                            .add(Duration(hours: 5, minutes: 30));
+                            .add(Duration(hours: 7, minutes: 30));
                         provider.machines.add(machineToStart);
                         Navigator.pushReplacement(
                             context,
