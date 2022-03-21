@@ -1,3 +1,7 @@
+import 'dart:convert';
+import 'dart:io';
+import 'package:flutter/services.dart' as rootBundle;
+
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -14,6 +18,11 @@ class MachineOverview extends StatefulWidget {
 class _MachineOverviewState extends State<MachineOverview> {
   bool _isConnecting = false;
 
+  Future<String> loadAsset() async {
+    return await rootBundle.rootBundle
+        .loadString("assets/data/machine_list.json");
+  }
+
   @override
   void initState() {
     SchedulerBinding.instance?.addPostFrameCallback((_) async {
@@ -21,8 +30,15 @@ class _MachineOverviewState extends State<MachineOverview> {
         _isConnecting = true;
       });
       await Future.delayed(Duration(seconds: 3));
-      //This is the usecase to be called on every initstate fetching from backend
-      // await sl<GetMachinesUseCase>().call(NoParams()));
+      var provider = Provider.of<GlobalProvider>(context, listen: false);
+      if (!provider.fetchedMachines) {
+        var string = await loadAsset();
+        var stringAsJson = json.decode(string);
+        provider.constructMachineList(stringAsJson);
+        //This is the usecase to be called on every initstate fetching from backend
+        // await sl<GetMachinesUseCase>().call(NoParams()));
+        provider.fetchedMachines = true;
+      }
 
       // should be provider
       setState(() {

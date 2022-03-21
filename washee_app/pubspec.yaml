@@ -62,6 +62,7 @@ flutter:
 
   assets:
     - assets/images/
+    - assets/data/machine_list.json
 
   fonts:
     - family: Poppins

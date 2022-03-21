@@ -65,19 +65,18 @@ class StartWash extends StatelessWidget {
                     child: InkWell(
                       onTap: () async {
                         // try {
-                        //   // var status = await sl<UnlockUseCase>().call(
+                        //   // var fetchedMachine = await sl<UnlockUseCase>().call(
                         //   //     UnlockParams(
                         //   //         machine: machine,
                         //   //         duration: Duration(hours: 2, minutes: 30)));
-                        //   if (status == null) {
+                        //   if (fetchedMachine == null) {
                         //     ErrorHandler.errorHandlerView(
                         //         context: context,
                         //         prompt: HTTPErrorPrompt(
                         //             message:
                         //                 "Det ser ud til, at du ikke har forbindelse til WasheeBox"));
                         //   } else {
-                        //     // unlockProvier.activeMachine =
-                        //     //     MachineModel.fromJson(status.data);
+                        //
 
                         //     unlockProvier.hasInitiatedWash = true;
                         //   }
