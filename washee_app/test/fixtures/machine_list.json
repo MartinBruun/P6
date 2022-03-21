@@ -1,14 +1,14 @@
 {
-    "last-edited": "2022-03-21 09:30:13.853096",
-    "last_fetched": "Mon, 21 Mar 2022 09:30:46 GMT",
+    "last-edited": "2022-03-21 09:31:55.194976",
+    "last_fetched": "Mon, 21 Mar 2022 09:32:05 GMT",
     "machines": [
         {
-            "endTime": "Null",
+            "endTime": "null",
             "machineID": "l1",
             "machineType": "laundrymachine",
             "name": "vaskemaskine 1",
             "pin": 17,
-            "startTime": "Null"
+            "startTime": "null"
         },
         {
             "endTime": "2022-03-07T10:15:26",
