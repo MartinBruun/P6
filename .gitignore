@@ -291,7 +291,7 @@ washee_box/**/lib/**
 nordpool.json
 
 # This is a large datafile that gets created, and shouldnt be uploaded 
-washee_web/app/ml_electricity/nordpool_API/data.csv
+*.csv
 
 # These files have all the variables for the production environment
 .env.prod.db
