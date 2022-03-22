@@ -15,9 +15,9 @@ from pprint import pprint
 # machinefactory = PiGPIOFactory(host='192.168.88.32')
 app = Flask(__name__)
 
-machine_name = ['l1', 'l2', 't1', 't2']
-machine_list = []
-user_list = []
+# machine_name = ['l1', 'l2', 't1', 't2']
+# machine_list = []
+# user_list = []
 MAX_WASHINGTIME_IN_SEC = 9000 #2timer og 30 min
 
 #format of a machine:
@@ -34,16 +34,14 @@ MAX_WASHINGTIME_IN_SEC = 9000 #2timer og 30 min
 
 @app.route('/')
 def menuEndPoint():
+    machines = getMachinesInfo()
     machine_name_on_string = ""
-    for machineName in machine_name:
-        json_machine = {"id":machine_name}
-        machine_name_on_string = machine_name_on_string + \
-            "\n  <a href='/unlock'>" + machineName + "</a>"
+    for machine in machines["machines"]:
+        machine_name_on_string = machine_name_on_string + "\n  <p><a href='/unlock'>" + machine["name"] + " connected to pins "+ str(machine["pin_a"]) + "," + str(machine["pin_b"])  + "</a></p>"
 
     machine_name_off_string = ""
-    for machineName in machine_name:
-        machine_name_off_string = machine_name_off_string + \
-            "\n  <a href='/lock'>" + machineName + "</a>"
+    for machine in machines["machines"]:
+        machine_name_off_string = machine_name_off_string + "\n  <p><a href='/lock'>" + machine["name"] + " connected to pins "+ str(machine["pin_a"]) + "," + str(machine["pin_b"])+ "</a></p>"
 
     return "<p> booking kalender</p> \n <p>tænd strøm til maskine:" + machine_name_on_string + "</p>"+"<p>sluk strøm til maskine:" + machine_name_off_string + "</p>"+ "<p><a href='/resetpins'> reset pins</a></p>" + "<p><a href='/allon'> turn on all machines</a></p>"
 
@@ -75,7 +73,9 @@ def unlockEndPoint():
     duration = int((endTime-datetime.now()).total_seconds())
     pin = getPin(id)
     machine = data
-    machine["pin"]=pin
+    machine["pin_a"]=pin[0]
+    machine["pin_b"]=pin[1]
+
     pprint(machine)
 
     t = threading.Thread(name="powering_machine", target=unlockMachineInThread, args=(machine,duration))
@@ -91,7 +91,7 @@ def unlockEndPoint():
 def lockEndPoint():
     machineJson = request.get_json()
     id = machineJson["machineID"]
-    machineJson["pin"] = getPin(id)
+    machineJson["pin_a"] = getPin(id)
     # file = open(r'./use_cases/relay.py', 'r').read()
     # exec(file)
     lockMachine(machineJson)
@@ -181,12 +181,16 @@ def unlockMachine(machine, duration,user = "user??", account = "account??"):
     #TODO: this should be optimized so that the max_wash_time value is fetched when this file is loaded
     max_wash_time = getWashTimeLimit()
     timeLeft = min(max_wash_time, duration)
-    relayport = LED(machine["pin"]) #power on relay
+    relayport_a = LED(machine["pin_a"]) #power on relay
+    relayport_b = LED(machine["pin_b"]) #power on relay
+
     while timeLeft > 0:
         print(machine["machineID"],  timeLeft)
         sleep(1)
         timeLeft -= 1
-    relayport.close() #make relay available for other functioncalls
+    relayport_a.close() #make relay available for other functioncalls
+    relayport_b.close() #make relay available for other functioncalls
+
     
     #update machine so that users get notified of the changed machine status when fetching the machine list
     #the update should write to the machinelist file
@@ -218,14 +222,18 @@ def getMachinesInfo():
     return machines
 
 def getUserssInfo():
-     with open("data_setup_files/allowed_users.json", "r") as file:
+    with open("data_setup_files/allowed_users.json", "r") as file:
         users = json.loads(file.read())
         users["last_fetched"]=datetime.now()
+    
+    return users
 
 def getWashTimeLimit():
-     with open("data_setup_files/max_washing_time.json", "r") as file:
+    with open("data_setup_files/max_washing_time.json", "r") as file:
         max_wash_time_json = json.loads(file.read())
-        return max_wash_time_json["MAX_WASHINGTIME_IN_SEC"]
+    
+    return max_wash_time_json["MAX_WASHINGTIME_IN_SEC"]
+
 
 
 def getLogFile():
@@ -335,21 +343,12 @@ def writeToLog(account,user, machine, message):
 
 
 def getPin(machineID):
-
-    pin = 21
-    if machineID == "l1":
-        pin = 17
-
-    elif machineID == "l2":
-        pin = 27
-
-    elif machineID == "t1":
-        pin = 23
-
-    elif machineID == "t2":
-        pin = 12
-
-    return pin
+    machines = getMachinesInfo()
+    machines = machines["machines"]
+    for k in machines:
+        if k["machineID"] == machineID : 
+            return([k["pin_a"],k["pin_b"]])
+    
 
 def reset_factory_setup(user=None,password=None):
     if (allowedUser(user,password)):
