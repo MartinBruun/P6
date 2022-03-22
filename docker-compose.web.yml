@@ -8,6 +8,7 @@ services:
     command: gunicorn washee_web.wsgi:application --bind 0.0.0.0:8000
     volumes:
       - static_volume:/home/washee_web/web/staticfiles
+      - media_volume:/home/washee_web/web/mediafiles
     expose:
       - 8000
     env_file:
@@ -29,6 +30,7 @@ services:
     build: ./nginx
     volumes:
       - static_volume:/home/washee_web/web/staticfiles
+      - media_volume:/home/washee_web/web/mediafiles
     ports:
       - 7999:80
     depends_on:
@@ -37,3 +39,4 @@ services:
 volumes:
   postgres_data:
   static_volume:
+  media_volume:
