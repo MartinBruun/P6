@@ -2,10 +2,14 @@ version: '3.8'
 
 services:
   web:
-    build: ./washee_web
+    build:
+      context: ./washee_web
+      dockerfile: Dockerfile.prod
     command: gunicorn washee_web.wsgi:application --bind 0.0.0.0:8000
-    ports:
-      - 8000:8000
+    volumes:
+      - static_volume:/home/washee_web/web/staticfiles
+    expose:
+      - 8000
     env_file:
       - ./.env.prod.web
     depends_on:
@@ -13,11 +17,23 @@ services:
     links:
       - db:db
   db:
-    image: postgres:13.0-alpine
+    build: ./washee_db
+    restart: always
     volumes:
       - postgres_data:/var/lib/postgresql/data/
     env_file:
-      - ./.env.prod.db
+      - ./.env.dev
+    ports:
+      - 65432:5432
+  nginx:
+    build: ./nginx
+    volumes:
+      - static_volume:/home/washee_web/web/staticfiles
+    ports:
+      - 7999:80
+    depends_on:
+      - web
 
 volumes:
   postgres_data:
+  static_volume:
