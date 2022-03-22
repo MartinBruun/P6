@@ -50,10 +50,12 @@ Each app has its own seperate production ready docker-compose.NAME.yml file, whi
 To make a production ready server, create a `.env.prod.web` and a `.env.prod.db` file in the root directory.
 The configuration of these files are secret and outside version control, so ask someone who knows what it should be.
 
-To start the production server
+These commands are needed to start the server, update the database and collect the necessary static files
 `docker-compose -f docker-compose.web.yml up -d --build`
+`docker-compose -f docker-compose.web.yml exec web python manage.py migrate --noinput`
+`docker-compose -f docker-compose.web.yml exec web python manage.py collectstatic --no-input`
 
-To see the logs
+To see the logs if anything goes wrong
 `docker-compose -f docker-compose.web.yml logs -f`
 
 #### Mobile

@@ -298,3 +298,7 @@ nordpool.json
 .env.prod.box
 .env.prod.web
 .env.prod.app
+
+# These log files are ignored so as to not clutter their generation
+washee_box/exception_handling/exception_log.txt
+washee_web/washee_web/exception_log.txt
