@@ -8,7 +8,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../core/providers/global_provider.dart';
+import '../../../../core/usecases/usecase.dart';
 import '../../../../core/widgets/machine_card.dart';
+import '../../../../injection_container.dart';
+import '../../../get_machines/domain/usecases/get_machines.dart';
 
 class MachineOverview extends StatefulWidget {
   @override
@@ -32,11 +35,12 @@ class _MachineOverviewState extends State<MachineOverview> {
       await Future.delayed(Duration(seconds: 3));
       var provider = Provider.of<GlobalProvider>(context, listen: false);
       if (!provider.fetchedMachines) {
-        var string = await loadAsset();
-        var stringAsJson = json.decode(string);
-        provider.constructMachineList(stringAsJson);
+        // var string = await loadAsset();
+        // var stringAsJson = json.decode(string);
+        // provider.constructMachineList(stringAsJson);
         //This is the usecase to be called on every initstate fetching from backend
-        // await sl<GetMachinesUseCase>().call(NoParams()));
+        provider
+            .updateMachines(await sl<GetMachinesUseCase>().call(NoParams()));
         provider.fetchedMachines = true;
       }
 

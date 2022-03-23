@@ -13,6 +13,6 @@ class UnlockSuccessfull extends StatefulWidget {
 class _UnlockSuccessfullState extends State<UnlockSuccessfull> {
   @override
   Widget build(BuildContext context) {
-    return StartWash(machine: widget.machine);
+    return StartWash(currentMachine: widget.machine);
   }
 }

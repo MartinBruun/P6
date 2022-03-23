@@ -5,14 +5,20 @@ import 'package:washee/core/pages/home_screen.dart';
 import 'package:washee/core/providers/global_provider.dart';
 import 'package:washee/core/washee_box/machine_model.dart';
 
+import '../../../../core/errors/error_handler.dart';
+import '../../../../core/errors/http_error_prompt.dart';
 import '../../../../core/presentation/themes/colors.dart';
 import '../../../../core/presentation/themes/dimens.dart';
 import '../../../../core/presentation/themes/themes.dart';
+import '../../../../injection_container.dart';
+import '../../domain/usecases/unlock.dart';
 
 class StartWash extends StatelessWidget {
-  final MachineModel machine;
+  final MachineModel currentMachine;
 
-  StartWash({required this.machine});
+  StartWash({required this.currentMachine});
+
+  late MachineModel? fetchedMachine;
 
   @override
   Widget build(BuildContext context) {
@@ -64,43 +70,42 @@ class StartWash extends StatelessWidget {
                   child: Center(
                     child: InkWell(
                       onTap: () async {
-                        // try {
-                        //   // var fetchedMachine = await sl<UnlockUseCase>().call(
-                        //   //     UnlockParams(
-                        //   //         machine: machine,
-                        //   //         duration: Duration(hours: 2, minutes: 30)));
-                        //   if (fetchedMachine == null) {
-                        //     ErrorHandler.errorHandlerView(
-                        //         context: context,
-                        //         prompt: HTTPErrorPrompt(
-                        //             message:
-                        //                 "Det ser ud til, at du ikke har forbindelse til WasheeBox"));
-                        //   } else {
-                        //
-
-                        //     unlockProvier.hasInitiatedWash = true;
-                        //   }
-                        // } catch (e) {
-                        //   await showDialog(
-                        //     context: context,
-                        //     builder: (BuildContext context) {
-                        //       return HTTPErrorPrompt(
-                        //           message:
-                        //               "Noget gik galt da vi forsøgte at låse maskinen op! Prøv venligst igen");
-                        //     },
-                        //   );
-                        // }
+                        try {
+                          fetchedMachine = await sl<UnlockUseCase>().call(
+                              UnlockParams(
+                                  machine: currentMachine,
+                                  duration: Duration(hours: 2, minutes: 30)));
+                          if (fetchedMachine == null) {
+                            ErrorHandler.errorHandlerView(
+                                context: context,
+                                prompt: HTTPErrorPrompt(
+                                    message:
+                                        "Det ser ud til, at du ikke har forbindelse til WasheeBox"));
+                          }
+                        } catch (e) {
+                          print(e.toString());
+                          await showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return HTTPErrorPrompt(
+                                  message:
+                                      "Noget gik galt da vi forsøgte at låse maskinen op! Prøv venligst igen");
+                            },
+                          );
+                        }
                         var provider =
                             Provider.of<GlobalProvider>(context, listen: false);
-                        var machineToStart = provider.machines
-                            .where((element) => element.name == machine.name)
-                            .first;
-                        provider.machines.removeWhere(
-                            (element) => element.name == machine.name);
-                        machineToStart.startTime = DateTime.now();
-                        machineToStart.endTime = machineToStart.startTime!
-                            .add(Duration(hours: 7, minutes: 30));
-                        provider.machines.add(machineToStart);
+                        var machineToStart = provider.machines.where(
+                            (element) =>
+                                element.name.toLowerCase() ==
+                                fetchedMachine!.name.toLowerCase());
+                        // provider.machines.removeWhere((element) =>
+                        //     element.name.toLowerCase() ==
+                        //     fetchedMachine!.name.toLowerCase());
+                        // machineToStart.startTime = DateTime.now();
+                        // machineToStart.endTime = machineToStart.startTime!
+                        //     .add(Duration(hours: 7, minutes: 30));
+                        // provider.machines.add(machineToStart);
                         Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
