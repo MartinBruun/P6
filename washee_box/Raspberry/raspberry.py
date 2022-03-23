@@ -1,7 +1,7 @@
 from time import sleep
 from raspberryLED import RaspberryLED
 
-class raspberry():
+class Raspberry():
 
     def testRelay(self, duration):
         # led1 = RaspberryLED(1)
@@ -59,13 +59,13 @@ class raspberry():
         relayport12.close()
 
 
-    def resetAllPins():
+    def resetAllPins(self):
         for i in range(1,28):
             RaspberryLED(i).close()
             print("reset pin:" + str(i))
 
 
-    def allOn():
+    def allOn(self):
         for i in range(1,28):
             led = RaspberryLED(i)
             sleep(0.05)
@@ -74,4 +74,8 @@ class raspberry():
             print("power On pin:" + str(i))
 
 if __name__ == "__main__":
-    print("box_debug")
+    rp = Raspberry()
+
+    rp.allOn()
+    rp.resetAllPins()
+    rp.testRelay(1)
