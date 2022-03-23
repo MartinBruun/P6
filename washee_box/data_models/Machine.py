@@ -1,6 +1,6 @@
 class Machine:
 
-    def __init__(self, machineID, name, machineType, startTime=None, endTime=None):
+    def __init__(self , machineID, name, machineType, startTime=None, endTime=None, LED = None):
         self.id = machineID
         self.name = name
         self.machineType = machineType
@@ -9,6 +9,8 @@ class Machine:
     
     def lock(self):
         return
+
+
     
     def unlock(self):
         return
