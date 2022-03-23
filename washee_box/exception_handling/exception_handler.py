@@ -8,7 +8,7 @@ class ExceptionHandler:
     # This is to reuse and standardise how errors are handled across the codebase.
     
     def __init__(self):
-        self.debug = False if int(os.environ.get("BOX_DEBUG")) == 0 else True
+        self.debug = False if int(os.environ.get("BOX_DEBUG", default="1")) == 0 else True
         self.log_location = os.path.join(Path(__file__).parent, "exception_log.txt")
         with open(self.log_location, "a") as f:
             f.write("ExceptionHandler initialized at: " + datetime.now().strftime("%Y/%m/%d, %H:%M:%S") + "\n")

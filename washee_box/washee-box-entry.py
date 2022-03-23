@@ -1,4 +1,5 @@
 from datetime import datetime
+import imp
 import json
 import os
 from flask import Flask, request
@@ -10,10 +11,14 @@ import dateutil.parser
 import threading
 from pprint import pprint
 
+from main_controller import MainController
+from globals import box_debug
+
 # import data_models
 # from use_cases.boxFunctionality import unlockMachine
 # machinefactory = PiGPIOFactory(host='192.168.88.32')
 app = Flask(__name__)
+controller = MainController()
 
 machine_name = ['l1', 'l2', 't1', 't2']
 machine_list = []
@@ -89,12 +94,11 @@ def unlockEndPoint():
 
 @app.route('/lock', methods=['GET', 'POST'])
 def lockEndPoint():
+
     machineJson = request.get_json()
-    id = machineJson["machineID"]
-    machineJson["pin"] = getPin(id)
     # file = open(r'./use_cases/relay.py', 'r').read()
     # exec(file)
-    lockMachine(machineJson)
+    controller.lockMachine(machineJson, )
 
     return "<a href='/'> Machine id has been locked </a>"
 
@@ -159,9 +163,7 @@ if __name__ == "__main__":
 ###################################
 #flyt til anden fil
 
-def lockMachine(machine):
-        LED(machine["pin"]).close()
-
+# Machine
 
 def unlockMachineInThread(*arg):
         unlockMachine(arg[0],arg[1])
@@ -332,24 +334,6 @@ def writeToLog(account,user, machine, message):
     with open("data_collection/log.txt", "a+") as f:
         string = f'{str(timestamp)};{account};{user};{machine["machineID"]};{machine["machineType"]};{machine}; {message}' + "\n"
         f.write(string)
-
-
-def getPin(machineID):
-
-    pin = 21
-    if machineID == "l1":
-        pin = 17
-
-    elif machineID == "l2":
-        pin = 27
-
-    elif machineID == "t1":
-        pin = 23
-
-    elif machineID == "t2":
-        pin = 12
-
-    return pin
 
 def reset_factory_setup(user=None,password=None):
     if (allowedUser(user,password)):
