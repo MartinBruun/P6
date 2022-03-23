@@ -1,7 +1,7 @@
 import json
 from datetime import datetime
 from Raspberry.raspberryLED import RaspberryLED
-from globals import box_debug
+from config import box_debug
 
 class MainController:
     
@@ -104,5 +104,7 @@ if __name__ == "__main__":
     machineJson = {
         "machineID": "l1",
     }
-    controller.lockMachine(machineJson, box_debug)
+
+    print(box_debug)
+    #controller.lockMachine(machineJson, box_debug)
     

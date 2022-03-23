@@ -1,38 +1,37 @@
-    ### THIS FILE IS NOT DONE
+from time import sleep
 from raspberryLED import RaspberryLED
+
 class raspberry():
 
     def testRelay(self, duration):
-        from gpiozero import LED
-        from time import sleep
-        # led1 = LED(1)
-        # led2 = LED(2)
-        # led3 = LED(3)
-        relayport4 = LED(4)
-        relayport5 = LED(5)
-        relayport6 = LED(6)
-        relayport7 = LED(7)
-        relayport8 = LED(8)
-        relayport9 = LED(9)
-        relayport10 = LED(10)
-        relayport11 = LED(11)
-        relayport12 = LED(12)
-        relayport13 = LED(13)
-        relayport14 = LED(14)
-        relayport15 = LED(15)
-        relayport16 = LED(16)
-        relayport17 = LED(17)
-        relayport18 = LED(18)
-        relayport19 = LED(19)
-        relayport20 = LED(20)
-        relayport21 = LED(21)
-        relayport22 = LED(22)
+        # led1 = RaspberryLED(1)
+        # led2 = RaspberryLED(2)
+        # led3 = RaspberryLED(3)
+        relayport4 = RaspberryLED(4)
+        relayport5 = RaspberryLED(5)
+        relayport6 = RaspberryLED(6)
+        relayport7 = RaspberryLED(7)
+        relayport8 = RaspberryLED(8)
+        relayport9 = RaspberryLED(9)
+        relayport10 = RaspberryLED(10)
+        relayport11 = RaspberryLED(11)
+        relayport12 = RaspberryLED(12)
+        relayport13 = RaspberryLED(13)
+        relayport14 = RaspberryLED(14)
+        relayport15 = RaspberryLED(15)
+        relayport16 = RaspberryLED(16)
+        relayport17 = RaspberryLED(17)
+        relayport18 = RaspberryLED(18)
+        relayport19 = RaspberryLED(19)
+        relayport20 = RaspberryLED(20)
+        relayport21 = RaspberryLED(21)
+        relayport22 = RaspberryLED(22)
 
-        relayport23 = LED(23)
-        relayport24 = LED(24)
-        relayport25 = LED(25)
-        relayport26 = LED(26)
-        relayport27 = LED(27)
+        relayport23 = RaspberryLED(23)
+        relayport24 = RaspberryLED(24)
+        relayport25 = RaspberryLED(25)
+        relayport26 = RaspberryLED(26)
+        relayport27 = RaspberryLED(27)
 
 
         count = 2
@@ -61,21 +60,18 @@ class raspberry():
 
 
     def resetAllPins():
-        from gpiozero import LED
-        from time import sleep
-
         for i in range(1,28):
-            LED(i).close()
+            RaspberryLED(i).close()
             print("reset pin:" + str(i))
 
 
     def allOn():
-        from gpiozero import LED
-        from time import sleep
-
         for i in range(1,28):
-            led = LED(i)
+            led = RaspberryLED(i)
             sleep(0.05)
             led.on()
             sleep(0.1)
             print("power On pin:" + str(i))
+
+if __name__ == "__main__":
+    print("box_debug")
