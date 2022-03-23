@@ -1,11 +1,13 @@
 @ECHO off
 
 cd ..
+cd ..
 call docker-compose up -d --build
 cd washee_app
 call start cmd /k flutter run -d chrome
 cd ..
 cd scripts
+cd win
 echo The -- box -- container is now accessible on localhost:8001/
 echo The -- web -- container is now accessible on localhost:8000/
 echo The -- app -- flutter application is started in a seperate prompt on chrome
