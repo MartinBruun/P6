@@ -1,7 +1,7 @@
 from gpiozero import LED
 
 class RaspberryLED:
-    def __init__(self, machine_pin, debug = True):
+    def __init__(self, machine_pin, debug = False):
         self.machine_pin = machine_pin
         
         if debug:
@@ -9,7 +9,7 @@ class RaspberryLED:
             self.on = self.__debug_on
             self.off = self.__debug_off
             self.blink = self.__debug_blink
-            print("Pin number one",self.machine_pin, "has been opened")
+            print("Pin",self.machine_pin, "open")
         else:
             self.led = LED(machine_pin)            
     
@@ -26,16 +26,24 @@ class RaspberryLED:
         self.led.blink()
 
     def __debug_close(self):
-        print("Pin number",self.machine_pin, "has been closed")
+        msg = "Pin " + str(self.machine_pin) + " close"
+        print(msg)
+        return msg
     
     def __debug_on(self):
-        print("The machine on pin",self.machine_pin, "has been turned on")
-    
+        msg = "Pin " + str(self.machine_pin) + " on"
+        print(msg)
+        return msg
+        
     def __debug_off(self):
-        print("The machine on pin",self.machine_pin, "has been turned off")
+        msg = "Pin " + str(self.machine_pin) + " off"
+        print(msg)
+        return msg
 
     def __debug_blink(self):
-        print("Pin number",self.machine_pin, "is blinking")
+        msg = "Pin " + str(self.machine_pin) + " blink"
+        print(msg)
+        return msg
 
 if __name__ == "__main__":
     box_debug = True
