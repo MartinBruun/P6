@@ -12,8 +12,8 @@ class GetMachinesRepositoryImpl implements GetMachinesRepository {
   @override
   Future<List<MachineModel>> getMachines() async {
     if (await networkInfo.isConnected) {
-      var response = await communicator.getMachines();
-      return constructMachineList(response.data);
+      var data = await communicator.getMachines();
+      return constructMachineList(data);
     }
     return List.empty();
   }

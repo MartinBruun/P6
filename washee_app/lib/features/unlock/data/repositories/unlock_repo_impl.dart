@@ -12,14 +12,18 @@ class UnlockRepositoryImpl implements UnlockRepository {
   @override
   Future<MachineModel?> unlock(MachineModel machine, Duration duration) async {
     if (await networkInfo.isConnected) {
-      var response = await remote.unlock(machine, duration);
-      return _constructMachineFromResponse(response.data);
+      var data = await remote.unlock(machine, duration);
+      MachineModel updatedMachine = _constructMachineFromResponse(data);
+      print(updatedMachine);
+      return updatedMachine;
+    } else {
+      return null;
     }
-    return null;
   }
 
   MachineModel _constructMachineFromResponse(
       Map<String, dynamic> machineAsJson) {
+    print(machineAsJson);
     return MachineModel.fromJson(machineAsJson);
   }
 }
