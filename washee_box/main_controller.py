@@ -1,4 +1,5 @@
 import json
+from time import sleep
 from datetime import datetime
 from hardware.raspberryLED import RaspberryLED
 from config import box_debug
@@ -31,7 +32,7 @@ class MainController:
         #TODO: this should be optimized so that the max_wash_time value is fetched when this file is loaded
         max_wash_time = self.getWashTimeLimit()
         timeLeft = min(max_wash_time, duration)
-        relayport = LED(machine["pin"]) #power on relay
+        relayport = RaspberryLED(machine["pin"]) #power on relay
         while timeLeft > 0:
             print(machine["machineID"],  timeLeft)
             sleep(1)
