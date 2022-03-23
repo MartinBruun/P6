@@ -26,13 +26,11 @@ class Raspberry():
         relayport20 = RaspberryLED(20)
         relayport21 = RaspberryLED(21)
         relayport22 = RaspberryLED(22)
-
         relayport23 = RaspberryLED(23)
         relayport24 = RaspberryLED(24)
         relayport25 = RaspberryLED(25)
         relayport26 = RaspberryLED(26)
         relayport27 = RaspberryLED(27)
-
 
         count = 2
             
@@ -47,8 +45,6 @@ class Raspberry():
             relayport12.off()
             sleep(0.1)
             relayport23.off()
-            
-
 
             count -= 1
         relayport12.blink()
