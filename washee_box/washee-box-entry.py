@@ -19,6 +19,7 @@ app = Flask(__name__)
 # machine_list = []
 # user_list = []
 MAX_WASHINGTIME_IN_SEC = 9000 #2timer og 30 min
+running = True
 
 #format of a machine:
 
@@ -135,10 +136,14 @@ def reset():
 #### Reset All pins when restarting ###
 # for i in range(1,28) :
 #     print("reset pin:" + str(i))
-  
 #     led = LED(i)
+#     sleep(0.2)
+#     led.on()
+#     sleep(0.1)
+#     led.off()
+#     sleep(0.1)
 #     led.close()
-#     sleep(0.05)
+    # sleep(0.05)
     
 
 
@@ -160,7 +165,9 @@ if __name__ == "__main__":
 #flyt til anden fil
 
 def lockMachine(machine):
-        LED(machine["pin"]).close()
+        running = False
+        # sleep(0.2)
+        # LED(machine["pin"]).close()
 
 
 def unlockMachineInThread(*arg):
@@ -169,6 +176,7 @@ def unlockMachineInThread(*arg):
 
 def unlockMachine(machine, duration,user = "user??", account = "account??"):
     now = datetime.now()
+    running = True
 
 
     #update machine so that users get notified of the changed machine status when fetching the machine list
@@ -184,7 +192,7 @@ def unlockMachine(machine, duration,user = "user??", account = "account??"):
     relayport_a = LED(machine["pin_a"]) #power on relay
     relayport_b = LED(machine["pin_b"]) #power on relay
 
-    while timeLeft > 0:
+    while (timeLeft > 0 and running == True):
         print(machine["machineID"],  timeLeft)
         sleep(1)
         timeLeft -= 1
@@ -310,6 +318,7 @@ def testRelay(duration):
 
 
 def resetAllPins():
+    running = False
     from gpiozero import LED
     from time import sleep
 
@@ -323,6 +332,7 @@ def allOn():
     from time import sleep
 
     for i in range(1,28):
+
         led = LED(i)
         sleep(0.05)
         led.on()

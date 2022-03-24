@@ -9,8 +9,8 @@
          "name":"vaskemaskine 1",
          "startTime": "null", 
          "endTime": "null",
-         "pin_a":16,
-         "pin_b":17
+         "pin_a":18,
+         "pin_b":3
     },
     {
          "machineType": "laundrymachine", 
@@ -18,8 +18,8 @@
          "name":"vaskemaskine 2",
          "startTime": "2022-03-07T08:15:26",
          "endTime": "2022-03-07T10:15:26",
-         "pin_a":26,
-         "pin_b":27
+         "pin_a":24,
+         "pin_b":23
     },
     {
          "machineType": "dryermachine", 
