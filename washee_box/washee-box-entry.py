@@ -1,4 +1,6 @@
 from datetime import datetime
+from datetime import timedelta
+
 import json
 import os
 from flask import Flask, request
@@ -59,7 +61,6 @@ def unlockEndPoint():
     #     return json.dumps("The url was called with no arguments")
     # machine = json.loads(data)
    
-    id = data.get("machineID")
     name = data.get("name")
     machineType = data.get("machineType")
     if "startTime" in data:
@@ -71,11 +72,20 @@ def unlockEndPoint():
     startTime = data["startTime"]
     endTime = data["endTime"]
 
-    duration = int((endTime-datetime.now()).total_seconds())
+    duration = min(getWashTimeLimit(), int((endTime-datetime.now()).total_seconds()))
+    
+    
+    id = data.get("machineID")
     pin = getPin(id)
     machine = data
     machine["pin_a"]=pin[0]
     machine["pin_b"]=pin[1]
+
+    ###TODO: her resetter jeg det som brugeren har bedt om , det er nok ikke så smart. ellers så er det???
+
+    now = datetime.now()
+    machine["startTime"]= now
+    machine["endTime"] = now + timedelta(seconds=duration)
 
     pprint(machine)
 
@@ -177,18 +187,27 @@ def unlockMachineInThread(*arg):
 def unlockMachine(machine, duration,user = "user??", account = "account??"):
     now = datetime.now()
     running = True
+    max_wash_time = getWashTimeLimit()
+    timeLeft = min(max_wash_time, duration)
 
 
     #update machine so that users get notified of the changed machine status when fetching the machine list
     #the update should write to the machinelist file
-    machine["startTime"] = now
+    # machine["startTime"] = now
+    # machine["endTime"]= now + timedelta(seconds = timeLeft)
+    #####TODO:maybe move to the caller
     logmessage = "startTime:"+str(now)+ " ; endTime:" + str(machine["endTime"])  +"; duration:" +str(duration).format(
         "hh:mm")
     writeToLog(account, user , machine, logmessage)
+    machines = getMachinesInfo()["machines"]
+    for i, stored_machine in enumerate(machines):
+        if stored_machine['machineID'] == machine["machineID"] :
+            machines[i]= machine
+    newMachineList(user,None, machines)
+
 
     #TODO: this should be optimized so that the max_wash_time value is fetched when this file is loaded
-    max_wash_time = getWashTimeLimit()
-    timeLeft = min(max_wash_time, duration)
+    
     relayport_a = LED(machine["pin_a"]) #power on relay
     relayport_b = LED(machine["pin_b"]) #power on relay
 
