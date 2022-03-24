@@ -41,7 +41,7 @@ class BoxCommunicatorImpl implements BoxCommunicator {
     machine.startTime = startTime;
     machine.endTime = startTime.add(duration);
     try {
-      response = await dio.post(unlockURL, data: {"machine": machine.toJson()});
+      response = await dio.post(unlockURL, data: machine.toJson());
       if (response.statusCode == 200) {
         return response.data;
       } else {
