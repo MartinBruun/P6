@@ -8,6 +8,7 @@ class MainController:
     def __init__(self):
         return
 
+    ### Machine
     def lockMachine(self, machineJson):
         id = machineJson["machineID"]
         machineJson["pin"] = self.__getPin(id)
@@ -16,7 +17,6 @@ class MainController:
     def unlockMachineInThread(self, *arg):
             self.unlockMachine(arg[0],arg[1])
     
-
     def unlockMachine(self, machine, duration,user = "user??", account = "account??"):
         now = datetime.now()
 
@@ -47,9 +47,8 @@ class MainController:
             return True
         else :
             return False
-    
-    def unlockMachineInThread(self, *arg):
-            self.unlockMachine(arg[0],arg[1])
+
+    ### scheduler?
 
     def scheduleLocking(id, endtime):
         raise Exception("not implemented")
@@ -85,15 +84,6 @@ class MainController:
             machines["last_fetched"]=datetime.now()
 
         return machines
-
-    def scheduleLocking(self, id, endtime):
-
-        raise Exception("not implemented")
-
-
-    def scheduleUnLocking(self, id, starttime):
-
-        raise Exception("not implemented")
     
     def getUsersInfo(self):
         with open("data_setup_files/allowed_users.json", "r") as file:
