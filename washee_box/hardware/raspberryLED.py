@@ -1,7 +1,10 @@
+import os
 from gpiozero import LED
 
 class RaspberryLED:
-    def __init__(self, machine_pin, debug = False):
+    def __init__(self, machine_pin):
+        debug = False if int(os.environ.get("BOX_DEBUG", default="0")) == 0 else True
+        
         self.machine_pin = machine_pin
         
         if debug:

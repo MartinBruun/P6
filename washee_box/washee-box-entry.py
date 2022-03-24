@@ -12,7 +12,6 @@ import threading
 from pprint import pprint
 
 from main_controller import MainController
-from config import box_debug
 
 # import data_models
 # from use_cases.boxFunctionality import unlockMachine

@@ -2,17 +2,16 @@ import json
 from time import sleep
 from datetime import datetime
 from hardware.raspberryLED import RaspberryLED
-from config import box_debug
 
 class MainController:
     
     def __init__(self):
         return
 
-    def lockMachine(self, machineJson, box_debug):
+    def lockMachine(self, machineJson):
         id = machineJson["machineID"]
         machineJson["pin"] = self.__getPin(id)
-        RaspberryLED(machineJson["pin"], box_debug).close()
+        RaspberryLED(machineJson["pin"]).close()
     
     def unlockMachineInThread(self, *arg):
             self.unlockMachine(arg[0],arg[1])
@@ -205,6 +204,5 @@ if __name__ == "__main__":
         "machineID": "l1",
     }
 
-    print(box_debug)
-    #controller.lockMachine(machineJson, box_debug)
+
     
