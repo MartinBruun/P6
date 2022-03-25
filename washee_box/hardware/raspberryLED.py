@@ -3,7 +3,7 @@ from gpiozero import LED
 
 class RaspberryLED:
     def __init__(self, machine_pin):
-        debug = False if int(os.environ.get("BOX_DEBUG", default="1")) == 0 else True
+        debug = False if int(os.environ.get("BOX_DEBUG", default="0")) == 0 else True
         
         self.machine_pin = machine_pin
         
@@ -14,10 +14,11 @@ class RaspberryLED:
             self.blink = self.__debug_blink
             print("Pin",self.machine_pin, "open")
         else:
-            self.led = LED(machine_pin)            
+            self.led = LED(machine_pin)
+
     
     def close(self):
-       self.led.close()
+        self.led.close()
     
     def on(self):
         self.led.on()

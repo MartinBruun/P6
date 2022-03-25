@@ -6,8 +6,8 @@ import dateutil.parser
 import threading
 from pprint import pprint
 
-from main_controller import MainController
-from hardware.raspberry import Raspberry
+from washee_box.main_controller import MainController
+from washee_box.hardware.raspberry import Raspberry
 
 # import data_models
 # from use_cases.boxFunctionality import unlockMachine
@@ -75,7 +75,7 @@ def unlockEndPoint():
     
     
     id = data["machineID"]
-    pin = controller.__getPin(id)
+    pin = controller.getPin(id)
     machine = data
     machine["pin_a"]=pin[0]
     machine["pin_b"]=pin[1]
@@ -100,10 +100,10 @@ def lockEndPoint():
 
     machineJson = request.get_json()
     id = machineJson["machineID"]
-    machineJson["pin_a"] = controller.__getPin(id)
+    machineJson["pin_a"] = controller.getPin(id)
     # file = open(r'./use_cases/relay.py', 'r').read()
     # exec(file)
-    controller.lockMachine(machineJson, )
+    controller.lockMachine(machineJson)
 
     return "<a href='/'> Machine id has been locked </a>"
 
@@ -124,7 +124,7 @@ def resetEndPoint():
 
 @app.route('/factoryreset', methods=['GET', 'POST'])
 def reset():
-    controller.__reset_factory_setup()
+    controller.reset_factory_setup()
     return"<a href='/'>factory reset performed </a>"
 
 
@@ -154,7 +154,7 @@ def reset():
 
 if __name__ == "__main__":
     debug = False if int(os.environ.get(
-        "BOX_DEBUG", default="1")) == 0 else True
+        "BOX_DEBUG", default="0")) == 0 else True
     port = int(os.environ.get("BOX_PORT", default="8001"))
     host = os.environ.get("BOX_HOST", default="0.0.0.0")
     app.run(debug=debug, port=port, host=host)

@@ -1,8 +1,8 @@
 import json
 from time import sleep
 from datetime import datetime
-from hardware.raspberryLED import RaspberryLED
-from hardware.raspberry import Raspberry
+from washee_box.hardware.raspberryLED import RaspberryLED
+from washee_box.hardware.raspberry import Raspberry
 
 class MainController:
     
@@ -12,8 +12,14 @@ class MainController:
     ### hardware
     def lockMachine(self, machineJson):
         id = machineJson["machineID"]
-        machineJson["pin"] = self.__getPin(id)
-        RaspberryLED(machineJson["pin"]).close()
+        pins = self.getPin(id)
+        machineJson["pin_a"] = pins[0]
+        machineJson["pin_b"] = pins[1]
+
+        RaspberryLED(machineJson["pin_a"]).close()
+        RaspberryLED(machineJson["pin_b"]).close()
+
+
     
     def unlockMachineInThread(self, *arg):
             self.unlockMachine(arg[0],arg[1])
@@ -32,12 +38,12 @@ class MainController:
         #####TODO:maybe move to the caller
         logmessage = "startTime:"+str(now)+ " ; endTime:" + str(machine["endTime"])  +"; duration:" +str(duration).format(
             "hh:mm")
-        self.__writeToLog(account, user , machine, logmessage)
+        self.writeToLog(account, user , machine, logmessage)
         machines = self.getMachinesInfo()["machines"]
         for i, stored_machine in enumerate(machines):
             if stored_machine['machineID'] == machine["machineID"] :
                 machines[i]= machine
-        self.__newMachineList(user,None, machines)
+        self.newMachineList(user,None, machines)
 
 
         #TODO: this should be optimized so that the max_wash_time value is fetched when this file is loaded
@@ -57,7 +63,7 @@ class MainController:
         #the update should write to the machinelist file
         machine["endTime"] = datetime.now()
         logmessage = "machine turned off ; endTime:" + str(machine["endTime"])
-        self.__writeToLog(account, user , machine, logmessage)
+        self.writeToLog(account, user , machine, logmessage)
 
         if duration > 0 :
             return True
@@ -73,7 +79,7 @@ class MainController:
         raise Exception("not implemented")
 
     # machine controller?
-    def __getPin(self, machineID):
+    def getPin(self, machineID):
         machines = self.getMachinesInfo()
         machines = machines["machines"]
         for k in machines:
@@ -107,7 +113,7 @@ class MainController:
 
         return logFile
     
-    def __writeToLog(self, account,user, machine, message):
+    def writeToLog(self, account,user, machine, message):
         timestamp = datetime.now()
         machine["startTime"] = str(machine["startTime"])
         machine["endTime"] = str(machine["endTime"])
@@ -116,17 +122,17 @@ class MainController:
             string = f'{str(timestamp)};{account};{user};{machine["machineID"]};{machine["machineType"]};{machine}; {message}' + "\n"
             f.write(string)
 
-    def __reset_factory_setup(self, user=None,password=None):
-        if (self.__allowedUser(user,password)):
+    def reset_factory_setup(self, user=None,password=None):
+        if (self.allowedUser(user,password)):
             print("DONE")
             with open("data_setup_files/setup_box.json", "r") as file:
                 setup_data = json.loads(file.read())
-                self.__newMachineList(user,password, setup_data["machines"])
-                self.__newUserList(user,password,setup_data["users"])
-                self.__newWashTimeLimit(user,password,setup_data["MAX_WASHINGTIME_IN_SEC"])        
+                self.newMachineList(user,password, setup_data["machines"])
+                self.newUserList(user,password,setup_data["users"])
+                self.newWashTimeLimit(user,password,setup_data["MAX_WASHINGTIME_IN_SEC"])        
 
-    def __newMachineList(self, user,password,machines):
-        if self.__allowedUser(user,password):
+    def newMachineList(self, user,password,machines):
+        if self.allowedUser(user,password):
             with open("data_setup_files/machine_list.json", "w") as file:
                 # machines["setup_date"]=str(datetime.now())
                 now = str(datetime.now())
@@ -138,8 +144,8 @@ class MainController:
                 json.dump(data, file)
                 print(data)
             
-    def __newUserList(self, user,password,users):
-        if self.__allowedUser(user,password):
+    def newUserList(self, user,password,users):
+        if self.allowedUser(user,password):
             with open("data_setup_files/allowed_users.json", "w") as file:
                 # users["setup_date"]=datetime.now()
                 now = str(datetime.now())
@@ -152,8 +158,8 @@ class MainController:
                 print(data)
 
 
-    def __newWashTimeLimit(self, user,password,timelimit_json):
-        if self.__allowedUser(user,password):
+    def newWashTimeLimit(self, user,password,timelimit_json):
+        if self.allowedUser(user,password):
             with open("data_setup_files/max_washing_time.json", "w") as file:
                 # users["setup_date"]=datetime.now()
                 now = str(datetime.now())
@@ -165,7 +171,7 @@ class MainController:
                 json.dump(data, file)
                 print(data)
 
-    def __allowedUser(self, user,password):
+    def allowedUser(self, user,password):
         return True
 
 
