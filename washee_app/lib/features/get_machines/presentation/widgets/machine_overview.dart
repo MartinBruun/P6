@@ -48,21 +48,20 @@ class _MachineOverviewState extends State<MachineOverview> {
   // Might need to be a futurebuilder
   @override
   Widget build(BuildContext context) {
-    var global = Provider.of<GlobalProvider>(context, listen: true);
-    return Center(
-      child: global.isConnectingToBox || global.isRefreshing
-          ? CircularProgressIndicator(
-              color: Colors.white,
-            )
-          : Column(
-              children: [
-                RefreshMachines(),
-                SizedBox(
-                  height: 300.h,
-                ),
-                Consumer<GlobalProvider>(
-                  builder: (context, data, _) {
-                    return Expanded(
+    return Consumer<GlobalProvider>(
+      builder: (context, data, _) {
+        return Center(
+          child: data.isConnectingToBox || data.isRefreshing
+              ? CircularProgressIndicator(
+                  color: Colors.white,
+                )
+              : Column(
+                  children: [
+                    RefreshMachines(),
+                    SizedBox(
+                      height: 300.h,
+                    ),
+                    Expanded(
                       child: ListView.builder(
                         itemBuilder: (context, index) => Padding(
                           padding: EdgeInsets.all(10.h),
@@ -72,11 +71,11 @@ class _MachineOverviewState extends State<MachineOverview> {
                         ),
                         itemCount: data.machines.length,
                       ),
-                    );
-                  },
-                )
-              ],
-            ),
+                    ),
+                  ],
+                ),
+        );
+      },
     );
   }
 }

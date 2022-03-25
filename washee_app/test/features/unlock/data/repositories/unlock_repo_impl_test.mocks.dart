@@ -2,14 +2,13 @@
 // in washee/test/features/unlock/data/repositories/unlock_repo_impl_test.dart.
 // Do not manually edit this file.
 
-import 'dart:async' as _i4;
+import 'dart:async' as _i3;
 
-import 'package:dio/dio.dart' as _i2;
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:washee/core/network/network_info.dart' as _i3;
-import 'package:washee/core/washee_box/machine_model.dart' as _i6;
+import 'package:washee/core/network/network_info.dart' as _i2;
+import 'package:washee/core/washee_box/machine_model.dart' as _i5;
 import 'package:washee/features/unlock/data/datasources/unlock_remote.dart'
-    as _i5;
+    as _i4;
 
 // ignore_for_file: avoid_redundant_argument_values
 // ignore_for_file: avoid_setters_without_getters
@@ -20,27 +19,25 @@ import 'package:washee/features/unlock/data/datasources/unlock_remote.dart'
 // ignore_for_file: unnecessary_parenthesis
 // ignore_for_file: camel_case_types
 
-class _FakeResponse_0<T> extends _i1.Fake implements _i2.Response<T> {}
-
 /// A class which mocks [NetworkInfo].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockNetworkInfo extends _i1.Mock implements _i3.NetworkInfo {
+class MockNetworkInfo extends _i1.Mock implements _i2.NetworkInfo {
   @override
-  _i4.Future<bool> get isConnected =>
+  _i3.Future<bool> get isConnected =>
       (super.noSuchMethod(Invocation.getter(#isConnected),
-          returnValue: Future<bool>.value(false)) as _i4.Future<bool>);
+          returnValue: Future<bool>.value(false)) as _i3.Future<bool>);
 }
 
 /// A class which mocks [UnlockRemote].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockRemote extends _i1.Mock implements _i5.UnlockRemote {
+class MockRemote extends _i1.Mock implements _i4.UnlockRemote {
   @override
-  _i4.Future<_i2.Response<dynamic>> unlock(
-          _i6.MachineModel? machine, Duration? duration) =>
+  _i3.Future<Map<String, dynamic>> unlock(
+          _i5.MachineModel? machine, Duration? duration) =>
       (super.noSuchMethod(Invocation.method(#unlock, [machine, duration]),
-              returnValue: Future<_i2.Response<dynamic>>.value(
-                  _FakeResponse_0<dynamic>()))
-          as _i4.Future<_i2.Response<dynamic>>);
+              returnValue:
+                  Future<Map<String, dynamic>>.value(<String, dynamic>{}))
+          as _i3.Future<Map<String, dynamic>>);
 }

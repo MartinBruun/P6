@@ -2,12 +2,11 @@
 // in washee/test/features/get_machines/get_machines_test.dart.
 // Do not manually edit this file.
 
-import 'dart:async' as _i4;
+import 'dart:async' as _i3;
 
-import 'package:dio/dio.dart' as _i2;
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:washee/core/helpers/box_communicator.dart' as _i3;
-import 'package:washee/core/washee_box/machine_model.dart' as _i5;
+import 'package:washee/core/helpers/box_communicator.dart' as _i2;
+import 'package:washee/core/washee_box/machine_model.dart' as _i4;
 
 // ignore_for_file: avoid_redundant_argument_values
 // ignore_for_file: avoid_setters_without_getters
@@ -18,12 +17,10 @@ import 'package:washee/core/washee_box/machine_model.dart' as _i5;
 // ignore_for_file: unnecessary_parenthesis
 // ignore_for_file: camel_case_types
 
-class _FakeResponse_0<T> extends _i1.Fake implements _i2.Response<T> {}
-
 /// A class which mocks [BoxCommunicator].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockCommunicator extends _i1.Mock implements _i3.BoxCommunicator {
+class MockCommunicator extends _i1.Mock implements _i2.BoxCommunicator {
   @override
   String get lockURL =>
       (super.noSuchMethod(Invocation.getter(#lockURL), returnValue: '')
@@ -37,17 +34,16 @@ class MockCommunicator extends _i1.Mock implements _i3.BoxCommunicator {
       (super.noSuchMethod(Invocation.getter(#getMachinesURL), returnValue: '')
           as String);
   @override
-  _i4.Future<_i2.Response<dynamic>> getMachines() => (super.noSuchMethod(
+  _i3.Future<Map<String, dynamic>> getMachines() => (super.noSuchMethod(
           Invocation.method(#getMachines, []),
-          returnValue:
-              Future<_i2.Response<dynamic>>.value(_FakeResponse_0<dynamic>()))
-      as _i4.Future<_i2.Response<dynamic>>);
+          returnValue: Future<Map<String, dynamic>>.value(<String, dynamic>{}))
+      as _i3.Future<Map<String, dynamic>>);
   @override
-  _i4.Future<_i2.Response<dynamic>> lockOrUnlock(
-          String? command, _i5.MachineModel? machine, Duration? duration) =>
+  _i3.Future<Map<String, dynamic>> lockOrUnlock(
+          String? command, _i4.MachineModel? machine, Duration? duration) =>
       (super.noSuchMethod(
               Invocation.method(#lockOrUnlock, [command, machine, duration]),
-              returnValue: Future<_i2.Response<dynamic>>.value(
-                  _FakeResponse_0<dynamic>()))
-          as _i4.Future<_i2.Response<dynamic>>);
+              returnValue:
+                  Future<Map<String, dynamic>>.value(<String, dynamic>{}))
+          as _i3.Future<Map<String, dynamic>>);
 }
