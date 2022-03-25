@@ -3,6 +3,7 @@ from raspberryLED import RaspberryLED
 
 class Raspberry():
 
+# Test methods
     def testRelay(self, duration):
         # led1 = RaspberryLED(1)
         # led2 = RaspberryLED(2)
