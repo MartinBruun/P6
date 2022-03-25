@@ -92,8 +92,22 @@ class BoxCommunicatorImpl implements BoxCommunicator {
     return response.data;
   }
 
+  Future<Map<String, dynamic>?> dummyFetching() async {
+    Response response;
+
+    response = await dio.get(dummyURL);
+    if (response.statusCode == 200) {
+      if (response.data != null) {
+        return response.data;
+      }
+    } else {
+      print("Something went wrong...");
+      return response.data;
+    }
+  }
+
   @override
   String get getMachinesURL => "http://washeebox.local:8001/getMachinesInfo";
-  // "https://dd4836d4-3a9d-4d8a-b83f-ccd74c637643.mock.pstmn.io/getMachinesInfo";
-
+  String get dummyURL =>
+      "https://dd4836d4-3a9d-4d8a-b83f-ccd74c637643.mock.pstmn.io/getMachinesInfo";
 }

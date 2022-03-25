@@ -37,6 +37,7 @@ class RefreshMachines extends StatelessWidget {
                 global.isRefreshing = true;
                 // global.updateMachines(
                 //     await sl<GetMachinesUseCase>().call(NoParams()));
+
                 await Future.delayed(Duration(seconds: 3));
                 global.fetchedMachines = true;
                 global.isRefreshing = false;
