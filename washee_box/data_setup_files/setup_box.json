@@ -1,15 +1,16 @@
 {  "hostname":"washeebox",
 
-    "MAX_WASHINGTIME_IN_SEC":9000,
+    "MAX_WASHINGTIME_IN_SEC":20,
 
     "machines":[
     {
          "machineType": "laundrymachine", 
          "machineID": "l1",
-         "name":"vaskemaskine 1",
+         "name":"MIIIN MASKINE!!! ",
          "startTime": "null", 
          "endTime": "null",
-         "pin":17
+         "pin_a":18,
+         "pin_b":3
     },
     {
          "machineType": "laundrymachine", 
@@ -17,7 +18,8 @@
          "name":"vaskemaskine 2",
          "startTime": "2022-03-07T08:15:26",
          "endTime": "2022-03-07T10:15:26",
-         "pin":27
+         "pin_a":24,
+         "pin_b":23
     },
     {
          "machineType": "dryermachine", 
@@ -25,15 +27,17 @@
          "name":"tørretumbler 1",
          "startTime": "2022-03-07T08:15:26",
          "endTime": "2022-03-07T10:15:26",
-         "pin":23
+         "pin_a":23,
+         "pin_b":24
     },
     {
         "machineType": "dryermachine", 
         "machineID": "t2",
         "name":"tørretumbler 2",
         "startTime": "2022-03-07T08:15:26",
-        "endTime": "2022-03-07T10:15:26",
-        "pin":12
+        "endTime": "2022-04-07T10:15:26",
+        "pin_a":12,
+        "pin_b":13
    }
     ],
    
