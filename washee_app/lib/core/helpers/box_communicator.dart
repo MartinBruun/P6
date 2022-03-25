@@ -104,6 +104,7 @@ class BoxCommunicatorImpl implements BoxCommunicator {
       print("Something went wrong...");
       return response.data;
     }
+    return response.data;
   }
 
   @override

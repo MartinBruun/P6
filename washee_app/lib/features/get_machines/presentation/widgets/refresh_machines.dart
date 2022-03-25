@@ -1,12 +1,22 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:washee/core/helpers/box_communicator.dart';
 
 import '../../../../core/presentation/themes/dimens.dart';
 import '../../../../core/presentation/themes/themes.dart';
 import '../../../../core/providers/global_provider.dart';
 
-class RefreshMachines extends StatelessWidget {
+class RefreshMachines extends StatefulWidget {
+  @override
+  State<RefreshMachines> createState() => _RefreshMachinesState();
+}
+
+class _RefreshMachinesState extends State<RefreshMachines> {
+  bool _itWorked = false;
+  bool _fetching = false;
+  Dio dio = new Dio();
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -17,7 +27,11 @@ class RefreshMachines extends StatelessWidget {
           Padding(
             padding: EdgeInsets.only(bottom: 10.h),
             child: Text(
-              "Refresh maskiner",
+              _fetching
+                  ? "Vi fetcher..."
+                  : _itWorked
+                      ? "Det virkede!"
+                      : "Refresh maskiner",
               style: textStyle.copyWith(
                 fontSize: textSize_36,
                 fontWeight: FontWeight.w300,
@@ -34,13 +48,23 @@ class RefreshMachines extends StatelessWidget {
               onPressed: () async {
                 var global =
                     Provider.of<GlobalProvider>(context, listen: false);
-                global.isRefreshing = true;
+                // global.isRefreshing = true;
                 // global.updateMachines(
                 //     await sl<GetMachinesUseCase>().call(NoParams()));
+                var communicator = BoxCommunicatorImpl(dio: dio);
+                setState(() {
+                  _fetching = true;
+                });
+                var status = await communicator.dummyFetching();
 
-                await Future.delayed(Duration(seconds: 3));
-                global.fetchedMachines = true;
-                global.isRefreshing = false;
+                if (status != null) {
+                  setState(() {
+                    _fetching = false;
+                    _itWorked = true;
+                  });
+                }
+                // global.fetchedMachines = true;
+                // global.isRefreshing = false;
               }),
         ],
       ),
