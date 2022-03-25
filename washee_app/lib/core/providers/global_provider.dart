@@ -30,8 +30,29 @@ class GlobalProvider extends ChangeNotifier {
     //     endTime: DateTime(2022, 03, 18, 12, 0, 0)
     //         .add(Duration(hours: 3, minutes: 15))),
   ];
-  bool fetchedMachines = false;
+  bool _isConnectingToBox = false;
+  bool _isRefreshing = false;
+  bool _fetchedMachines = false;
+
   List<MachineModel> get machines => _machines;
+  bool get isConnectingToBox => _isConnectingToBox;
+  bool get isRefreshing => _isRefreshing;
+  bool get fetchedMachines => _fetchedMachines;
+
+  set isConnectingToBox(bool value) {
+    _isConnectingToBox = value;
+    notifyListeners();
+  }
+
+  set isRefreshing(bool value) {
+    _isRefreshing = value;
+    notifyListeners();
+  }
+
+  set fetchedMachines(bool value) {
+    _fetchedMachines = value;
+    notifyListeners();
+  }
 
   updateMachines(List<MachineModel> machines) {
     _machines = machines;

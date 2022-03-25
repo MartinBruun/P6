@@ -8,10 +8,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../core/providers/global_provider.dart';
-import '../../../../core/usecases/usecase.dart';
 import '../../../../core/widgets/machine_card.dart';
-import '../../../../injection_container.dart';
-import '../../../get_machines/domain/usecases/get_machines.dart';
+import 'refresh_machines.dart';
 
 class MachineOverview extends StatefulWidget {
   @override
@@ -19,8 +17,6 @@ class MachineOverview extends StatefulWidget {
 }
 
 class _MachineOverviewState extends State<MachineOverview> {
-  bool _isConnecting = false;
-
   Future<String> loadAsset() async {
     return await rootBundle.rootBundle
         .loadString("assets/data/machine_list.json");
@@ -29,25 +25,21 @@ class _MachineOverviewState extends State<MachineOverview> {
   @override
   void initState() {
     SchedulerBinding.instance?.addPostFrameCallback((_) async {
-      setState(() {
-        _isConnecting = true;
-      });
-      await Future.delayed(Duration(seconds: 3));
       var provider = Provider.of<GlobalProvider>(context, listen: false);
-      if (!provider.fetchedMachines) {
-        // var string = await loadAsset();
-        // var stringAsJson = json.decode(string);
-        // provider.constructMachineList(stringAsJson);
-        //This is the usecase to be called on every initstate fetching from backend
-        provider
-            .updateMachines(await sl<GetMachinesUseCase>().call(NoParams()));
-        provider.fetchedMachines = true;
-      }
+      provider.isConnectingToBox = true;
+      await Future.delayed(Duration(seconds: 3));
+      // var provider = Provider.of<GlobalProvider>(context, listen: false);
+      // if (!provider.fetchedMachines) {
+      //   // var string = await loadAsset();
+      //   // var stringAsJson = json.decode(string);
+      //   // provider.constructMachineList(stringAsJson);
+      //   //This is the usecase to be called on every initstate fetching from backend
+      //   provider
+      //       .updateMachines(await sl<GetMachinesUseCase>().call(NoParams()));
+      //   provider.fetchedMachines = true;
+      // }
 
-      // should be provider
-      setState(() {
-        _isConnecting = false;
-      });
+      provider.isConnectingToBox = false;
     });
 
     super.initState();
@@ -56,13 +48,15 @@ class _MachineOverviewState extends State<MachineOverview> {
   // Might need to be a futurebuilder
   @override
   Widget build(BuildContext context) {
+    var global = Provider.of<GlobalProvider>(context, listen: true);
     return Center(
-      child: _isConnecting
+      child: global.isConnectingToBox || global.isRefreshing
           ? CircularProgressIndicator(
               color: Colors.white,
             )
           : Column(
               children: [
+                RefreshMachines(),
                 SizedBox(
                   height: 300.h,
                 ),

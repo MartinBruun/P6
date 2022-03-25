@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../widgets/machine_overview.dart';
+import '../../../get_machines/presentation/widgets/machine_overview.dart';
 
 class WashScreen extends StatefulWidget {
   static const routeName = "/wash-screen";
