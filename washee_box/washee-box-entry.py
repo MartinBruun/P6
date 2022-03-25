@@ -152,14 +152,14 @@ def reset():
     # sleep(0.05)
     
 
-
-
-
 if __name__ == "__main__":
     debug = False if int(os.environ.get(
         "BOX_DEBUG", default="1")) == 0 else True
-    port = int(os.environ.get("BOX_PORT"))
-    host = os.environ.get("BOX_HOST")
+    port = int(os.environ.get("BOX_PORT", default="8001"))
+    host = os.environ.get("BOX_HOST", default="0.0.0.0")
     app.run(debug=debug, port=port, host=host)
     # app.run(debug=True, port=5000, host='0.0.0.0')
+
+
+
 

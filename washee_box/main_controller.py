@@ -177,5 +177,6 @@ if __name__ == "__main__":
         "machineID": "l1",
     } 
     r = Raspberry()
+    r.allOn()
 
     
