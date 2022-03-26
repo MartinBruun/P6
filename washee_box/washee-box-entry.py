@@ -98,6 +98,8 @@ def unlockEndPoint():
                          target=controller.unlockMachineInThread, args=(machine, duration))
     t.start()
 
+    machine["startTime"] = str(now)
+    machine["endTime"] = str(now + timedelta(seconds=duration))
     return machine
     # else :
     #     return "<a href='/'> Machine cold not be unlocked </a>"
