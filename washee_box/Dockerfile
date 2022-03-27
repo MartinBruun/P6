@@ -16,15 +16,13 @@ RUN pip install --upgrade pip
 COPY ./requirements.txt .
 RUN pip install -r requirements.txt
 
+
 # Flask environment variables
 ENV FLASK_APP=washee-box-entry.py
 ENV FLASK_DEBUG=${BOX_DEBUG}
 
 # copy project
 COPY . .
-
-RUN pip install -e /src
-COPY tests/ /washee_box
 
 # run the entrypoint
 CMD ["python3", "washee-box-entry.py"]
