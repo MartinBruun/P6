@@ -23,8 +23,8 @@ ENV FLASK_DEBUG=${BOX_DEBUG}
 # copy project
 COPY . .
 
-RUN pip install -e /src
-COPY tests/ /tests/
+# RUN pip install -e /src
+COPY tests/ /washee_box
 
 # run the entrypoint
 CMD ["python3", "washee-box-entry.py"]
