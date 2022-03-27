@@ -6,8 +6,8 @@ import 'package:washee/core/washee_box/machine_model.dart';
 import '../errors/failures.dart';
 
 abstract class BoxCommunicator {
-  Future<Response> getMachines();
-  Future<Response> lockOrUnlock(
+  Future<Map<String, dynamic>> getMachines();
+  Future<Map<String, dynamic>> lockOrUnlock(
       String command, MachineModel machine, Duration duration);
   String get lockURL;
   String get unlockURL;
@@ -19,12 +19,12 @@ class BoxCommunicatorImpl implements BoxCommunicator {
 
   BoxCommunicatorImpl({required this.dio});
 
-  Future<Response> _lock() async {
+  Future<Map<String, dynamic>> _lock() async {
     Response response;
 
     response = await dio.post(lockURL);
     if (response.statusCode == 200) {
-      return response.data['machine'];
+      return response.data;
     } else {
       print("Something went wrong, status code and response: " +
           response.statusCode.toString() +
@@ -34,13 +34,14 @@ class BoxCommunicatorImpl implements BoxCommunicator {
     }
   }
 
-  Future<Response> _unlock(MachineModel machine, Duration duration) async {
+  Future<Map<String, dynamic>> _unlock(
+      MachineModel machine, Duration duration) async {
     Response response;
     var startTime = DateTime.now();
     machine.startTime = startTime;
     machine.endTime = startTime.add(duration);
     try {
-      response = await dio.post(unlockURL, data: {"machine": machine.toJson()});
+      response = await dio.post(unlockURL, data: machine.toJson());
       if (response.statusCode == 200) {
         return response.data;
       } else {
@@ -57,7 +58,7 @@ class BoxCommunicatorImpl implements BoxCommunicator {
   }
 
   @override
-  Future<Response> lockOrUnlock(
+  Future<Map<String, dynamic>> lockOrUnlock(
       String command, MachineModel machine, Duration duration) {
     if (command == "lock") {
       return _lock();
@@ -66,30 +67,48 @@ class BoxCommunicatorImpl implements BoxCommunicator {
   }
 
   @override
-  String get lockURL => 'http://washeebox.local/lock';
+  String get lockURL => 'http://washeebox.local:8001/lock';
 
   @override
-  String get unlockURL => 'http://washeebox.local/unlock';
+  String get unlockURL => 'http://washeebox.local:8001/unlock';
+  // 'https://dd4836d4-3a9d-4d8a-b83f-ccd74c637643.mock.pstmn.io/unlock';
 
   @override
-  Future<Response> getMachines() async {
+  Future<Map<String, dynamic>> getMachines() async {
     Response response;
 
     response = await dio.get(getMachinesURL);
     if (response.statusCode == 200) {
       if (response.data != null) {
-        return response.data['machines'];
+        return response.data;
       }
     } else {
       print("Something went wrong, status code and response: " +
           response.statusCode.toString() +
           " " +
           response.data['response']);
-      return response;
+      return response.data;
     }
-    return response;
+    return response.data;
+  }
+
+  Future<Map<String, dynamic>?> dummyFetching() async {
+    Response response;
+
+    response = await dio.get(dummyURL);
+    if (response.statusCode == 200) {
+      if (response.data != null) {
+        return response.data;
+      }
+    } else {
+      print("Something went wrong...");
+      return response.data;
+    }
+    return response.data;
   }
 
   @override
-  String get getMachinesURL => "http://ip:washeebox.local/getMachinesInfo";
+  String get getMachinesURL => "http://washeebox.local:8001/getMachinesInfo";
+  String get dummyURL =>
+      "https://dd4836d4-3a9d-4d8a-b83f-ccd74c637643.mock.pstmn.io/getMachinesInfo";
 }

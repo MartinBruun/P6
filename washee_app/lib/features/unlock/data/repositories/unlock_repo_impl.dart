@@ -1,4 +1,3 @@
-import 'package:dio/dio.dart';
 import 'package:washee/core/network/network_info.dart';
 import 'package:washee/core/washee_box/machine_model.dart';
 import 'package:washee/features/unlock/domain/repositories/unlock_repository.dart';
@@ -11,10 +10,20 @@ class UnlockRepositoryImpl implements UnlockRepository {
 
   UnlockRepositoryImpl({required this.remote, required this.networkInfo});
   @override
-  Future<Response?> unlock(MachineModel machine, Duration duration) async {
+  Future<MachineModel?> unlock(MachineModel machine, Duration duration) async {
     if (await networkInfo.isConnected) {
-      return await remote.unlock(machine, duration);
+      var data = await remote.unlock(machine, duration);
+      MachineModel updatedMachine = _constructMachineFromResponse(data);
+      print(updatedMachine);
+      return updatedMachine;
+    } else {
+      return null;
     }
-    return null;
+  }
+
+  MachineModel _constructMachineFromResponse(
+      Map<String, dynamic> machineAsJson) {
+    print(machineAsJson);
+    return MachineModel.fromJson(machineAsJson);
   }
 }

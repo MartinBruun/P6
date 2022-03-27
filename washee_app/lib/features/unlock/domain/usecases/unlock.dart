@@ -5,13 +5,13 @@ import 'package:washee/core/washee_box/machine_model.dart';
 
 import '../repositories/unlock_repository.dart';
 
-class UnlockUseCase implements UseCase<Response?, UnlockParams> {
+class UnlockUseCase implements UseCase<MachineModel?, UnlockParams> {
   final UnlockRepository repository;
 
   UnlockUseCase({required this.repository});
 
   @override
-  Future<Response?> call(UnlockParams params) async {
+  Future<MachineModel?> call(UnlockParams params) async {
     return await repository.unlock(params.machine, params.duration);
   }
 }
