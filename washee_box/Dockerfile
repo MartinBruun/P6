@@ -9,7 +9,7 @@ RUN apt-get install -y --no-install-recommends
 EXPOSE 8082
 
 # set work directory
-WORKDIR /usr/src/washee_box
+WORKDIR /usr/src
 
 # install dependencies
 RUN pip install --upgrade pip
