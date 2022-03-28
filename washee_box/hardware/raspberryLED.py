@@ -6,7 +6,7 @@ if not debug:
 
 class RaspberryLED:
     def __init__(self, machine_pin):
-        debug = False if int(os.environ.get("BOX_DEBUG", default="0")) == 0 else True
+        self.debug = False if int(os.environ.get("BOX_DEBUG", default="0")) == 0 else True
         
         self.machine_pin = machine_pin
         
