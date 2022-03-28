@@ -19,7 +19,7 @@ raspberry = Raspberry()
 # machine_name = ['l1', 'l2', 't1', 't2']
 # machine_list = []
 # user_list = []
-MAX_WASHINGTIME_IN_SEC = 9000  # 2timer og 30 min
+MAX_WASHINGTIME_IN_SEC = int(os.environ.get("MAX_WASHING_TIME_IN_SEC",default="9000"))  # 2timer og 30 min
 running = True
 
 # format of a machine:
