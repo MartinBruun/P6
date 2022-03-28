@@ -9,8 +9,6 @@ class Machine:
     
     def lock(self):
         return
-
-
     
     def unlock(self):
         return
