@@ -30,7 +30,7 @@ class WasheeScreen extends StatelessWidget {
                   height: mediaHeight * 0.075,
                   child: FittedBox(
                     child: Text(
-                      'WASHEE',
+                      'WASHEEEEEE',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         color: Colors.white,
