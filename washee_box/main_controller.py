@@ -1,8 +1,8 @@
 import json
 from time import sleep
 from datetime import datetime
-from washee_box.hardware.raspberryLED import RaspberryLED
-from washee_box.hardware.raspberry import Raspberry
+from hardware.raspberryLED import RaspberryLED
+from hardware.raspberry import Raspberry
 
 class MainController:
     

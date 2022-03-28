@@ -1,5 +1,5 @@
 from time import sleep
-from washee_box.hardware.raspberryLED import RaspberryLED
+from hardware.raspberryLED import RaspberryLED
 
 class Raspberry():
 

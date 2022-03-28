@@ -6,8 +6,8 @@ import dateutil.parser
 import threading
 from pprint import pprint
 
-from washee_box.main_controller import MainController
-from washee_box.hardware.raspberry import Raspberry
+from main_controller import MainController
+from hardware.raspberry import Raspberry
 
 # import data_models
 # from use_cases.boxFunctionality import unlockMachine
