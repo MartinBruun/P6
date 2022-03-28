@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:provider/provider.dart';
 import 'package:washee/core/pages/home_screen.dart';
-import 'package:washee/core/providers/global_provider.dart';
 import 'package:washee/core/washee_box/machine_model.dart';
 
 import '../../../../core/errors/error_handler.dart';
@@ -14,12 +12,19 @@ import '../../../../injection_container.dart';
 import '../../domain/usecases/unlock.dart';
 
 // ignore: must_be_immutable
-class StartWash extends StatelessWidget {
+class StartWash extends StatefulWidget {
   final MachineModel currentMachine;
 
   StartWash({required this.currentMachine});
 
+  @override
+  State<StartWash> createState() => _StartWashState();
+}
+
+class _StartWashState extends State<StartWash> {
   late MachineModel? fetchedMachine;
+
+  bool _isUnlockingMachine = false;
 
   @override
   Widget build(BuildContext context) {
@@ -71,12 +76,18 @@ class StartWash extends StatelessWidget {
                   child: Center(
                     child: InkWell(
                       onTap: () async {
+                        setState(() {
+                          _isUnlockingMachine = true;
+                        });
                         try {
                           fetchedMachine = await sl<UnlockUseCase>().call(
                               UnlockParams(
-                                  machine: currentMachine,
+                                  machine: widget.currentMachine,
                                   duration: Duration(hours: 2, minutes: 30)));
                           if (fetchedMachine == null) {
+                            setState(() {
+                              _isUnlockingMachine = false;
+                            });
                             ErrorHandler.errorHandlerView(
                                 context: context,
                                 prompt: HTTPErrorPrompt(
@@ -84,6 +95,9 @@ class StartWash extends StatelessWidget {
                                         "Det ser ud til, at du ikke har forbindelse til WasheeBox"));
                           }
                         } catch (e) {
+                          setState(() {
+                            _isUnlockingMachine = false;
+                          });
                           print(e.toString());
                           await showDialog(
                             context: context,
@@ -94,12 +108,15 @@ class StartWash extends StatelessWidget {
                             },
                           );
                         }
-                        var provider =
-                            Provider.of<GlobalProvider>(context, listen: false);
-                        var machineToStart = provider.machines.where(
-                            (element) =>
-                                element.name.toLowerCase() ==
-                                fetchedMachine!.name.toLowerCase());
+                        setState(() {
+                          _isUnlockingMachine = false;
+                        });
+                        // var provider =
+                        //     Provider.of<GlobalProvider>(context, listen: false);
+                        // var machineToStart = provider.machines.where(
+                        //     (element) =>
+                        //         element.name.toLowerCase() ==
+                        //         fetchedMachine!.name.toLowerCase());
                         // provider.machines.removeWhere((element) =>
                         //     element.name.toLowerCase() ==
                         //     fetchedMachine!.name.toLowerCase());
@@ -112,14 +129,18 @@ class StartWash extends StatelessWidget {
                             MaterialPageRoute(
                                 builder: (context) => HomeScreen()));
                       },
-                      child: Text(
-                        'Start',
-                        style: textStyle.copyWith(
-                          fontSize: textSize_32,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.black,
-                        ),
-                      ),
+                      child: _isUnlockingMachine
+                          ? CircularProgressIndicator(
+                              color: Colors.black,
+                            )
+                          : Text(
+                              'Start',
+                              style: textStyle.copyWith(
+                                fontSize: textSize_32,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.black,
+                              ),
+                            ),
                     ),
                   ),
                 ),
