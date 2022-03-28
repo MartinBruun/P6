@@ -25,13 +25,15 @@ class _InitiateWashDialogState extends State<InitiateWashDialog> {
     super.initState();
   }
 
+  bool _machineReady = false;
+
   @override
   Widget build(BuildContext context) {
     var unlockProvider = Provider.of<UnlockProvider>(context, listen: true);
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: Center(
-        child: unlockProvider.isDoneUnlocking
+        child: _machineReady
             ? UnlockSuccessfull(machine: widget.machine)
             : Container(
                 decoration: BoxDecoration(
@@ -82,7 +84,9 @@ class _InitiateWashDialogState extends State<InitiateWashDialog> {
                                   await Future.delayed(Duration(seconds: 3))
                                       .then((_) {
                                     unlockProvider.isUnlocking = false;
-                                    unlockProvider.isDoneUnlocking = true;
+                                    setState(() {
+                                      _machineReady = true;
+                                    });
                                   });
                                 },
                                 child: unlockProvider.isUnlocking
