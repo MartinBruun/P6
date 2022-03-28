@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:provider/provider.dart';
+// import 'package:provider/provider.dart';
 import 'package:washee/core/pages/home_screen.dart';
-import 'package:washee/core/providers/global_provider.dart';
+// import 'package:washee/core/providers/global_provider.dart';
 import 'package:washee/core/washee_box/machine_model.dart';
 
 import '../../../../core/errors/error_handler.dart';
@@ -93,12 +93,12 @@ class StartWash extends StatelessWidget {
                             },
                           );
                         }
-                        var provider =
-                            Provider.of<GlobalProvider>(context, listen: false);
-                        var machineToStart = provider.machines.where(
-                            (element) =>
-                                element.name.toLowerCase() ==
-                                fetchedMachine!.name.toLowerCase());
+                        // var provider =
+                        //     Provider.of<GlobalProvider>(context, listen: false);
+                        // var machineToStart = provider.machines.where(
+                        //     (element) =>
+                        //         element.name.toLowerCase() ==
+                        //         fetchedMachine!.name.toLowerCase());
                         // provider.machines.removeWhere((element) =>
                         //     element.name.toLowerCase() ==
                         //     fetchedMachine!.name.toLowerCase());
