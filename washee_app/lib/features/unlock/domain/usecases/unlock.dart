@@ -1,15 +1,26 @@
+import 'package:equatable/equatable.dart';
 import 'package:washee/core/usecases/usecase.dart';
+import 'package:washee/core/washee_box/machine_model.dart';
 
 import '../repositories/unlock_repository.dart';
 
-class UnlockUseCase implements UseCase<bool, NoParams> {
+class UnlockUseCase implements UseCase<MachineModel?, UnlockParams> {
   final UnlockRepository repository;
 
   UnlockUseCase({required this.repository});
 
-  // As params, it might need the ID of the washing machine or something similar
   @override
-  Future<bool> call(NoParams params) async {
-    return await repository.unlock();
+  Future<MachineModel?> call(UnlockParams params) async {
+    return await repository.unlock(params.machine, params.duration);
   }
+}
+
+class UnlockParams extends Equatable {
+  final MachineModel machine;
+  final Duration duration;
+
+  UnlockParams({required this.machine, required this.duration});
+
+  @override
+  List<Object?> get props => [machine, duration];
 }

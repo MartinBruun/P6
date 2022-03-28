@@ -3,18 +3,16 @@ name: Box CI
 on:
   pull_request:
     paths:
-      - 'washee_box/**'
+      - "washee_box/**"
 
 jobs:
-
   build:
-
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Build, run, test and tear down
-      run: |
-        docker-compose up -d --build box
-        docker-compose exec -T box pytest       
-        docker-compose down -v
+      - uses: actions/checkout@v2
+      - name: Build, run, test and tear down
+        run: |
+          docker-compose up -d --build box
+          docker-compose exec -T box pytest
+          docker-compose down -v

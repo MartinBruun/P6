@@ -1,0 +1,3 @@
+{
+  "python.analysis.extraPaths": ["./washee_box/use_cases"]
+}

@@ -1,3 +1,5 @@
+import 'package:washee/core/washee_box/machine_model.dart';
+
 abstract class UnlockRepository {
-  Future<bool> unlock();
+  Future<MachineModel?> unlock(MachineModel machine, Duration duration);
 }
