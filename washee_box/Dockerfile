@@ -9,7 +9,11 @@ RUN apt-get install -y --no-install-recommends
 EXPOSE 8082
 
 # set work directory
-WORKDIR /usr/src
+WORKDIR /usr/src/washee_box
+
+# set environment variables
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
 
 # install dependencies
 RUN pip install --upgrade pip
@@ -21,8 +25,13 @@ RUN pip install -r requirements.txt
 ENV FLASK_APP=washee-box-entry.py
 ENV FLASK_DEBUG=${BOX_DEBUG}
 
+# copy entrypoint.sh
+COPY ./entrypoint.sh .
+RUN sed -i 's/\r$//g' /usr/src/washee_box/entrypoint.sh
+RUN ["chmod", "+x", "/usr/src/washee_box/entrypoint.sh"]
+
 # copy project
 COPY . .
 
-# run the entrypoint
-CMD ["python3", "washee-box-entry.py"]
+# run entrypoint.sh
+ENTRYPOINT ["/usr/src/washee_box/entrypoint.sh"]
