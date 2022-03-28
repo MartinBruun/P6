@@ -301,8 +301,8 @@ nordpool.json
 
 # These log files are ignored so as to not clutter their generation
 washee_box/exception_handling/exception_log.txt
-#washee_box/data_collection/
-#washee_box/data_setup_files/allowed_users.json
-#washee_box/data_setup_files/machine_list.json
-#washee_box/data_setup_files/max_washing_time.json
+washee_box/data_collection/
+washee_box/data_setup_files/allowed_users.json
+washee_box/data_setup_files/machine_list.json
+washee_box/data_setup_files/max_washing_time.json
 washee_web/washee_web/exception_log.txt
