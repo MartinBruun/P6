@@ -1,4 +1,3 @@
-import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 import 'package:washee/core/usecases/usecase.dart';
 import 'package:washee/core/washee_box/machine_model.dart';
