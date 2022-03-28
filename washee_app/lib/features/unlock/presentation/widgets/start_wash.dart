@@ -13,6 +13,7 @@ import '../../../../core/presentation/themes/themes.dart';
 import '../../../../injection_container.dart';
 import '../../domain/usecases/unlock.dart';
 
+// ignore: must_be_immutable
 class StartWash extends StatelessWidget {
   final MachineModel currentMachine;
 

@@ -1,8 +1,6 @@
 import 'dart:convert';
 
-// import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
-// import 'package:mockito/mockito.dart';
 import 'package:washee/core/helpers/box_communicator.dart';
 import 'package:mockito/annotations.dart';
 import 'package:washee/features/get_machines/data/repositories/get_machines_repo_impl.dart';
