@@ -23,7 +23,7 @@ services:
       - ./.env.dev
     ports:
       - 65432:5432
-  boxes:
+  box:
     build: ./washee_box
     command: python washee-box-entry.py
     volumes:
