@@ -28,7 +28,7 @@ ENV FLASK_DEBUG=${BOX_DEBUG}
 # copy entrypoint.sh
 COPY ./entrypoint.sh .
 RUN sed -i 's/\r$//g' /usr/src/washee_box/entrypoint.sh
-RUN chmod +x /usr/src/washee_box/entrypoint.sh
+RUN ["chmod", "+x", "/usr/src/washee_box/entrypoint.sh"]
 
 # copy project
 COPY . .
