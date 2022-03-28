@@ -1,5 +1,5 @@
-import 'dart:convert';
-import 'dart:io';
+// import 'dart:convert';
+
 import 'package:flutter/services.dart' as rootBundle;
 
 import 'package:flutter/material.dart';
@@ -61,7 +61,7 @@ class _MachineOverviewState extends State<MachineOverview> {
                   children: [
                     RefreshMachines(),
                     SizedBox(
-                      height: 300.h,
+                      height: 100.h,
                     ),
                     Expanded(
                       child: ListView.builder(
