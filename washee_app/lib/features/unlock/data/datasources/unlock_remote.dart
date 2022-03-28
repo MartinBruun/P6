@@ -1,4 +1,3 @@
-import 'package:dio/dio.dart';
 import 'package:washee/core/helpers/box_communicator.dart';
 import 'package:washee/core/washee_box/machine_model.dart';
 
