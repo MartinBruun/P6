@@ -30,7 +30,7 @@ class _MachineOverviewState extends State<MachineOverview> {
     SchedulerBinding.instance?.addPostFrameCallback((_) async {
       var provider = Provider.of<GlobalProvider>(context, listen: false);
       provider.isConnectingToBox = true;
-      await Future.delayed(Duration(seconds: 3));
+      await Future.delayed(Duration(seconds: 1));
       if (!provider.fetchedMachines) {
         // var string = await loadAsset();
         // var stringAsJson = json.decode(string);
