@@ -47,7 +47,22 @@ If possible, flutter should also be able to be dockerized, but presently it is n
 Each app has its own seperate production ready docker-compose.NAME.yml file, which when run in the correct environment, will start a production ready build.
 
 #### Web
-To make a production ready server, create a `.env.prod.web` and a `.env.prod.db` file in the root directory.
+To make a production ready server, made in the same way as what this project is using, you need a Raspberry Pi running Raspbian OS (other OS might also work, but this works on a Raspbian system)
+
+First, install docker, git and others following this:
+https://dev-pages.info/how-to-install-docker-and-docker-compose-on-raspberry-pi-4/
+If you get any errors installing docker-compose, do this:
+sudo pip3 install docker-compose==1.28.6
+This is due to the fact that the Raspberry should be updated to Buster OS instead of Raspbian.
+
+Then do any necessary security precautions
+https://raspberrytips.com/security-tips-raspberry-pi/
+
+
+
+
+
+To run the software create a `.env.prod.web` and a `.env.prod.db` file in the root directory.
 The configuration of these files are secret and outside version control, so ask someone who knows what it should be.
 
 These commands are needed to start the server, update the database and collect the necessary static files
