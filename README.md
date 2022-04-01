@@ -58,7 +58,8 @@ This is due to the fact that the Raspberry should be updated to Buster OS instea
 Then do any necessary security precautions
 https://raspberrytips.com/security-tips-raspberry-pi/
 
-
+Also Update the Django security
+https://opensource.com/article/18/1/10-tips-making-django-admin-more-secure
 
 
 

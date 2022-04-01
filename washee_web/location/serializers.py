@@ -6,10 +6,10 @@ from location.models import Location, Service
 class LocationSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Location
-        fields = ['name']
+        fields = ['id','name','created','last_updated','owner','services']
         
 
 class ServiceSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Service
-        fields = ['name', 'location']
+        fields = ['id','name','service_type','created','last_updated','location','owner','bookings']

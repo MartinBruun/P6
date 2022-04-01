@@ -1,4 +1,4 @@
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from rest_framework import serializers
 
 from account.models import Account
@@ -6,11 +6,11 @@ from account.models import Account
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
-        model = User
-        fields = ['url', 'username', 'email', 'is_staff']
+        model = get_user_model()
+        fields = ['id','username', 'email', 'date_joined','last_login','is_active','is_admin', 'is_staff','is_superuser','accounts','locations_owned','services_owned']
         
         
 class AccountSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Account
-        fields = ['name']
+        fields = ['id', 'name','balance','created','last_updated','users','bookings']
