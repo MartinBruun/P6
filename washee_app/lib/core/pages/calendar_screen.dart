@@ -42,8 +42,9 @@ class CalendarScreen extends StatelessWidget {
       body: ListView(padding: EdgeInsets.all(16), children: [
         Column(
           children: [
-            Text("Booking Calendar"),
-            CalendarCard(dayShiftInset: 0, daysInMonth: 31, monthName: 'Januar',),
+            Text("Booking kalender",style:TextStyle(fontSize:28,), textAlign: TextAlign.center,),
+Container(child:
+            CalendarCard(dayShiftInset: 0, daysInMonth: 31, monthName: 'Januar',),),
           ],
         ),
       ]),

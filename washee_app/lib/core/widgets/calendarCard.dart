@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:washee/core/widgets/day_card.dart';
 
 class CalendarCard extends StatelessWidget {
   CalendarCard({
@@ -35,7 +36,7 @@ class CalendarCard extends StatelessWidget {
     return [date, dayname];
   }
 
-  void handleDateSelected() {
+  void _handleDateSelected() {
     print("a date was clicked");
   }
 
@@ -46,44 +47,44 @@ class CalendarCard extends StatelessWidget {
         Padding(
       padding: EdgeInsets.only(left: 33.w, right: 33.w, bottom: 24.h),
       child:
-          // ListView(padding: EdgeInsets.all(1), children: [
-            Column(
-              children: [
-          //       Text("Booking Calendar"),
-          Text(monthName),
-            Row(
-              children: [
-                ElevatedButton(
-                  child: Text("mandag dato "),
-                  onPressed: handleDateSelected,
-                ),
-                ElevatedButton(
-                  child: Text("tirsdag dato "),
-                  onPressed: handleDateSelected,
-                ),
-                ElevatedButton(
-                  child: Text("onsdag dato "),
-                  onPressed: handleDateSelected,
-                ),
-                ElevatedButton(
-                  child: Text("torsdag dato "),
-                  onPressed: handleDateSelected,
-                ),
-                ElevatedButton(
-                  child: Text("fredag dato "),
-                  onPressed: handleDateSelected,
-                ),
-                ElevatedButton(
-                  child: Text("lørdag dato "),
-                  onPressed: handleDateSelected,
-                ),
-                ElevatedButton(
-                  child: Text("søndag dato "),
-                  onPressed: handleDateSelected,
-                ),
-              ],),
-          // ],),
+            Container(
+              width: double.infinity,
+              margin: EdgeInsets.all(10),
+              padding: EdgeInsets.all(10),
+              child: Column(
+                children: [
+                  Text(monthName),
+                  Row(
+                    children: [
+                      DayCard(date: 1, dayName: daysNames[0], selectHandler: _handleDateSelected,),
+                      
+                      ElevatedButton(
+                        child: Text("tirsdag dato "),
+                        onPressed: _handleDateSelected,
+                      ),
+                      ElevatedButton(
+                        child: Text("onsdag dato "),
+                        onPressed: _handleDateSelected,
+                      ),
+                      ElevatedButton(
+                        child: Text("torsdag dato "),
+                        onPressed: _handleDateSelected,
+                      ),
+                      ElevatedButton(
+                        child: Text("fredag dato "),
+                        onPressed: _handleDateSelected,
+                      ),
+                      ElevatedButton(
+                        child: Text("lørdag dato "),
+                        onPressed: _handleDateSelected,
+                      ),
+                      ElevatedButton(
+                        child: Text("søndag dato "),
+                        onPressed: _handleDateSelected,
+                      ),
+                    ],),
       ]),
+            ),
     );
   }
 }
