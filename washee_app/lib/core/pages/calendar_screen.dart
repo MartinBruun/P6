@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 
 class CalendarScreen extends StatelessWidget {
   static const routeName = "/calendar-screen";
@@ -7,7 +9,23 @@ class CalendarScreen extends StatelessWidget {
     // var mediaHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
-      body: Text("Calendar"),     
+
+      backgroundColor: Colors.orange,
+      body: Center( child:  SizedBox(height: 100.h, child: Column(
+        children: [
+          Row(children: [
+            Text("Day"),
+            Text("Day"),
+            Text("Day"),
+          ],),
+          Row(children: [
+            Text("Day"),
+            Text("Day"),
+            Text("Day"),
+          ],),
+
+        ]
+      ),),),     
       );
   }
 }
