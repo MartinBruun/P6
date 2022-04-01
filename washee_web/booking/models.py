@@ -1,6 +1,6 @@
 from django.db import models
 
-from location.models import Service
+from location.models import Machine, Service
 from account.models import Account
 from booking.managers import (
     BookingManager
@@ -25,10 +25,17 @@ class Booking(models.Model):
     # Choices
     
     # Foreign Keys
-    service = models.ForeignKey(
-        Service, 
+    machine = models.ForeignKey(
+        Machine, 
         on_delete=models.CASCADE,
         related_name="bookings"
+    )
+    service = models.ForeignKey(
+        Service,
+        on_delete=models.CASCADE,
+        related_name="bookings",
+        blank=True,
+        null=True
     )
     account = models.ForeignKey(
         Account, 
@@ -40,7 +47,7 @@ class Booking(models.Model):
     objects = BookingManager()
     
     def __str__(self):
-        return "Booking made by " + self.account.name + " at " + self.created
+        return "Booking made by " + self.account.name + " at " + str(self.created)
     
     class Meta:
         ordering = ['-created']

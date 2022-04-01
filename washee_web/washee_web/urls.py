@@ -22,7 +22,9 @@ from django.conf.urls.static import static
 from upload.views import image_upload
 from account.view_sets import UserViewSet, AccountViewSet
 from booking.view_sets import BookingViewSet
-from location.view_sets import LocationViewSet, ServiceViewSet
+from location.view_sets import (
+    LocationViewSet, MachineViewSet, MachineModelViewSet, ServiceViewSet
+)
 
 # Routes
 router = routers.DefaultRouter()
@@ -30,6 +32,8 @@ router.register(r'users', UserViewSet)
 router.register(r'accounts', AccountViewSet)
 router.register(r"bookings", BookingViewSet)
 router.register(r"locations", LocationViewSet)
+router.register(r"machines", MachineViewSet)
+router.register(r"machine_models", MachineModelViewSet)
 router.register(r"services", ServiceViewSet)
 
 from django.http import HttpResponse
