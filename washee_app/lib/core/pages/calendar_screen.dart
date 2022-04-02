@@ -5,30 +5,45 @@ class CalendarScreen extends StatelessWidget {
   static const routeName = "/calendar-screen";
 
   //if the 1.st is a monday dayShiftInset = 0,  weddensday dayShiftInset = 2
-  int dayShiftInset = 0;
-  int daysInMonth = 31;
-  int dayModolus = 7;
-  List daysNames = [
-    "mandag",
-    "tirsdag",
-    "onsdag",
-    "torsdag",
-    "fredag",
-    "lørdag",
-    "søndag"
+  final int dayShiftInset = 0;
+  final int daysInMonth = 31;
+  final List<int> greennessdata = [
+    -1,
+    -1,
+    -1,
+    -1,
+    -1,
+    0,
+    -1,
+    10,
+    -1,
+    -1,
+    -1,
+    -1,
+    -1,
+    -1,
+    -1,
+    -1,
+    -1,
+    -1,
+    -1,
+    -1,
+    -1,
+    -1,
+    -1,
+    -1,
+    -1,
+    -1,
+    -1,
+    -1,
+    -1,
+    -1,
+    -1,
+    -1,
+    -1,
+    -1,
+    -1
   ];
-
-  int fields = 6 * 7;//6uger med 7 dage
-  List getCalendarDay(int calendarFieldNumber) {
-    if (calendarFieldNumber - dayShiftInset - 1 < 0) {
-      return ["", ""];
-    }
-
-    int date = calendarFieldNumber - dayShiftInset;
-    var dayname = daysNames[(calendarFieldNumber % 7)];
-
-    return [date, dayname];
-  }
 
   void handleDateSelected() {
     print("a date was clicked");
@@ -43,9 +58,22 @@ class CalendarScreen extends StatelessWidget {
         Column(
           children: [
             Text(""),
-            Text("Booking kalender",style:TextStyle(fontSize:28,), textAlign: TextAlign.center,),
-Container(child:
-            CalendarCard(dayShiftInset: 2, daysInMonth: 31, monthName: 'Januar',),),
+            Text(
+              "Booking kalender",
+              style: TextStyle(
+                fontSize: 28,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            Container(
+              child: CalendarCard(
+                dayShiftInset: dayShiftInset,
+                daysInMonth: daysInMonth,
+                monthName: 'Januar',
+                greennessdata: greennessdata,
+                handleDateSelected: handleDateSelected,
+              ),
+            ),
           ],
         ),
       ]),
