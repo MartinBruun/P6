@@ -61,19 +61,34 @@ class CalendarScreen extends StatelessWidget {
             Text(
               "Booking kalender",
               style: TextStyle(
-                fontSize: 28,
+                fontSize: 35,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
               ),
               textAlign: TextAlign.center,
             ),
-            Container(
-              child: CalendarCard(
+             CalendarCard(
                 dayShiftInset: dayShiftInset,
                 daysInMonth: daysInMonth,
                 monthName: 'Januar',
                 greennessdata: greennessdata,
                 handleDateSelected: handleDateSelected,
               ),
-            ),
+              CalendarCard(
+                dayShiftInset: 3,
+                daysInMonth: 28,
+                monthName: 'Februar',
+                greennessdata: greennessdata,
+                handleDateSelected: handleDateSelected,
+              ),
+              CalendarCard(
+                dayShiftInset: 3,
+                daysInMonth: 30,
+                monthName: 'Marts',
+                greennessdata: greennessdata,
+                handleDateSelected: handleDateSelected,
+              ),
+            
           ],
         ),
       ]),

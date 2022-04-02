@@ -61,7 +61,7 @@ class CalendarCard extends StatelessWidget {
         // margin: EdgeInsets.all(5.w),
         // padding: EdgeInsets.all(15),
         child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-          Text(monthName),
+          Text(monthName,style:TextStyle(fontSize: 30, fontWeight:FontWeight.bold, color:Colors.white60)),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
