@@ -38,10 +38,11 @@ class CalendarScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     // var mediaHeight = MediaQuery.of(context).size.height;
     return Scaffold(
-      backgroundColor: Colors.orange,
+      // backgroundColor: Colors.orange,
       body: ListView(padding: EdgeInsets.all(16), children: [
         Column(
           children: [
+            Text(""),
             Text("Booking kalender",style:TextStyle(fontSize:28,), textAlign: TextAlign.center,),
 Container(child:
             CalendarCard(dayShiftInset: 2, daysInMonth: 31, monthName: 'Januar',),),
