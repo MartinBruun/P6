@@ -24,9 +24,10 @@ class _HomeScreenState extends State<HomeScreen> {
       WashScreen(),
       WasheeScreen(),
     ];
-    _selectedPageIndex = _pages
-        .indexWhere((element) => element.toString() == widget.page.toString());
-    print(widget.page.toString());
+    _selectedPageIndex = 0;
+    // _pages
+    //     .indexWhere((element) => element.toString() == widget.page.toString());
+    // print(widget.page.toString());
 
     super.initState();
   }
