@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:washee/features/unlock/presentation/pages/wash_screen.dart';
 import 'package:washee/core/pages/washee_screen.dart';
+import 'package:washee/core/pages/calendar_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   static const routeName = "/home-screen";
@@ -23,8 +24,11 @@ class _HomeScreenState extends State<HomeScreen> {
     _pages = [
       WashScreen(),
       WasheeScreen(),
+      CalendarScreen(),
     ];
+
     _selectedPageIndex = 0;
+
     // _pages
     //     .indexWhere((element) => element.toString() == widget.page.toString());
     // print(widget.page.toString());
@@ -62,6 +66,10 @@ class _HomeScreenState extends State<HomeScreen> {
             BottomNavigationBarItem(
               icon: Icon(Icons.home),
               label: 'Home',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.calendar_month),
+              label: 'Calendar',
             ),
           ],
         ),
