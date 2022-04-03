@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:washee/core/washee_box/machine_model.dart';
+import 'package:washee/core/booking/booking_model.dart';
 
 class GlobalProvider extends ChangeNotifier {
   List<MachineModel> _machines = [
@@ -30,14 +31,18 @@ class GlobalProvider extends ChangeNotifier {
     //     endTime: DateTime(2022, 03, 18, 12, 0, 0)
     //         .add(Duration(hours: 3, minutes: 15))),
   ];
+  List<BookingModel> _bookings = [];
   bool _isConnectingToBox = false;
   bool _isRefreshing = false;
   bool _fetchedMachines = false;
+  bool _fetchedBookings = false;
 
   List<MachineModel> get machines => _machines;
+  List<BookingModel> get bookings => _bookings;
   bool get isConnectingToBox => _isConnectingToBox;
   bool get isRefreshing => _isRefreshing;
   bool get fetchedMachines => _fetchedMachines;
+  bool get fetchedBookings => _fetchedBookings;
 
   set isConnectingToBox(bool value) {
     _isConnectingToBox = value;
@@ -54,14 +59,31 @@ class GlobalProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  set fetchedBookings(bool value){
+    _fetchedBookings = value;
+    notifyListeners();
+  }
+
   updateMachines(List<MachineModel> machines) {
     _machines = machines;
+    notifyListeners();
+  }
+
+  updateBookings(List<BookingModel> bookings) {
+    _bookings = bookings;
     notifyListeners();
   }
 
   constructMachineList(Map<String, dynamic> machinesAsJson) {
     for (var machine in machinesAsJson['machines']) {
       _machines.add(MachineModel.fromJson(machine));
+    }
+    notifyListeners();
+  }
+
+  constructBookingList(Map<String, dynamic> bookingsAsJson) {
+    for (var booking in bookingsAsJson['machines']) {
+      _bookings.add(BookingModel.fromJson(booking));
     }
     notifyListeners();
   }
