@@ -2,22 +2,59 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class DayCard extends StatelessWidget {
+  final int monthNumber;
   final String dayName;
   final int dayNumber;
   final VoidCallback selectHandler;
   final int greenness;
   final bool isToday;
   final bool isSelected; //-1 is neutral , 0 is red 10 is green
-
-  const DayCard({
+  
+ 
+  const DayCard.specific({
     required this.selectHandler,
+    required this.monthNumber,
     required this.dayNumber,
     required this.dayName,
     required this.greenness,
     required this.isToday,
-    required this.isSelected,
+    required this.isSelected, 
   }) : super();
 
+  factory DayCard(
+      {required DateTime? date,
+      required VoidCallback selectHandler,
+      required int greenness,
+      required bool isSelected}) {
+    int tmpMonthNumber = date != null ? date.month : 0;
+    int tmpDayNumber = date != null ? date.day : 0;
+
+    List daysNames = [
+    " ",
+    "mandag",
+    "tirsdag",
+    "onsdag",
+    "torsdag",
+    "fredag",
+    "lørdag",
+    "søndag"
+  ];
+    String tmpDayName = date != null ? daysNames[date.weekday] : daysNames[0];
+
+    var now = new DateTime.now();
+    var tempIsToday = date != null ? DateTime(now.year, now.month, now.day).isAtSameMomentAs(DateTime(date.year, date.month, date.day)) : false;
+
+    return DayCard.specific(
+        monthNumber:tmpMonthNumber,
+        dayName: tmpDayName,
+        dayNumber: tmpDayNumber,
+        isToday: tempIsToday,
+        selectHandler: selectHandler,
+        greenness: greenness,
+        isSelected: isSelected);
+  }
+
+  
   Color greennessColor({bool lighten = false}) {
     if (dayNumber == 0) {
       return lighten ? Colors.transparent : Colors.transparent;
@@ -50,20 +87,20 @@ class DayCard extends StatelessWidget {
                 padding: const EdgeInsets.all(0.1),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: [ 
+                  children: [
                     Container(
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(50),
-                        border:Border.all(color:isToday ? Colors.red : Colors.transparent,width:2,)
-                      ),
-                      child: 
-                      Text(
-                        isSelected ? '$dayNumber X ': '$dayNumber',
+                          borderRadius: BorderRadius.circular(50),
+                          border: Border.all(
+                            color: isToday ? Colors.blue : Colors.transparent,
+                            width: 2,
+                          )),
+                      child: Text(
+                        isSelected ? '$dayNumber X ' : '$dayNumber',
                         style: TextStyle(fontSize: 10),
                         textAlign: TextAlign.justify,
                         softWrap: false,
                         overflow: TextOverflow.visible,
-
                       ),
                     ),
                     Text(

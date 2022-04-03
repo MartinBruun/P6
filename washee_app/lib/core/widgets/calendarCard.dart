@@ -4,45 +4,125 @@ import 'package:washee/core/widgets/day_card.dart';
 
 class CalendarCard extends StatelessWidget {
   CalendarCard(
-      {required this.dayShiftInset,
-      required this.daysInMonth,
-      required this.monthName,
+      {required this.date,
       required this.greennessdata,
       required this.handleDateSelected})
       : super();
 
-  final int dayShiftInset;
-  final int daysInMonth;
-  final String monthName;
+  final DateTime date;
   final List<int> greennessdata;
   final VoidCallback handleDateSelected;
 
-  final int dayModolus = 7;
-  final List daysNames = [
-    "mandag",
-    "tirsdag",
-    "onsdag",
-    "torsdag",
-    "fredag",
-    "lørdag",
-    "søndag"
-  ];
-
+  //TODO:Lav en setting som bestemmer størrelsen på gridded
   final int fields = 6 * 7; //6uger med 7 dage
-  int getFieldNumberDate(int fieldnumber) {
-    if (fieldnumber - dayShiftInset < 0) {
-      return 0;
-    } else if (fieldnumber + 1 - dayShiftInset > daysInMonth) {
-      return 0;
+
+  DateTime? getFieldNumberDate(int fieldnumber) {
+    var offset = _dayShiftOffset();
+    var daysInMonth = _daysInMonth();
+
+    if (fieldnumber - offset < 0) {
+      return null;
+    } else if (fieldnumber + 1 - offset > daysInMonth) {
+      return null;
     } else {
-      return fieldnumber + 1 - dayShiftInset;
+      return DateTime(date.year, date.month, fieldnumber + 1 - offset);
     }
   }
 
-  bool isToday(int dayNumber) {
+  DateTime _firstDateInMonth() {
+    return DateTime(date.year, date.month, 1);
+  }
+
+  int _dayShiftOffset() {
+    int offset = 0;
+    DateTime firstDate = _firstDateInMonth();
+    switch (firstDate.weekday) {
+      case DateTime.monday:
+        offset = 0;
+        break;
+      case DateTime.tuesday:
+        offset = 1;
+        break;
+      case DateTime.wednesday:
+        offset = 2;
+        break;
+      case DateTime.thursday:
+        offset = 3;
+        break;
+      case DateTime.friday:
+        offset = 4;
+        break;
+      case DateTime.saturday:
+        offset = 5;
+        break;
+      case DateTime.sunday:
+        offset = 6;
+        break;
+      default:
+    }
+    return offset;
+  }
+
+  int _daysInMonth() {
+    var lastDayOfMonth = DateTime(date.year, date.month + 1, 0);
+    return lastDayOfMonth.day;
+  }
+
+  bool isToday(DateTime aDate) {
     DateTime now = new DateTime.now();
     int today = now.day;
-    return today == dayNumber;
+    return today == aDate.day;
+  }
+
+  int getGreenness(int field) {
+    DateTime? tempFieldDate = getFieldNumberDate(field);
+    return tempFieldDate == null ? -1 : greennessdata[tempFieldDate.day - 1];
+  }
+
+  String monthName(int monthNumber) {
+    String monthName = " ";
+    switch (monthNumber) {
+      case 1:
+        monthName = "Januar"; 
+        break;
+      case 2:
+        monthName = "Februar"; 
+        break;
+      case 3:
+        monthName = "Marts"; 
+        break;
+      case 4:
+        monthName = "April"; 
+        break;
+      case 5:
+        monthName = "Maj"; 
+        break;
+      case 6:
+        monthName = "Juni"; 
+        break;
+      case 7:
+        monthName = "Juli"; 
+        break;
+      case 8:
+        monthName = "August"; 
+        break;
+      case 9:
+        monthName = "September"; 
+        break;
+      case 10:
+        monthName = "Oktober"; 
+        break;
+      case 11:
+        monthName = "November"; 
+        break;
+      case 12:
+        monthName = "December"; 
+        break;
+
+      default:
+      
+    }
+    return monthName;
   }
 
   @override
@@ -56,7 +136,7 @@ class CalendarCard extends StatelessWidget {
         // margin: EdgeInsets.all(5.w),
         // padding: EdgeInsets.all(15),
         child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-          Text(monthName,
+          Text(monthName(date.month),
               style: TextStyle(
                   fontSize: 30,
                   fontWeight: FontWeight.bold,
@@ -65,60 +145,45 @@ class CalendarCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               DayCard(
-                dayNumber: getFieldNumberDate(0),
-                dayName: daysNames[0],
+                  date: getFieldNumberDate(0),
+                  selectHandler: handleDateSelected,
+                  greenness: getGreenness(0),
+                  isSelected: false),
+              DayCard(
+                date: getFieldNumberDate(1),
                 selectHandler: handleDateSelected,
-                greenness: greennessdata[getFieldNumberDate(0)],
-                isSelected: isToday(getFieldNumberDate(0)),
-                isToday: isToday(getFieldNumberDate(0)),
+                greenness: getGreenness(1),
+                isSelected: false,
               ),
               DayCard(
-                dayNumber: getFieldNumberDate(1),
-                dayName: daysNames[1],
+                date: getFieldNumberDate(2),
                 selectHandler: handleDateSelected,
-                greenness: greennessdata[getFieldNumberDate(1)],
-                isSelected: isToday(getFieldNumberDate(1)),
-                isToday: isToday(getFieldNumberDate(1)),
+                greenness: getGreenness(2),
+                isSelected: false,
               ),
               DayCard(
-                dayNumber: getFieldNumberDate(2),
-                dayName: daysNames[2],
+                date: getFieldNumberDate(3),
                 selectHandler: handleDateSelected,
-                greenness: greennessdata[getFieldNumberDate(2)],
-                isSelected: isToday(getFieldNumberDate(2)),
-                isToday: isToday(getFieldNumberDate(2)),
+                greenness: getGreenness(3),
+                isSelected: false,
               ),
               DayCard(
-                dayNumber: getFieldNumberDate(3),
-                dayName: daysNames[3],
+                date: getFieldNumberDate(4),
                 selectHandler: handleDateSelected,
-                greenness: greennessdata[getFieldNumberDate(3)],
-                isSelected: isToday(getFieldNumberDate(3)),
-                isToday: isToday(getFieldNumberDate(3)),
+                greenness: getGreenness(4),
+                isSelected: false,
               ),
               DayCard(
-                dayNumber: getFieldNumberDate(4),
-                dayName: daysNames[4],
+                date: getFieldNumberDate(5),
                 selectHandler: handleDateSelected,
-                greenness: greennessdata[getFieldNumberDate(4)],
-                isSelected: isToday(getFieldNumberDate(4)),
-                isToday: isToday(getFieldNumberDate(4)),
+                greenness: getGreenness(5),
+                isSelected: false,
               ),
               DayCard(
-                dayNumber: getFieldNumberDate(5),
-                dayName: daysNames[5],
+                date: getFieldNumberDate(6),
                 selectHandler: handleDateSelected,
-                greenness: greennessdata[getFieldNumberDate(5)],
-                isSelected: isToday(getFieldNumberDate(5)),
-                isToday: isToday(getFieldNumberDate(5)),
-              ),
-              DayCard(
-                dayNumber: getFieldNumberDate(6),
-                dayName: daysNames[6],
-                selectHandler: handleDateSelected,
-                greenness: greennessdata[getFieldNumberDate(6)],
-                isSelected: isToday(getFieldNumberDate(6)),
-                isToday: isToday(getFieldNumberDate(6)),
+                greenness: getGreenness(6),
+                isSelected: false,
               ),
             ],
           ),
@@ -126,60 +191,46 @@ class CalendarCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               DayCard(
-                dayNumber: getFieldNumberDate(7),
-                dayName: daysNames[0],
+                date: getFieldNumberDate(7),
                 selectHandler: handleDateSelected,
-                greenness: greennessdata[getFieldNumberDate(7)],
-                isSelected: isToday(getFieldNumberDate(7)),
-                isToday: isToday(getFieldNumberDate(7)),
+                greenness: getGreenness(7),
+                isSelected: false,
               ),
               DayCard(
-                dayNumber: getFieldNumberDate(8),
-                dayName: daysNames[1],
+                date: getFieldNumberDate(8),
                 selectHandler: handleDateSelected,
-                greenness: greennessdata[getFieldNumberDate(8)],
-                isSelected: isToday(getFieldNumberDate(8)),
-                isToday: isToday(getFieldNumberDate(8)),
+                greenness: getGreenness(8),
+                isSelected: false,
               ),
               DayCard(
-                dayNumber: getFieldNumberDate(9),
-                dayName: daysNames[2],
+                date: getFieldNumberDate(9),
                 selectHandler: handleDateSelected,
-                greenness: greennessdata[getFieldNumberDate(9)],
-                isSelected: isToday(getFieldNumberDate(9)),
-                isToday: isToday(getFieldNumberDate(9)),
+                greenness: getGreenness(9),
+                isSelected: false,
               ),
               DayCard(
-                dayNumber: getFieldNumberDate(10),
-                dayName: daysNames[3],
+                date: getFieldNumberDate(10),
                 selectHandler: handleDateSelected,
-                greenness: greennessdata[getFieldNumberDate(10)],
-                isSelected: isToday(getFieldNumberDate(10)),
-                isToday: isToday(getFieldNumberDate(10)),
+                greenness: getGreenness(10),
+                isSelected: false,
               ),
               DayCard(
-                dayNumber: getFieldNumberDate(11),
-                dayName: daysNames[4],
+                date: getFieldNumberDate(11),
                 selectHandler: handleDateSelected,
-                greenness: greennessdata[getFieldNumberDate(11)],
-                isSelected: isToday(getFieldNumberDate(11)),
-                isToday: isToday(getFieldNumberDate(11)),
+                greenness: getGreenness(11),
+                isSelected: false,
               ),
               DayCard(
-                dayNumber: getFieldNumberDate(12),
-                dayName: daysNames[5],
+                date: getFieldNumberDate(12),
                 selectHandler: handleDateSelected,
-                greenness: greennessdata[getFieldNumberDate(12)],
-                isSelected: isToday(getFieldNumberDate(12)),
-                isToday: isToday(getFieldNumberDate(12)),
+                greenness: getGreenness(12),
+                isSelected: false,
               ),
               DayCard(
-                dayNumber: getFieldNumberDate(13),
-                dayName: daysNames[6],
+                date: getFieldNumberDate(13),
                 selectHandler: handleDateSelected,
-                greenness: greennessdata[getFieldNumberDate(13)],
-                isSelected: isToday(getFieldNumberDate(13)),
-                isToday: isToday(getFieldNumberDate(13)),
+                greenness: getGreenness(13),
+                isSelected: false,
               ),
             ],
           ),
@@ -187,60 +238,46 @@ class CalendarCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               DayCard(
-                dayNumber: getFieldNumberDate(14),
-                dayName: daysNames[0],
+                date: getFieldNumberDate(14),
                 selectHandler: handleDateSelected,
-                greenness: greennessdata[getFieldNumberDate(14)],
-                isSelected: isToday(getFieldNumberDate(14)),
-                isToday: isToday(getFieldNumberDate(14)),
+                greenness: getGreenness(14),
+                isSelected: false,
               ),
               DayCard(
-                dayNumber: getFieldNumberDate(15),
-                dayName: daysNames[1],
+                date: getFieldNumberDate(15),
                 selectHandler: handleDateSelected,
-                greenness: greennessdata[getFieldNumberDate(15)],
-                isSelected: isToday(getFieldNumberDate(15)),
-                isToday: isToday(getFieldNumberDate(15)),
+                greenness: getGreenness(15),
+                isSelected: false,
               ),
               DayCard(
-                dayNumber: getFieldNumberDate(16),
-                dayName: daysNames[2],
+                date: getFieldNumberDate(16),
                 selectHandler: handleDateSelected,
-                greenness: greennessdata[getFieldNumberDate(16)],
-                isSelected: isToday(getFieldNumberDate(16)),
-                isToday: isToday(getFieldNumberDate(16)),
+                greenness: getGreenness(16),
+                isSelected: false,
               ),
               DayCard(
-                dayNumber: getFieldNumberDate(17),
-                dayName: daysNames[3],
+                date: getFieldNumberDate(17),
                 selectHandler: handleDateSelected,
-                greenness: greennessdata[getFieldNumberDate(17)],
-                isSelected: isToday(getFieldNumberDate(17)),
-                isToday: isToday(getFieldNumberDate(17)),
+                greenness: getGreenness(17),
+                isSelected: false,
               ),
               DayCard(
-                dayNumber: getFieldNumberDate(18),
-                dayName: daysNames[4],
+                date: getFieldNumberDate(18),
                 selectHandler: handleDateSelected,
-                greenness: greennessdata[getFieldNumberDate(18)],
-                isSelected: isToday(getFieldNumberDate(18)),
-                isToday: isToday(getFieldNumberDate(18)),
+                greenness: getGreenness(18),
+                isSelected: false,
               ),
               DayCard(
-                dayNumber: getFieldNumberDate(19),
-                dayName: daysNames[5],
+                date: getFieldNumberDate(19),
                 selectHandler: handleDateSelected,
-                greenness: greennessdata[getFieldNumberDate(19)],
-                isSelected: isToday(getFieldNumberDate(19)),
-                isToday: isToday(getFieldNumberDate(19)),
+                greenness: getGreenness(19),
+                isSelected: false,
               ),
               DayCard(
-                dayNumber: getFieldNumberDate(20),
-                dayName: daysNames[6],
+                date: getFieldNumberDate(20),
                 selectHandler: handleDateSelected,
-                greenness: greennessdata[getFieldNumberDate(20)],
-                isSelected: isToday(getFieldNumberDate(20)),
-                isToday: isToday(getFieldNumberDate(20)),
+                greenness: getGreenness(20),
+                isSelected: false,
               ),
             ],
           ),
@@ -248,60 +285,46 @@ class CalendarCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               DayCard(
-                dayNumber: getFieldNumberDate(21),
-                dayName: daysNames[0],
+                date: getFieldNumberDate(21),
                 selectHandler: handleDateSelected,
-                greenness: greennessdata[getFieldNumberDate(21)],
-                isSelected: isToday(getFieldNumberDate(21)),
-                isToday: isToday(getFieldNumberDate(21)),
+                greenness: getGreenness(21),
+                isSelected: false,
               ),
               DayCard(
-                dayNumber: getFieldNumberDate(22),
-                dayName: daysNames[1],
+                date: getFieldNumberDate(22),
                 selectHandler: handleDateSelected,
-                greenness: greennessdata[getFieldNumberDate(22)],
-                isSelected: isToday(getFieldNumberDate(22)),
-                isToday: isToday(getFieldNumberDate(22)),
+                greenness: getGreenness(22),
+                isSelected: false,
               ),
               DayCard(
-                dayNumber: getFieldNumberDate(23),
-                dayName: daysNames[2],
+                date: getFieldNumberDate(23),
                 selectHandler: handleDateSelected,
-                greenness: greennessdata[getFieldNumberDate(23)],
-                isSelected: isToday(getFieldNumberDate(23)),
-                isToday: isToday(getFieldNumberDate(23)),
+                greenness: getGreenness(23),
+                isSelected: false,
               ),
               DayCard(
-                dayNumber: getFieldNumberDate(24),
-                dayName: daysNames[3],
+                date: getFieldNumberDate(24),
                 selectHandler: handleDateSelected,
-                greenness: greennessdata[getFieldNumberDate(24)],
-                isSelected: isToday(getFieldNumberDate(24)),
-                isToday: isToday(getFieldNumberDate(24)),
+                greenness: getGreenness(24),
+                isSelected: false,
               ),
               DayCard(
-                dayNumber: getFieldNumberDate(25),
-                dayName: daysNames[4],
+                date: getFieldNumberDate(25),
                 selectHandler: handleDateSelected,
-                greenness: greennessdata[getFieldNumberDate(25)],
-                isSelected: isToday(getFieldNumberDate(25)),
-                isToday: isToday(getFieldNumberDate(25)),
+                greenness: getGreenness(25),
+                isSelected: false,
               ),
               DayCard(
-                dayNumber: getFieldNumberDate(26),
-                dayName: daysNames[5],
+                date: getFieldNumberDate(26),
                 selectHandler: handleDateSelected,
-                greenness: greennessdata[getFieldNumberDate(26)],
-                isSelected: isToday(getFieldNumberDate(26)),
-                isToday: isToday(getFieldNumberDate(26)),
+                greenness: getGreenness(26),
+                isSelected: false,
               ),
               DayCard(
-                dayNumber: getFieldNumberDate(27),
-                dayName: daysNames[6],
+                date: getFieldNumberDate(27),
                 selectHandler: handleDateSelected,
-                greenness: greennessdata[getFieldNumberDate(27)],
-                isSelected: isToday(getFieldNumberDate(27)),
-                isToday: isToday(getFieldNumberDate(27)),
+                greenness: getGreenness(27),
+                isSelected: false,
               ),
             ],
           ),
@@ -309,60 +332,46 @@ class CalendarCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               DayCard(
-                dayNumber: getFieldNumberDate(28),
-                dayName: daysNames[0],
+                date: getFieldNumberDate(28),
                 selectHandler: handleDateSelected,
-                greenness: greennessdata[getFieldNumberDate(28)],
-                isSelected: isToday(getFieldNumberDate(28)),
-                isToday: isToday(getFieldNumberDate(28)),
+                greenness: getGreenness(28),
+                isSelected: false,
               ),
               DayCard(
-                dayNumber: getFieldNumberDate(29),
-                dayName: daysNames[1],
+                date: getFieldNumberDate(29),
                 selectHandler: handleDateSelected,
-                greenness: greennessdata[getFieldNumberDate(29)],
-                isSelected: isToday(getFieldNumberDate(29)),
-                isToday: isToday(getFieldNumberDate(29)),
+                greenness: getGreenness(29),
+                isSelected: false,
               ),
               DayCard(
-                dayNumber: getFieldNumberDate(30),
-                dayName: daysNames[2],
+                date: getFieldNumberDate(30),
                 selectHandler: handleDateSelected,
-                greenness: greennessdata[getFieldNumberDate(30)],
-                isSelected: isToday(getFieldNumberDate(30)),
-                isToday: isToday(getFieldNumberDate(30)),
+                greenness: getGreenness(30),
+                isSelected: false,
               ),
               DayCard(
-                dayNumber: getFieldNumberDate(31),
-                dayName: daysNames[3],
+                date: getFieldNumberDate(31),
                 selectHandler: handleDateSelected,
-                greenness: greennessdata[getFieldNumberDate(31)],
-                isSelected: isToday(getFieldNumberDate(31)),
-                isToday: isToday(getFieldNumberDate(31)),
+                greenness: getGreenness(31),
+                isSelected: false,
               ),
               DayCard(
-                dayNumber: getFieldNumberDate(32),
-                dayName: daysNames[4],
+                date: getFieldNumberDate(32),
                 selectHandler: handleDateSelected,
-                greenness: greennessdata[getFieldNumberDate(32)],
-                isSelected: isToday(getFieldNumberDate(32)),
-                isToday: isToday(getFieldNumberDate(32)),
+                greenness: getGreenness(32),
+                isSelected: false,
               ),
               DayCard(
-                dayNumber: getFieldNumberDate(33),
-                dayName: daysNames[5],
+                date: getFieldNumberDate(33),
                 selectHandler: handleDateSelected,
-                greenness: greennessdata[getFieldNumberDate(33)],
-                isSelected: isToday(getFieldNumberDate(33)),
-                isToday: isToday(getFieldNumberDate(33)),
+                greenness: getGreenness(33),
+                isSelected: false,
               ),
               DayCard(
-                dayNumber: getFieldNumberDate(34),
-                dayName: daysNames[6],
+                date: getFieldNumberDate(34),
                 selectHandler: handleDateSelected,
-                greenness: greennessdata[getFieldNumberDate(34)],
-                isSelected: isToday(getFieldNumberDate(34)),
-                isToday: isToday(getFieldNumberDate(34)),
+                greenness: getGreenness(34),
+                isSelected: false,
               ),
             ],
           ),
@@ -370,60 +379,46 @@ class CalendarCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               DayCard(
-                dayNumber: getFieldNumberDate(35),
-                dayName: daysNames[0],
+                date: getFieldNumberDate(35),
                 selectHandler: handleDateSelected,
-                greenness: greennessdata[getFieldNumberDate(35)],
-                isSelected: isToday(getFieldNumberDate(35)),
-                isToday: isToday(getFieldNumberDate(35)),
+                greenness: getGreenness(35),
+                isSelected: false,
               ),
               DayCard(
-                dayNumber: getFieldNumberDate(36),
-                dayName: daysNames[1],
+                date: getFieldNumberDate(36),
                 selectHandler: handleDateSelected,
-                greenness: greennessdata[getFieldNumberDate(36)],
-                isSelected: isToday(getFieldNumberDate(36)),
-                isToday: isToday(getFieldNumberDate(36)),
+                greenness: getGreenness(36),
+                isSelected: false,
               ),
               DayCard(
-                dayNumber: getFieldNumberDate(37),
-                dayName: daysNames[2],
+                date: getFieldNumberDate(37),
                 selectHandler: handleDateSelected,
-                greenness: greennessdata[getFieldNumberDate(37)],
-                isSelected: isToday(getFieldNumberDate(37)),
-                isToday: isToday(getFieldNumberDate(37)),
+                greenness: getGreenness(37),
+                isSelected: false,
               ),
               DayCard(
-                dayNumber: getFieldNumberDate(38),
-                dayName: daysNames[3],
+                date: getFieldNumberDate(38),
                 selectHandler: handleDateSelected,
-                greenness: greennessdata[getFieldNumberDate(38)],
-                isSelected: isToday(getFieldNumberDate(38)),
-                isToday: isToday(getFieldNumberDate(38)),
+                greenness: getGreenness(38),
+                isSelected: false,
               ),
               DayCard(
-                dayNumber: getFieldNumberDate(39),
-                dayName: daysNames[4],
+                date: getFieldNumberDate(39),
                 selectHandler: handleDateSelected,
-                greenness: greennessdata[getFieldNumberDate(39)],
-                isSelected: isToday(getFieldNumberDate(39)),
-                isToday: isToday(getFieldNumberDate(39)),
+                greenness: getGreenness(39),
+                isSelected: false,
               ),
               DayCard(
-                dayNumber: getFieldNumberDate(40),
-                dayName: daysNames[5],
+                date: getFieldNumberDate(40),
                 selectHandler: handleDateSelected,
-                greenness: greennessdata[getFieldNumberDate(40)],
-                isSelected: isToday(getFieldNumberDate(40)),
-                isToday: isToday(getFieldNumberDate(40)),
+                greenness: getGreenness(40),
+                isSelected: false,
               ),
               DayCard(
-                dayNumber: getFieldNumberDate(41),
-                dayName: daysNames[6],
+                date: getFieldNumberDate(41),
                 selectHandler: handleDateSelected,
-                greenness: greennessdata[getFieldNumberDate(41)],
-                isSelected: isToday(getFieldNumberDate(41)),
-                isToday: isToday(getFieldNumberDate(41)),
+                greenness: getGreenness(41),
+                isSelected: false,
               ),
             ],
           ),
