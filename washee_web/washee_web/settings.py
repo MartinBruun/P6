@@ -26,6 +26,9 @@ SECRET_KEY = os.environ.get("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = int(os.environ.get("DEBUG",default=0))
 
+# Create Fixture files that can load a whole database
+FIXTURE_DIRS = ["/washee_web"]
+
 ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS").split(" ")
 
 # Application definition
@@ -40,8 +43,8 @@ CORE_APPS = [
 ]
 
 OWN_APPS = [
-    "upload",
     "account",
+    "upload",
     "booking",
     "location"
 ]
@@ -50,7 +53,7 @@ THIRD_PARTY = [
     'rest_framework'
 ]
 
-INSTALLED_APPS = CORE_APPS+OWN_APPS+THIRD_PARTY
+INSTALLED_APPS = CORE_APPS+THIRD_PARTY+OWN_APPS
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -106,8 +109,10 @@ DATABASES = {
 
 
 
-# Password validation
+# Password validation and User Model
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
+
+AUTH_USER_MODEL = 'account.User'
 
 AUTH_PASSWORD_VALIDATORS = [
     {

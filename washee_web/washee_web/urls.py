@@ -22,7 +22,9 @@ from django.conf.urls.static import static
 from upload.views import image_upload
 from account.view_sets import UserViewSet, AccountViewSet
 from booking.view_sets import BookingViewSet
-from location.view_sets import LocationViewSet, ServiceViewSet
+from location.view_sets import (
+    LocationViewSet, MachineViewSet, MachineModelViewSet, ServiceViewSet
+)
 
 # Routes
 router = routers.DefaultRouter()
@@ -30,13 +32,20 @@ router.register(r'users', UserViewSet)
 router.register(r'accounts', AccountViewSet)
 router.register(r"bookings", BookingViewSet)
 router.register(r"locations", LocationViewSet)
+router.register(r"machines", MachineViewSet)
+router.register(r"machine_models", MachineModelViewSet)
 router.register(r"services", ServiceViewSet)
+
+from django.http import HttpResponse
+def homePageView(request):
+    return HttpResponse("Hello, World!")
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api-auth/', include('rest_framework.urls', namespace="rest_framework")),
     path('upload/', image_upload, name="upload"),
-    path('', include(router.urls))
+    path('api/1/', include(router.urls), name="api"),
+    path("", homePageView, name="home")
 ]
 
 if bool(settings.DEBUG):
