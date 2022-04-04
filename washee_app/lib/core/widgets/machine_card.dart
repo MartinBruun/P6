@@ -76,6 +76,7 @@ class MachineCard extends StatelessWidget {
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(20.h),
                             ),
+                            elevation: 2,
                           ),
                         ),
                       ),
