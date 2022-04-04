@@ -10,9 +10,10 @@ ENV PYTHONUNBUFFERED 1
 
 # install psycopg2 dependencies
 RUN apt-get update \
-    && apt-get -y install build-essential libssl-dev libffi-dev libblas3 libc6 liblapack3 python3-dev python3-pip cython \
-    && apt-get -y install libpq-dev gcc \
-    && apt install -y netcat python3-scipy python3-numpy python-pandas python-sklearn
+    && apt install -y netcat \
+    && apt-get install -y\
+    build-essential libssl-dev libffi-dev libblas3 libc6 liblapack3 gcc python3-dev python3-pip cython libpq-dev gcc jq \
+    unzip
 
 # install dependencies
 RUN pip install --upgrade pip
