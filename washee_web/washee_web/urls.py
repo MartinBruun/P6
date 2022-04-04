@@ -45,7 +45,7 @@ urlpatterns = [
     path('api-auth/', include('rest_framework.urls', namespace="rest_framework")),
     path('upload/', image_upload, name="upload"),
     path('api/1/', include(router.urls), name="api"),
-    path('admin', include('admin_honeypot.urls', namespace='admin_honeypot')),
+    #path('admin', include('admin_honeypot.urls', namespace='admin_honeypot')), This sadly breaks the init_fixture, since it installs a honey_pot user that conflicts with it
     path("", homePageView, name="home")
 ]
 

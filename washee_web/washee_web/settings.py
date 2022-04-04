@@ -52,7 +52,8 @@ OWN_APPS = [
 THIRD_PARTY = [
     'rest_framework', # Makes the REST API
     'corsheaders',    # Makes it possible to configure who can access the REST API
-    'admin_honeypot'  # Catches bots who try to bruteforce the admin url. Is setup pr. default to notify admins when this happens.
+    #'admin_honeypot'  # Catches bots who try to bruteforce the admin url. Is setup pr. default to notify admins when this happens.
+    #This sadly breaks the init_fixture, since it installs a honey_pot user that conflicts with it
 ]
 
 INSTALLED_APPS = CORE_APPS+THIRD_PARTY+OWN_APPS
@@ -69,6 +70,7 @@ MIDDLEWARE = [
 ]
 
 CORS_ALLOW_ALL_ORIGINS = True # Says that all hosts can access the REST API, however, Tokens validate if they may take actions.
+# If need be, we can manually set the host of everyone who is part of the experiment, and block everyone else
 
 ROOT_URLCONF = 'washee_web.urls'
 
