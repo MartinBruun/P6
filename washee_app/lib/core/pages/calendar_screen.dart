@@ -49,6 +49,7 @@ class CalendarScreen extends StatelessWidget {
     print("a date was clicked");
   }
 
+  // first commit
   @override
   Widget build(BuildContext context) {
     // var mediaHeight = MediaQuery.of(context).size.height;
@@ -67,41 +68,40 @@ class CalendarScreen extends StatelessWidget {
               ),
               textAlign: TextAlign.center,
             ),
-             CalendarCard(
-                date:new DateTime(2022,03,1),
-                greenScoreData: GreenScoreData,
-                handleDateSelected: handleDateSelected,
-              ),
-              CalendarCard(
-                date:new DateTime(2022,04,1),
-                greenScoreData: GreenScoreData,
-                handleDateSelected: handleDateSelected,
-              ),
-              CalendarCard(
-                date:new DateTime(2022,05,1),
-                greenScoreData: GreenScoreData,
-                handleDateSelected: handleDateSelected,
-              ),
-              CalendarCard(
-                date:new DateTime(2022,06,10),
-                greenScoreData: GreenScoreData,
-                handleDateSelected: handleDateSelected,
-              ),
-              // CalendarCard(
-              //   _dayShiftOffset: 3,
-              //   _daysInMonth: 28,
-              //   monthName: 'Februar',
-              //   greennessdata: greennessdata,
-              //   handleDateSelected: handleDateSelected,
-              // ),
-              // CalendarCard(
-              //   _dayShiftOffset: 3,
-              //   _daysInMonth: 30,
-              //   monthName: 'Marts',
-              //   greennessdata: greennessdata,
-              //   handleDateSelected: handleDateSelected,
-              // ),
-            
+            CalendarCard(
+              date: new DateTime(2022, 03, 1),
+              greenScoreData: GreenScoreData,
+              handleDateSelected: handleDateSelected,
+            ),
+            CalendarCard(
+              date: new DateTime(2022, 04, 1),
+              greenScoreData: GreenScoreData,
+              handleDateSelected: handleDateSelected,
+            ),
+            CalendarCard(
+              date: new DateTime(2022, 05, 1),
+              greenScoreData: GreenScoreData,
+              handleDateSelected: handleDateSelected,
+            ),
+            CalendarCard(
+              date: new DateTime(2022, 06, 10),
+              greenScoreData: GreenScoreData,
+              handleDateSelected: handleDateSelected,
+            ),
+            // CalendarCard(
+            //   _dayShiftOffset: 3,
+            //   _daysInMonth: 28,
+            //   monthName: 'Februar',
+            //   greennessdata: greennessdata,
+            //   handleDateSelected: handleDateSelected,
+            // ),
+            // CalendarCard(
+            //   _dayShiftOffset: 3,
+            //   _daysInMonth: 30,
+            //   monthName: 'Marts',
+            //   greennessdata: greennessdata,
+            //   handleDateSelected: handleDateSelected,
+            // ),
           ],
         ),
       ]),
