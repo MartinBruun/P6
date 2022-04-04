@@ -13,7 +13,7 @@ class CalendarCard extends StatelessWidget {
   final List<int> greennessdata;
   final VoidCallback handleDateSelected;
 
-  //TODO:Lav en setting som bestemmer størrelsen på gridded
+  //TODO:Lav en setting som bestemmer størrelsen på dette  grid
   final int fields = 6 * 7; //6uger med 7 dage
 
   DateTime? getFieldNumberDate(int fieldnumber) {
