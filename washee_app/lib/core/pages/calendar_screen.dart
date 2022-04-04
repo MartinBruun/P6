@@ -1,12 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:washee/core/widgets/TimeSelectorCard.dart';
 import 'package:washee/core/widgets/calendarCard.dart';
 
-class CalendarScreen extends StatelessWidget {
+class CalendarScreen extends StatefulWidget {
   static const routeName = "/calendar-screen";
 
+  @override
+  State<CalendarScreen> createState() => _CalendarScreenState();
+}
+
+class _CalendarScreenState extends State<CalendarScreen> {
   //if the 1.st is a monday dayShiftInset = 0,  weddensday dayShiftInset = 2
   final int dayShiftInset = 0;
+
   final int daysInMonth = 31;
+
   final List<int> GreenScoreData = [
     -1,
     -1,
@@ -45,8 +53,12 @@ class CalendarScreen extends StatelessWidget {
     -1
   ];
 
+  bool showTimeSelector = false;
+
   void handleDateSelected() {
-    print("a date was clicked");
+    setState(() {
+      showTimeSelector = !showTimeSelector;
+    });
   }
 
   @override
@@ -67,41 +79,27 @@ class CalendarScreen extends StatelessWidget {
               ),
               textAlign: TextAlign.center,
             ),
-             CalendarCard(
-                date:new DateTime(2022,03,1),
-                greenScoreData: GreenScoreData,
-                handleDateSelected: handleDateSelected,
-              ),
-              CalendarCard(
-                date:new DateTime(2022,04,1),
-                greenScoreData: GreenScoreData,
-                handleDateSelected: handleDateSelected,
-              ),
-              CalendarCard(
-                date:new DateTime(2022,05,1),
-                greenScoreData: GreenScoreData,
-                handleDateSelected: handleDateSelected,
-              ),
-              CalendarCard(
-                date:new DateTime(2022,06,10),
-                greenScoreData: GreenScoreData,
-                handleDateSelected: handleDateSelected,
-              ),
-              // CalendarCard(
-              //   _dayShiftOffset: 3,
-              //   _daysInMonth: 28,
-              //   monthName: 'Februar',
-              //   greennessdata: greennessdata,
-              //   handleDateSelected: handleDateSelected,
-              // ),
-              // CalendarCard(
-              //   _dayShiftOffset: 3,
-              //   _daysInMonth: 30,
-              //   monthName: 'Marts',
-              //   greennessdata: greennessdata,
-              //   handleDateSelected: handleDateSelected,
-              // ),
-            
+            CalendarCard(
+              date: new DateTime(2022, 03, 1),
+              greenScoreData: GreenScoreData,
+              handleDateSelected: handleDateSelected,
+            ),
+            // CalendarCard(
+            //   date: new DateTime(2022, 04, 1),
+            //   greenScoreData: GreenScoreData,
+            //   handleDateSelected: handleDateSelected,
+            // ),
+            // CalendarCard(
+            //   date: new DateTime(2022, 05, 1),
+            //   greenScoreData: GreenScoreData,
+            //   handleDateSelected: handleDateSelected,
+            // ),
+            // CalendarCard(
+            //   date: new DateTime(2022, 06, 10),
+            //   greenScoreData: GreenScoreData,
+            //   handleDateSelected: handleDateSelected,
+            // ),
+            showTimeSelector ? TimeSelectorCard() : Text(" "),
           ],
         ),
       ]),
