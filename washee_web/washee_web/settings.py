@@ -50,7 +50,8 @@ OWN_APPS = [
 ]
 
 THIRD_PARTY = [
-    'rest_framework'
+    'rest_framework',
+    'corsheaders'
 ]
 
 INSTALLED_APPS = CORE_APPS+THIRD_PARTY+OWN_APPS
@@ -58,12 +59,19 @@ INSTALLED_APPS = CORE_APPS+THIRD_PARTY+OWN_APPS
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+CORS_ALLOW_ALL_ORIGINS = True # VERY INSECURE!!! We must know which localhost the flutter app calls from!!!
+
+#CORS_ALLOWED_ORIGINS = [
+#    'http://localhost:WasheeAppPort',
+#]
 
 ROOT_URLCONF = 'washee_web.urls'
 

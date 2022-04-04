@@ -2,6 +2,7 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
+import 'package:washee/core/helpers/backend_communicator.dart';
 import 'package:washee/core/helpers/box_communicator.dart';
 import 'package:washee/features/booking/data/datasources/book_remote.dart';
 import 'package:washee/features/booking/data/repositories/book_repository_impl.dart';
@@ -31,6 +32,8 @@ initCoreAndExternal() {
   sl.registerLazySingleton(() => http.Client());
   sl.registerLazySingleton(() => Connectivity());
 
+  sl.registerLazySingleton<BackendCommunicator>(
+      () => BackendCommunicatorImpl(dio: sl()));
   sl.registerLazySingleton<BoxCommunicator>(
       () => BoxCommunicatorImpl(dio: sl()));
   sl.registerLazySingleton(() => Dio());
@@ -47,7 +50,7 @@ void initBooking() {
 
   // Data Sources
   sl.registerLazySingleton<BookRemote>(
-    () => BookLaundryRemoteImpl(client: sl()),
+    () => BookLaundryRemoteImpl(dio: sl()),
   );
 }
 

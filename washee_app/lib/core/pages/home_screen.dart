@@ -3,7 +3,7 @@ import 'package:washee/features/unlock/presentation/pages/wash_screen.dart';
 import 'package:washee/core/pages/washee_screen.dart';
 import 'package:washee/core/pages/calendar_screen.dart';
 
-import 'package:http/http.dart' as http; // ONLY FOR TESTING! SHOULD BE REMOVED BEFORE MERGE TO MASTER!
+import 'package:dio/dio.dart'; // ONLY FOR TESTING! SHOULD BE REMOVED BEFORE MERGE TO MASTER!
 import 'package:washee/core/booking/booking_model.dart'; // ONLY FOR TESTING! SHOULD BE REMOVED BEFORE MERGE TO MASTER!
 import 'package:washee/features/booking/data/datasources/book_remote.dart'; // ONLY FOR TESTING! SHOULD BE REMOVED BEFORE MERGE TO MASTER!
 
@@ -39,8 +39,8 @@ class _HomeScreenState extends State<HomeScreen> {
     // print(widget.page.toString());
 
     super.initState();
-    final http.Client client = http.Client(); // ONLY FOR TESTING! SHOULD BE REMOVED BEFORE MERGE TO MASTER!
-    futureBookings = BookLaundryRemoteImpl(client:client).getAllBookings(); 
+    Dio dio = new Dio(); // ONLY FOR TESTING! SHOULD BE REMOVED BEFORE MERGE TO MASTER!
+    futureBookings = BookLaundryRemoteImpl(dio:dio).getAllBookings(); 
     futureBookings.then((value) {
       print("\nHERE\n\n");
       print(value);

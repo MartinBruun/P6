@@ -1,9 +1,12 @@
-import 'package:http/http.dart' as http;
+import 'package:dio/dio.dart';
 import 'dart:convert';
 import 'package:washee/core/booking/booking_model.dart';
 import 'package:washee/core/errors/exception_handler.dart';
 
-const String ENDPOINT = "http://localhost:8000/api/1/bookings/";
+const String ENDPOINT = "http://localhost:8000/api/1/bookings/"; // localhost when using a browser
+// "http://10.0.2.2:8000/api/1/bookings/" Calling localhost from an Android phone or emulator
+
+// THIS IS MADE SIDE BY SIDE WITH BACKEND_COMMUNICATOR!!! Presently, this is the one being used in the home screen
 
 abstract class BookRemote {
   Future<List<BookingModel>> getAllBookings();
@@ -12,23 +15,24 @@ abstract class BookRemote {
 }
 
 class BookLaundryRemoteImpl implements BookRemote {
-  final http.Client client;
-  BookLaundryRemoteImpl({required this.client});
+   Dio dio = new Dio();
+
+  BookLaundryRemoteImpl({required this.dio});
 
   @override
   Future<List<BookingModel>> getAllBookings() async {
     List<BookingModel> allBookings = [];
     print("INSIDE FUNC"); // REMOVE BEFORE MERGE TO MASTER!
-    final response = await http.get(Uri.parse(ENDPOINT), headers: { 
-          "Accept": "application/json",
-          "Access-Control-Allow-Origin": "*" // THIS HAS NO SECURITY!!! BE AWARE!!!
-        });
-    print(response.body); // REMOVE BEFORE MERGE TO MASTER!
+    final response = await dio.get(ENDPOINT);
+    print(response.data); // REMOVE BEFORE MERGE TO MASTER!
     if (response.statusCode == 200) {
-      allBookings = (jsonDecode(response.body) as List).map((i) => BookingModel.fromJson(i)).toList();
+      allBookings = (jsonDecode(response.data) as List).map((i) => BookingModel.fromJson(i)).toList();
     }
     else{
-      ExceptionHandler().handle("Did not receive All Bookings from backend, but received statusCode: " + response.statusCode.toString(), log:true);
+      ExceptionHandler().handle("Could not get response from backend with statuscode: " 
+        + response.statusCode.toString() 
+        + " with response"
+        + response.data['response'], log:true, show:true);
     }
     return allBookings;
   }
