@@ -41,10 +41,11 @@ def homePageView(request):
     return HttpResponse("Hello, World!")
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('washee_admin/', admin.site.urls),
     path('api-auth/', include('rest_framework.urls', namespace="rest_framework")),
     path('upload/', image_upload, name="upload"),
     path('api/1/', include(router.urls), name="api"),
+    path('admin', include('admin_honeypot.urls', namespace='admin_honeypot')),
     path("", homePageView, name="home")
 ]
 

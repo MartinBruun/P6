@@ -50,7 +50,9 @@ OWN_APPS = [
 ]
 
 THIRD_PARTY = [
-    'rest_framework'
+    'rest_framework', # Makes the REST API
+    'corsheaders',    # Makes it possible to configure who can access the REST API
+    'admin_honeypot'  # Catches bots who try to bruteforce the admin url. Is setup pr. default to notify admins when this happens.
 ]
 
 INSTALLED_APPS = CORE_APPS+THIRD_PARTY+OWN_APPS
@@ -59,11 +61,14 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+CORS_ALLOW_ALL_ORIGINS = True # Says that all hosts can access the REST API, however, Tokens validate if they may take actions.
 
 ROOT_URLCONF = 'washee_web.urls'
 
