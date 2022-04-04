@@ -3,11 +3,7 @@ import 'dart:convert';
 import 'package:washee/core/booking/booking_model.dart';
 import 'package:washee/core/errors/exception_handler.dart';
 
-const String ENDPOINT = "http://localhost:8000/api/1/bookings";
-
-Future<http.Response> fetchAlbum() {
-  return http.get(Uri.parse('https://jsonplaceholder.typicode.com/albums/1'));
-}
+const String ENDPOINT = "http://localhost:8000/api/1/bookings/";
 
 abstract class BookRemote {
   Future<List<BookingModel>> getAllBookings();
@@ -22,7 +18,12 @@ class BookLaundryRemoteImpl implements BookRemote {
   @override
   Future<List<BookingModel>> getAllBookings() async {
     List<BookingModel> allBookings = [];
-    final response = await http.get(Uri.parse(ENDPOINT));
+    print("INSIDE FUNC"); // REMOVE BEFORE MERGE TO MASTER!
+    final response = await http.get(Uri.parse(ENDPOINT), headers: { 
+          "Accept": "application/json",
+          "Access-Control-Allow-Origin": "*" // THIS HAS NO SECURITY!!! BE AWARE!!!
+        });
+    print(response.body); // REMOVE BEFORE MERGE TO MASTER!
     if (response.statusCode == 200) {
       allBookings = (jsonDecode(response.body) as List).map((i) => BookingModel.fromJson(i)).toList();
     }
