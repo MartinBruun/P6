@@ -7,7 +7,7 @@ class CalendarScreen extends StatelessWidget {
   //if the 1.st is a monday dayShiftInset = 0,  weddensday dayShiftInset = 2
   final int dayShiftInset = 0;
   final int daysInMonth = 31;
-  final List<int> greennessdata = [
+  final List<int> GreenScoreData = [
     -1,
     -1,
     -1,
@@ -69,22 +69,22 @@ class CalendarScreen extends StatelessWidget {
             ),
              CalendarCard(
                 date:new DateTime(2022,03,1),
-                greennessdata: greennessdata,
+                greenScoreData: GreenScoreData,
                 handleDateSelected: handleDateSelected,
               ),
               CalendarCard(
                 date:new DateTime(2022,04,1),
-                greennessdata: greennessdata,
+                greenScoreData: GreenScoreData,
                 handleDateSelected: handleDateSelected,
               ),
               CalendarCard(
                 date:new DateTime(2022,05,1),
-                greennessdata: greennessdata,
+                greenScoreData: GreenScoreData,
                 handleDateSelected: handleDateSelected,
               ),
               CalendarCard(
                 date:new DateTime(2022,06,10),
-                greennessdata: greennessdata,
+                greenScoreData: GreenScoreData,
                 handleDateSelected: handleDateSelected,
               ),
               // CalendarCard(

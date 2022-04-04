@@ -5,12 +5,12 @@ import 'package:washee/core/widgets/day_card.dart';
 class CalendarCard extends StatelessWidget {
   CalendarCard(
       {required this.date,
-      required this.greennessdata,
+      required this.greenScoreData,
       required this.handleDateSelected})
       : super();
 
   final DateTime date;
-  final List<int> greennessdata;
+  final List<int> greenScoreData;
   final VoidCallback handleDateSelected;
 
   //TODO:Lav en setting som bestemmer størrelsen på dette  grid
@@ -74,9 +74,9 @@ class CalendarCard extends StatelessWidget {
     return today == aDate.day;
   }
 
-  int getGreenness(int field) {
+  int getGreenScore(int field) {
     DateTime? tempFieldDate = getFieldNumberDate(field);
-    return tempFieldDate == null ? -1 : greennessdata[tempFieldDate.day - 1];
+    return tempFieldDate == null ? -1 : greenScoreData[tempFieldDate.day - 1];
   }
 
   String monthName(int monthNumber) {
@@ -147,42 +147,42 @@ class CalendarCard extends StatelessWidget {
               DayCard(
                   date: getFieldNumberDate(0),
                   selectHandler: handleDateSelected,
-                  greenness: getGreenness(0),
+                  greenScore: getGreenScore(0),
                   isSelected: false),
               DayCard(
                 date: getFieldNumberDate(1),
                 selectHandler: handleDateSelected,
-                greenness: getGreenness(1),
+                greenScore: getGreenScore(1),
                 isSelected: false,
               ),
               DayCard(
                 date: getFieldNumberDate(2),
                 selectHandler: handleDateSelected,
-                greenness: getGreenness(2),
+                greenScore: getGreenScore(2),
                 isSelected: false,
               ),
               DayCard(
                 date: getFieldNumberDate(3),
                 selectHandler: handleDateSelected,
-                greenness: getGreenness(3),
+                greenScore: getGreenScore(3),
                 isSelected: false,
               ),
               DayCard(
                 date: getFieldNumberDate(4),
                 selectHandler: handleDateSelected,
-                greenness: getGreenness(4),
+                greenScore: getGreenScore(4),
                 isSelected: false,
               ),
               DayCard(
                 date: getFieldNumberDate(5),
                 selectHandler: handleDateSelected,
-                greenness: getGreenness(5),
+                greenScore: getGreenScore(5),
                 isSelected: false,
               ),
               DayCard(
                 date: getFieldNumberDate(6),
                 selectHandler: handleDateSelected,
-                greenness: getGreenness(6),
+                greenScore: getGreenScore(6),
                 isSelected: false,
               ),
             ],
@@ -193,43 +193,43 @@ class CalendarCard extends StatelessWidget {
               DayCard(
                 date: getFieldNumberDate(7),
                 selectHandler: handleDateSelected,
-                greenness: getGreenness(7),
+                greenScore: getGreenScore(7),
                 isSelected: false,
               ),
               DayCard(
                 date: getFieldNumberDate(8),
                 selectHandler: handleDateSelected,
-                greenness: getGreenness(8),
+                greenScore: getGreenScore(8),
                 isSelected: false,
               ),
               DayCard(
                 date: getFieldNumberDate(9),
                 selectHandler: handleDateSelected,
-                greenness: getGreenness(9),
+                greenScore: getGreenScore(9),
                 isSelected: false,
               ),
               DayCard(
                 date: getFieldNumberDate(10),
                 selectHandler: handleDateSelected,
-                greenness: getGreenness(10),
+                greenScore: getGreenScore(10),
                 isSelected: false,
               ),
               DayCard(
                 date: getFieldNumberDate(11),
                 selectHandler: handleDateSelected,
-                greenness: getGreenness(11),
+                greenScore: getGreenScore(11),
                 isSelected: false,
               ),
               DayCard(
                 date: getFieldNumberDate(12),
                 selectHandler: handleDateSelected,
-                greenness: getGreenness(12),
+                greenScore: getGreenScore(12),
                 isSelected: false,
               ),
               DayCard(
                 date: getFieldNumberDate(13),
                 selectHandler: handleDateSelected,
-                greenness: getGreenness(13),
+                greenScore: getGreenScore(13),
                 isSelected: false,
               ),
             ],
@@ -240,43 +240,43 @@ class CalendarCard extends StatelessWidget {
               DayCard(
                 date: getFieldNumberDate(14),
                 selectHandler: handleDateSelected,
-                greenness: getGreenness(14),
+                greenScore: getGreenScore(14),
                 isSelected: false,
               ),
               DayCard(
                 date: getFieldNumberDate(15),
                 selectHandler: handleDateSelected,
-                greenness: getGreenness(15),
+                greenScore: getGreenScore(15),
                 isSelected: false,
               ),
               DayCard(
                 date: getFieldNumberDate(16),
                 selectHandler: handleDateSelected,
-                greenness: getGreenness(16),
+                greenScore: getGreenScore(16),
                 isSelected: false,
               ),
               DayCard(
                 date: getFieldNumberDate(17),
                 selectHandler: handleDateSelected,
-                greenness: getGreenness(17),
+                greenScore: getGreenScore(17),
                 isSelected: false,
               ),
               DayCard(
                 date: getFieldNumberDate(18),
                 selectHandler: handleDateSelected,
-                greenness: getGreenness(18),
+                greenScore: getGreenScore(18),
                 isSelected: false,
               ),
               DayCard(
                 date: getFieldNumberDate(19),
                 selectHandler: handleDateSelected,
-                greenness: getGreenness(19),
+                greenScore: getGreenScore(19),
                 isSelected: false,
               ),
               DayCard(
                 date: getFieldNumberDate(20),
                 selectHandler: handleDateSelected,
-                greenness: getGreenness(20),
+                greenScore: getGreenScore(20),
                 isSelected: false,
               ),
             ],
@@ -287,43 +287,43 @@ class CalendarCard extends StatelessWidget {
               DayCard(
                 date: getFieldNumberDate(21),
                 selectHandler: handleDateSelected,
-                greenness: getGreenness(21),
+                greenScore: getGreenScore(21),
                 isSelected: false,
               ),
               DayCard(
                 date: getFieldNumberDate(22),
                 selectHandler: handleDateSelected,
-                greenness: getGreenness(22),
+                greenScore: getGreenScore(22),
                 isSelected: false,
               ),
               DayCard(
                 date: getFieldNumberDate(23),
                 selectHandler: handleDateSelected,
-                greenness: getGreenness(23),
+                greenScore: getGreenScore(23),
                 isSelected: false,
               ),
               DayCard(
                 date: getFieldNumberDate(24),
                 selectHandler: handleDateSelected,
-                greenness: getGreenness(24),
+                greenScore: getGreenScore(24),
                 isSelected: false,
               ),
               DayCard(
                 date: getFieldNumberDate(25),
                 selectHandler: handleDateSelected,
-                greenness: getGreenness(25),
+                greenScore: getGreenScore(25),
                 isSelected: false,
               ),
               DayCard(
                 date: getFieldNumberDate(26),
                 selectHandler: handleDateSelected,
-                greenness: getGreenness(26),
+                greenScore: getGreenScore(26),
                 isSelected: false,
               ),
               DayCard(
                 date: getFieldNumberDate(27),
                 selectHandler: handleDateSelected,
-                greenness: getGreenness(27),
+                greenScore: getGreenScore(27),
                 isSelected: false,
               ),
             ],
@@ -334,43 +334,43 @@ class CalendarCard extends StatelessWidget {
               DayCard(
                 date: getFieldNumberDate(28),
                 selectHandler: handleDateSelected,
-                greenness: getGreenness(28),
+                greenScore: getGreenScore(28),
                 isSelected: false,
               ),
               DayCard(
                 date: getFieldNumberDate(29),
                 selectHandler: handleDateSelected,
-                greenness: getGreenness(29),
+                greenScore: getGreenScore(29),
                 isSelected: false,
               ),
               DayCard(
                 date: getFieldNumberDate(30),
                 selectHandler: handleDateSelected,
-                greenness: getGreenness(30),
+                greenScore: getGreenScore(30),
                 isSelected: false,
               ),
               DayCard(
                 date: getFieldNumberDate(31),
                 selectHandler: handleDateSelected,
-                greenness: getGreenness(31),
+                greenScore: getGreenScore(31),
                 isSelected: false,
               ),
               DayCard(
                 date: getFieldNumberDate(32),
                 selectHandler: handleDateSelected,
-                greenness: getGreenness(32),
+                greenScore: getGreenScore(32),
                 isSelected: false,
               ),
               DayCard(
                 date: getFieldNumberDate(33),
                 selectHandler: handleDateSelected,
-                greenness: getGreenness(33),
+                greenScore: getGreenScore(33),
                 isSelected: false,
               ),
               DayCard(
                 date: getFieldNumberDate(34),
                 selectHandler: handleDateSelected,
-                greenness: getGreenness(34),
+                greenScore: getGreenScore(34),
                 isSelected: false,
               ),
             ],
@@ -381,43 +381,43 @@ class CalendarCard extends StatelessWidget {
               DayCard(
                 date: getFieldNumberDate(35),
                 selectHandler: handleDateSelected,
-                greenness: getGreenness(35),
+                greenScore: getGreenScore(35),
                 isSelected: false,
               ),
               DayCard(
                 date: getFieldNumberDate(36),
                 selectHandler: handleDateSelected,
-                greenness: getGreenness(36),
+                greenScore: getGreenScore(36),
                 isSelected: false,
               ),
               DayCard(
                 date: getFieldNumberDate(37),
                 selectHandler: handleDateSelected,
-                greenness: getGreenness(37),
+                greenScore: getGreenScore(37),
                 isSelected: false,
               ),
               DayCard(
                 date: getFieldNumberDate(38),
                 selectHandler: handleDateSelected,
-                greenness: getGreenness(38),
+                greenScore: getGreenScore(38),
                 isSelected: false,
               ),
               DayCard(
                 date: getFieldNumberDate(39),
                 selectHandler: handleDateSelected,
-                greenness: getGreenness(39),
+                greenScore: getGreenScore(39),
                 isSelected: false,
               ),
               DayCard(
                 date: getFieldNumberDate(40),
                 selectHandler: handleDateSelected,
-                greenness: getGreenness(40),
+                greenScore: getGreenScore(40),
                 isSelected: false,
               ),
               DayCard(
                 date: getFieldNumberDate(41),
                 selectHandler: handleDateSelected,
-                greenness: getGreenness(41),
+                greenScore: getGreenScore(41),
                 isSelected: false,
               ),
             ],

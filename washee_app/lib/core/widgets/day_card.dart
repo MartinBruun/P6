@@ -6,7 +6,7 @@ class DayCard extends StatelessWidget {
   final String dayName;
   final int dayNumber;
   final VoidCallback selectHandler;
-  final int greenness;
+  final int greenScore;
   final bool isToday;
   final bool isSelected; //-1 is neutral , 0 is red 10 is green
   
@@ -16,7 +16,7 @@ class DayCard extends StatelessWidget {
     required this.monthNumber,
     required this.dayNumber,
     required this.dayName,
-    required this.greenness,
+    required this.greenScore,
     required this.isToday,
     required this.isSelected, 
   }) : super();
@@ -24,7 +24,7 @@ class DayCard extends StatelessWidget {
   factory DayCard(
       {required DateTime? date,
       required VoidCallback selectHandler,
-      required int greenness,
+      required int greenScore,
       required bool isSelected}) {
     int tmpMonthNumber = date != null ? date.month : 0;
     int tmpDayNumber = date != null ? date.day : 0;
@@ -50,21 +50,21 @@ class DayCard extends StatelessWidget {
         dayNumber: tmpDayNumber,
         isToday: tempIsToday,
         selectHandler: selectHandler,
-        greenness: greenness,
+        greenScore: greenScore,
         isSelected: isSelected);
   }
 
   
-  Color greennessColor({bool lighten = false}) {
+  Color greenScoreColor({bool lighten = false}) {
     if (dayNumber == 0) {
       return lighten ? Colors.transparent : Colors.transparent;
-    } else if (greenness == -1) {
+    } else if (greenScore == -1) {
       return lighten ? Colors.white38 : Colors.blueGrey;
-    } else if (greenness > -1 && greenness < 3) {
+    } else if (greenScore > -1 && greenScore < 3) {
       return lighten ? Colors.lightBlue : Colors.red;
-    } else if (greenness >= 3 && greenness < 5) {
+    } else if (greenScore >= 3 && greenScore < 5) {
       return lighten ? Colors.lightBlue : Color.fromARGB(255, 200, 218, 40);
-    } else if (greenness >= 5) {
+    } else if (greenScore >= 5) {
       return lighten ? Colors.lightBlue : Colors.green;
     }
     return lighten ? Colors.white24 : Colors.black;
@@ -73,7 +73,7 @@ class DayCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: greennessColor(lighten: true),
+      color: greenScoreColor(lighten: true),
       width: 0.13.sw,
       margin: EdgeInsets.all(0.0005.sw),
       padding: EdgeInsets.all(1),
@@ -81,7 +81,7 @@ class DayCard extends StatelessWidget {
           ? Text(" ")
           : ElevatedButton(
               style: ElevatedButton.styleFrom(
-                primary: greennessColor(),
+                primary: greenScoreColor(),
               ),
               child: Padding(
                 padding: const EdgeInsets.all(0.1),
