@@ -12,7 +12,7 @@ ENV PYTHONUNBUFFERED 1
 RUN apt-get update \
     && apt-get -y install build-essential libssl-dev libffi-dev libblas3 libc6 liblapack3 python3-dev python3-pip cython \
     && apt-get -y install libpq-dev gcc \
-    && apt install -y netcat python3-scipy python3-numpy
+    && apt install -y netcat python3-scipy python3-numpy python-pandas python-sklearn
 
 # install dependencies
 RUN pip install --upgrade pip

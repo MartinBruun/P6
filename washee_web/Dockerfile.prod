@@ -14,7 +14,7 @@ ENV PYTHONUNBUFFERED 1
 RUN apt-get update \
     && apt-get -y install build-essential libssl-dev libffi-dev libblas3 libc6 liblapack3 gcc python3-dev python3-pip cython \
     && apt-get -y install libpq-dev gcc \
-    && apt install -y netcat python3-scipy python3-numpy
+    && apt install -y netcat python3-scipy python3-numpy python-pandas python-sklearn
 
 # lint
 RUN pip install --upgrade pip
@@ -47,7 +47,7 @@ WORKDIR $APP_HOME
 RUN apt-get update \
     && apt-get -y install build-essential libssl-dev libffi-dev libblas3 libc6 liblapack3 gcc python3-dev python3-pip cython \
     && apt-get -y install libpq-dev gcc \
-    && apt install -y netcat
+    && apt install -y netcat python3-scipy python3-numpy python-pandas python-sklearn
 COPY --from=builder /usr/src/washee_web/wheels /wheels
 COPY --from=builder /usr/src/washee_web/requirements.txt .
 RUN pip install --no-cache /wheels/*
