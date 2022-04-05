@@ -21,8 +21,8 @@
         "name": "Tørretumbleren",
         "startTime": "null",
         "endTime": "null",
-        "pin_a": 2,
-        "pin_b": 3
+        "pin_a": 3,
+        "pin_b": 4
     }
   ],
 
