@@ -33,13 +33,20 @@ services:
       - static_volume:/home/washee_web/web/staticfiles
       - media_volume:/home/washee_web/web/mediafiles
       - ./certbot/www:/var/www/certbot/:ro
+      - ./certbot/conf/:/etc/nginx/ssl/:ro
     ports:
       - 80:80
       - 443:443
     depends_on:
       - web
+  certbot:
+    image: certbot/certbot:latest
+    volumes:
+      - ./certbot/www/:/var/www/certbot/:rw
+      - ./certbot/conf/:/etc/letsencrypt/:rw
 
 volumes:
   postgres_data:
   static_volume:
   media_volume:
+  certbot:
