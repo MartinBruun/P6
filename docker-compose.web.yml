@@ -28,11 +28,14 @@ services:
       - 65432:5432
   nginx:
     build: ./nginx
+    restart: always
     volumes:
       - static_volume:/home/washee_web/web/staticfiles
       - media_volume:/home/washee_web/web/mediafiles
+      - ./certbot/www:/var/www/certbot/:ro
     ports:
       - 80:80
+      - 443:443
     depends_on:
       - web
 

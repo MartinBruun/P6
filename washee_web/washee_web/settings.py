@@ -26,8 +26,14 @@ SECRET_KEY = os.environ.get("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = int(os.environ.get("DEBUG",default=0))
 
+# SECURITY WARNING! Turn true to enable safe CSRF token!
+CSRF_COOKIE_SECURE = False if os.environ.get("DJANGO_CSRF_COOKIE",default=1) == 0 else True
+
+# SECURITY WARNING! Turn true to enable safe CSRF token!
+SESSION_COOKIE_SECURE = False if os.environ.get("DJANGO_SESSION_COOKIE",default=1) == 0 else True
+
 # Create Fixture files that can load a whole database
-FIXTURE_DIRS = ["/washee_web"]
+FIXTURE_DIRS = ["/location"]
 
 ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS").split(" ")
 
