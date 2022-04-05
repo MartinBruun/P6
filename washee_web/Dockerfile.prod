@@ -52,6 +52,9 @@ RUN apt-get update \
     unzip
 COPY --from=builder /usr/src/washee_web/wheels /wheels
 COPY --from=builder /usr/src/washee_web/requirements.txt .
+
+# Install wheels made by the builder
+RUN pip install --upgrade pip
 RUN pip install --no-cache /wheels/*
 
 # copy entrypoint.prod.sh
