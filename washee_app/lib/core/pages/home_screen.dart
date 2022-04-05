@@ -27,7 +27,7 @@ class _HomeScreenState extends State<HomeScreen> {
       CalendarScreen(),
     ];
 
-    _selectedPageIndex = 0;
+    _selectedPageIndex = 1;
 
     // _pages
     //     .indexWhere((element) => element.toString() == widget.page.toString());
