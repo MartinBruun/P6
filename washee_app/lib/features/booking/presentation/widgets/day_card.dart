@@ -1,55 +1,43 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:washee/core/helpers/date_helper.dart';
 
-class DayCard extends StatelessWidget {
-  final int greenScore = 0;
-  final bool isToday = false;
-  final bool isSelected = false; //-1 is neutral , 0 is red 10 is green
+class DayCard extends StatefulWidget {
+  final int greenScore;
+  final DateTime date;
 
-  DayCard(
-      {required DateTime? date,
-      required int greenScore,
-      required bool isSelected});
-  // {
-  //   int tmpMonthNumber = date != null ? date.month : 0;
-  //   int tmpDayNumber = date != null ? date.day : 0;
+  DayCard({
+    required this.greenScore,
+    required this.date,
+  });
 
-  //   List daysNames = [
-  //     " ",
-  //     "mandag",
-  //     "tirsdag",
-  //     "onsdag",
-  //     "torsdag",
-  //     "fredag",
-  //     "lørdag",
-  //     "søndag"
-  //   ];
-  //   String tmpDayName = date != null ? daysNames[date.weekday] : daysNames[0];
+  @override
+  State<DayCard> createState() => _DayCardState();
+}
 
-  //   var now = new DateTime.now();
-  //   var tempIsToday = date != null
-  //       ? DateTime(now.year, now.month, now.day)
-  //           .isAtSameMomentAs(DateTime(date.year, date.month, date.day))
-  //       : false;
-  // }
-
-  final int monthNumber = 0;
-  final String dayName = "0";
-  final int dayNumber = 0;
-
+class _DayCardState extends State<DayCard> {
   Color greenScoreColor({bool lighten = false}) {
-    if (dayNumber == 0) {
+    if (widget.date.day == 0) {
       return lighten ? Colors.transparent : Colors.transparent;
-    } else if (greenScore == -1) {
+    } else if (widget.greenScore == -1) {
       return lighten ? Colors.white38 : Colors.blueGrey;
-    } else if (greenScore > -1 && greenScore < 3) {
+    } else if (widget.greenScore > -1 && widget.greenScore < 3) {
       return lighten ? Colors.lightBlue : Colors.red;
-    } else if (greenScore >= 3 && greenScore < 5) {
+    } else if (widget.greenScore >= 3 && widget.greenScore < 5) {
       return lighten ? Colors.lightBlue : Color.fromARGB(255, 200, 218, 40);
-    } else if (greenScore >= 5) {
+    } else if (widget.greenScore >= 5) {
       return lighten ? Colors.lightBlue : Colors.green;
     }
     return lighten ? Colors.white24 : Colors.black;
+  }
+
+  bool _isToday = false;
+  DateHelper helper = DateHelper();
+
+  @override
+  void initState() {
+    super.initState();
+    _isToday = helper.isToday(widget.date);
   }
 
   @override
@@ -72,11 +60,12 @@ class DayCard extends StatelessWidget {
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(50),
                     border: Border.all(
-                      color: isToday ? Colors.blue : Colors.transparent,
+                      color: _isToday ? Colors.blue : Colors.transparent,
                       width: 2,
                     )),
                 child: Text(
-                  isSelected ? '$dayNumber X ' : '$dayNumber',
+                  '${widget.date.day}',
+                  // isSelected ? '${widget.date.day} X ' : '${widget.date.day}',
                   style: TextStyle(fontSize: 10),
                   textAlign: TextAlign.justify,
                   softWrap: false,
@@ -84,7 +73,7 @@ class DayCard extends StatelessWidget {
                 ),
               ),
               Text(
-                dayName,
+                helper.getDayName(widget.date.weekday),
                 style: TextStyle(fontSize: 8),
                 textAlign: TextAlign.justify,
                 softWrap: false,

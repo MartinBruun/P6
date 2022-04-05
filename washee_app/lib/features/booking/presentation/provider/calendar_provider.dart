@@ -35,9 +35,18 @@ class CalendarProvider extends ChangeNotifier {
     30,
     31
   ];
+
   DateHelper _dateHelper = DateHelper();
+  bool _isSelected = false;
 
   List<int> get numberOfFields => _numberOfFields;
 
   DateHelper get dateHelper => _dateHelper;
+
+  bool get isSelected => _isSelected;
+
+  set isSelected(bool value) {
+    _isSelected = value;
+    notifyListeners();
+  }
 }

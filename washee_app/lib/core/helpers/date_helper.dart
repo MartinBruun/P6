@@ -1,3 +1,5 @@
+import 'package:washee/core/presentation/themes/dimens.dart';
+
 class DateHelper {
   DateTime? getFieldNumberDate(int fieldnumber, DateTime date) {
     var offset = _dayShiftOffset(date);
@@ -57,8 +59,8 @@ class DateHelper {
 
   bool isToday(DateTime aDate) {
     DateTime now = new DateTime.now();
-    int today = now.day;
-    return today == aDate.day;
+    return DateTime(now.year, now.month, now.day)
+        .isAtSameMomentAs(DateTime(aDate.year, aDate.month, aDate.day));
   }
 
   int getGreenScore(int field, DateTime date) {
@@ -109,6 +111,36 @@ class DateHelper {
       default:
     }
     return monthName;
+  }
+
+  String getDayName(int weekday) {
+    String dayName = " ";
+    switch (weekday) {
+      case 0:
+        dayName = "Mandag";
+        break;
+      case 1:
+        dayName = "Tirsdag";
+        break;
+      case 2:
+        dayName = "Onsdag";
+        break;
+      case 3:
+        dayName = "Torsdag";
+        break;
+      case 4:
+        dayName = "Fredag";
+        break;
+      case 5:
+        dayName = "Lørdag";
+        break;
+      case 6:
+        dayName = "Søndag";
+        break;
+      default:
+        dayName = "fejl";
+    }
+    return dayName;
   }
 
   final List<int> greenScoreData = [
