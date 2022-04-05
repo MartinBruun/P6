@@ -1,6 +1,8 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:washee/core/washee_box/machine_model.dart';
 
 import '../errors/failures.dart';
@@ -23,6 +25,7 @@ class BoxCommunicatorImpl implements BoxCommunicator {
     Response response;
 
     response = await dio.post(lockURL);
+
     if (response.statusCode == 200) {
       return response.data;
     } else {
@@ -35,26 +38,26 @@ class BoxCommunicatorImpl implements BoxCommunicator {
   }
 
   Future<Map<String, dynamic>> _unlock(
-      MachineModel machine, Duration duration) async {
-    Response response;
-    var startTime = DateTime.now();
-    machine.startTime = startTime;
-    machine.endTime = startTime.add(duration);
-    try {
-      response = await dio.post(unlockURL, data: machine.toJson());
-      if (response.statusCode == 200) {
-        return response.data;
-      } else {
-        print("Something went wrong, status code and response: " +
-            response.statusCode.toString() +
-            " " +
-            response.data['response']);
-        return response.data;
+    MachineModel machine, Duration duration) async {
+      Response response;
+      var startTime = DateTime.now();
+      machine.startTime = startTime;
+      machine.endTime = startTime.add(duration);
+      try {
+        response = await dio.post(unlockURL, data: machine.toJson());
+        if (response.statusCode == 200) {
+          return response.data;
+        } else {
+          print("Something went wrong, status code and response: " +
+              response.statusCode.toString() +
+              " " +
+              response.data['response']);
+          return response.data;
+        }
+      } on HttpException catch (e) {
+        print(e.toString());
+        throw new HTTPFailure();
       }
-    } on HttpException catch (e) {
-      print(e.toString());
-      throw new HTTPFailure();
-    }
   }
 
   @override
@@ -76,8 +79,35 @@ class BoxCommunicatorImpl implements BoxCommunicator {
   @override
   Future<Map<String, dynamic>> getMachines() async {
     Response response;
+    
+    var debugJson = {
+      'last-edited': '2022-04-01 15:41:16.206563', 
+      'machines': [
+        {
+          'machineType': 'laundrymachine', 
+          'machineID': 'l1', 
+          'name': 'Vaskemaskine 1', 
+          'startTime': 'null', 
+          'endTime': 'null', 
+          'pin_a': 18, 
+          'pin_b': 3
+        },
+        {
+          'machineType': 'dryermachine', 
+          'machineID': 't2', 
+          'name': 'toerretumbler 1', 
+          'startTime': '2022-03-07T08:15:26', 
+          'endTime': '2022-04-07T10:15:26', 
+          'pin_a': 12, 
+          'pin_b': 13
+        }], 
+      'last_fetched': DateTime.parse('2022-04-05 13:12:53')
+    };
 
-    response = await dio.get(getMachinesURL);
+    response = kDebugMode 
+      ? Response(requestOptions: RequestOptions(path: "debug"), statusCode: 200, data: debugJson) 
+      : await dio.get(getMachinesURL);
+
     if (response.statusCode == 200) {
       if (response.data != null) {
         return response.data;
@@ -108,7 +138,7 @@ class BoxCommunicatorImpl implements BoxCommunicator {
   }
 
   @override
-  String get getMachinesURL => "http://washeebox.local:8001/getMachinesInfo";
+  String get getMachinesURL => 'http://localhost:8001/getMachinesInfo';//"http://washeebox.local:8001/getMachinesInfo";
   String get dummyURL =>
       "https://dd4836d4-3a9d-4d8a-b83f-ccd74c637643.mock.pstmn.io/getMachinesInfo";
 }
