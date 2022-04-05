@@ -28,12 +28,11 @@ DEBUG = int(os.environ.get("DEBUG",default=0))
 
 # SECURITY WARNING! Turn true to enable safe CSRF token!
 CSRF_COOKIE_SECURE = False if os.environ.get("DJANGO_CSRF_COOKIE",default=1) == 0 else True
+CSRF_COOKIE_DOMAIN = '127.0.0.1'
 
 # SECURITY WARNING! Turn true to enable safe CSRF token!
 SESSION_COOKIE_SECURE = False if os.environ.get("DJANGO_SESSION_COOKIE",default=1) == 0 else True
-
-# SECURITY WARNING! This sets the domain
-SESSION_COOKIE_DOMAIN = 'localhost'
+SESSION_COOKIE_DOMAIN = '127.0.0.1'
 
 # Create Fixture files that can load a whole database
 FIXTURE_DIRS = ["/location"]
