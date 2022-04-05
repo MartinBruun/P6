@@ -32,6 +32,9 @@ CSRF_COOKIE_SECURE = False if os.environ.get("DJANGO_CSRF_COOKIE",default=1) == 
 # SECURITY WARNING! Turn true to enable safe CSRF token!
 SESSION_COOKIE_SECURE = False if os.environ.get("DJANGO_SESSION_COOKIE",default=1) == 0 else True
 
+# SECURITY WARNING! This sets the domain
+SESSION_COOKIE_DOMAIN = 'localhost'
+
 # Create Fixture files that can load a whole database
 FIXTURE_DIRS = ["/location"]
 
