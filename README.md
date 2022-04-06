@@ -61,7 +61,9 @@ https://raspberrytips.com/security-tips-raspberry-pi/
 Also Update the Django security
 https://opensource.com/article/18/1/10-tips-making-django-admin-more-secure
 
-
+How to setup https (things followed now)
+https://pentacent.medium.com/nginx-and-lets-encrypt-with-docker-in-less-than-5-minutes-b4b8a60d3a71
+Need to get domain and handle CSRF tokens etc.
 
 To run the software create a `.env.prod.web` and a `.env.prod.db` file in the root directory.
 The configuration of these files are secret and outside version control, so ask someone who knows what it should be.
