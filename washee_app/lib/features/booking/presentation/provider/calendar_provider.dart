@@ -4,7 +4,7 @@ import 'package:washee/core/helpers/date_helper.dart';
 
 class CalendarProvider extends ChangeNotifier {
   bool _isLoadingDays = false;
-  List<int> _numberOfFields = [
+  final List<int> _numberOfFields = [
     1,
     2,
     3,
@@ -38,12 +38,44 @@ class CalendarProvider extends ChangeNotifier {
     31
   ];
 
+  final List<int> _greenScoreData = [
+    -1,
+    -1,
+    -1,
+    -1,
+    -1,
+    1,
+    -1,
+    10,
+    -1,
+    -1,
+    -1,
+    -1,
+    -1,
+    2,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    -1,
+    -1,
+    -1,
+    -1,
+    -1,
+    -1,
+    -1,
+  ];
+
   Map<String, List<DateTime>> daysInMonthMap = {};
 
   getDaysInBetween(DateTime startDate) {
-    int firstDayofTheMonth = startDate.day;
     var endDate = DateTime(startDate.year, startDate.month + 1, 0);
-    int lastDayofTheMonth = endDate.day;
 
     daysInMonthMap[_dateHelper.monthName(startDate.month)] = [];
 
@@ -69,6 +101,8 @@ class CalendarProvider extends ChangeNotifier {
 
   List<int> get numberOfFields => _numberOfFields;
 
+  List<int> get greenScoreData => _greenScoreData;
+
   DateHelper get dateHelper => _dateHelper;
 
   bool get isSelected => _isSelected;
@@ -81,5 +115,18 @@ class CalendarProvider extends ChangeNotifier {
   set isSelected(bool value) {
     _isSelected = value;
     notifyListeners();
+  }
+
+  // int getGreenScore(int field, DateTime date) {
+  //   DateTime tempFieldDate = _dateHelper.getFieldNumberDate(field, date);
+  //   return tempFieldDate == null ? -1 : greenScoreData[tempFieldDate.day - 1];
+  // }
+
+  int getGreenScore(DateTime date, int daysInCurrentMonth) {
+    if (date.day <= daysInCurrentMonth) {
+      return greenScoreData[date.day - 1];
+    } else {
+      return 0;
+    }
   }
 }

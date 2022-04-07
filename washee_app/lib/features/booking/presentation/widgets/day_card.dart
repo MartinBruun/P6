@@ -1,16 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:washee/core/helpers/date_helper.dart';
+import 'package:washee/core/presentation/themes/colors.dart';
+import 'package:washee/core/presentation/themes/dimens.dart';
+import 'package:washee/core/presentation/themes/themes.dart';
 
 class DayCard extends StatefulWidget {
   final int greenScore;
-  final DateTime date;
+  final int dayNumber;
   final String dayName;
+  final DateTime currentDate;
 
   DayCard({
     required this.greenScore,
-    required this.date,
+    required this.dayNumber,
     required this.dayName,
+    required this.currentDate,
   });
 
   @override
@@ -19,10 +24,10 @@ class DayCard extends StatefulWidget {
 
 class _DayCardState extends State<DayCard> {
   Color greenScoreColor({bool lighten = false}) {
-    if (widget.date.day == 0) {
+    if (widget.greenScore == 0) {
       return lighten ? Colors.transparent : Colors.transparent;
     } else if (widget.greenScore == -1) {
-      return lighten ? Colors.white38 : Colors.blueGrey;
+      return lighten ? Colors.white38 : AppColors.borderMiddleGray;
     } else if (widget.greenScore > -1 && widget.greenScore < 3) {
       return lighten ? Colors.lightBlue : Colors.red;
     } else if (widget.greenScore >= 3 && widget.greenScore < 5) {
@@ -38,20 +43,21 @@ class _DayCardState extends State<DayCard> {
 
   @override
   void initState() {
+    _isToday = helper.isToday(widget.currentDate);
     super.initState();
-    _isToday = helper.isToday(widget.date);
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.red,
+      color: Colors.black12,
       width: 0.13.sw,
       margin: EdgeInsets.all(0.0005.sw),
       padding: EdgeInsets.all(1),
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-          primary: Colors.green,
+          // primary: AppColors.borderMiddleGray,
+          primary: greenScoreColor(),
         ),
         child: Padding(
           padding: const EdgeInsets.all(0.1),
@@ -59,24 +65,32 @@ class _DayCardState extends State<DayCard> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
+                width: 50.h,
+                height: 50.h,
                 decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(50),
-                    border: Border.all(
-                      color: _isToday ? Colors.blue : Colors.transparent,
-                      width: 2,
-                    )),
-                child: Text(
-                  '${widget.date.day}',
-                  // isSelected ? '${widget.date.day} X ' : '${widget.date.day}',
-                  style: TextStyle(fontSize: 10),
-                  textAlign: TextAlign.justify,
-                  softWrap: false,
-                  overflow: TextOverflow.visible,
+                    shape: BoxShape.circle,
+                    color: _isToday ? Colors.blue : Colors.transparent),
+                child: Center(
+                  child: Text(
+                    '${widget.dayNumber.toString()}',
+                    // isSelected ? '${widget.date.day} X ' : '${widget.date.day}',
+                    style: textStyle.copyWith(
+                        fontSize: textSize_20,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white),
+                    textAlign: TextAlign.justify,
+                    softWrap: false,
+                    overflow: TextOverflow.visible,
+                  ),
                 ),
               ),
               Text(
-                widget.dayName,
-                style: TextStyle(fontSize: 8),
+                helper.translateDayName(widget.dayName),
+                style: textStyle.copyWith(
+                  fontSize: textSize_15,
+                  fontWeight: FontWeight.w700,
+                  color: Colors.white,
+                ),
                 textAlign: TextAlign.justify,
                 softWrap: false,
                 overflow: TextOverflow.visible,
@@ -84,7 +98,9 @@ class _DayCardState extends State<DayCard> {
             ],
           ),
         ),
-        onPressed: () {},
+        onPressed: () {
+          showTimePicker(context: context, initialTime: TimeOfDay.now());
+        },
       ),
     );
   }

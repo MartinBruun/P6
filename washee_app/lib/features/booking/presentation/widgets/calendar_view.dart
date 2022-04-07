@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:washee/core/helpers/date_helper.dart';
@@ -52,12 +51,20 @@ class _CalendarViewState extends State<CalendarView> {
                   padding: EdgeInsets.only(top: 10.h),
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 7),
-                  itemBuilder: (context, index) => DayCard(
-                    greenScore: 0,
-                    date: widget.date,
-                    dayName: data.getWeekDay(data.daysInMonthMap[
-                        dateHelper.monthName(widget.date.month)]![index]),
-                  ),
+                  itemBuilder: (context, index) {
+                    var _currentDate = data.daysInMonthMap[
+                        dateHelper.monthName(widget.date.month)]![index];
+                    var _dayName = data.getWeekDay(data.daysInMonthMap[
+                        dateHelper.monthName(widget.date.month)]![index]);
+
+                    return DayCard(
+                      greenScore: data.getGreenScore(_currentDate,
+                          data.dateHelper.getDaysInMonth(_currentDate)),
+                      dayNumber: index + 1,
+                      dayName: _dayName,
+                      currentDate: _currentDate,
+                    );
+                  },
                   itemCount: data
                       .daysInMonthMap[dateHelper.monthName(widget.date.month)]!
                       .length,
@@ -70,36 +77,3 @@ class _CalendarViewState extends State<CalendarView> {
     );
   }
 }
-
-//  Container(
-//               height: 800.h,
-//               child: GridView.builder(
-//                 shrinkWrap: true,
-//                 primary: false,
-//                 padding: EdgeInsets.only(top: 10.h),
-//                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-//                     crossAxisCount: 7),
-//                 itemBuilder: (context, index) => DayCard(
-//                   greenScore: 0,
-//                   date: widget.date,
-//                   dayName: data.daysInMonthMap[
-//                       data.dateHelper.monthName(widget.date.month)]![index],
-//                 ),
-//                 itemCount: data.dateHelper.getDaysInMonth(widget.date) == 31
-//                     ? data.numberOfFields.length
-//                     : data.numberOfFields.length - 1,
-//               ),
-//             ),
-
-// Container(
-//                   width: 100.w,
-//                   height: 100.h,
-//                   child: Center(child: Text("${data.numberOfFields[index]}")),
-//                   decoration: BoxDecoration(
-//                     color: Colors.yellow,
-//                     borderRadius: BorderRadius.circular(
-//                       20.h,
-//                     ),
-//                     border: Border.all(color: Colors.white, width: 2.h),
-//                   ),
-//                 ),

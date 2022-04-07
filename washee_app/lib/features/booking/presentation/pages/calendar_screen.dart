@@ -94,21 +94,6 @@ class _CalendarScreenState extends State<CalendarScreen> {
                 );
               },
             ),
-
-      // CalendarCard(
-      //   _dayShiftOffset: 3,
-      //   _daysInMonth: 28,
-      //   monthName: 'Februar',
-      //   greennessdata: greennessdata,
-      //   handleDateSelected: handleDateSelected,
-      // ),
-      // CalendarCard(
-      //   _dayShiftOffset: 3,
-      //   _daysInMonth: 30,
-      //   monthName: 'Marts',
-      //   greennessdata: greennessdata,
-      //   handleDateSelected: handleDateSelected,
-      // ),
     );
   }
 }

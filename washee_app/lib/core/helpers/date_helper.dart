@@ -1,19 +1,6 @@
 import 'package:washee/core/presentation/themes/dimens.dart';
 
 class DateHelper {
-  DateTime? getFieldNumberDate(int fieldnumber, DateTime date) {
-    var offset = _dayShiftOffset(date);
-    var daysInMonth = _daysInMonth(date);
-
-    if (fieldnumber - offset < 0) {
-      return null;
-    } else if (fieldnumber + 1 - offset > daysInMonth) {
-      return null;
-    } else {
-      return DateTime(date.year, date.month, fieldnumber + 1 - offset);
-    }
-  }
-
   int _daysInMonth(DateTime date) {
     var lastDayOfMonth = DateTime(date.year, date.month + 1, 0);
     return lastDayOfMonth.day;
@@ -23,49 +10,18 @@ class DateHelper {
     return _daysInMonth(date);
   }
 
-  DateTime _firstDateInMonth(DateTime date) {
+  DateTime firstDateInMonth(DateTime date) {
     return DateTime(date.year, date.month, 1);
   }
 
-  int _dayShiftOffset(DateTime date) {
-    int offset = 0;
-    DateTime firstDate = _firstDateInMonth(date);
-    switch (firstDate.weekday) {
-      case DateTime.monday:
-        offset = 0;
-        break;
-      case DateTime.tuesday:
-        offset = 1;
-        break;
-      case DateTime.wednesday:
-        offset = 2;
-        break;
-      case DateTime.thursday:
-        offset = 3;
-        break;
-      case DateTime.friday:
-        offset = 4;
-        break;
-      case DateTime.saturday:
-        offset = 5;
-        break;
-      case DateTime.sunday:
-        offset = 6;
-        break;
-      default:
-    }
-    return offset;
+  DateTime getLastDateInMonth(DateTime date) {
+    return DateTime(date.year, date.month + 1, 0);
   }
 
   bool isToday(DateTime aDate) {
     DateTime now = new DateTime.now();
     return DateTime(now.year, now.month, now.day)
         .isAtSameMomentAs(DateTime(aDate.year, aDate.month, aDate.day));
-  }
-
-  int getGreenScore(int field, DateTime date) {
-    DateTime? tempFieldDate = getFieldNumberDate(field, date);
-    return tempFieldDate == null ? -1 : greenScoreData[tempFieldDate.day - 1];
   }
 
   String monthName(int monthNumber) {
@@ -143,71 +99,76 @@ class DateHelper {
     return dayName;
   }
 
-  final List<int> greenScoreData = [
-    -1,
-    -1,
-    -1,
-    -1,
-    -1,
-    0,
-    -1,
-    10,
-    -1,
-    -1,
-    -1,
-    -1,
-    -1,
-    0,
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7,
-    8,
-    9,
-    10,
-    -1,
-    -1,
-    -1,
-    -1,
-    -1,
-    -1,
-    -1,
-    -1,
-    -1,
-    -1,
-    -1,
-    7,
-    8,
-    9,
-    10,
-    -1,
-    -1,
-    -1,
-    -1,
-    -1,
-    -1,
-    -1,
-    -1,
-    -1,
-    -1,
-    -1,
-    7,
-    8,
-    9,
-    10,
-    -1,
-    -1,
-    -1,
-    -1,
-    -1,
-    -1,
-    -1,
-    -1,
-    -1,
-    -1,
-    -1
-  ];
+  String translateDayName(String englishName) {
+    String danishName = " ";
+    switch (englishName) {
+      case "Monday":
+        danishName = "Mandag";
+        break;
+      case "Tuesday":
+        danishName = "Tirsdag";
+        break;
+      case "Wednesday":
+        danishName = "Onsdag";
+        break;
+      case "Thursday":
+        danishName = "Torsdag";
+        break;
+      case "Friday":
+        danishName = "Fredag";
+        break;
+      case "Saturday":
+        danishName = "Lørdag";
+        break;
+      case "Sunday":
+        danishName = "Søndag";
+        break;
+      default:
+        danishName = "fejl";
+    }
+    return danishName;
+  }
+
+  DateTime? getFieldNumberDate(int fieldnumber, DateTime date) {
+    var offset = _dayShiftOffset(date);
+    var daysInMonth = getDaysInMonth(date);
+
+    if (fieldnumber - offset < 0) {
+      return null;
+    } else if (fieldnumber + 1 - offset > daysInMonth) {
+      return null;
+    } else {
+      return DateTime(date.year, date.month, fieldnumber + 1 - offset);
+    }
+  }
+
+  int _dayShiftOffset(DateTime date) {
+    int offset = 0;
+    DateTime firstDate = firstDateInMonth(date);
+    switch (firstDate.weekday) {
+      case DateTime.monday:
+        offset = 0;
+        break;
+      case DateTime.tuesday:
+        offset = 1;
+        break;
+      case DateTime.wednesday:
+        offset = 2;
+        break;
+      case DateTime.thursday:
+        offset = 3;
+        break;
+      case DateTime.friday:
+        offset = 4;
+        break;
+      case DateTime.saturday:
+        offset = 5;
+        break;
+      case DateTime.sunday:
+        offset = 6;
+        break;
+      default:
+    }
+    return offset;
+  }
 }
