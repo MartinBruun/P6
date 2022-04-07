@@ -72,7 +72,6 @@ class _DayCardState extends State<DayCard> {
                 child: Center(
                   child: Text(
                     '${widget.dayNumber.toString()}',
-                    // isSelected ? '${widget.date.day} X ' : '${widget.date.day}',
                     style: textStyle.copyWith(
                         fontSize: textSize_20,
                         fontWeight: FontWeight.bold,

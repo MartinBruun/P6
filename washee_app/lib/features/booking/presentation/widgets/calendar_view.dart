@@ -20,11 +20,7 @@ class CalendarView extends StatefulWidget {
 }
 
 class _CalendarViewState extends State<CalendarView> {
-  DateHelper dateHelper = DateHelper();
-  @override
-  void initState() {
-    super.initState();
-  }
+  DateHelper _dateHelper = DateHelper();
 
   @override
   Widget build(BuildContext context) {
@@ -52,10 +48,14 @@ class _CalendarViewState extends State<CalendarView> {
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 7),
                   itemBuilder: (context, index) {
+                    // Look up the current month in the Map and get the current date specified by the index
                     var _currentDate = data.daysInMonthMap[
-                        dateHelper.monthName(widget.date.month)]![index];
-                    var _dayName = data.getWeekDay(data.daysInMonthMap[
-                        dateHelper.monthName(widget.date.month)]![index]);
+                        _dateHelper.monthName(widget.date.month)]![index];
+
+                    // Using the Months Map we retrieve the name of the weekday by using the index
+                    var _dayName = data.dateHelper.getWeekDay(
+                        data.daysInMonthMap[
+                            _dateHelper.monthName(widget.date.month)]![index]);
 
                     return DayCard(
                       greenScore: data.getGreenScore(_currentDate,
@@ -66,7 +66,7 @@ class _CalendarViewState extends State<CalendarView> {
                     );
                   },
                   itemCount: data
-                      .daysInMonthMap[dateHelper.monthName(widget.date.month)]!
+                      .daysInMonthMap[_dateHelper.monthName(widget.date.month)]!
                       .length,
                 ),
               ),

@@ -25,6 +25,8 @@ class _CalendarScreenState extends State<CalendarScreen> {
 
   @override
   void initState() {
+    // Load up the Map with months and their respective number of days before we
+    // show the calendar views to the user
     super.initState();
     var calendar = Provider.of<CalendarProvider>(context, listen: false);
     setState(() {
@@ -41,7 +43,6 @@ class _CalendarScreenState extends State<CalendarScreen> {
     });
   }
 
-  // first commit
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -77,22 +78,18 @@ class _CalendarScreenState extends State<CalendarScreen> {
                 ],
               ),
             )
-          : Consumer<CalendarProvider>(
-              builder: (context, data, _) {
-                return ListView(
-                  children: [
-                    CalendarView(
-                      date: months[0],
-                    ),
-                    CalendarView(
-                      date: months[1],
-                    ),
-                    CalendarView(
-                      date: months[2],
-                    ),
-                  ],
-                );
-              },
+          : ListView(
+              children: [
+                CalendarView(
+                  date: months[0],
+                ),
+                CalendarView(
+                  date: months[1],
+                ),
+                CalendarView(
+                  date: months[2],
+                ),
+              ],
             ),
     );
   }

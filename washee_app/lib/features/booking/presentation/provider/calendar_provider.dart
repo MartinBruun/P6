@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:washee/core/helpers/date_helper.dart';
 
 class CalendarProvider extends ChangeNotifier {
@@ -74,6 +73,7 @@ class CalendarProvider extends ChangeNotifier {
 
   Map<String, List<DateTime>> daysInMonthMap = {};
 
+  // Fills up the daysInMonthMap with the respective number of dates for the given month
   getDaysInBetween(DateTime startDate) {
     var endDate = DateTime(startDate.year, startDate.month + 1, 0);
 
@@ -88,10 +88,6 @@ class CalendarProvider extends ChangeNotifier {
       print(
           "NULL!!! - Month name is: ${_dateHelper.monthName(startDate.month)}");
     }
-  }
-
-  String getWeekDay(DateTime date) {
-    return DateFormat('EEEE').format(date);
   }
 
   DateHelper _dateHelper = DateHelper();

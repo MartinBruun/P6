@@ -1,3 +1,4 @@
+import 'package:intl/intl.dart';
 import 'package:washee/core/presentation/themes/dimens.dart';
 
 class DateHelper {
@@ -170,5 +171,9 @@ class DateHelper {
       default:
     }
     return offset;
+  }
+
+  String getWeekDay(DateTime date) {
+    return DateFormat('EEEE').format(date);
   }
 }
