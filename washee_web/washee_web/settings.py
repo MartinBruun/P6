@@ -37,7 +37,7 @@ SESSION_COOKIE_DOMAIN = '127.0.0.1'
 # Create Fixture files that can load a whole database
 FIXTURE_DIRS = ["/location"]
 
-ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS").split(" ")
+ALLOWED_HOSTS = ["*"]#os.environ.get("DJANGO_ALLOWED_HOSTS").split(" ")
 
 # Application definition
 

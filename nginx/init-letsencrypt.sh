@@ -8,11 +8,11 @@ fi
 echo 'Move up one to access docker-compose files'
 cd ..
 
-domains=(washeeweb.ml)
+domains=(www.emilbruun.dk)
 rsa_key_size=4096
 data_path="./nginx/certbot"
-email="$CERTBOT_MAIL"
-staging="$STAGING"
+email="$InsertMailHere"
+staging="1"
 
 if [ -d "$data_path" ]; then
   read -p "Existing data found for $domains. Continue and replace existing certificate? (y/N) " decision
