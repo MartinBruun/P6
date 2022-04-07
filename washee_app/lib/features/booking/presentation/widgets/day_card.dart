@@ -5,10 +5,12 @@ import 'package:washee/core/helpers/date_helper.dart';
 class DayCard extends StatefulWidget {
   final int greenScore;
   final DateTime date;
+  final String dayName;
 
   DayCard({
     required this.greenScore,
     required this.date,
+    required this.dayName,
   });
 
   @override
@@ -73,7 +75,7 @@ class _DayCardState extends State<DayCard> {
                 ),
               ),
               Text(
-                helper.getDayName(widget.date.weekday),
+                widget.dayName,
                 style: TextStyle(fontSize: 8),
                 textAlign: TextAlign.justify,
                 softWrap: false,
