@@ -56,7 +56,6 @@ class _DayCardState extends State<DayCard> {
       padding: EdgeInsets.all(1),
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-          // primary: AppColors.borderMiddleGray,
           primary: greenScoreColor(),
         ),
         child: Padding(
