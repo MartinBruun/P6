@@ -35,6 +35,7 @@ RUN apt-get update \
       libatlas-base-dev \
       libpq-dev \
     && apt-get clean
+RUN apt install -y netcat
 
 # Install 
 RUN pip3 install --upgrade pip
@@ -88,6 +89,7 @@ RUN apt-get update \
       libatlas-base-dev \
       libpq-dev \
     && apt-get clean
+RUN apt install -y netcat
  
 COPY --from=builder /usr/src/washee_web/wheels /wheels
 COPY --from=builder /usr/src/washee_web/requirements.txt .
