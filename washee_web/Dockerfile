@@ -1,5 +1,5 @@
 # pull official base image
-FROM python:3.7.6-slim
+FROM python:3.7-slim-buster
 
 # set work directory
 WORKDIR /usr/src/washee_web
@@ -12,7 +12,7 @@ ENV PYTHONUNBUFFERED 1
 RUN apt-get update \
     && apt install -y netcat \
     && apt-get install -y\
-    build-essential libssl-dev libffi-dev libblas3 libc6 liblapack3 gcc python3-dev python3-pip cython libpq-dev gcc jq \
+    build-essential libssl-dev libffi-dev libblas3 libc6 liblapack3 gcc python3-dev python3-pip cython libpq-dev python3-sklearn python3-sklearn-lib python3-sklearn-doc jq \
     unzip
 
 # install dependencies
