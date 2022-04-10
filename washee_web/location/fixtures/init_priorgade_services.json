@@ -1,0 +1,26 @@
+[
+    {
+        "model": "location.service",
+        "pk": "1",
+        "fields": {
+            "name": "Vask",
+            "duration_in_min": "150",
+            "price_in_dk": "10",
+            "created": "2022-04-01T12:35:20.673Z",
+            "last_updated": "2022-04-01T12:35:20.673Z",
+            "machine_model": 1
+        }
+    },
+    {
+        "model": "location.service",
+        "pk": "2",
+        "fields": {
+            "name": "Tørring",
+            "duration_in_min": "150",
+            "price_in_dk": "5",
+            "created": "2022-04-01T12:35:20.673Z",
+            "last_updated": "2022-04-01T12:35:20.673Z",
+            "machine_model": 2
+        }
+    }
+]

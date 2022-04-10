@@ -27,7 +27,11 @@ SECRET_KEY = os.environ.get("SECRET_KEY")
 DEBUG = int(os.environ.get("DEBUG",default=0))
 
 # Create Fixture files that can load a whole database
-FIXTURE_DIRS = ["/washee_web"]
+FIXTURE_DIRS = [
+    "/account",
+    "/location",
+    "/booking"
+]
 
 ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS").split(" ")
 
@@ -50,7 +54,8 @@ OWN_APPS = [
 ]
 
 THIRD_PARTY = [
-    'rest_framework'
+    'rest_framework',
+    'rest_framework.authtoken'
 ]
 
 INSTALLED_APPS = CORE_APPS+THIRD_PARTY+OWN_APPS
@@ -86,10 +91,11 @@ TEMPLATES = [
 WSGI_APPLICATION = 'washee_web.wsgi.application'
 
 REST_FRAMEWORK = {
-    # Use Django's standard `django.contrib.auth` permissions,
-    # or allow read-only access for unauthenticated users.
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication'
+    ),
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+        'rest_framework.permissions.IsAuthenticated'
     ]
 }
 
