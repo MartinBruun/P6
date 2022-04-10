@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:washee/core/user/user.dart';
+import 'package:washee/core/account/user.dart';
 import 'package:washee/core/washee_box/machine_model.dart';
 import '../../features/unlock/presentation/widgets/initiate_wash_dialog.dart';
 import '../presentation/themes/colors.dart';
@@ -12,7 +12,7 @@ import 'wash_timer_on_card.dart';
 class MachineCard extends StatelessWidget {
   MachineCard({required this.machine});
   MachineModel machine;
-  final User fakeUser = User(token: 1, washCoupon: 14, userName: "Bjarne123");
+  final User fakeUser = User(id: 1, email: "test@mail.com", userName: "name");
 
   @override
   Widget build(BuildContext context) {
@@ -61,9 +61,9 @@ class MachineCard extends StatelessWidget {
                                 fontSize: textSize_30,
                                 fontWeight: FontWeight.w500),
                           ),
-                          onPressed: () async {
-                            if (fakeUser.washCoupon > 0) {
-                              showDialog(
+                          onPressed: () async {    // TODO: REMOVE "fakeUser.id > 0" BEFORE MERGE!
+                            if (fakeUser.id > 0) { // This should be taken from the balance of the account chosen to be looked at.
+                              showDialog(          // Before it was "washCoupon", changed to "id" to make it not throw syntax error
                                 context: context,
                                 builder: (BuildContext context) {
                                   return InitiateWashDialog(machine: machine);

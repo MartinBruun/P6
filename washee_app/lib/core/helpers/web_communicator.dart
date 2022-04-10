@@ -8,6 +8,8 @@ abstract class WebCommunicator {
   // Meta data
   String get token;
   // Maybe some func that makes sure to auto-issue a new token when the old one is about to expire?
+  // Ideas can maybe be found in: https://ohuru.tech/blog/2020/4/19/flutter-signuplogin-application-with-django-backend-3/
+  // Be aware that we don't strictly follow these guidelines! (we don't use Bloc as statemanager for example)
   // URLs
   String get tokenURL;
   String get usersURL;
