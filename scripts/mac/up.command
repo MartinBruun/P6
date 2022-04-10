@@ -4,7 +4,7 @@ cd ..
 cd ..
 docker-compose up -d --build
 cd washee_app
-echo MISSING COMMAND TO START FLUTTER! CD INTO WASHEE_APP AND RUN flutter run -d chrome
+osascript -e 'tell app "Terminal" to do script "flutter run --dart-define=ENVIRONMENT=DEV"'
 cd ..
 cd scripts
 cd mac

@@ -1,3 +1,5 @@
+@ECHO off
+
 cd ..
 cd ..
 call docker-compose down -v

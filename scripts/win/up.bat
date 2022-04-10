@@ -4,7 +4,7 @@ cd ..
 cd ..
 call docker-compose up -d --build
 cd washee_app
-call start cmd /k flutter run -d chrome
+call start cmd /k flutter run --dart-define=ENVIRONMENT=DEV
 cd ..
 cd scripts
 cd win
