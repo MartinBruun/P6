@@ -44,7 +44,7 @@ def homePageView(request):
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api-auth/', include('rest_framework.urls', namespace="rest_framework")),
-    path('api-token-auth', views.obtain_auth_token,name='api-token-auth'),
+    path('api-token-auth/', views.obtain_auth_token,name='api-token-auth'),
     path('upload/', image_upload, name="upload"),
     path('api/1/', include(router.urls), name="api"),
     path("", homePageView, name="home")
