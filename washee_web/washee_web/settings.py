@@ -38,7 +38,7 @@ SESSION_COOKIE_SECURE = False if os.environ.get("DJANGO_SESSION_COOKIE",default=
 # Create Fixture files that can load a whole database
 FIXTURE_DIRS = ["/location"]
 
-ALLOWED_HOSTS = ["*"]#os.environ.get("DJANGO_ALLOWED_HOSTS").split(" ")
+ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS").split(" ")
 
 # Application definition
 
