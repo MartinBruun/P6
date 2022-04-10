@@ -19,7 +19,7 @@
         "pk": 2, 
         "fields": {
             "password": "password", 
-            "email": "martin@mail.com", 
+            "email": "mbm93fen@gmail.com", 
             "username": "Martin Bruun Michaelsen", 
             "date_joined": "2022-04-01T12:35:08.483Z", 
             "last_login": "2022-04-01T12:35:08.484Z", 
@@ -28,7 +28,7 @@
             "admin": false, 
             "superuser": false
         }
-    }, 
+    },
     {
         "model": "account.user", 
         "pk": 3, 
@@ -124,7 +124,7 @@
         "pk": 9, 
         "fields": {
             "password": "password", 
-            "email": "malene@mail.com", 
+            "email": "malenecvinklub@gmail.com", 
             "username": "Malene Clausen", 
             "date_joined": "2022-04-01T12:36:01.659Z", 
             "last_login": "2022-04-01T12:36:01.659Z", 
@@ -139,8 +139,23 @@
         "pk": 10, 
         "fields": {
             "password": "password", 
-            "email": "andreas@mail.com", 
+            "email": "dreno4@hotmail.com", 
             "username": "Andreas Jørgensen", 
+            "date_joined": "2022-04-01T12:36:09.747Z", 
+            "last_login": "2022-04-01T12:36:09.747Z", 
+            "is_active": true, 
+            "staff": false, 
+            "admin": false, 
+            "superuser": false
+        }
+    },
+    {
+        "model": "account.user", 
+        "pk": 11, 
+        "fields": {
+            "password": "password", 
+            "email": "kamilllunddal@outlook.com", 
+            "username": "Kamilaa Lunddal", 
             "date_joined": "2022-04-01T12:36:09.747Z", 
             "last_login": "2022-04-01T12:36:09.747Z", 
             "is_active": true, 
