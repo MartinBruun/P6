@@ -297,7 +297,11 @@ nordpool.json
 .env.prod.db
 .env.prod.box
 .env.prod.web
+.env.prod.nginx
 .env.prod.app
+
+# Hide the certbot used to verify https connection
+nginx/certbot
 
 # These log files are ignored so as to not clutter their generation
 washee_box/exception_handling/exception_log.txt

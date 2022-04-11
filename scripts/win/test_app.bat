@@ -1,3 +1,5 @@
+@ECHO off
+
 cd ..
 cd ..
 cd washee_app

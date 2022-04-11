@@ -3,7 +3,7 @@ version: '3.8'
 services:
   web:
     build: ./washee_web
-    command: python manage.py runserver 0.0.0.0:8000
+    command: python3 manage.py runserver 0.0.0.0:8000
     volumes:
       - ./washee_web/:/usr/src/washee_web/
     ports:

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:washee/core/environments/environment.dart';
 import 'package:washee/core/widgets/calendarCard.dart';
 
 class CalendarScreen extends StatelessWidget {
@@ -46,7 +47,7 @@ class CalendarScreen extends StatelessWidget {
   ];
 
   void handleDateSelected() {
-    print("a date was clicked");
+    print(Environment().config.webApiHost);
   }
 
   @override

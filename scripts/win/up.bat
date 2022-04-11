@@ -3,8 +3,18 @@
 cd ..
 cd ..
 call docker-compose up -d --build
+call docker-compose exec web python3 manage.py flush --no-input
+call docker-compose exec web python3 manage.py makemigrations
+call docker-compose exec web python3 manage.py migrate
+call docker-compose exec web python3 manage.py loaddata init_priorgade_users.json
+call docker-compose exec web python3 manage.py loaddata init_priorgade_accounts.json
+call docker-compose exec web python3 manage.py loaddata init_priorgade_models.json
+call docker-compose exec web python3 manage.py loaddata init_priorgade_services.json
+call docker-compose exec web python3 manage.py loaddata init_priorgade_locations.json
+call docker-compose exec web python3 manage.py loaddata init_priorgade_machines.json
+call docker-compose exec web python3 manage.py loaddata init_priorgade_bookings.json
 cd washee_app
-call start cmd /k flutter run -d chrome
+call start cmd /k flutter run --dart-define=ENVIRONMENT=DEV
 cd ..
 cd scripts
 cd win

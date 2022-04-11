@@ -11,15 +11,4 @@ then
     echo "PostgreSQL started"
 fi
 
-python manage.py flush --no-input
-python manage.py makemigrations
-python manage.py migrate
-python manage.py loaddata init_priorgade_users.json
-python manage.py loaddata init_priorgade_accounts.json
-python manage.py loaddata init_priorgade_models.json
-python manage.py loaddata init_priorgade_services.json
-python manage.py loaddata init_priorgade_locations.json
-python manage.py loaddata init_priorgade_machines.json
-python manage.py loaddata init_priorgade_bookings.json
-
 exec "$@"
