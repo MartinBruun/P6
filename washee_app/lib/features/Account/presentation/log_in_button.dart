@@ -41,7 +41,7 @@ class _LogInButtonState extends State<LogInButton> {
   }
 
   void _openLogInScreen() async {
-    Map info = await Navigator.push(context, MaterialPageRoute(builder: (context) => const LogInScreen()));
+    Map? info = await Navigator.push(context, MaterialPageRoute(builder: (context) => const LogInScreen()));
   }
 
 }
