@@ -22,10 +22,10 @@ class Environment {
 
   BaseConfig _getConfig(String environment){
     switch(environment){
-      case Environment.PROD:
-        return ProdConfig();
-      default:
+      case Environment.DEV:
         return DevConfig();
+      default:
+        return ProdConfig();
     }
   }
 }
