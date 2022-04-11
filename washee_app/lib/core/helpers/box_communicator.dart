@@ -81,34 +81,8 @@ class BoxCommunicatorImpl implements BoxCommunicator {
   @override
   Future<Map<String, dynamic>> getMachines() async {
     Response response;
-    
-    var debugJson = {
-      'last-edited': '2022-04-01 15:41:16.206563', 
-      'machines': [
-        {
-          'machineType': 'laundrymachine', 
-          'machineID': 'l1', 
-          'name': 'Vaskemaskine 1', 
-          'startTime': 'null', 
-          'endTime': 'null', 
-          'pin_a': 18, 
-          'pin_b': 3
-        },
-        {
-          'machineType': 'dryermachine', 
-          'machineID': 't2', 
-          'name': 'toerretumbler 1', 
-          'startTime': '2022-03-07T08:15:26', 
-          'endTime': '2022-04-07T10:15:26', 
-          'pin_a': 12, 
-          'pin_b': 13
-        }], 
-      'last_fetched': DateTime.parse('2022-04-05 13:12:53')
-    };
 
-    response = kDebugMode 
-      ? Response(requestOptions: RequestOptions(path: "debug"), statusCode: 200, data: debugJson) 
-      : await dio.get(getMachinesURL);
+    response = await dio.get(getMachinesURL);
 
     if (response.statusCode == 200) {
       if (response.data != null) {
