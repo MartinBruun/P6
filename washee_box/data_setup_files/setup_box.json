@@ -5,61 +5,67 @@
 
   "machines": [
     {
-      "machineType": "laundrymachine",
-      "machineID": "l1",
-      "name": "MIIIN MASKINE!!! ",
-      "startTime": "null",
-      "endTime": "null",
-      "pin_a": 18,
-      "pin_b": 3
+        "serviceType": "washing_service",
+        "machineType": "AKG Vaskemaskine",
+        "machineID": "1",
+        "name": "Vaskemaskinen",
+        "startTime": "null",
+        "endTime": "null",
+        "pin_a": 14,
+        "pin_b": 15
     },
     {
-      "machineType": "laundrymachine",
-      "machineID": "l2",
-      "name": "vaskemaskine 2",
-      "startTime": "2022-03-07T08:15:26",
-      "endTime": "2022-03-07T10:15:26",
-      "pin_a": 24,
-      "pin_b": 23
-    },
-    {
-      "machineType": "dryermachine",
-      "machineID": "t1",
-      "name": "tørretumbler 1",
-      "startTime": "2022-03-07T08:15:26",
-      "endTime": "2022-03-07T10:15:26",
-      "pin_a": 23,
-      "pin_b": 24
-    },
-    {
-      "machineType": "dryermachine",
-      "machineID": "t2",
-      "name": "Deadline on repport",
-      "startTime": "2022-03-07T08:15:26",
-      "endTime": "2022-05-25T12:00:00",
-      "pin_a": 12,
-      "pin_b": 13
+        "serviceType": "drying_service",
+        "machineType": "Electrolux Tørretumbler",
+        "machineID": "2",
+        "name": "Tørretumbleren",
+        "startTime": "null",
+        "endTime": "null",
+        "pin_a": 3,
+        "pin_b": 4
     }
   ],
 
   "users": [
     {
-      "userID": "HansOgGrethe"
+      "id": "2",
+      "username": "Martin Bruun Michaelsen",
+      "password": "password" 
     },
     {
-      "userID": "Morten"
+        "id": "3",
+        "username": "Emil Bruun Michaelsen",
+        "password": "password" 
     },
     {
-      "userID": "Martin"
+        "id": "5",
+        "username": "Sarah Aagaard Lind",
+        "password": "password" 
     },
     {
-      "userID": "Marco"
+        "id": "6",
+        "username": "Julie Aagaard Lind",
+        "password": "password" 
     },
     {
-      "userID": "Rasmus"
+        "id": "7",
+        "username": "Frederik Friis Lind",
+        "password": "password" 
     },
     {
-      "userID": "Jakob"
+        "id": "8",
+        "username": "Frida Petersen",
+        "password": "password" 
+    },
+    {
+        "id": "9",
+        "username": "Malene Clausen",
+        "password": "password" 
+    },
+    {
+        "id": "10",
+        "username": "Andreas Jørgensen",
+        "password": "password" 
     }
   ]
 }

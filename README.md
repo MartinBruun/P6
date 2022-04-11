@@ -17,59 +17,30 @@ Please be aware that changing the environment variables should not be done light
 ### Developer mode
 Before starting any of these commands, make sure to go into the Docker Dashboard, find Settings > Resources > Filesharing and then make sure that your computer give rights to the `P6` folder, otherwise some containers might not build.
 
-To run the web and box apps in developer mode, be in the root directory of the `P6` project, and simply write:
+To run the developer version, in the terminal go into `scripts/win/` or `scripts/mac/` depending on your operative system.
+Then run the `up.bat` or `up.command` respectively.
 
-`docker-compose build`
-`docker-compose up`
-OR
-`docker-compose up --build`
-
-To shut the containers down, simply write:
-
-`docker-compose down -v`
-
-The `-v` option signals that all volumes should be removed. To persist data between runs, simply omit the option.
-
-To access the different applications, open the browser and go into:
-
-box: localhost:8001
-web: localhost:8000
-
-To run the mobile application, first install flutter, then write:
-
-`cd washee_app`
-`flutter run`
-
-This should give you the option to start the app in Edge or Chrome.
-If possible, flutter should also be able to be dockerized, but presently it is not needed and takes up too much space.
+This should start everything up (starting the docker-compose.yml file) and give you all the information you need.
 
 ### Production mode
 Each app has its own seperate production ready docker-compose.NAME.yml file, which when run in the correct environment, will start a production ready build.
 
 #### Web
-To make a production ready server, made in the same way as what this project is using, you need a Raspberry Pi running Raspbian OS (other OS might also work, but this works on a Raspbian system)
+To make a production ready server, it needs to run some form of linux and have enough memory/storage to run docker.
 
-First, install docker, git and others following this:
-https://dev-pages.info/how-to-install-docker-and-docker-compose-on-raspberry-pi-4/
-If you get any errors installing docker-compose, do this:
-sudo pip3 install docker-compose==1.28.6
-This is due to the fact that the Raspberry should be updated to Buster OS instead of Raspbian.
+Presently, this does not work for any system with limited memory and storage (like a Raspberry Pi).
+The current version runs on an Ubuntu, linux system with +1TB of storage and 16+ GB of ram.
 
-Then do any necessary security precautions
-https://raspberrytips.com/security-tips-raspberry-pi/
-
-Also Update the Django security
-https://opensource.com/article/18/1/10-tips-making-django-admin-more-secure
-
-
-
-To run the software create a `.env.prod.web` and a `.env.prod.db` file in the root directory.
+To make the environment possible to run the server, you have to:
+Install docker and docker-compose on your system.
+Shut down any software using the ports 80 and 443 (http and https)
+Port forward on your router, making it possible to let things going to port 80 and 443 go through the firewall
+Run the `./init-letsencrypt.sh` script in the `/nginx` folder (this only needs to be run ones)
+Create a `.env.prod.web` environment and a `.env.prod.db` environment at root level with correct variables in it.
 The configuration of these files are secret and outside version control, so ask someone who knows what it should be.
 
-These commands are needed to start the server, update the database and collect the necessary static files
-`docker-compose -f docker-compose.web.yml up -d --build`
-`docker-compose -f docker-compose.web.yml exec web python manage.py migrate --noinput`
-`docker-compose -f docker-compose.web.yml exec web python manage.py collectstatic --no-input`
+To start the server, go to `/scripts/web` and run the `prod_up.sh` command. Run the `prod_down.sh` when you are done.
+These scripts have been made to make sure that one does not mistype, and also works as a reference to the commands.
 
 To see the logs if anything goes wrong
 `docker-compose -f docker-compose.web.yml logs -f`

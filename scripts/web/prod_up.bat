@@ -5,4 +5,5 @@ call docker-compose -f docker-compose.web.yml exec web python manage.py migrate 
 call docker-compose -f docker-compose.web.yml exec web python manage.py collectstatic --no-input
 cd scripts
 cd web
-echo THIS SHOULD BE LINUX INSTEAD FOR PROPER PRODUCTION!
+echo You now run a production build on http://localhost/
+echo Remember to run prod_down.bat to safely close the containers and persist data

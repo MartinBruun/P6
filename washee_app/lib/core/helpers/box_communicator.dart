@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:washee/core/washee_box/machine_model.dart';
+import 'package:washee/core/environments/environment.dart';
 
 import '../errors/failures.dart';
 
@@ -20,6 +21,14 @@ class BoxCommunicatorImpl implements BoxCommunicator {
   Dio dio = new Dio();
 
   BoxCommunicatorImpl({required this.dio});
+  @override
+  String get lockURL => Environment().config.boxApiHost + '/lock';
+
+  @override
+  String get unlockURL => Environment().config.boxApiHost + '/unlock';
+
+  @override
+  String get getMachinesURL => Environment().config.boxApiHost + "/getMachinesInfo";
 
   Future<Map<String, dynamic>> _lock() async {
     Response response;
@@ -68,13 +77,6 @@ class BoxCommunicatorImpl implements BoxCommunicator {
     }
     return _unlock(machine, duration);
   }
-
-  @override
-  String get lockURL => 'http://washeebox.local:8001/lock';
-
-  @override
-  String get unlockURL => 'http://washeebox.local:8001/unlock';
-  //'https://dd4836d4-3a9d-4d8a-b83f-ccd74c637643.mock.pstmn.io/unlock';
 
   @override
   Future<Map<String, dynamic>> getMachines() async {
@@ -137,8 +139,6 @@ class BoxCommunicatorImpl implements BoxCommunicator {
     return response.data;
   }
 
-  @override
-  String get getMachinesURL => 'http://localhost:8001/getMachinesInfo';//"http://washeebox.local:8001/getMachinesInfo";
   String get dummyURL =>
       "https://dd4836d4-3a9d-4d8a-b83f-ccd74c637643.mock.pstmn.io/getMachinesInfo";
 }
