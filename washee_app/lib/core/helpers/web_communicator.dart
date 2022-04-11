@@ -5,11 +5,9 @@ import 'package:washee/core/environments/environment.dart';
 import 'package:washee/core/errors/exception_handler.dart';
 
 abstract class WebCommunicator {
-  // Meta data
+  // Token data
   String get token;
-  // Maybe some func that makes sure to auto-issue a new token when the old one is about to expire?
-  // Ideas can maybe be found in: https://ohuru.tech/blog/2020/4/19/flutter-signuplogin-application-with-django-backend-3/
-  // Be aware that we don't strictly follow these guidelines! (we don't use Bloc as statemanager for example)
+  String getCachedToken();
   // URLs
   String get tokenURL;
   String get usersURL;
@@ -19,7 +17,7 @@ abstract class WebCommunicator {
   String get machinesURL;
   String get machineModelsURL;
   String get servicesURL;
-  // Methods
+  // Data Methods
   Future<Map<String, dynamic>> getValidToken(String email, String password);
   Future<Map<String, dynamic>> getCurrentUser(int userID);
   Future<Map<String, dynamic>> getCurrentLocation(int locationID);
@@ -33,31 +31,36 @@ class WebCommunicatorImpl implements WebCommunicator {
   WebCommunicatorImpl({required this.dio});
 
   @override
-  String get token => "";
+  String get token => getCachedToken();
 
   @override
-  String get tokenURL => Environment().config.webApiHost + "api/1/api-token-auth";
+  String getCachedToken() {
+    return "";
+  }
 
   @override
-  String get usersURL => Environment().config.webApiHost + "api/1/users";
+  String get tokenURL => Environment().config.webApiHost + "/api/1/api-token-auth";
 
   @override
-  String get accountsURL => Environment().config.webApiHost + "api/1/accounts";
+  String get usersURL => Environment().config.webApiHost + "/api/1/users";
 
   @override
-  String get bookingsURL => Environment().config.webApiHost + "api/1/bookings";
+  String get accountsURL => Environment().config.webApiHost + "/api/1/accounts";
 
   @override
-  String get locationsURL => Environment().config.webApiHost + "api/1/locations";
+  String get bookingsURL => Environment().config.webApiHost + "/api/1/bookings";
 
   @override
-  String get machineModelsURL => Environment().config.webApiHost + "api/1/machine_models";
+  String get locationsURL => Environment().config.webApiHost + "/api/1/locations";
 
   @override
-  String get machinesURL => Environment().config.webApiHost + "api/1/machines";
+  String get machineModelsURL => Environment().config.webApiHost + "/api/1/machine_models";
 
   @override
-  String get servicesURL => Environment().config.webApiHost + "api/1/services";
+  String get machinesURL => Environment().config.webApiHost + "/api/1/machines";
+
+  @override
+  String get servicesURL => Environment().config.webApiHost + "/api/1/services";
 
   @override
   Future<Map<String, dynamic>> getValidToken(String email, String password) async {
