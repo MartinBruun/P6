@@ -23,7 +23,7 @@ class _LogInScreenState extends State<LogInScreen> {
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
 
-  void _logIn(){
+  void _logIn() {
     print("attempting to log in");
     print("username is " + usernameController.text);
     print("password is " + passwordController.text);
