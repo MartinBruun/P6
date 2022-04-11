@@ -1,0 +1,26 @@
+[
+    {
+        "model": "location.machine",
+        "pk": "1",
+        "fields": {
+            "name": "Vaskemaskinen",
+            "created": "2022-04-01T12:35:20.673Z",
+            "last_updated": "2022-04-01T12:35:20.673Z",
+            "owner": 4,
+            "model": 1,
+            "location": 1
+        }
+    },
+    {
+        "model": "location.machine",
+        "pk": "2",
+        "fields": {
+            "name": "Tørretumbleren",
+            "created": "2022-04-01T12:35:20.673Z",
+            "last_updated": "2022-04-01T12:35:20.673Z",
+            "owner": 4,
+            "model": 2,
+            "location": 1
+        }
+    }
+]

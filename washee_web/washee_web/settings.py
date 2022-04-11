@@ -26,8 +26,21 @@ SECRET_KEY = os.environ.get("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = int(os.environ.get("DEBUG",default=0))
 
+# SECURITY WARNING: Controls all security related to the nginx proxy server
+SECURE_PROXY_SSL_HEADER = os.environ.get("SECURE_PROXY_HEADER",default=None)
+
+# SECURITY WARNING! Controls all CSRF based security
+CSRF_COOKIE_SECURE = False if os.environ.get("DJANGO_CSRF_COOKIE",default=1) == 0 else True
+
+# SECURITY WARNING! Controls all session based security
+SESSION_COOKIE_SECURE = False if os.environ.get("DJANGO_SESSION_COOKIE",default=1) == 0 else True
+
 # Create Fixture files that can load a whole database
-FIXTURE_DIRS = ["/washee_web"]
+FIXTURE_DIRS = [
+    "/account",
+    "/location",
+    "/booking"
+]
 
 ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS").split(" ")
 
@@ -51,7 +64,13 @@ OWN_APPS = [
 
 THIRD_PARTY = [
     'rest_framework',
+<<<<<<< HEAD
     'corsheaders'
+=======
+    'rest_framework.authtoken',
+    'corsheaders',
+    'admin_honeypot'
+>>>>>>> ed9f811f3b5b714dc37914f37725668a7f2afcc0
 ]
 
 INSTALLED_APPS = CORE_APPS+THIRD_PARTY+OWN_APPS
@@ -61,17 +80,23 @@ MIDDLEWARE = [
     'django.contrib.sessions.middleware.SessionMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+<<<<<<< HEAD
 CORS_ALLOW_ALL_ORIGINS = True # VERY INSECURE!!! We must know which localhost the flutter app calls from!!!
 
 #CORS_ALLOWED_ORIGINS = [
 #    'http://localhost:WasheeAppPort',
 #]
+=======
+CORS_ALLOW_ALL_ORIGINS = True # Says that all hosts can access the REST API, however, Tokens validate if they may take actions.
+# If need be, we can manually set the host of everyone who is part of the experiment, and block everyone else
+>>>>>>> ed9f811f3b5b714dc37914f37725668a7f2afcc0
 
 ROOT_URLCONF = 'washee_web.urls'
 
@@ -94,10 +119,11 @@ TEMPLATES = [
 WSGI_APPLICATION = 'washee_web.wsgi.application'
 
 REST_FRAMEWORK = {
-    # Use Django's standard `django.contrib.auth` permissions,
-    # or allow read-only access for unauthenticated users.
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+    ),
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+        'rest_framework.permissions.IsAuthenticated'
     ]
 }
 
