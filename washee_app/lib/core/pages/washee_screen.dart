@@ -1,7 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:washee/core/presentation/themes/colors.dart';
+import 'package:washee/core/presentation/themes/dimens.dart';
+import 'package:washee/core/presentation/themes/themes.dart';
+import 'package:washee/features/Account/presentation/log_in_button.dart';
+import 'package:washee/features/Account/presentation/log_in_status.dart';
 
 class WasheeScreen extends StatelessWidget {
   static const routeName = "/washee-screen";
+
+
+  
   @override
   Widget build(BuildContext context) {
     var mediaHeight = MediaQuery.of(context).size.height;
@@ -43,6 +51,7 @@ class WasheeScreen extends StatelessWidget {
             SizedBox(
               height: mediaHeight * 0.05,
             ),
+            LogInStatus()
           ],
         ),
       ),
