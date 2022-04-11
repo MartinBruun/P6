@@ -1,5 +1,5 @@
 # pull official base image
-FROM python:3.9.5-slim
+FROM debian:10.3-slim
 
 # set work directory
 WORKDIR /usr/src/washee_web
@@ -10,14 +10,35 @@ ENV PYTHONUNBUFFERED 1
 
 # install psycopg2 dependencies
 RUN apt-get update \
-    && apt-get -y install build-essential libssl-dev libffi-dev libblas3 libc6 liblapack3 gcc python3-dev python3-pip cython \
-    && apt-get -y install libpq-dev gcc \
-    && apt install -y netcat
+    && apt-get upgrade -y \
+    && apt-get autoremove -y \
+    && apt-get install -y \
+      gcc \
+      python3 \
+      build-essential \
+      zlib1g-dev \
+      wget \
+      unzip \
+      cmake \
+      python3-dev \
+      python3-pip \
+      python3-numpy \
+      python3-pandas \
+      gfortran \
+      libssl-dev \
+      libffi-dev \
+      libc6 \
+      libblas-dev \
+      liblapack-dev \
+      libatlas-base-dev \
+      libpq-dev \
+    && apt-get clean
+RUN apt install -y netcat
 
-# install dependencies
-RUN pip install --upgrade pip
+# Install 
+RUN pip3 install --upgrade pip
 COPY ./requirements.txt .
-RUN pip install -r requirements.txt
+RUN pip3 install -r requirements.txt
 
 # copy entrypoint.sh
 COPY ./entrypoint.sh .

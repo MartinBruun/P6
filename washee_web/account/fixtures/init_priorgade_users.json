@@ -1,0 +1,167 @@
+[
+    {
+        "model": "account.user", 
+        "pk": 1, 
+        "fields": {
+            "password": "pbkdf2_sha256$260000$z8swqXN58xsPF3k1htcpCm$nERn5tR6+SzysuLLJtTTxjf3/APZqLPz1wmBLVJhUXo=", 
+            "email": "admin@mail.com", 
+            "username": "admin", 
+            "date_joined": "2022-04-01T12:34:38.757Z", 
+            "last_login": "2022-04-01T12:34:54.777Z", 
+            "is_active": true, 
+            "staff": true, 
+            "admin": true, 
+            "superuser": false
+        }
+    }, 
+    {
+        "model": "account.user", 
+        "pk": 2, 
+        "fields": {
+            "password": "password", 
+            "email": "mbm93fen@gmail.com", 
+            "username": "Martin Bruun Michaelsen", 
+            "date_joined": "2022-04-01T12:35:08.483Z", 
+            "last_login": "2022-04-01T12:35:08.484Z", 
+            "is_active": true, 
+            "staff": false, 
+            "admin": false, 
+            "superuser": false
+        }
+    },
+    {
+        "model": "account.user", 
+        "pk": 3, 
+        "fields": {
+            "password": "password", 
+            "email": "emil@mail.com", 
+            "username": "Emil Bruun Michaelsen", 
+            "date_joined": "2022-04-01T12:35:14.076Z", 
+            "last_login": "2022-04-01T12:35:14.076Z", 
+            "is_active": true, 
+            "staff": false, 
+            "admin": false, 
+            "superuser": false
+        }
+    }, 
+    {
+        "model": "account.user", 
+        "pk": 4, 
+        "fields": {
+            "password": "password", 
+            "email": "mobj@danskrevision.dk", 
+            "username": "Morten Bruun Jacobsen", 
+            "date_joined": "2022-04-01T12:35:20.672Z", 
+            "last_login": "2022-04-01T12:35:20.672Z", 
+            "is_active": true, 
+            "staff": false, 
+            "admin": false, 
+            "superuser": false
+        }
+    }, 
+    {
+        "model": "account.user", 
+        "pk": 5, 
+        "fields": {
+            "password": "password", 
+            "email": "sarah@mail.com", 
+            "username": "Sarah Aagaard Lind", 
+            "date_joined": "2022-04-01T12:35:30.118Z", 
+            "last_login": "2022-04-01T12:35:30.118Z", 
+            "is_active": true, 
+            "staff": false, 
+            "admin": false, 
+            "superuser": false
+        }
+    }, 
+    {
+        "model": "account.user", 
+        "pk": 6, 
+        "fields": {
+            "password": "password", 
+            "email": "julie@mail.com", 
+            "username": "Julie Aagaard Lind", 
+            "date_joined": "2022-04-01T12:35:35.507Z", 
+            "last_login": "2022-04-01T12:35:35.507Z", 
+            "is_active": true, 
+            "staff": false, 
+            "admin": false, 
+            "superuser": false
+        }
+    }, 
+    {
+        "model": "account.user", 
+        "pk": 7, 
+        "fields": {
+            "password": "password", 
+            "email": "frederik@mail.com", 
+            "username": "Frederik Friis Lind", 
+            "date_joined": "2022-04-01T12:35:43.740Z", 
+            "last_login": "2022-04-01T12:35:43.740Z",
+            "is_active": true, 
+            "staff": false, 
+            "admin": false, 
+            "superuser": false
+        }
+    }, 
+    {
+        "model": "account.user", 
+        "pk": 8, 
+        "fields": {
+            "password": "password", 
+            "email": "frida@mail.com", 
+            "username": "Frida Petersen", 
+            "date_joined": "2022-04-01T12:35:55.458Z", 
+            "last_login": "2022-04-01T12:35:55.458Z", 
+            "is_active": true, 
+            "staff": false, 
+            "admin": false, 
+            "superuser": false
+        }
+    }, 
+    {
+        "model": "account.user", 
+        "pk": 9, 
+        "fields": {
+            "password": "password", 
+            "email": "malenecvinklub@gmail.com", 
+            "username": "Malene Clausen", 
+            "date_joined": "2022-04-01T12:36:01.659Z", 
+            "last_login": "2022-04-01T12:36:01.659Z", 
+            "is_active": true, 
+            "staff": false, 
+            "admin": false, 
+            "superuser": false
+        }
+    }, 
+    {
+        "model": "account.user", 
+        "pk": 10, 
+        "fields": {
+            "password": "password", 
+            "email": "dreno4@hotmail.com", 
+            "username": "Andreas Jørgensen", 
+            "date_joined": "2022-04-01T12:36:09.747Z", 
+            "last_login": "2022-04-01T12:36:09.747Z", 
+            "is_active": true, 
+            "staff": false, 
+            "admin": false, 
+            "superuser": false
+        }
+    },
+    {
+        "model": "account.user", 
+        "pk": 11, 
+        "fields": {
+            "password": "password", 
+            "email": "kamilllunddal@outlook.com", 
+            "username": "Kamilaa Lunddal", 
+            "date_joined": "2022-04-01T12:36:09.747Z", 
+            "last_login": "2022-04-01T12:36:09.747Z", 
+            "is_active": true, 
+            "staff": false, 
+            "admin": false, 
+            "superuser": false
+        }
+    }
+]

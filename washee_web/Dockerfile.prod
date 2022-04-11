@@ -1,7 +1,7 @@
 # BUILDER #
 
 # pull official base image
-FROM python:3.9.5-slim as builder
+FROM debian:10.3-slim as builder
 
 # set work directory
 WORKDIR /usr/src/washee_web
@@ -12,22 +12,43 @@ ENV PYTHONUNBUFFERED 1
 
 # install psycopg2 dependencies
 RUN apt-get update \
-    && apt-get -y install build-essential libssl-dev libffi-dev libblas3 libc6 liblapack3 gcc python3-dev python3-pip cython \
-    && apt-get -y install libpq-dev gcc \
-    && apt install -y netcat
+    && apt-get upgrade -y \
+    && apt-get autoremove -y \
+    && apt-get install -y \
+      gcc \
+      python3 \
+      build-essential \
+      zlib1g-dev \
+      wget \
+      unzip \
+      cmake \
+      python3-dev \
+      python3-pip \
+      python3-numpy \
+      python3-pandas \
+      gfortran \
+      libssl-dev \
+      libffi-dev \
+      libc6 \
+      libblas-dev \
+      liblapack-dev \
+      libatlas-base-dev \
+      libpq-dev \
+    && apt-get clean
+RUN apt install -y netcat
 
-# lint
-RUN pip install --upgrade pip
+# Install 
+RUN pip3 install --upgrade pip
 COPY . .
 
 # install dependencies
 COPY ./requirements.txt .
-RUN pip wheel --no-cache-dir --no-deps --wheel-dir /usr/src/washee_web/wheels -r requirements.txt
+RUN pip3 wheel --no-cache-dir --no-deps --wheel-dir /usr/src/washee_web/wheels -r requirements.txt
 
 # FINAL #
 
 # pull official base image
-FROM python:3.9.5-slim
+FROM debian:10.3-slim
 
 # create directory for the app user
 RUN mkdir -p /home/washee_web
@@ -45,12 +66,37 @@ WORKDIR $APP_HOME
 
 # install psycopg2 dependencies
 RUN apt-get update \
-    && apt-get -y install build-essential libssl-dev libffi-dev libblas3 libc6 liblapack3 gcc python3-dev python3-pip cython \
-    && apt-get -y install libpq-dev gcc \
-    && apt install -y netcat
+    && apt-get upgrade -y \
+    && apt-get autoremove -y \
+    && apt-get install -y \
+      gcc \
+      python3 \
+      build-essential \
+      zlib1g-dev \
+      wget \
+      unzip \
+      cmake \
+      python3-dev \
+      python3-pip \
+      python3-numpy \
+      python3-pandas \
+      gfortran \
+      libssl-dev \
+      libffi-dev \
+      libc6 \
+      libblas-dev \
+      liblapack-dev \
+      libatlas-base-dev \
+      libpq-dev \
+    && apt-get clean
+RUN apt install -y netcat
+ 
 COPY --from=builder /usr/src/washee_web/wheels /wheels
 COPY --from=builder /usr/src/washee_web/requirements.txt .
-RUN pip install --no-cache /wheels/*
+
+# Install wheels made by the builder
+RUN pip3 install --upgrade pip
+RUN pip3 install --no-cache /wheels/*
 
 # copy entrypoint.prod.sh
 COPY ./entrypoint.prod.sh .

@@ -47,7 +47,7 @@ class User(AbstractBaseUser):
 
     # notice the absence of a "Password field", that is built in.
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = [] # Username & Password are required by default.
+    REQUIRED_FIELDS = [] # USERNAME_FIELD & Password are required by default.
     
     # Managers
     objects = UserManager()
@@ -75,6 +75,13 @@ class User(AbstractBaseUser):
         "Does the user have permissions to view the app `app_label`?"
         # Simplest possible answer: Yes, always
         return True
+    
+    class Meta:
+        ordering = ['-date_joined']
+        db_table = 'user'
+        managed = True
+        verbose_name = "user"
+        verbose_name_plural = "users"
     
 
 class Account(models.Model):

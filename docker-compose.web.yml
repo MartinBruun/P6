@@ -28,13 +28,22 @@ services:
       - 65432:5432
   nginx:
     build: ./nginx
+    restart: always
     volumes:
       - static_volume:/home/washee_web/web/staticfiles
       - media_volume:/home/washee_web/web/mediafiles
+      - ./nginx/certbot/conf:/etc/letsencrypt
+      - ./nginx/certbot/www:/var/www/certbot
     ports:
-      - 7999:80
+      - 80:80
+      - 443:443
     depends_on:
       - web
+  certbot:
+    image: certbot/certbot:latest
+    volumes:
+      - ./nginx/certbot/conf:/etc/letsencrypt
+      - ./nginx/certbot/www:/var/www/certbot
 
 volumes:
   postgres_data:

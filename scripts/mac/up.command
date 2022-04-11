@@ -2,12 +2,31 @@
 
 cd ..
 cd ..
-docker-compose up -d --build
 cd washee_app
-echo MISSING COMMAND TO START FLUTTER! CD INTO WASHEE_APP AND RUN flutter run -d chrome
+osascript -e 'tell app "Terminal" to do script "flutter run --dart-define=ENVIRONMENT=DEV"'
 cd ..
+docker-compose up -d --build
+docker-compose exec web python3 manage.py flush --no-input
+docker-compose exec web python3 manage.py makemigrations
+docker-compose exec web python3 manage.py migrate
+echo.
+echo Loading users from ./washee_web/account/fixtures/init_priorgade_users.json
+docker-compose exec web python3 manage.py loaddata init_priorgade_users.json
+echo Loading accounts from ./washee_web/account/fixtures/init_priorgade_accounts.json
+docker-compose exec web python3 manage.py loaddata init_priorgade_accounts.json
+echo Loading machine models from ./washee_web/location/fixtures/init_priorgade_models.json
+docker-compose exec web python3 manage.py loaddata init_priorgade_models.json
+echo Loading services from ./washee_web/location/fixtures/init_priorgade_services.json
+docker-compose exec web python3 manage.py loaddata init_priorgade_services.json
+echo Loading locations from ./washee_web/location/fixtures/init_priorgade_locations.json
+docker-compose exec web python3 manage.py loaddata init_priorgade_locations.json
+echo Loading machines from ./washee_web/location/fixtures/init_priorgade_machines.json
+docker-compose exec web python3 manage.py loaddata init_priorgade_machines.json
+echo Loading bookings from ./washee_web/location/fixtures/init_priorgade_bookings.json
+docker-compose exec web python3 manage.py loaddata init_priorgade_bookings.json
 cd scripts
-cd mac
+cd win
+echo.
 echo The -- box -- container is now accessible on localhost:8001/
 echo The -- web -- container is now accessible on localhost:8000/
 echo The -- app -- flutter application is started in a seperate prompt on chrome
