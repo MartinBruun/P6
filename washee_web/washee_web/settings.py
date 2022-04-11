@@ -36,7 +36,11 @@ CSRF_COOKIE_SECURE = False if os.environ.get("DJANGO_CSRF_COOKIE",default=1) == 
 SESSION_COOKIE_SECURE = False if os.environ.get("DJANGO_SESSION_COOKIE",default=1) == 0 else True
 
 # Create Fixture files that can load a whole database
-FIXTURE_DIRS = ["/location"]
+FIXTURE_DIRS = [
+    "/account",
+    "/location",
+    "/booking"
+]
 
 ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS").split(" ")
 
@@ -59,10 +63,10 @@ OWN_APPS = [
 ]
 
 THIRD_PARTY = [
-    'rest_framework', # Makes the REST API
-    'corsheaders',    # Makes it possible to configure who can access the REST API
-    #'admin_honeypot'  # Catches bots who try to bruteforce the admin url. Is setup pr. default to notify admins when this happens.
-    #This sadly breaks the init_fixture, since it installs a honey_pot user that conflicts with it
+    'rest_framework',
+    'rest_framework.authtoken',
+    'corsheaders',
+    'admin_honeypot'
 ]
 
 INSTALLED_APPS = CORE_APPS+THIRD_PARTY+OWN_APPS
@@ -102,10 +106,11 @@ TEMPLATES = [
 WSGI_APPLICATION = 'washee_web.wsgi.application'
 
 REST_FRAMEWORK = {
-    # Use Django's standard `django.contrib.auth` permissions,
-    # or allow read-only access for unauthenticated users.
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+    ),
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+        'rest_framework.permissions.IsAuthenticated'
     ]
 }
 

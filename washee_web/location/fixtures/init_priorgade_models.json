@@ -1,0 +1,20 @@
+[
+    {
+        "model": "location.machinemodel",
+        "pk": "1",
+        "fields": {
+            "name": "AKG Vaskemaskine",
+            "created": "2022-04-01T12:35:20.673Z",
+            "last_updated": "2022-04-01T12:35:20.673Z"
+        }
+    },
+    {
+        "model": "location.machinemodel",
+        "pk": "2",
+        "fields": {
+            "name": "Electrolux Tørretumbler",
+            "created": "2022-04-01T12:35:20.673Z",
+            "last_updated": "2022-04-01T12:35:20.673Z"
+        }
+    }
+]

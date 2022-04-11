@@ -1,0 +1,12 @@
+[
+    {
+        "model": "location.location",
+        "pk": "1",
+        "fields": {
+            "name": "Priorgade 1A Vaskerum",
+            "created": "2022-04-01T12:35:20.673Z",
+            "last_updated": "2022-04-01T12:35:20.673Z",
+            "owner": 4
+        }
+    }
+]
