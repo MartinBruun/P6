@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:washee/core/environments/environment.dart';
 import 'package:washee/core/pages/home_screen.dart';
 import 'package:washee/core/providers/global_provider.dart';
+import 'package:washee/features/booking/presentation/provider/calendar_provider.dart';
 import 'package:washee/features/unlock/presentation/provider/unlock_provider.dart';
 import 'injection_container.dart' as ic;
 import 'core/presentation/themes/themes.dart';
@@ -11,7 +12,7 @@ import 'core/presentation/themes/themes.dart';
 void main() async {
   const String environment = String.fromEnvironment(
     'ENVIRONMENT',
-    defaultValue: Environment.DEV,
+    defaultValue: Environment.PROD,
   );
   Environment().initConfig(environment);
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,6 +27,7 @@ class WasheeApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (ctx) => UnlockProvider()),
         ChangeNotifierProvider(create: (ctx) => GlobalProvider()),
+        ChangeNotifierProvider(create: (ctx) => CalendarProvider()),
       ],
       child: ScreenUtilInit(
         designSize: Size(1000, 1600),

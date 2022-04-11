@@ -24,6 +24,12 @@
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSBonjourServices</key>
+	<array>
+		<string>_dartobservatory._tcp</string>
+	</array>
+	<key>NSLocalNetworkUsageDescription</key>
+	<string>Washee needs access to your local network in order to start a washing machine</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
@@ -42,15 +48,9 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-	<key>NSBonjourServices</key>
-	<array>
-		<string>_dartobservatory._tcp</string>
-	</array>
-	<key>NSLocalNetworkUsageDescription</key>
-	<string>Washee needs access to your local network in order to start a washing machine</string>
-	<key>com.apple.developer.networking.wifi-info</key>
-	<string>Washee needs access to your local network in order to start a washing machine</string>
 	<key>com.apple.developer.networking.multipath</key>
 	<string>Washee needs access to your local network and mobile in order to start a washing machine and connect to the server</string>
+	<key>com.apple.developer.networking.wifi-info</key>
+	<string>Washee needs access to your local network in order to start a washing machine</string>
 </dict>
 </plist>

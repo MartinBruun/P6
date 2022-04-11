@@ -8,6 +8,9 @@ class User extends Equatable {
   final List<Account> accounts;
 
   User({required this.id, required this.email, required this.userName, this.accounts: const []});
+  
+  User.noUser({ this.id = 0, this.email = "", this.userName = "", List<Account>? accounts,
+  }) : accounts = accounts ?? [];
 
   @override
   List<Object?> get props => [email, userName, accounts];
