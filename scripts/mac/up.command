@@ -3,13 +3,13 @@
 cd ..
 cd ..
 cd washee_app
-osascript -e 'tell app "Terminal" to do script "flutter run --dart-define=ENVIRONMENT=DEV"'
+osascript -e 'tell app "Terminal" to do script "cd developer/p6-washee/P6/washee_app/ && flutter run --dart-define=ENVIRONMENT=DEV"'
 cd ..
 docker-compose up -d --build
 docker-compose exec web python3 manage.py flush --no-input
 docker-compose exec web python3 manage.py makemigrations
 docker-compose exec web python3 manage.py migrate
-echo.
+echo 
 echo Loading users from ./washee_web/account/fixtures/init_priorgade_users.json
 docker-compose exec web python3 manage.py loaddata init_priorgade_users.json
 echo Loading accounts from ./washee_web/account/fixtures/init_priorgade_accounts.json
@@ -26,14 +26,14 @@ echo Loading bookings from ./washee_web/location/fixtures/init_priorgade_booking
 docker-compose exec web python3 manage.py loaddata init_priorgade_bookings.json
 cd scripts
 cd win
-echo.
+echo 
 echo The -- box -- container is now accessible on localhost:8001/
 echo The -- web -- container is now accessible on localhost:8000/
 echo The -- app -- flutter application is started in a seperate prompt on chrome
-echo.
+echo
 echo You can run the -- test_app.command -- command to run tests for the mobile application
 echo You can run the -- test_box.command -- command to run tests for the box application
 echo You can run the -- test_web.command -- command to run tests for the web application
-echo.
+echo
 echo REMEMBER to run the -- down.command -- command to close the containers!
 echo The flutter application should be shut down in the seperate prompt
