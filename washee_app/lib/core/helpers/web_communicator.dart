@@ -3,13 +3,12 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:washee/core/environments/environment.dart';
 import 'package:washee/core/errors/exception_handler.dart';
+import 'package:washee/core/helpers/authorizer.dart';
 
 abstract class WebCommunicator {
-  // Token data
-  String get token;
-  String getCachedToken();
+  // Setup
+  Dio initDio();
   // URLs
-  String get tokenURL;
   String get usersURL;
   String get accountsURL;
   String get bookingsURL;
@@ -18,7 +17,6 @@ abstract class WebCommunicator {
   String get machineModelsURL;
   String get servicesURL;
   // Data Methods
-  Future<Map<String, dynamic>> getValidToken(String email, String password);
   Future<Map<String, dynamic>> getCurrentUser(int userID);
   Future<Map<String, dynamic>> getCurrentLocation(int locationID);
   Future<Map<String, dynamic>> getCurrentBookings(int locationID);
@@ -26,20 +24,20 @@ abstract class WebCommunicator {
 }
 
 class WebCommunicatorImpl implements WebCommunicator {
-  Dio dio = new Dio();
+  Dio dio;
 
-  WebCommunicatorImpl({required this.dio});
-
-  @override
-  String get token => getCachedToken();
-
-  @override
-  String getCachedToken() {
-    return "";
+  WebCommunicatorImpl({required this.dio}){
+    dio = initDio();
   }
 
   @override
-  String get tokenURL => Environment().config.webApiHost + "/api/1/api-token-auth";
+  Dio initDio() {
+    Dio temp_dio = new Dio();
+    temp_dio.options.headers["content-Type"] = "application/json";
+    String token = AuthorizerImpl().getTokenFromCache();
+    temp_dio.options.headers["authorization"] = "TOKEN ${token}";
+    return temp_dio;
+  }
 
   @override
   String get usersURL => Environment().config.webApiHost + "/api/1/users";
@@ -61,22 +59,6 @@ class WebCommunicatorImpl implements WebCommunicator {
 
   @override
   String get servicesURL => Environment().config.webApiHost + "/api/1/services";
-
-  @override
-  Future<Map<String, dynamic>> getValidToken(String email, String password) async {
-    Response response;
-
-    response = await dio.post(tokenURL);
-    if (response.statusCode == 200){
-      return {"get": "valid token and update the 'token' attribute and make sure future dio requests use the header { 'Authorization': 'TOKEN <token>' }" };
-    }
-    else {
-      ExceptionHandler().handle(
-        "Something went wrong with status code: " + response.statusCode.toString() + " with response:\n" + response.data['response'],
-        log:true, show:true, crash: false);
-      return response.data;
-    }
-  }
 
   @override
   Future<Map<String, dynamic>> getCurrentUser(int userID) async {
@@ -114,7 +96,7 @@ class WebCommunicatorImpl implements WebCommunicator {
   Future<Map<String, dynamic>> getCurrentBookings(int locationID) async {
     Response response;
 
-    response = await dio.get(tokenURL);
+    response = await dio.get(bookingsURL);
     if (response.statusCode == 200){
       return {"get": "The current bookings already made for the current location" };
     }

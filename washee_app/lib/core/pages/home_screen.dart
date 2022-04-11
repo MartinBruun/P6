@@ -4,7 +4,7 @@ import 'package:washee/core/pages/washee_screen.dart';
 import 'package:washee/core/pages/calendar_screen.dart';
 
 import 'package:dio/dio.dart'; // ONLY FOR TESTING! SHOULD BE REMOVED BEFORE MERGE TO MASTER!
-import 'package:washee/core/booking/booking_model.dart'; // ONLY FOR TESTING! SHOULD BE REMOVED BEFORE MERGE TO MASTER!
+import 'package:washee/features/booking/data/models/booking_model.dart'; // ONLY FOR TESTING! SHOULD BE REMOVED BEFORE MERGE TO MASTER!
 import 'package:washee/features/booking/data/datasources/book_remote.dart'; // ONLY FOR TESTING! SHOULD BE REMOVED BEFORE MERGE TO MASTER!
 
 class HomeScreen extends StatefulWidget {
@@ -20,7 +20,6 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   List<Widget> _pages = [];
-  late Future<List<BookingModel>> futureBookings; // ONLY FOR TESTING! SHOULD BE REMOVED BEFORE MERGE TO MASTER!
 
   int _selectedPageIndex = 0;
 
@@ -39,13 +38,6 @@ class _HomeScreenState extends State<HomeScreen> {
     // print(widget.page.toString());
 
     super.initState();
-    Dio dio = new Dio(); // ONLY FOR TESTING! SHOULD BE REMOVED BEFORE MERGE TO MASTER!
-    futureBookings = BookLaundryRemoteImpl(dio:dio).getAllBookings(); 
-    futureBookings.then((value) {
-      print("\nHERE\n\n");
-      print(value);
-      print("\nFIN!");
-    }); // ONLY FOR TESTING! SHOULD BE REMOVED BEFORE MERGE TO MASTER! EVERYTHING BETWEEN!
   }
 
   void _selectPage(int index) {

@@ -64,7 +64,7 @@
         "pk": 5, 
         "fields": {
             "password": "password", 
-            "email": "sarah@mail.com", 
+            "email": "sarahalind@gmail.com", 
             "username": "Sarah Aagaard Lind", 
             "date_joined": "2022-04-01T12:35:30.118Z", 
             "last_login": "2022-04-01T12:35:30.118Z", 
@@ -94,7 +94,7 @@
         "pk": 7, 
         "fields": {
             "password": "password", 
-            "email": "frederik@mail.com", 
+            "email": "frederik.friislind@gmail.com", 
             "username": "Frederik Friis Lind", 
             "date_joined": "2022-04-01T12:35:43.740Z", 
             "last_login": "2022-04-01T12:35:43.740Z",

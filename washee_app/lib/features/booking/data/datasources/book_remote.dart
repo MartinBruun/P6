@@ -22,9 +22,7 @@ class BookLaundryRemoteImpl implements BookRemote {
   @override
   Future<List<BookingModel>> getAllBookings() async {
     List<BookingModel> allBookings = [];
-    print("INSIDE FUNC"); // REMOVE BEFORE MERGE TO MASTER!
     final response = await dio.get(ENDPOINT);
-    print(response.data); // REMOVE BEFORE MERGE TO MASTER!
     if (response.statusCode == 200) {
       allBookings = (jsonDecode(response.data) as List).map((i) => BookingModel.fromJson(i)).toList();
     }
