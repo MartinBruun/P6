@@ -36,9 +36,11 @@ class _LogInScreenState extends State<LogInScreen> {
     Dio dio = new Dio();
     Authorizer authorizer = new AuthorizerImpl(dio: dio);
     await authorizer.getAndSaveTokenToCache(usernameController.text, passwordController.text);
+    print("THE TOKEN IS: " + authorizer.token.toString());
     WebCommunicator web = new WebCommunicatorImpl(dio: dio, authorizer: authorizer);
     List<User> allUsers = await web.getAllUsers();
-    print(allUsers);
+    print("USERS AS USER MODELS!");
+    print(allUsers.toString());
 
 
     // showDialog(context: context, builder: (builder) {

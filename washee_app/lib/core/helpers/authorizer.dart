@@ -50,7 +50,6 @@ class AuthorizerImpl implements Authorizer {
   Future<void> getAndSaveTokenToCache(String email, String password) async {
     Response response;
     Map<String,dynamic> data = { "username": email, "password": password};
-    print(data);
 
     try {
       response = await dio.post(tokenURL, data: data);

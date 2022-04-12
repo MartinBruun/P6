@@ -5,12 +5,9 @@ class User extends Equatable {
   final int id;
   final String email;
   final String userName;
-  final List<Account> accounts;
+  final List<String> accounts; // This should be made into an Account model instead. Maybe auto-fetching when a URL is passed?
 
   User({required this.id, required this.email, required this.userName, this.accounts: const []});
-  
-  User.noUser({ this.id = 0, this.email = "", this.userName = "", List<Account>? accounts,
-  }) : accounts = accounts ?? [];
 
   @override
   List<Object?> get props => [email, userName, accounts];
@@ -19,7 +16,7 @@ class User extends Equatable {
     'id': id.toString(),
     'email': email,
     'username': userName,
-    'accounts': List<Account>.of(accounts)
+    'accounts': List<String>.of(accounts)
   };
 
   factory User.fromJson(Map<String, dynamic> json) {
@@ -27,7 +24,7 @@ class User extends Equatable {
       id: json["id"],
       email: json["email"],
       userName: json['username'],
-      accounts: List<Account>.from(json["accounts"].map((model) => Account.fromJson(model)))
+      accounts: List<String>.from(json["accounts"].map((url) => url))
     );
   }
 }

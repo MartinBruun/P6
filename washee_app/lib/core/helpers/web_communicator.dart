@@ -134,7 +134,6 @@ class WebCommunicatorImpl implements WebCommunicator {
 
     response = await dio.get(usersURL);
     if (response.statusCode == 200){
-      print(response.data);
       List<User> _users = [];
       for (var user in response.data) {
         _users.add(User.fromJson(user));
