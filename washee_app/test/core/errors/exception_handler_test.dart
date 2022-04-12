@@ -14,7 +14,8 @@ void main() {
       }
     },
   );
-
+/* Logging functionality sadly doesnt work in production, and makes the mobile crash.
+    The logging functionality should be updated to make an API call to the backend instead!
   test(
     'test exception handler can write exception to a log',
     () async {
@@ -36,6 +37,7 @@ void main() {
       eh.resetLog();
     },
   );
+*/
 
   test(
     'test exception handler can fail silently and show to console',
@@ -88,7 +90,8 @@ void main() {
       }
     },
   );
-
+/* Logging functionality is sadly broken
+    Also, these tests are no longer applicable. Should instead make a call to the backend when something goes wrong
   test(
     'test exception handlers log is timestamped',
     () async {
@@ -112,4 +115,8 @@ void main() {
       eh.resetLog();
     },
   );
+*/
+
+// NEW TEST: If the Exception handler crashes while handling the Exception (like sending it to the backend), present some information to the user so as to contact customer support or something!
+// DESIGN: The ExceptionHandler should never depend on anything else in the entire program!
 }
