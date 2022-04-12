@@ -64,13 +64,9 @@ OWN_APPS = [
 
 THIRD_PARTY = [
     'rest_framework',
-<<<<<<< HEAD
-    'corsheaders'
-=======
     'rest_framework.authtoken',
     'corsheaders',
     'admin_honeypot'
->>>>>>> ed9f811f3b5b714dc37914f37725668a7f2afcc0
 ]
 
 INSTALLED_APPS = CORE_APPS+THIRD_PARTY+OWN_APPS
@@ -87,16 +83,8 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-<<<<<<< HEAD
-CORS_ALLOW_ALL_ORIGINS = True # VERY INSECURE!!! We must know which localhost the flutter app calls from!!!
-
-#CORS_ALLOWED_ORIGINS = [
-#    'http://localhost:WasheeAppPort',
-#]
-=======
 CORS_ALLOW_ALL_ORIGINS = True # Says that all hosts can access the REST API, however, Tokens validate if they may take actions.
 # If need be, we can manually set the host of everyone who is part of the experiment, and block everyone else
->>>>>>> ed9f811f3b5b714dc37914f37725668a7f2afcc0
 
 ROOT_URLCONF = 'washee_web.urls'
 
