@@ -10,7 +10,7 @@ class Booking extends Equatable {
       {required this.date,
       this.confirmed = false,
       required this.bookingID,
-      required this.bookingName});
+      required this.bookingName, String account, DateTime created});
 
   @override
   List<Object?> get props => [date, confirmed, bookingID, bookingName];

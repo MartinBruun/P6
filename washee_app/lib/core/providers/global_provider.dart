@@ -65,4 +65,42 @@ class GlobalProvider extends ChangeNotifier {
     }
     notifyListeners();
   }
+
+  List<BookingModel> _bookings = [];
+
+  bool _isConnectingToWeb = false;
+  bool _isRefreshingWeb = false;
+  bool _fetchedRegisteredBookings = false;
+
+  List<BookingModel> get registeredBookings => _bookings;
+  bool get isConnectingToWeb => _isConnectingToWeb;
+  bool get isRefreshingWeb => _isRefreshingWeb;
+  bool get fetchedRegisteredBookings => _fetchedRegisteredBookings;
+
+  set isConnectingToWeb(bool value) {
+    _isConnectingToWeb = value;
+    notifyListeners();
+  }
+
+  set isRefreshingWeb(bool value) {
+    _isRefreshingWeb = value;
+    notifyListeners();
+  }
+
+  set fetchedRegisteredBookings(bool value) {
+    _fetchedRegisteredBookings = value;
+    notifyListeners();
+  }
+
+  updateRegisteredBookings(List<BookingModel> bookings) {
+    _bookings = bookings;
+    notifyListeners();
+  }
+
+  constructBookingsList(Map<String, dynamic> bookingsAsJson) {
+    for (var booking in bookingsAsJson['bookings']) {
+      _bookings.add(BookingModel.fromJson(booking));
+    }
+    notifyListeners();
+  }
 }

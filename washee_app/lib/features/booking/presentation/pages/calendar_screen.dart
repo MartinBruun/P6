@@ -13,12 +13,12 @@ class CalendarScreen extends StatefulWidget {
   @override
   State<CalendarScreen> createState() => _CalendarScreenState();
 }
-
+//TODO: IT could be great not to have to call DateTime.now so many times, but just call it in top of the constructor
 class _CalendarScreenState extends State<CalendarScreen> {
   final List<DateTime> months = [
-    new DateTime(2022, 04, 1),
-    new DateTime(2022, 05, 1),
-    new DateTime(2022, 06, 1)
+    new DateTime(DateTime.now().year, DateTime.now().month, 1),
+    new DateTime(DateTime.now().year, DateTime.now().month+1, 1),
+    new DateTime(DateTime.now().year, DateTime.now().month+2, 1)
   ];
 
   bool _isLoadingDays = false;

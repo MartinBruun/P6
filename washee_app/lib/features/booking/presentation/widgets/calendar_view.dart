@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:washee/core/helpers/date_helper.dart';
@@ -6,6 +7,7 @@ import 'package:washee/features/booking/presentation/widgets/day_card.dart';
 
 import '../../../../core/presentation/themes/dimens.dart';
 import '../../../../core/presentation/themes/themes.dart';
+import '../../../../core/providers/global_provider.dart';
 import '../provider/calendar_provider.dart';
 
 class CalendarView extends StatefulWidget {
@@ -21,6 +23,22 @@ class CalendarView extends StatefulWidget {
 
 class _CalendarViewState extends State<CalendarView> {
   DateHelper _dateHelper = DateHelper();
+
+  void initState() {
+    SchedulerBinding.instance?.addPostFrameCallback((_) async {
+      var provider = Provider.of<GlobalProvider>(context, listen: false);
+      provider.isConnectingToWeb = true;
+      await Future.delayed(Duration(seconds: 1));
+      if (!provider.hasFetchedBookings) {
+        provider.updateRegisteredBookings(
+            await sl<GetRegisteredBookingsUseCase>().call(NoParams()));
+        provider.hasFetchedBookings = true;
+      }
+      provider.isConnectingToWeb = false;
+    });
+    super.initState();
+  }
+
 
   @override
   Widget build(BuildContext context) {
