@@ -31,7 +31,7 @@ class AuthorizerImpl implements Authorizer {
   String token = "";
 
   @override
-  String get tokenURL => Environment().config.webApiHost + "/api/1/api-token-auth";
+  String get tokenURL => Environment().config.webApiHost + "/api-token-auth/";
 
   @override
   String getTokenFromCache() {
@@ -49,16 +49,23 @@ class AuthorizerImpl implements Authorizer {
   @override
   Future<void> getAndSaveTokenToCache(String email, String password) async {
     Response response;
-    String email = "";
-    String password = "";
+    Map<String,dynamic> data = { "username": email, "password": password};
+    print(data);
 
-    response = await dio.post(tokenURL, data:{ "username": email, "password": password});
-    if (response.statusCode == 200){
-      this.token = response.data["token"];
+    try {
+      response = await dio.post(tokenURL, data: data);
+      if (response.statusCode == 200){
+        this.token = response.data["token"];
+      }
+      else {
+        ExceptionHandler().handle(
+          "Something went wrong with status code: " + response.statusCode.toString() + " with response:\n" + response.data['response'],
+          log:true, show:true, crash: false);
+      }
     }
-    else {
+    catch (e) {
       ExceptionHandler().handle(
-        "Something went wrong with status code: " + response.statusCode.toString() + " with response:\n" + response.data['response'],
+        e.toString(),
         log:true, show:true, crash: false);
     }
   }

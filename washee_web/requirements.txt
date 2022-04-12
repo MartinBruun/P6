@@ -4,6 +4,7 @@ atomicwrites==1.4.0
 attrs==21.4.0
 colorama==0.4.4
 Django==3.2.12
+django-admin-honeypot==1.1.0
 django-cors-headers==3.11.0
 djangorestframework==3.13.1
 gunicorn==20.1.0

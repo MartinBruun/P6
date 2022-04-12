@@ -16,7 +16,7 @@ class ExceptionHandler{
   }
 
   String handle(exception, {log=false, show=false, crash=false}) {
-    File(logLocation).writeAsStringSync("ExceptionHandler initialized at: " + DateTime.now().toString() + "\n", mode: FileMode.append);
+    //File(logLocation).writeAsStringSync("ExceptionHandler initialized at: " + DateTime.now().toString() + "\n", mode: FileMode.append);
 
     if (log==false && show==false && crash==false){
       throw new Exception("ExceptionHandler not configured properly.\n" +
@@ -25,9 +25,10 @@ class ExceptionHandler{
                         exception.toString());
     }
 
-    if (log){
-      File(logLocation).writeAsStringSync(exception.toString(), mode: FileMode.append);
-    }
+    // Logging is temporarily gone, since the file handling in this is wrong!
+    //if (log){
+    //  File(logLocation).writeAsStringSync(exception.toString(), mode: FileMode.append);
+    //}
     if (show){
       print(exception.toString());
     }

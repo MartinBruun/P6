@@ -16,7 +16,7 @@ class User extends Equatable {
   List<Object?> get props => [email, userName, accounts];
 
   Map<String, dynamic> toJson() => {
-    'id': id,
+    'id': id.toString(),
     'email': email,
     'username': userName,
     'accounts': List<Account>.of(accounts)
@@ -24,7 +24,7 @@ class User extends Equatable {
 
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
-      id: int.parse(json["id"]),
+      id: json["id"],
       email: json["email"],
       userName: json['username'],
       accounts: List<Account>.from(json["accounts"].map((model) => Account.fromJson(model)))

@@ -6,6 +6,7 @@ import 'package:washee/core/presentation/themes/dimens.dart';
 import 'package:washee/core/presentation/themes/themes.dart';
 
 import 'package:dio/dio.dart'; // SHOULD BE REMOVED WHEN REFACTORED TO PROPERLY USE SINGLETONS!
+import 'package:washee/core/account/user.dart'; // Should maybe also be removed? I dunno
 
 class LogInScreen extends StatefulWidget {
   const LogInScreen({ Key? key }) : super(key: key);
@@ -36,7 +37,7 @@ class _LogInScreenState extends State<LogInScreen> {
     Authorizer authorizer = new AuthorizerImpl(dio: dio);
     await authorizer.getAndSaveTokenToCache(usernameController.text, passwordController.text);
     WebCommunicator web = new WebCommunicatorImpl(dio: dio, authorizer: authorizer);
-    Map<String,dynamic> allUsers = await web.getAllUsers();
+    List<User> allUsers = await web.getAllUsers();
     print(allUsers);
 
 

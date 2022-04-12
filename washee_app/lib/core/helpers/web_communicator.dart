@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:washee/core/account/user.dart';
 import 'package:washee/core/environments/environment.dart';
 import 'package:washee/core/errors/exception_handler.dart';
 import 'package:washee/core/helpers/authorizer.dart';
@@ -22,7 +23,7 @@ abstract class WebCommunicator {
   Future<Map<String, dynamic>> getCurrentBookings(int locationID);
   Future<Map<String, dynamic>> postBooking(String timeStart, String timeEnd, int accountID, int machineID, int serviceID);
   // FOR TESTING
-  Future<Map<String, dynamic>> getAllUsers();
+  Future<List<User>> getAllUsers();
 }
 
 class WebCommunicatorImpl implements WebCommunicator {
@@ -43,25 +44,25 @@ class WebCommunicatorImpl implements WebCommunicator {
   }
 
   @override
-  String get usersURL => Environment().config.webApiHost + "/api/1/users";
+  String get usersURL => Environment().config.webApiHost + "/api/1/users/";
 
   @override
-  String get accountsURL => Environment().config.webApiHost + "/api/1/accounts";
+  String get accountsURL => Environment().config.webApiHost + "/api/1/accounts/";
 
   @override
-  String get bookingsURL => Environment().config.webApiHost + "/api/1/bookings";
+  String get bookingsURL => Environment().config.webApiHost + "/api/1/bookings/";
 
   @override
-  String get locationsURL => Environment().config.webApiHost + "/api/1/locations";
+  String get locationsURL => Environment().config.webApiHost + "/api/1/locations/";
 
   @override
-  String get machineModelsURL => Environment().config.webApiHost + "/api/1/machine_models";
+  String get machineModelsURL => Environment().config.webApiHost + "/api/1/machine_models/";
 
   @override
-  String get machinesURL => Environment().config.webApiHost + "/api/1/machines";
+  String get machinesURL => Environment().config.webApiHost + "/api/1/machines/";
 
   @override
-  String get servicesURL => Environment().config.webApiHost + "/api/1/services";
+  String get servicesURL => Environment().config.webApiHost + "/api/1/services/";
 
   @override
   Future<Map<String, dynamic>> getCurrentUser(int userID) async {
@@ -90,7 +91,7 @@ class WebCommunicatorImpl implements WebCommunicator {
     else {
       ExceptionHandler().handle(
         "Something went wrong with status code: " + response.statusCode.toString() + " with response:\n" + response.data['response'],
-        log:true, show:true, crash: false);
+        log:false, show:true, crash: false);
       return response.data;
     }
   }
@@ -128,18 +129,24 @@ class WebCommunicatorImpl implements WebCommunicator {
 
   // ONLY FOR TESTING! SHOULD BE REMOVED WHEN THIS IS SOLVED!
   @override
-  Future<Map<String, dynamic>> getAllUsers() async {
+  Future<List<User>> getAllUsers() async {
     Response response;
 
     response = await dio.get(usersURL);
     if (response.statusCode == 200){
-      return response.data;
+      print(response.data);
+      List<User> _users = [];
+      for (var user in response.data) {
+        _users.add(User.fromJson(user));
+      }
+      
+      return _users;
     }
     else {
       ExceptionHandler().handle(
         "Something went wrong with status code: " + response.statusCode.toString() + " with response:\n" + response.data['response'],
         log:true, show:true, crash: false);
-      return response.data;
+      return [];
     }
   }
 }
