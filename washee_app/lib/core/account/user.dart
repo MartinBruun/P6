@@ -1,33 +1,54 @@
-import 'package:equatable/equatable.dart';
 import 'package:washee/core/account/account.dart';
 
-class User extends Equatable {
-  final int id;
-  final String email;
-  final String userName;
-  final List<Account> accounts;
+class User {
+  bool _loggedIn = false; 
+  int? _id;
+  String? _email;
+  String? _username;
+  List<Account> _accounts = [];
 
-  User({required this.id, required this.email, required this.userName, this.accounts: const []});
-  
-  User.noUser({ this.id = 0, this.email = "", this.userName = "", List<Account>? accounts,
-  }) : accounts = accounts ?? [];
+  get loggedIn => _loggedIn;
+  get id => _id;
+  get email => _email;
+  get username => _username;
+  get accounts => _accounts;
 
-  @override
-  List<Object?> get props => [email, userName, accounts];
+  factory User() {
+    return _singleton;
+  }
+
+  static User _singleton = User._internal();
+
+  User._internal();
+
+  void initUser(int id, String email, String username, List<Account> accounts) {
+    _id = id;
+    _email = email;
+    _username = username;
+    _accounts = accounts;
+    _loggedIn = true;
+  }
+
+  void logOut() {
+    _id = null;
+    _email = null;
+    _username = null;
+    _accounts = [];
+    _loggedIn = false;
+  }
 
   Map<String, dynamic> toJson() => {
-    'id': id,
-    'email': email,
-    'username': userName,
-    'accounts': List<Account>.of(accounts)
+    'id': _id,
+    'email': _email,
+    'username': _username,
+    'accounts': List<Account>.of(_accounts)
   };
 
   factory User.fromJson(Map<String, dynamic> json) {
-    return User(
-      id: int.parse(json["id"]),
-      email: json["email"],
-      userName: json['username'],
-      accounts: List<Account>.from(json["accounts"].map((model) => Account.fromJson(model)))
-    );
+      _singleton._id = int.parse(json["id"]);
+      _singleton._email = json["email"];
+      _singleton._username = json['username'];
+      _singleton._accounts = List<Account>.from(json["accounts"].map((model) => Account.fromJson(model)));
+      return _singleton;
   }
 }
