@@ -3,11 +3,7 @@
 cd ..
 cd ..
 cd washee_app
-<<<<<<< HEAD
-call start cmd /k flutter run
-=======
 call start cmd /k flutter run --dart-define=ENVIRONMENT=DEV
->>>>>>> ed9f811f3b5b714dc37914f37725668a7f2afcc0
 cd ..
 call docker-compose up -d --build
 call docker-compose exec web python3 manage.py flush --no-input
