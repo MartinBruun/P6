@@ -12,7 +12,7 @@ import 'wash_timer_on_card.dart';
 class MachineCard extends StatelessWidget {
   MachineCard({required this.machine});
   MachineModel machine;
-  final User fakeUser = User(id: 1, email: "test@mail.com", userName: "name");
+  //final User fakeUser = User(id: 1, email: "test@mail.com", userName: "name");
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +62,7 @@ class MachineCard extends StatelessWidget {
                                 fontWeight: FontWeight.w500),
                           ),
                           onPressed: () async {    // TODO: REMOVE "fakeUser.id > 0" BEFORE MERGE!
-                            if (fakeUser.id > 0) { // This should be taken from the balance of the account chosen to be looked at.
+                            if ( true) {//fakeUser.id > 0) { // This should be taken from the balance of the account chosen to be looked at.
                               showDialog(          // Before it was "washCoupon", changed to "id" to make it not throw syntax error
                                 context: context,
                                 builder: (BuildContext context) {
