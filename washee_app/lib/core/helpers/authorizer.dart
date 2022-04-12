@@ -7,6 +7,7 @@ import '../errors/exception_handler.dart';
 
 abstract class Authorizer {
   Dio initDio();
+  String token = ""; // Should probably be cached someway different than in memory when the program is running...
   String get tokenURL;
   String getTokenFromCache();
   Future<void> getAndSaveTokenToCache(String email, String password);
@@ -27,11 +28,22 @@ class AuthorizerImpl implements Authorizer {
   }
 
   @override
+  String token = "";
+
+  @override
   String get tokenURL => Environment().config.webApiHost + "/api/1/api-token-auth";
 
   @override
   String getTokenFromCache() {
-    return "";
+    if (this.token != ""){
+      return this.token;
+    }
+    else{
+      ExceptionHandler().handle(
+        "Token expected to be found, even though it was empty. User not logged in properly!", 
+        show:true, log:true, crash:true);
+      return ""; 
+    }
   } 
 
   @override
@@ -42,8 +54,7 @@ class AuthorizerImpl implements Authorizer {
 
     response = await dio.post(tokenURL, data:{ "username": email, "password": password});
     if (response.statusCode == 200){
-      saveTokenToCache(response.data);
-      return response.data["token"];
+      this.token = response.data["token"];
     }
     else {
       ExceptionHandler().handle(

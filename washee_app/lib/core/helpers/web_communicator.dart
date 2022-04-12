@@ -21,12 +21,15 @@ abstract class WebCommunicator {
   Future<Map<String, dynamic>> getCurrentLocation(int locationID);
   Future<Map<String, dynamic>> getCurrentBookings(int locationID);
   Future<Map<String, dynamic>> postBooking(String timeStart, String timeEnd, int accountID, int machineID, int serviceID);
+  // FOR TESTING
+  Future<Map<String, dynamic>> getAllUsers();
 }
 
 class WebCommunicatorImpl implements WebCommunicator {
   Dio dio;
+  Authorizer authorizer;
 
-  WebCommunicatorImpl({required this.dio}){
+  WebCommunicatorImpl({required this.dio, required this.authorizer}){
     dio = initDio();
   }
 
@@ -34,7 +37,7 @@ class WebCommunicatorImpl implements WebCommunicator {
   Dio initDio() {
     Dio temp_dio = new Dio();
     temp_dio.options.headers["content-Type"] = "application/json";
-    String token = AuthorizerImpl().getTokenFromCache();
+    String token = authorizer.getTokenFromCache();
     temp_dio.options.headers["authorization"] = "TOKEN ${token}";
     return temp_dio;
   }
@@ -64,9 +67,9 @@ class WebCommunicatorImpl implements WebCommunicator {
   Future<Map<String, dynamic>> getCurrentUser(int userID) async {
     Response response;
 
-    response = await dio.get(tokenURL);
+    response = await dio.get(usersURL + "/${userID}");
     if (response.statusCode == 200){
-      return {"get": "The current user from the database, maybe using email + password instead?" };
+      return response.data;
     }
     else {
       ExceptionHandler().handle(
@@ -80,9 +83,9 @@ class WebCommunicatorImpl implements WebCommunicator {
   Future<Map<String, dynamic>> getCurrentLocation(int locationID) async {
     Response response;
 
-    response = await dio.get(tokenURL);
+    response = await dio.get(locationsURL + "/${locationID}");
     if (response.statusCode == 200){
-      return {"get": "The current location the person is in, or want to book in. The locationID should be saved locally" };
+      return response.data;
     }
     else {
       ExceptionHandler().handle(
@@ -98,7 +101,7 @@ class WebCommunicatorImpl implements WebCommunicator {
 
     response = await dio.get(bookingsURL);
     if (response.statusCode == 200){
-      return {"get": "The current bookings already made for the current location" };
+      return response.data;
     }
     else {
       ExceptionHandler().handle(
@@ -111,9 +114,26 @@ class WebCommunicatorImpl implements WebCommunicator {
   Future<Map<String, dynamic>> postBooking(String timeStart, String timeEnd, int accountID, int machineID, int serviceID) async {
     Response response;
 
-    response = await dio.post(tokenURL);
+    response = await dio.post(bookingsURL, data: { "time_start": timeStart, "time_end": timeEnd, "account": accountID, "machine": machineID, "service": serviceID });
     if (response.statusCode == 200){
-      return {"post": "a booking to a specific machine that is in a specific location, booking a specific service." };
+      return response.data;
+    }
+    else {
+      ExceptionHandler().handle(
+        "Something went wrong with status code: " + response.statusCode.toString() + " with response:\n" + response.data['response'],
+        log:true, show:true, crash: false);
+      return response.data;
+    }
+  }
+
+  // ONLY FOR TESTING! SHOULD BE REMOVED WHEN THIS IS SOLVED!
+  @override
+  Future<Map<String, dynamic>> getAllUsers() async {
+    Response response;
+
+    response = await dio.get(usersURL);
+    if (response.statusCode == 200){
+      return response.data;
     }
     else {
       ExceptionHandler().handle(

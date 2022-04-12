@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'dart:convert';
-import 'package:washee/core/booking/booking_model.dart';
+import 'package:washee/features/booking/data/models/booking_model.dart';
 import 'package:washee/core/errors/exception_handler.dart';
 
 const String ENDPOINT = "http://localhost:8000/api/1/bookings/"; // localhost when using a browser

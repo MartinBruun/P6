@@ -2,6 +2,7 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
+import 'package:washee/core/helpers/authorizer.dart';
 import 'package:washee/core/helpers/web_communicator.dart';
 import 'package:washee/core/helpers/box_communicator.dart';
 import 'package:washee/features/booking/data/datasources/book_remote.dart';
@@ -32,8 +33,10 @@ initCoreAndExternal() {
   sl.registerLazySingleton(() => http.Client());
   sl.registerLazySingleton(() => Connectivity());
 
+  sl.registerLazySingleton<Authorizer>(
+      () => AuthorizerImpl(dio: sl()));
   sl.registerLazySingleton<WebCommunicator>(
-      () => WebCommunicatorImpl(dio: sl()));
+      () => WebCommunicatorImpl(dio: sl(), authorizer: sl()));
   sl.registerLazySingleton<BoxCommunicator>(
       () => BoxCommunicatorImpl(dio: sl()));
   sl.registerLazySingleton(() => Dio());

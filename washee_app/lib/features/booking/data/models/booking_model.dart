@@ -1,4 +1,4 @@
-import 'package:washee/core/booking/booking_entity.dart';
+import 'package:washee/features/booking/data/models/booking_entity.dart';
 
 // ignore: must_be_immutable
 class BookingModel extends Booking {

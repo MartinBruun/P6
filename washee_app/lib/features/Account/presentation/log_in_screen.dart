@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:washee/core/helpers/authorizer.dart';
+import 'package:washee/core/helpers/web_communicator.dart';
 import 'package:washee/core/presentation/themes/colors.dart';
 import 'package:washee/core/presentation/themes/dimens.dart';
 import 'package:washee/core/presentation/themes/themes.dart';
+
+import 'package:dio/dio.dart'; // SHOULD BE REMOVED WHEN REFACTORED TO PROPERLY USE SINGLETONS!
 
 class LogInScreen extends StatefulWidget {
   const LogInScreen({ Key? key }) : super(key: key);
@@ -23,10 +27,19 @@ class _LogInScreenState extends State<LogInScreen> {
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
 
-  void _logIn() {
+  void _logIn() async {
     print("attempting to log in");
     print("username is " + usernameController.text);
     print("password is " + passwordController.text);
+
+    Dio dio = new Dio();
+    Authorizer authorizer = new AuthorizerImpl(dio: dio);
+    await authorizer.getAndSaveTokenToCache(usernameController.text, passwordController.text);
+    WebCommunicator web = new WebCommunicatorImpl(dio: dio, authorizer: authorizer);
+    Map<String,dynamic> allUsers = await web.getAllUsers();
+    print(allUsers);
+
+
     // showDialog(context: context, builder: (builder) {
     //   return AlertDialog(
     //     content: Text(usernameController.text),
