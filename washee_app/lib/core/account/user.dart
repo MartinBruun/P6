@@ -1,31 +1,33 @@
 import 'package:washee/core/account/account.dart';
 
-class User {
+class ActiveUser {
   bool _loggedIn = false; 
   int? _id;
   String? _email;
   String? _username;
+  Account? _account;
   List<Account> _accounts = [];
 
-  get loggedIn => _loggedIn;
-  get id => _id;
-  get email => _email;
-  get username => _username;
-  get accounts => _accounts;
+  bool get loggedIn => _loggedIn;
+  int? get id => _id;
+  String? get email => _email;
+  String? get username => _username;
+  //get accounts => _accounts;
+  Account? get account => _account;
 
-  factory User() {
+  factory ActiveUser() {
     return _singleton;
   }
 
-  static User _singleton = User._internal();
+  static ActiveUser _singleton = ActiveUser._internal();
 
-  User._internal();
+  ActiveUser._internal();
 
-  void initUser(int id, String email, String username, List<Account> accounts) {
+  void initUser(int id, String email, String username, Account account) {
     _id = id;
     _email = email;
     _username = username;
-    _accounts = accounts;
+    _account = account;
     _loggedIn = true;
   }
 
@@ -33,7 +35,7 @@ class User {
     _id = null;
     _email = null;
     _username = null;
-    _accounts = [];
+    _account = null;
     _loggedIn = false;
   }
 
@@ -44,7 +46,7 @@ class User {
     'accounts': List<Account>.of(_accounts)
   };
 
-  factory User.fromJson(Map<String, dynamic> json) {
+  factory ActiveUser.fromJson(Map<String, dynamic> json) {
       _singleton._id = int.parse(json["id"]);
       _singleton._email = json["email"];
       _singleton._username = json['username'];
