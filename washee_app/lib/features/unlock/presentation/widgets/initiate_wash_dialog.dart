@@ -85,29 +85,26 @@ class _InitiateWashDialogState extends State<InitiateWashDialog> {
   Widget _noButton(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 30.w),
-      child: Container(
-        height: 84.h,
-        width: 254.w,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(20.h),
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          fixedSize: Size(254.w, 84.h),
+          primary: Colors.white,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20.h)
+          )
         ),
-        child: Center(
-          child: InkWell(
-            onTap: () async {
-              Navigator.of(context).pop();
-            },
-            child: Text(
-              'Nej',
-              style: textStyle.copyWith(
-                fontSize: textSize_32,
-                fontWeight: FontWeight.w600,
-                color: Colors.black,
-              ),
-            ),
+        child: Text(
+          'Nej',
+          style: textStyle.copyWith(
+            fontSize: textSize_32,
+            fontWeight: FontWeight.w600,
+            color: Colors.black,
           ),
         ),
-      ),
+        onPressed: () {
+          Navigator.of(context).pop();
+        },
+      )
     );
   }
 
@@ -116,39 +113,65 @@ class _InitiateWashDialogState extends State<InitiateWashDialog> {
     
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 30.w),
-      child: Container(
-        height: 84.h,
-        width: 254.w,
-        decoration: BoxDecoration(
-          color: AppColors.deepGreen,
-          borderRadius: BorderRadius.circular(20.h),
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          fixedSize: Size(254.w, 84.h),
+          primary: AppColors.deepGreen,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20.h)
+          )
         ),
-        child: Center(
-          child: InkWell(
-            onTap: () async {
-              unlockProvider.isUnlocking = true;
-              await Future.delayed(Duration(seconds: 3)).then((_) {
-                unlockProvider.isUnlocking = false;
-                setState(() {
-                  _machineReady = true;
-                });
-              });
-            },
-            child: unlockProvider.isUnlocking
-              ? CircularProgressIndicator(
-                  color: Colors.black,
-              )
-              : Text(
-                'Ja',
-                style: textStyle.copyWith(
-                  fontSize: textSize_32,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.black,
-                ),
-              ),
+        child: Text(
+          'Ja',
+          style: textStyle.copyWith(
+            fontSize: textSize_32,
+            fontWeight: FontWeight.w600,
+            color: Colors.black,
           ),
         ),
-      ),
+        onPressed: () async {
+          unlockProvider.isUnlocking = true;
+          await Future.delayed(Duration(seconds: 3)).then((_) {
+            unlockProvider.isUnlocking = false;
+            setState(() {
+              _machineReady = true;
+            });
+          });
+        },
+      )
+      // Container(
+      //   height: 84.h,
+      //   width: 254.w,
+      //   decoration: BoxDecoration(
+      //     color: AppColors.deepGreen,
+      //     borderRadius: BorderRadius.circular(20.h),
+      //   ),
+      //   child: Center(
+      //     child: InkWell(
+            // onTap: () async {
+            //   unlockProvider.isUnlocking = true;
+            //   await Future.delayed(Duration(seconds: 3)).then((_) {
+            //     unlockProvider.isUnlocking = false;
+            //     setState(() {
+            //       _machineReady = true;
+            //     });
+            //   });
+            // },
+      //       child: unlockProvider.isUnlocking
+      //         ? CircularProgressIndicator(
+      //             color: Colors.black,
+      //         )
+      //         : Text(
+      //           'Ja',
+      //           style: textStyle.copyWith(
+      //             fontSize: textSize_32,
+      //             fontWeight: FontWeight.w600,
+      //             color: Colors.black,
+      //           ),
+      //         ),
+      //     ),
+      //   ),
+      // ),
     );
   }
 }
