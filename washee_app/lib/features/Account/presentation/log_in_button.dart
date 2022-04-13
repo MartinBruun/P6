@@ -4,6 +4,8 @@ import 'package:washee/core/presentation/themes/dimens.dart';
 import 'package:washee/core/presentation/themes/themes.dart';
 import 'package:washee/features/Account/presentation/log_in_screen.dart';
 
+import '../../../core/account/user.dart';
+
 class LogInButton extends StatefulWidget {
   const LogInButton({ Key? key }) : super(key: key);
 
@@ -41,7 +43,13 @@ class _LogInButtonState extends State<LogInButton> {
   }
 
   void _openLogInScreen() async {
-    Map? info = await Navigator.push(context, MaterialPageRoute(builder: (context) => const LogInScreen()));
+    await Navigator.push(context, MaterialPageRoute(builder: (context) => const LogInScreen()));
+    ActiveUser user = ActiveUser();
+    //print("username: " + user.username.toString());
+ 
+    //print("user balance: " + user.account!.balance.toString());
+ 
+ 
   }
 
 }
