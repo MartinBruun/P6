@@ -6,8 +6,6 @@ import 'package:washee/features/sign_in/domain/usecases/sign_in.dart';
 import 'package:washee/injection_container.dart';
 
 class LogInScreen extends StatefulWidget {
-  const LogInScreen({Key? key}) : super(key: key);
-
   @override
   State<LogInScreen> createState() => _LogInScreenState();
 }
