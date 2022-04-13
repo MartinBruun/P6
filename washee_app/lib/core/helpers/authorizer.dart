@@ -7,16 +7,16 @@ import '../errors/exception_handler.dart';
 
 abstract class Authorizer {
   Dio initDio();
-  String token = ""; // Should probably be cached someway different than in memory when the program is running...
+  String get token;
   String get tokenURL;
   String getTokenFromCache();
-  Future<void> getAndSaveTokenToCache(String email, String password);
+  Future<bool> signIn({required String email, required String password});
 }
 
 class AuthorizerImpl implements Authorizer {
   Dio dio;
 
-  AuthorizerImpl({required this.dio}){
+  AuthorizerImpl({required this.dio}) {
     dio = initDio();
   }
 
@@ -35,37 +35,43 @@ class AuthorizerImpl implements Authorizer {
 
   @override
   String getTokenFromCache() {
-    if (this.token != ""){
+    if (this.token != "") {
       return this.token;
-    }
-    else{
+    } else {
       ExceptionHandler().handle(
-        "Token expected to be found, even though it was empty. User not logged in properly!", 
-        show:true, log:true, crash:true);
-      return ""; 
+          "Token expected to be found, even though it was empty. User not logged in properly!",
+          show: true,
+          log: true,
+          crash: true);
+      return "";
     }
-  } 
+  }
 
   @override
-  Future<void> getAndSaveTokenToCache(String email, String password) async {
+  Future<bool> signIn({required String email, required String password}) async {
     Response response;
-    Map<String,dynamic> data = { "username": email, "password": password};
+    Map<String, dynamic> data = {"username": email, "password": password};
 
     try {
       response = await dio.post(tokenURL, data: data);
-      if (response.statusCode == 200){
+      if (response.statusCode == 200) {
         this.token = response.data["token"];
-      }
-      else {
+        return true;
+      } else {
         ExceptionHandler().handle(
-          "Something went wrong with status code: " + response.statusCode.toString() + " with response:\n" + response.data['response'],
-          log:true, show:true, crash: false);
+            "Something went wrong with status code: " +
+                response.statusCode.toString() +
+                " with response:\n" +
+                response.data['response'],
+            log: true,
+            show: true,
+            crash: false);
+        return false;
       }
-    }
-    catch (e) {
-      ExceptionHandler().handle(
-        e.toString(),
-        log:true, show:true, crash: false);
+    } catch (e) {
+      ExceptionHandler()
+          .handle(e.toString(), log: true, show: true, crash: false);
+      return false;
     }
   }
 }

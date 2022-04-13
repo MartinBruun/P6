@@ -26,7 +26,7 @@ docker-compose exec web python3 manage.py loaddata init_priorgade_machines.json
 echo Loading bookings from ./washee_web/location/fixtures/init_priorgade_bookings.json
 docker-compose exec web python3 manage.py loaddata init_priorgade_bookings.json
 cd scripts
-cd win
+cd mac
 echo 
 echo The -- box -- container is accessible on localhost:8001/
 echo The -- web -- container is accessible on localhost:8000/
