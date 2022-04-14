@@ -1,48 +1,60 @@
-import '../../domain/entities/booking.dart';
+import 'package:washee/features/booking/data/models/booking_entity.dart';
 
+// ignore: must_be_immutable
 class BookingModel extends Booking {
-  final int id;
-  final DateTime startTime;
-  final DateTime endTime;
-  final DateTime created;
-  final DateTime lastUpdated;
-  final String machine;
-  final String service;
-  final String account;
+  final int? bookingID;
+  DateTime? startTime;
+  DateTime? endTime;
+  DateTime? created;
+  DateTime? lastUpdated;
+  final String machineResource;
+  final String serviceResource;
+  final String accountResource;
 
-  BookingModel(
-      {required this.startTime,
-      required this.endTime,
-      required this.lastUpdated,
-      required this.id,
-      required this.account,
-      required this.created,
-      required this.machine,
-      required this.service})
-      : super(
+  BookingModel({
+    this.bookingID,
+    required this.startTime,
+    this.endTime,
+    this.created,
+    this.lastUpdated,
+    required this.machineResource,
+    required this.serviceResource,
+    required this.accountResource
+    }): super(
+            bookingID: bookingID,
             startTime: startTime,
             endTime: endTime,
+            created: created,
             lastUpdated: lastUpdated,
-            id: id,
-            machine: machine,
-            service: service,
-            account: account,
-            created: created);
+            machineResource: machineResource,
+            serviceResource: serviceResource,
+            accountResource: accountResource);
 
   @override
   List<Object?> get props =>
-      [startTime, endTime, lastUpdated, id, account, created, machine, service];
+      [startTime, endTime, created, lastUpdated, bookingID, accountResource, machineResource, serviceResource];
 
-  factory BookingModel.fromJSON(Map<String, dynamic> json) {
+  Map<String, dynamic> toJson() => {
+        'id': bookingID,
+        'start_time': startTime.toString(),
+        'end_time': endTime.toString(),
+        'created': created.toString(),
+        'last_updated': lastUpdated.toString(),
+        'machine': machineResource,
+        'service': serviceResource,
+        'account': accountResource
+      };
+
+  factory BookingModel.fromJson(Map<String, dynamic> json) {
     return BookingModel(
       startTime: DateTime.parse(json['start_time']),
       endTime: DateTime.parse(json['end_time']),
       lastUpdated: DateTime.parse(json['last_updated']),
-      machine: (json['machine']).split("/").last,
-      service: (json['service']).split("/").last,
+      machineResource: json['machine'],
+      serviceResource: json['service'],
       created: DateTime.parse(json['created']),
-      account: (json['account']).split("/").last,
-      id: int.parse(json['id']),
+      accountResource: json['account'],
+      bookingID: int.parse(json['id']),
     );
   }
 }

@@ -1,3 +1,4 @@
 {
-  "python.analysis.extraPaths": ["./washee_box/use_cases"]
+  "python.analysis.extraPaths": ["./washee_box/use_cases"],
+  "files.eol": "\n"
 }

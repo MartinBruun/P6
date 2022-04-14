@@ -2,6 +2,8 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
+import 'package:washee/core/helpers/authorizer.dart';
+import 'package:washee/core/helpers/web_communicator.dart';
 import 'package:washee/core/helpers/box_communicator.dart';
 import 'package:washee/features/booking/data/datasources/book_remote.dart';
 import 'package:washee/features/booking/data/repositories/book_repository_impl.dart';
@@ -9,6 +11,9 @@ import 'package:washee/features/booking/domain/usecases/book.dart';
 import 'package:washee/features/get_machines/data/repositories/get_machines_repo_impl.dart';
 import 'package:washee/features/get_machines/domain/repositories/get_machines_repository.dart';
 import 'package:washee/features/get_machines/domain/usecases/get_machines.dart';
+import 'package:washee/features/sign_in/data/repositories/sign_in_repo_impl.dart';
+import 'package:washee/features/sign_in/domain/repositories/sign_in_repository.dart';
+import 'package:washee/features/sign_in/domain/usecases/sign_in.dart';
 import 'package:washee/features/unlock/data/datasources/unlock_remote.dart';
 import 'package:washee/features/unlock/data/repositories/unlock_repo_impl.dart';
 import 'package:washee/features/unlock/domain/repositories/unlock_repository.dart';
@@ -17,13 +22,18 @@ import 'package:washee/features/unlock/domain/usecases/unlock.dart';
 import 'core/network/network_info.dart';
 import 'features/booking/domain/repositories/book_repository.dart';
 
+// sl is short for service locater
 final GetIt sl = GetIt.instance;
 
 void initAll() {
   initCoreAndExternal();
   initUnlock();
   initGetMachines();
+<<<<<<< HEAD
   initBooking();
+=======
+  initSignIn();
+>>>>>>> 4c1fcfe8f154a0ac67a76aae1f5cbfacd796a4ed
 }
 
 initCoreAndExternal() {
@@ -35,6 +45,11 @@ initCoreAndExternal() {
   sl.registerLazySingleton<BoxCommunicator>(
       () => BoxCommunicatorImpl(dio: sl()));
   sl.registerLazySingleton(() => Dio());
+
+  sl.registerLazySingleton<Authorizer>(() => AuthorizerImpl(dio: sl()));
+
+  sl.registerLazySingleton<WebCommunicator>(
+      () => WebCommunicatorImpl(dio: sl(), authorizer: sl()));
 }
 
 void initBooking() {
@@ -48,7 +63,11 @@ void initBooking() {
 
   // Data Sources
   sl.registerLazySingleton<BookRemote>(
+<<<<<<< HEAD
     () => BookRemoteImpl(networkInfo: sl(), communicator: sl()),
+=======
+    () => BookLaundryRemoteImpl(dio: sl()),
+>>>>>>> 4c1fcfe8f154a0ac67a76aae1f5cbfacd796a4ed
   );
 }
 
@@ -72,4 +91,13 @@ void initGetMachines() {
   // Repositories
   sl.registerLazySingleton<GetMachinesRepository>(
       () => GetMachinesRepositoryImpl(communicator: sl(), networkInfo: sl()));
+}
+
+void initSignIn() {
+  // Usecases
+  sl.registerLazySingleton(() => SignInUseCase(repository: sl()));
+
+  // Repository
+  sl.registerLazySingleton<SignInRepository>(
+      () => SignInRepositoryImpl(authorizer: sl()));
 }

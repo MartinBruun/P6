@@ -52,7 +52,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(primary_key=True, serialize=False)),
                 ('name', models.CharField(max_length=64)),
-                ('duration_in_min', models.IntegerField()),
+                ('duration_in_sec', models.IntegerField()),
                 ('price_in_dk', models.DecimalField(decimal_places=4, max_digits=19)),
                 ('created', models.DateTimeField(auto_now_add=True)),
                 ('last_updated', models.DateTimeField(auto_now=True)),

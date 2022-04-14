@@ -21,7 +21,8 @@ raspberry = Raspberry()
 # machine_name = ['l1', 'l2', 't1', 't2']
 # machine_list = []
 # user_list = []
-MAX_WASHINGTIME_IN_SEC = int(os.environ.get("MAX_WASHING_TIME_IN_SEC",default="9000"))  # 2timer og 30 min
+MAX_WASHINGTIME_IN_SEC = int(os.environ.get(
+    "MAX_WASHING_TIME_IN_SEC", default="9000"))  # 2timer og 30 min
 running = True
 
 # format of a machine:
@@ -41,17 +42,17 @@ def menuEndPoint():
     machines = controller.getMachinesInfo()
     machine_name_on_string = ""
     for machine in machines["machines"]:
-        machine_name_on_string = machine_name_on_string + "\n  <p><a href='/unlock'>" + \
+        machine_name_on_string = machine_name_on_string + "\n  <p><a href='/'>" + \
             machine["name"] + " connected to pins " + \
             str(machine["pin_a"]) + "," + str(machine["pin_b"]) + "</a></p>"
 
     machine_name_off_string = ""
     for machine in machines["machines"]:
-        machine_name_off_string = machine_name_off_string + "\n  <p><a href='/lock'>" + \
+        machine_name_off_string = machine_name_off_string + "\n  <p><a href='/'>" + \
             machine["name"] + " connected to pins " + \
             str(machine["pin_a"]) + "," + str(machine["pin_b"]) + "</a></p>"
 
-    return "<p> booking kalender</p> \n <p>tænd strøm til maskine:" + machine_name_on_string + "</p>"+"<p>sluk strøm til maskine:" + machine_name_off_string + "</p>" + "<p><a href='/resetpins'> reset pins</a></p>" + "<p><a href='/allon'> turn on all machines</a></p>"
+    return "<p><a href='/factoryreset'>Factory reset!</a></p>" + "<p><a href='/getMachinesInfo'>get installed machines!</a></p>" +    "<p><a href='/getlog'>get log file</a></p>" + "<p> booking kalender</p> \n <p>tænd strøm til maskine:" + machine_name_on_string + "</p>"+"<p>sluk strøm til maskine:" + machine_name_off_string + "</p>" + "<p><a href='/resetpins'> reset pins</a></p>" + "<p><a href='/allon'> turn on all pins</a></p>" 
 
 
 @app.route('/getMachinesInfo')
@@ -67,6 +68,13 @@ def unlockEndPoint():
     # if not data:
     #     return json.dumps("The url was called with no arguments")
     # machine = json.loads(data)
+    user = "user??"
+    if "user" in data:
+        user = data["user"]
+
+    account = "account??"
+    if "account" in data:
+        account = data["account"]
 
     name = data["name"]
     machineType = data["machineType"]
@@ -97,7 +105,7 @@ def unlockEndPoint():
     pprint(machine)
 
     t = threading.Thread(name="powering_machine",
-                         target=controller.unlockMachineInThread, args=(machine, duration))
+                         target=controller.unlockMachineInThread, args=(machine, duration, user, account))
     t.start()
 
     machine["startTime"] = str(now)
@@ -125,7 +133,7 @@ def lockEndPoint():
 @app.route('/getlog', methods=['GET', 'POST'])
 def getLogEndPoint():
 
-    return controller.getLogFile()
+    return "<H1><a href='/'>all reset relay test performed </a></H1>" + controller.getLogFile()
 
 
 @app.route('/allon', methods=['GET', 'POST'])

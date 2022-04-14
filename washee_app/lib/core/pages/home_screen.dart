@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:washee/features/unlock/presentation/pages/wash_screen.dart';
+import 'package:washee/core/account/user.dart';
 import 'package:washee/core/pages/washee_screen.dart';
+import 'package:washee/features/sign_in/presentation/pages/sign_in_screen.dart';
+import 'package:washee/features/unlock/presentation/pages/wash_screen.dart';
 import 'package:washee/features/booking/presentation/pages/calendar_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -19,6 +21,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   int _selectedPageIndex = 2;
 
+  ActiveUser user = ActiveUser();
+
   @override
   void initState() {
     _pages = [
@@ -27,11 +31,15 @@ class _HomeScreenState extends State<HomeScreen> {
       CalendarScreen(),
     ];
 
+<<<<<<< HEAD
     _selectedPageIndex = 2;
 
     // _pages
     //     .indexWhere((element) => element.toString() == widget.page.toString());
     // print(widget.page.toString());
+=======
+      _selectedPageIndex = 1;
+>>>>>>> 4c1fcfe8f154a0ac67a76aae1f5cbfacd796a4ed
 
     super.initState();
   }
@@ -44,8 +52,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: _pages[_selectedPageIndex],
+    return !user.loggedIn 
+    ? SignInScreen(callback)
+    : Scaffold(
+      body: _pages[_selectedPageIndex],        
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
           color: Colors.white,
@@ -75,5 +85,11 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
     );
+  }
+
+  void callback() {
+    setState(() {
+      this._selectedPageIndex = 1;
+    });
   }
 }

@@ -10,7 +10,7 @@ List<BookingModel> constructBookingList(
     List<Map<String, dynamic>> bookingsAsJson) {
   List<BookingModel> _bookings = [];
   for (var booking in bookingsAsJson) {
-    _bookings.add(BookingModel.fromJSON(booking));
+    _bookings.add(BookingModel.fromJson(booking));
   }
 
   return _bookings;

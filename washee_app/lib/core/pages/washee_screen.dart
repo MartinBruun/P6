@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 class WasheeScreen extends StatelessWidget {
   static const routeName = "/washee-screen";
+
   @override
   Widget build(BuildContext context) {
     var mediaHeight = MediaQuery.of(context).size.height;
@@ -39,9 +40,6 @@ class WasheeScreen extends StatelessWidget {
                   ),
                 ),
               ),
-            ),
-            SizedBox(
-              height: mediaHeight * 0.05,
             ),
           ],
         ),

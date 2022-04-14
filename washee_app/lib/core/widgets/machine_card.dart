@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:washee/core/account/user.dart';
 import 'package:washee/core/washee_box/machine_model.dart';
+import 'package:washee/features/unlock/presentation/widgets/insufficient_funds_dialog.dart';
+import 'package:washee/features/unlock/presentation/widgets/please_login_dialog.dart';
 import '../../features/unlock/presentation/widgets/initiate_wash_dialog.dart';
 import '../presentation/themes/colors.dart';
 import '../presentation/themes/dimens.dart';
@@ -12,7 +14,7 @@ import 'wash_timer_on_card.dart';
 class MachineCard extends StatelessWidget {
   MachineCard({required this.machine});
   MachineModel machine;
-  final User fakeUser = User(id: 1, email: "test@mail.com", userName: "name");
+  ActiveUser user = ActiveUser();
 
   @override
   Widget build(BuildContext context) {
@@ -61,15 +63,8 @@ class MachineCard extends StatelessWidget {
                                 fontSize: textSize_30,
                                 fontWeight: FontWeight.w500),
                           ),
-                          onPressed: () async {    // TODO: REMOVE "fakeUser.id > 0" BEFORE MERGE!
-                            if (fakeUser.id > 0) { // This should be taken from the balance of the account chosen to be looked at.
-                              showDialog(          // Before it was "washCoupon", changed to "id" to make it not throw syntax error
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return InitiateWashDialog(machine: machine);
-                                },
-                              );
-                            }
+                          onPressed: () async {
+                            _cardPressed(context);
                           },
                           style: ElevatedButton.styleFrom(
                             primary: AppColors.deepGreen,
@@ -87,6 +82,36 @@ class MachineCard extends StatelessWidget {
       ),
     );
   }
+
+
+
+  void _cardPressed(BuildContext context) {
+    if (user.loggedIn && user.activeAccount != null){
+      if ( user.loggedIn && user.activeAccount!.balance > 0) {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return InitiateWashDialog(machine: machine);
+          },
+        );
+      } else {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return InsufficentFundsDialog();
+          },
+        );
+      }
+    } else{
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return PleaseLoginDialog();
+        },
+      );
+    }
+  }
+
 }
 
 

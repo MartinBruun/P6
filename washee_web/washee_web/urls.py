@@ -18,8 +18,8 @@ from django.urls import path, include
 from rest_framework import routers
 from django.conf import settings
 from django.conf.urls.static import static
-from rest_framework.authtoken import views
 
+from account.token_view import UserAndAuthToken
 from upload.views import image_upload
 from account.view_sets import UserViewSet, AccountViewSet
 from booking.view_sets import BookingViewSet
@@ -42,9 +42,9 @@ def homePageView(request):
     return HttpResponse("Hello, World!")
 
 urlpatterns = [
-    path('washee_admin/', admin.site.urls),
+    path('washee-admin/', admin.site.urls),
     path('api-auth/', include('rest_framework.urls', namespace="rest_framework")),
-    path('api-token-auth/', views.obtain_auth_token,name='api-token-auth'),
+    path('api-token-auth/', UserAndAuthToken.as_view(),name='api-token-auth'),
     path('upload/', image_upload, name="upload"),
     path('api/1/', include(router.urls), name="api"),
     path('admin/', include('admin_honeypot.urls', namespace='admin_honeypot')),

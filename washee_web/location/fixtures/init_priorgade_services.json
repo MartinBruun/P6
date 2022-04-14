@@ -4,7 +4,7 @@
         "pk": "1",
         "fields": {
             "name": "Vask",
-            "duration_in_min": "150",
+            "duration_in_sec": "9000",
             "price_in_dk": "10",
             "created": "2022-04-01T12:35:20.673Z",
             "last_updated": "2022-04-01T12:35:20.673Z",
@@ -16,7 +16,7 @@
         "pk": "2",
         "fields": {
             "name": "Tørring",
-            "duration_in_min": "150",
+            "duration_in_sec": "9000",
             "price_in_dk": "5",
             "created": "2022-04-01T12:35:20.673Z",
             "last_updated": "2022-04-01T12:35:20.673Z",

@@ -1,11 +1,12 @@
 import 'package:washee/core/helpers/web_communicator.dart';
 import 'package:washee/core/network/network_info.dart';
+import 'package:washee/features/booking/data/models/booking_entity.dart';
 import 'package:washee/features/booking/data/models/booking_model.dart';
 
 abstract class BookRemote {
-  Future<bool> book();
-  Future<bool> pay();
   Future<List<BookingModel>> getBookings();
+  List<BookingModel> constructBookingList(List<Map<String, dynamic>> bookingsAsJson);
+  Future<BookingModel> postBooking();
 }
 
 class BookRemoteImpl implements BookRemote {
@@ -13,16 +14,6 @@ class BookRemoteImpl implements BookRemote {
   NetworkInfo networkInfo;
 
   BookRemoteImpl({required this.communicator, required this.networkInfo});
-
-  @override
-  Future<bool> book() async {
-    return Future.delayed(Duration(seconds: 5)).then((value) => true);
-  }
-
-  @override
-  Future<bool> pay() async {
-    return Future.delayed(Duration(seconds: 5)).then((value) => true);
-  }
 
   @override
   Future<List<BookingModel>> getBookings() async {
@@ -37,9 +28,13 @@ class BookRemoteImpl implements BookRemote {
       List<Map<String, dynamic>> bookingsAsJson) {
     List<BookingModel> _bookings = [];
     for (var booking in bookingsAsJson) {
-      _bookings.add(BookingModel.fromJSON(booking));
+      _bookings.add(BookingModel.fromJson(booking));
     }
 
     return _bookings;
+  }
+
+  Future<BookingModel> postBooking(){
+    throw new Exception("Not implemented yet, dunno how");
   }
 }

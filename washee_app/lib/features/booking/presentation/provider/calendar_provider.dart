@@ -164,7 +164,7 @@ class CalendarProvider extends ChangeNotifier {
   List<BookingModel> getBookingsForMonth(DateTime date) {
     if (_bookings.isNotEmpty) {
       var _bookingsForMonth =
-          _bookings.where((element) => element.startTime.month == date.month);
+          _bookings.where((element) => element.startTime!.month == date.month);
       if (_bookingsForMonth.isNotEmpty) {
         return _bookingsForMonth.toList();
       }
@@ -175,9 +175,9 @@ class CalendarProvider extends ChangeNotifier {
 
   bool dateIncludesBooking(DateTime date) {
     var validBookings = _bookings.where((element) =>
-        (element.startTime.day == date.day) &&
-        (element.startTime.month == date.month) &&
-        (element.startTime.year == date.year));
+        (element.startTime!.day == date.day) &&
+        (element.startTime!.month == date.month) &&
+        (element.startTime!.year == date.year));
     print("Valid bookings for day: ${date.day} \n" +
         validBookings.toList().toString());
     if (validBookings.isNotEmpty) {
@@ -188,7 +188,7 @@ class CalendarProvider extends ChangeNotifier {
 
   List<BookingModel> getBookingsForDay(DateTime date) {
     var validBookings =
-        _bookings.where((element) => element.startTime.day == date.day);
+        _bookings.where((element) => element.startTime!.day == date.day);
     if (validBookings.isNotEmpty) {
       return validBookings.toList();
     }

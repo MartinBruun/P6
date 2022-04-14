@@ -23,7 +23,7 @@ class _TimeSlotsState extends State<TimeSlots> {
 
     for (var booking in bookings) {
       if (calendar.doesSlotOverlap(
-          booking.startTime, currentSlot, booking.endTime)) {
+          booking.startTime!, currentSlot, booking.endTime!)) {
         overlaps++;
       }
     }

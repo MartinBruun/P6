@@ -5,8 +5,8 @@ FROM debian:10.3-slim
 WORKDIR /usr/src/washee_web
 
 # set environment variables
-ENV PYTHONDONTWRITEBYTECODE 1
-ENV PYTHONUNBUFFERED 1
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
 
 # install psycopg2 dependencies
 RUN apt-get update \
@@ -32,6 +32,7 @@ RUN apt-get update \
       liblapack-dev \
       libatlas-base-dev \
       libpq-dev \
+      dos2unix \
     && apt-get clean
 RUN apt install -y netcat
 
@@ -42,6 +43,7 @@ RUN pip3 install -r requirements.txt
 
 # copy entrypoint.sh
 COPY ./entrypoint.sh .
+RUN dos2unix ./entrypoint.sh
 RUN sed -i 's/\r$//g' /usr/src/washee_web/entrypoint.sh
 RUN chmod +x /usr/src/washee_web/entrypoint.sh
 
