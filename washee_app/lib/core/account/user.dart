@@ -5,7 +5,7 @@ class ActiveUser {
   int? _id;
   String? _email;
   String? _username;
-  Account? _account;
+  Account? _activeAccount;
   List<Account> _accounts = [];
 
   bool get loggedIn => _loggedIn;
@@ -13,7 +13,7 @@ class ActiveUser {
   String? get email => _email;
   String? get username => _username;
   //get accounts => _accounts;
-  Account? get account => _account;
+  Account? get activeAccount => _activeAccount;
 
   factory ActiveUser() {
     return _singleton;
@@ -23,11 +23,12 @@ class ActiveUser {
 
   ActiveUser._internal();
 
-  void initUser(int id, String email, String username, Account account) {
+  void initUser(int id, String email, String username, List<dynamic> accounts) {
     _id = id;
     _email = email;
     _username = username;
-    _account = account;
+    _accounts = List<Account>.from(accounts.map((model) => Account.fromJson(model)));
+    _activeAccount = _accounts[0];
     _loggedIn = true;
   }
 
@@ -35,7 +36,8 @@ class ActiveUser {
     _id = null;
     _email = null;
     _username = null;
-    _account = null;
+    _activeAccount = null;
+    _accounts = [];
     _loggedIn = false;
   }
 
