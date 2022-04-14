@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:washee/features/booking/presentation/provider/calendar_provider.dart';
+import 'package:washee/injection_container.dart';
+import 'package:washee/features/booking/domain/usecases/post_booking.dart';
 
 import '../../../../core/presentation/themes/colors.dart';
 import '../../../../core/presentation/themes/dimens.dart';
@@ -31,7 +33,14 @@ class _SaveTimeButtonState extends State<SaveTimeButton> {
             if (valid) {
               // post booking to the backend
               // clear the addedTimeSlots list
-              print("VALID BOOKING! Posting to the backend");
+              var result = await sl<PostBookingUsecase>().call(
+                                      PostBookingParams(
+                                          startTime: DateTime(1900),
+                                          machineResource: "http://localhost:8000/api/1/machines/1/",
+                                          serviceResource: "http://locahost:8000/api/1/services/1/",
+                                          accountResource: "http://localhost:8000/api/1/accounts/1/")
+                                      );
+              print("VALID BOOKING! Posting to the backend, got response: " + result.toString());
               calendar.clearTimeSlots();
               setState(() {
                 _isBookingTimeSlot = true;

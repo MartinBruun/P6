@@ -2,5 +2,10 @@ import 'package:washee/features/booking/data/models/booking_model.dart';
 
 abstract class BookRepository {
   Future<List<BookingModel>> getBookings();
-  Future<BookingModel> postBooking();
+  Future<BookingModel> postBooking({
+    required DateTime startTime, 
+    required String machineResource, 
+    required String serviceResource, 
+    required String accountResource
+  });
 }

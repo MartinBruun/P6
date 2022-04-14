@@ -50,7 +50,7 @@ initCoreAndExternal() {
 
 void initBooking() {
   // Usecases
-  sl.registerLazySingleton(() => BookUseCase(repository: sl()));
+  sl.registerLazySingleton(() => PostBookingUsecase(repository: sl()));
 
   // Repositories
   sl.registerLazySingleton<BookRepository>(
