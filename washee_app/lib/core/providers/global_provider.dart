@@ -66,13 +66,10 @@ class GlobalProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  List<BookingModel> _bookings = [];
-
   bool _isConnectingToWeb = false;
   bool _isRefreshingWeb = false;
   bool _fetchedRegisteredBookings = false;
 
-  List<BookingModel> get registeredBookings => _bookings;
   bool get isConnectingToWeb => _isConnectingToWeb;
   bool get isRefreshingWeb => _isRefreshingWeb;
   bool get fetchedRegisteredBookings => _fetchedRegisteredBookings;
@@ -89,18 +86,6 @@ class GlobalProvider extends ChangeNotifier {
 
   set fetchedRegisteredBookings(bool value) {
     _fetchedRegisteredBookings = value;
-    notifyListeners();
-  }
-
-  updateRegisteredBookings(List<BookingModel> bookings) {
-    _bookings = bookings;
-    notifyListeners();
-  }
-
-  constructBookingsList(Map<String, dynamic> bookingsAsJson) {
-    for (var booking in bookingsAsJson['bookings']) {
-      _bookings.add(BookingModel.fromJson(booking));
-    }
     notifyListeners();
   }
 }

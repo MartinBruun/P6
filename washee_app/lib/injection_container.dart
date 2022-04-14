@@ -23,6 +23,7 @@ void initAll() {
   initCoreAndExternal();
   initUnlock();
   initGetMachines();
+  initBooking();
 }
 
 initCoreAndExternal() {
@@ -47,7 +48,7 @@ void initBooking() {
 
   // Data Sources
   sl.registerLazySingleton<BookRemote>(
-    () => BookLaundryRemoteImpl(client: sl()),
+    () => BookLaundryRemoteImpl(networkInfo: sl(), communicator: sl()),
   );
 }
 

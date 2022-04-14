@@ -1,3 +1,4 @@
+import 'package:washee/features/booking/data/models/booking_model.dart';
 import 'package:washee/features/booking/domain/repositories/book_repository.dart';
 
 import '../../../../core/network/network_info.dart';
@@ -23,5 +24,10 @@ class BookRepositoryImpl implements BookRepository {
       return await remote.pay();
     }
     return false;
+  }
+
+  @override
+  Future<List<BookingModel>> getBookings() async {
+    return await remote.getBookings();
   }
 }

@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:washee/core/presentation/themes/dimens.dart';
+import 'package:washee/core/usecases/usecase.dart';
+import 'package:washee/features/booking/domain/usecases/get_bookings.dart';
 import 'package:washee/features/booking/presentation/provider/calendar_provider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:washee/injection_container.dart';
 import '../../../../core/presentation/themes/colors.dart';
 import '../../../../core/presentation/themes/themes.dart';
 import '../widgets/calendar_view.dart';
@@ -13,12 +16,13 @@ class CalendarScreen extends StatefulWidget {
   @override
   State<CalendarScreen> createState() => _CalendarScreenState();
 }
+
 //TODO: IT could be great not to have to call DateTime.now so many times, but just call it in top of the constructor
 class _CalendarScreenState extends State<CalendarScreen> {
   final List<DateTime> months = [
     new DateTime(DateTime.now().year, DateTime.now().month, 1),
-    new DateTime(DateTime.now().year, DateTime.now().month+1, 1),
-    new DateTime(DateTime.now().year, DateTime.now().month+2, 1)
+    new DateTime(DateTime.now().year, DateTime.now().month + 1, 1),
+    new DateTime(DateTime.now().year, DateTime.now().month + 2, 1)
   ];
 
   bool _isLoadingDays = false;
@@ -28,19 +32,36 @@ class _CalendarScreenState extends State<CalendarScreen> {
     // Load up the Map with months and their respective number of days before we
     // show the calendar views to the user
     super.initState();
-    var calendar = Provider.of<CalendarProvider>(context, listen: false);
+
     setState(() {
       _isLoadingDays = true;
     });
+
+    _setUpCalendar();
+    _getBookings();
+
+    setState(() {
+      _isLoadingDays = false;
+    });
+  }
+
+  _setUpCalendar() {
+    var calendar = Provider.of<CalendarProvider>(context, listen: false);
     for (var month in months) {
       calendar.getDaysInBetween(month);
     }
+  }
 
-    Future.delayed(Duration(seconds: 3)).then((value) {
-      setState(() {
-        _isLoadingDays = false;
-      });
-    });
+  _getBookings() async {
+    var provider = Provider.of<CalendarProvider>(context, listen: false);
+
+    await Future.delayed(Duration(seconds: 1));
+    if (!provider.didFetchBookings) {
+      provider.updateBookings(await sl<GetBookingsUseCase>().call(NoParams()));
+      if (provider.bookings.isNotEmpty) {
+        provider.didFetchBookings = true;
+      }
+    }
   }
 
   @override
@@ -82,12 +103,15 @@ class _CalendarScreenState extends State<CalendarScreen> {
               children: [
                 CalendarView(
                   date: months[0],
+                  bookings: [],
                 ),
                 CalendarView(
                   date: months[1],
+                  bookings: [],
                 ),
                 CalendarView(
                   date: months[2],
+                  bookings: [],
                 ),
               ],
             ),

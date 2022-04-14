@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:washee/core/helpers/date_helper.dart';
+import 'package:washee/features/booking/data/models/booking_model.dart';
+import 'package:washee/features/booking/domain/entities/booking.dart';
 
 class CalendarProvider extends ChangeNotifier {
   bool _isLoadingDays = false;
+  bool _didFetchBookings = false;
+  bool _isFetchingBookings = false;
   final List<int> _numberOfFields = [
     1,
     2,
@@ -71,6 +75,10 @@ class CalendarProvider extends ChangeNotifier {
     -1,
   ];
 
+  List<BookingModel> _bookings = [];
+
+  List<BookingModel> get bookings => _bookings;
+
   Map<String, List<DateTime>> daysInMonthMap = {};
 
   // Fills up the daysInMonthMap with the respective number of dates for the given month
@@ -95,6 +103,10 @@ class CalendarProvider extends ChangeNotifier {
 
   bool get isLoadingDays => _isLoadingDays;
 
+  bool get didFetchBookings => _didFetchBookings;
+
+  bool get isFetchingBookings => _isFetchingBookings;
+
   List<int> get numberOfFields => _numberOfFields;
 
   List<int> get greenScoreData => _greenScoreData;
@@ -105,6 +117,16 @@ class CalendarProvider extends ChangeNotifier {
 
   set isLoadingDays(bool value) {
     _isLoadingDays = value;
+    notifyListeners();
+  }
+
+  set didFetchBookings(bool value) {
+    _didFetchBookings = value;
+    notifyListeners();
+  }
+
+  set isFetchingBookings(bool value) {
+    _isFetchingBookings = value;
     notifyListeners();
   }
 
@@ -124,5 +146,17 @@ class CalendarProvider extends ChangeNotifier {
     } else {
       return 0;
     }
+  }
+
+  updateBookings(List<BookingModel> bookings) {
+    if (bookings.isNotEmpty) {
+      for (var booking in bookings) {
+        _bookings.add(booking);
+      }
+    }
+  }
+
+  getBookings() {
+    return _bookings;
   }
 }
