@@ -38,9 +38,6 @@ initCoreAndExternal() {
   sl.registerLazySingleton(() => http.Client());
   sl.registerLazySingleton(() => Connectivity());
 
-  sl.registerLazySingleton<Authorizer>(() => AuthorizerImpl(dio: sl()));
-  sl.registerLazySingleton<WebCommunicator>(
-      () => WebCommunicatorImpl(dio: sl(), authorizer: sl()));
   sl.registerLazySingleton<BoxCommunicator>(
       () => BoxCommunicatorImpl(dio: sl()));
   sl.registerLazySingleton(() => Dio());
