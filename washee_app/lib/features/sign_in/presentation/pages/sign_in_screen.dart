@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:washee/core/account/account.dart';
+import 'package:washee/core/account/user.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:washee/core/presentation/themes/colors.dart';
 import 'package:washee/core/presentation/themes/dimens.dart';
 import 'package:washee/core/presentation/themes/themes.dart';
@@ -6,6 +9,10 @@ import 'package:washee/features/sign_in/domain/usecases/sign_in.dart';
 import 'package:washee/injection_container.dart';
 
 class SignInScreen extends StatefulWidget {
+  final Function callback;
+
+  SignInScreen(this.callback);
+
   @override
   State<SignInScreen> createState() => _SignInScreenState();
 }
@@ -15,86 +22,115 @@ class _SignInScreenState extends State<SignInScreen> {
     borderSide: BorderSide(color: Colors.white),
   );
 
-  final _usernameController = TextEditingController();
+  final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  ActiveUser user = ActiveUser();
 
   @override
   void dispose() {
-    _usernameController.dispose();
+    _emailController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Tilbage')),
+      appBar: AppBar(title: Text('Login')),
       body: Container(
           alignment: Alignment.center,
           child: ListView(children: [
-            Column(
-              children: <Widget>[
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-                  child: TextFormField(
-                    controller: _usernameController,
-                    style: TextStyle(color: Colors.white),
-                    cursorColor: Colors.white,
-                    decoration: InputDecoration(
-                      enabledBorder: _borderStyle,
-                      focusedBorder: _borderStyle,
-                      labelText: 'Indtast brugernavn',
-                      labelStyle: TextStyle(color: Colors.white),
-                    ),
-                  ),
-                ),
-                Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+            Form(
+              key: _formKey,
+              child: Column(
+                children: <Widget>[
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 16.h),
                     child: TextFormField(
-                      controller: _passwordController,
-                      obscureText: true,
+                      controller: _emailController,
                       style: TextStyle(color: Colors.white),
                       cursorColor: Colors.white,
                       decoration: InputDecoration(
-                          enabledBorder: _borderStyle,
-                          focusedBorder: _borderStyle,
-                          labelText: 'Indtast kodeord',
-                          labelStyle: TextStyle(color: Colors.white)),
-                    )),
-                Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-                    child: Container(
-                      height: 40,
-                      width: 200,
-                      child: ElevatedButton(
-                        child: Text(
-                          "Log ind",
-                          style: textStyle.copyWith(
-                              fontSize: textSize_45,
-                              fontWeight: FontWeight.w600),
-                        ),
-                        style: ElevatedButton.styleFrom(
-                            primary: AppColors.deepGreen,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20))),
-                        onPressed: () async {
-                          try {
-                            var result = await sl<SignInUseCase>().call(
-                                SignInParams(
-                                    email: _usernameController.text,
-                                    password: _passwordController.text));
-
-                            if (result) {
-                              // navigate
-                            } else {
-                              // let the user know that something went wrong
-                            }
-                          } on Exception catch (e) {
-                            print("DioError occured: " + e.toString());
+                        enabledBorder: _borderStyle,
+                        focusedBorder: _borderStyle,
+                        labelText: 'Indtast email',
+                        labelStyle: TextStyle(color: Colors.white),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+                      child: TextFormField(
+                        validator: (value) {
+                          if (value == "hello"){
+                            return "the password cannot be hello";
                           }
                         },
-                      ),
-                    ))
-              ],
+                        onSaved: (value) {
+                          
+                        },
+                        controller: _passwordController,
+                        obscureText: true,
+                        style: TextStyle(color: Colors.white),
+                        cursorColor: Colors.white,
+                        decoration: InputDecoration(
+                            enabledBorder: _borderStyle,
+                            focusedBorder: _borderStyle,
+                            labelText: 'Indtast kodeord',
+                            labelStyle: TextStyle(color: Colors.white)),
+                      )),
+                  Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+                      child: Container(
+                        height: 40,
+                        width: 200,
+                        child: ElevatedButton(
+                          child: Text(
+                            "Log ind",
+                            style: textStyle.copyWith(
+                                fontSize: textSize_45,
+                                fontWeight: FontWeight.w600),
+                          ),
+                          style: ElevatedButton.styleFrom(
+                              primary: AppColors.deepGreen,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20))),
+                          onPressed: () async {
+                            if (_formKey.currentState != null){
+                              var valid = _formKey.currentState!.validate();
+                              if (!valid){ // show error prompt
+
+                              } else {
+                                _formKey.currentState!.save();
+                                try {
+                                  var result = await sl<SignInUseCase>().call(
+                                      SignInParams(
+                                          email: _emailController.text,
+                                          password: _passwordController.text));
+                
+                                  if (result) {
+                                    // navigate
+                                    // TODO: this is placeholder code
+                                    print("something went right!");
+                                    
+                                    user.initUser(1, "email", "username", Account(id: 1, name: "name", balance: 123));
+                                    this.widget.callback();
+
+                                  } else {
+                                    print("something went wrong");
+                                    // let the user know that something went wrong
+                                  }
+                                } on Exception catch (e) {
+                                  print("DioError occured: " + e.toString());
+                                }
+                              }
+                            }
+                          },
+                        ),
+                      ))
+                ],
+              ),
             )
           ])),
     );

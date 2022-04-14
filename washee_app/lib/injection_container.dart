@@ -22,6 +22,7 @@ import 'package:washee/features/unlock/domain/usecases/unlock.dart';
 import 'core/network/network_info.dart';
 import 'features/booking/domain/repositories/book_repository.dart';
 
+// sl is short for service locater
 final GetIt sl = GetIt.instance;
 
 void initAll() {
