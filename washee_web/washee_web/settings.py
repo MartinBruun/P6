@@ -27,7 +27,7 @@ SECRET_KEY = os.environ.get("SECRET_KEY")
 DEBUG = int(os.environ.get("DEBUG",default=0))
 
 # SECURITY WARNING: Controls all security related to the nginx proxy server
-SECURE_PROXY_SSL_HEADER = os.environ.get("SECURE_PROXY_HEADER",default=None)
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https") if int(os.environ.get("SECURE_PROXY_HEADER",default=0)) == 1 else None
 
 # SECURITY WARNING! Controls all CSRF based security
 CSRF_COOKIE_SECURE = False if os.environ.get("DJANGO_CSRF_COOKIE",default=1) == 0 else True

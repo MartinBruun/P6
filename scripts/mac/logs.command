@@ -1,6 +1,6 @@
 cd ..
 cd ..
-docker-compose logs -f -t
+docker-compose logs -t
 cd scripts
 cd win
 echo 

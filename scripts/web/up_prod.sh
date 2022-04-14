@@ -3,7 +3,6 @@
 cd ..
 cd ..
 sudo docker-compose -f docker-compose.web.yml up -d --build
-sudo docker-compose -f docker-compose.web.yml exec web python3 manage.py makemigrations admin_honeypot
 sudo docker-compose -f docker-compose.web.yml exec web python3 manage.py migrate --noinput
 sudo docker-compose -f docker-compose.web.yml exec web python3 manage.py collectstatic --no-input
 cd scripts
