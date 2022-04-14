@@ -31,12 +31,21 @@ class _SaveTimeButtonState extends State<SaveTimeButton> {
             if (valid) {
               // post booking to the backend
               // clear the addedTimeSlots list
-              calendar.clearTimeSlots();
               print("VALID BOOKING! Posting to the backend");
+              calendar.clearTimeSlots();
+              setState(() {
+                _isBookingTimeSlot = true;
+              });
+              await Future.delayed(Duration(seconds: 3));
+              setState(() {
+                _isBookingTimeSlot = false;
+              });
               Navigator.of(context).popUntil((route) => route.isFirst);
             } else {
               // Show dialog to the user with propriate error message
               print("INVALID BOOKING! Aborting");
+              calendar.clearTimeSlots();
+              Navigator.of(context).pop();
             }
           },
           child: _isBookingTimeSlot
