@@ -2,6 +2,8 @@ from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
 
+# Should probably be moved to a seperate Security App
+
 class UserAndAuthToken(ObtainAuthToken):
 
     def post(self, request, *args, **kwargs):

@@ -66,7 +66,7 @@ THIRD_PARTY = [
     'rest_framework',
     'rest_framework.authtoken',
     'corsheaders',
-    'admin_honeypot'
+    #'admin_honeypot' # Doesnt work, because the makemigrations file is placed in the python libraries, which wont (and shouldnt!!!) get copied to the containers. makemigrations should NEVER be run on the production server. EVER!
 ]
 
 INSTALLED_APPS = CORE_APPS+THIRD_PARTY+OWN_APPS
