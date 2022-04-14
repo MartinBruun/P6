@@ -29,15 +29,7 @@ void initAll() {
   initCoreAndExternal();
   initUnlock();
   initGetMachines();
-<<<<<<< HEAD
-<<<<<<< HEAD
-  initBooking();
-=======
   initSignIn();
->>>>>>> 4c1fcfe8f154a0ac67a76aae1f5cbfacd796a4ed
-=======
-  initSignIn();
->>>>>>> 4c1fcfe8f154a0ac67a76aae1f5cbfacd796a4ed
 }
 
 initCoreAndExternal() {
@@ -67,15 +59,7 @@ void initBooking() {
 
   // Data Sources
   sl.registerLazySingleton<BookRemote>(
-<<<<<<< HEAD
-<<<<<<< HEAD
     () => BookRemoteImpl(networkInfo: sl(), communicator: sl()),
-=======
-    () => BookLaundryRemoteImpl(dio: sl()),
->>>>>>> 4c1fcfe8f154a0ac67a76aae1f5cbfacd796a4ed
-=======
-    () => BookLaundryRemoteImpl(dio: sl()),
->>>>>>> 4c1fcfe8f154a0ac67a76aae1f5cbfacd796a4ed
   );
 }
 

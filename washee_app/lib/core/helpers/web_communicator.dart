@@ -17,11 +17,7 @@ abstract class WebCommunicator {
   String get servicesURL;
   // Data Methods
   Future<Map<String, dynamic>> getCurrentLocation(int locationID);
-<<<<<<< HEAD
   Future<List<Map<String, dynamic>>> getCurrentBookings(int locationID);
-=======
-  Future<Map<String, dynamic>> getCurrentBookings(int locationID);
->>>>>>> 4c1fcfe8f154a0ac67a76aae1f5cbfacd796a4ed
   Future<Map<String, dynamic>> postBooking(String timeStart,
       int accountID, int machineID, int serviceID);
 }
@@ -41,7 +37,6 @@ class WebCommunicatorImpl implements WebCommunicator {
     dio.options.headers["authorization"] = "TOKEN $token";
     return dio;
   }
-<<<<<<< HEAD
 
   @override
   String get usersURL => Environment().config.webApiHost + "/api/1/users/";
@@ -89,52 +84,12 @@ class WebCommunicatorImpl implements WebCommunicator {
       return response.data;
     }
   }
-=======
-
-  @override
-  String get usersURL => Environment().config.webApiHost + "/api/1/users/";
-
-  @override
-  String get accountsURL =>
-      Environment().config.webApiHost + "/api/1/accounts/";
-
-  @override
-  String get bookingsURL =>
-      Environment().config.webApiHost + "/api/1/bookings/";
-
-  @override
-  String get locationsURL =>
-      Environment().config.webApiHost + "/api/1/locations/";
-
-  @override
-  String get machineModelsURL =>
-      Environment().config.webApiHost + "/api/1/machine_models/";
-
-  @override
-  String get machinesURL =>
-      Environment().config.webApiHost + "/api/1/machines/";
-
-  @override
-  String get servicesURL =>
-      Environment().config.webApiHost + "/api/1/services/";
->>>>>>> 4c1fcfe8f154a0ac67a76aae1f5cbfacd796a4ed
 
   @override
   Future<List<Map<String, dynamic>>> getCurrentBookings(int locationID) async {
     Response response;
 
-<<<<<<< HEAD
     response = await dio.get(bookingsURL);
-    if (response.statusCode == 200) {
-<<<<<<< HEAD
-      return [
-        {"get": "The current bookings already made for the current location"}
-      ];
-=======
-      return response.data;
->>>>>>> 4c1fcfe8f154a0ac67a76aae1f5cbfacd796a4ed
-=======
-    response = await dio.get(locationsURL + "/$locationID");
     if (response.statusCode == 200) {
       return response.data;
     } else {
@@ -150,50 +105,10 @@ class WebCommunicatorImpl implements WebCommunicator {
     }
   }
 
-  @override
-  Future<Map<String, dynamic>> getCurrentBookings(int locationID) async {
-    Response response;
-
-    response = await dio.get(bookingsURL);
-    if (response.statusCode == 200) {
-      return response.data;
->>>>>>> 4c1fcfe8f154a0ac67a76aae1f5cbfacd796a4ed
-    } else {
-      ExceptionHandler().handle(
-          "Something went wrong with status code: " +
-              response.statusCode.toString() +
-              " with response:\n" +
-              response.data['response'],
-          log: true,
-          show: true,
-          crash: false);
-      return response.data;
-    }
-  }
-
-<<<<<<< HEAD
-<<<<<<< HEAD
-  Future<Map<String, dynamic>> postBooking(String timeStart, String timeEnd,
-      int accountID, int machineID, int serviceID) async {
-    Response response;
-
-    response = await dio.post(tokenURL);
-    if (response.statusCode == 200) {
-      return {
-        "post":
-            "a booking to a specific machine that is in a specific location, booking a specific service."
-      };
-=======
   Future<Map<String, dynamic>> postBooking(String timeStart,
       int accountID, int machineID, int serviceID) async {
     Response response;
 
-=======
-  Future<Map<String, dynamic>> postBooking(String timeStart,
-      int accountID, int machineID, int serviceID) async {
-    Response response;
-
->>>>>>> 4c1fcfe8f154a0ac67a76aae1f5cbfacd796a4ed
     response = await dio.post(bookingsURL, data: {
       "start_time": timeStart,
       "account": accountID,
@@ -202,10 +117,6 @@ class WebCommunicatorImpl implements WebCommunicator {
     });
     if (response.statusCode == 200) {
       return response.data;
-<<<<<<< HEAD
->>>>>>> 4c1fcfe8f154a0ac67a76aae1f5cbfacd796a4ed
-=======
->>>>>>> 4c1fcfe8f154a0ac67a76aae1f5cbfacd796a4ed
     } else {
       ExceptionHandler().handle(
           "Something went wrong with status code: " +
