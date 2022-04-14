@@ -17,7 +17,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   List<Widget> _pages = [];
 
-  int _selectedPageIndex = 0;
+  int _selectedPageIndex = 2;
 
   @override
   void initState() {
@@ -27,7 +27,7 @@ class _HomeScreenState extends State<HomeScreen> {
       CalendarScreen(),
     ];
 
-    _selectedPageIndex = 0;
+    _selectedPageIndex = 2;
 
     // _pages
     //     .indexWhere((element) => element.toString() == widget.page.toString());
