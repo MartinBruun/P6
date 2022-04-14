@@ -12,15 +12,8 @@ import 'core/presentation/themes/themes.dart';
 
 void main() async {
 
-   final String env = kDebugMode ? Environment.DEV : Environment.PROD; 
+  final String env = kDebugMode ? Environment.DEV : Environment.PROD; 
 
-  // final String env = Environment.PROD;
-
-
-  // const String environment = String.fromEnvironment(
-  //   'ENVIRONMENT',
-  //   defaultValue: env,
-  // );
   Environment().initConfig(env);
   WidgetsFlutterBinding.ensureInitialized();
   ic.initAll();
