@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:washee/core/account/user.dart';
 import 'package:washee/core/environments/environment.dart';
 import 'package:washee/core/errors/exception_handler.dart';
 import 'package:washee/core/helpers/authorizer.dart';
@@ -15,10 +16,9 @@ abstract class WebCommunicator {
   String get machineModelsURL;
   String get servicesURL;
   // Data Methods
-  Future<Map<String, dynamic>> getCurrentUser(int userID);
   Future<Map<String, dynamic>> getCurrentLocation(int locationID);
   Future<Map<String, dynamic>> getCurrentBookings(int locationID);
-  Future<Map<String, dynamic>> postBooking(String timeStart, String timeEnd,
+  Future<Map<String, dynamic>> postBooking(String timeStart,
       int accountID, int machineID, int serviceID);
 }
 
@@ -66,26 +66,6 @@ class WebCommunicatorImpl implements WebCommunicator {
       Environment().config.webApiHost + "/api/1/services/";
 
   @override
-  Future<Map<String, dynamic>> getCurrentUser(int userID) async {
-    Response response;
-
-    response = await dio.get(usersURL + "/$userID");
-    if (response.statusCode == 200) {
-      return response.data;
-    } else {
-      ExceptionHandler().handle(
-          "Something went wrong with status code: " +
-              response.statusCode.toString() +
-              " with response:\n" +
-              response.data['response'],
-          log: true,
-          show: true,
-          crash: false);
-      return response.data;
-    }
-  }
-
-  @override
   Future<Map<String, dynamic>> getCurrentLocation(int locationID) async {
     Response response;
 
@@ -98,7 +78,7 @@ class WebCommunicatorImpl implements WebCommunicator {
               response.statusCode.toString() +
               " with response:\n" +
               response.data['response'],
-          log: false,
+          log: true,
           show: true,
           crash: false);
       return response.data;
@@ -125,13 +105,12 @@ class WebCommunicatorImpl implements WebCommunicator {
     }
   }
 
-  Future<Map<String, dynamic>> postBooking(String timeStart, String timeEnd,
+  Future<Map<String, dynamic>> postBooking(String timeStart,
       int accountID, int machineID, int serviceID) async {
     Response response;
 
     response = await dio.post(bookingsURL, data: {
-      "time_start": timeStart,
-      "time_end": timeEnd,
+      "start_time": timeStart,
       "account": accountID,
       "machine": machineID,
       "service": serviceID
@@ -150,30 +129,4 @@ class WebCommunicatorImpl implements WebCommunicator {
       return response.data;
     }
   }
-
-  // ONLY FOR TESTING! SHOULD BE REMOVED WHEN THIS IS SOLVED!
-  // @override
-  // Future<List<User>> getAllUsers() async {
-  //   Response response;
-
-  //   response = await dio.get(usersURL);
-  //   if (response.statusCode == 200) {
-  //     List<User> _users = [];
-  //     for (var user in response.data) {
-  //       _users.add(User.fromJson(user));
-  //     }
-
-  //     return _users;
-  //   } else {
-  //     ExceptionHandler().handle(
-  //         "Something went wrong with status code: " +
-  //             response.statusCode.toString() +
-  //             " with response:\n" +
-  //             response.data['response'],
-  //         log: true,
-  //         show: true,
-  //         crash: false);
-  //     return [];
-  //   }
-  // }
 }

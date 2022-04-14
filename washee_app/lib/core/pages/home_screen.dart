@@ -5,11 +5,6 @@ import 'package:washee/features/sign_in/presentation/pages/sign_in_screen.dart';
 import 'package:washee/features/unlock/presentation/pages/wash_screen.dart';
 import 'package:washee/features/booking/presentation/pages/calendar_screen.dart';
 
-//TODO: remove this before merging
-// import 'package:dio/dio.dart'; // ONLY FOR TESTING! SHOULD BE REMOVED BEFORE MERGE TO MASTER!
-// import 'package:washee/features/booking/data/models/booking_model.dart'; // ONLY FOR TESTING! SHOULD BE REMOVED BEFORE MERGE TO MASTER!
-// import 'package:washee/features/booking/data/datasources/book_remote.dart'; // ONLY FOR TESTING! SHOULD BE REMOVED BEFORE MERGE TO MASTER!
-
 class HomeScreen extends StatefulWidget {
   static const routeName = "/home-screen";
   final Object page;

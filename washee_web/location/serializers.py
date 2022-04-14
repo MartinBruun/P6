@@ -21,4 +21,4 @@ class MachineModelSerializer(serializers.HyperlinkedModelSerializer):
 class ServiceSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Service
-        fields = ['id','name','price_in_dk','duration_in_min','created','last_updated','machine_model', 'bookings']
+        fields = ['id','name','price_in_dk','duration_in_sec','created','last_updated','machine_model', 'bookings']
