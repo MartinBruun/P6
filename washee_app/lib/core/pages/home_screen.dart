@@ -23,6 +23,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   ActiveUser user = ActiveUser();
 
+  ActiveUser user = ActiveUser();
+
   @override
   void initState() {
     _pages = [
@@ -32,11 +34,15 @@ class _HomeScreenState extends State<HomeScreen> {
     ];
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     _selectedPageIndex = 2;
 
     // _pages
     //     .indexWhere((element) => element.toString() == widget.page.toString());
     // print(widget.page.toString());
+=======
+      _selectedPageIndex = 1;
+>>>>>>> 4c1fcfe8f154a0ac67a76aae1f5cbfacd796a4ed
 =======
       _selectedPageIndex = 1;
 >>>>>>> 4c1fcfe8f154a0ac67a76aae1f5cbfacd796a4ed

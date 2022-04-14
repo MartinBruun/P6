@@ -82,6 +82,7 @@ class GlobalProvider extends ChangeNotifier {
   }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
   bool _isConnectingToWeb = false;
   bool _isRefreshingWeb = false;
   bool _fetchedRegisteredBookings = false;
@@ -210,11 +211,16 @@ class GlobalProvider extends ChangeNotifier {
     ];
   }
 =======
+=======
+>>>>>>> 4c1fcfe8f154a0ac67a76aae1f5cbfacd796a4ed
   constructBookingList(Map<String, dynamic> bookingsAsJson) {
     for (var booking in bookingsAsJson['machines']) {
       _bookings.add(BookingModel.fromJson(booking));
     }
     notifyListeners();
   }
+<<<<<<< HEAD
+>>>>>>> 4c1fcfe8f154a0ac67a76aae1f5cbfacd796a4ed
+=======
 >>>>>>> 4c1fcfe8f154a0ac67a76aae1f5cbfacd796a4ed
 }
