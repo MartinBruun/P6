@@ -86,8 +86,8 @@ class MachineCard extends StatelessWidget {
 
 
   void _cardPressed(BuildContext context) {
-    if (user.loggedIn && user.account != null){
-      if ( user.loggedIn && user.account!.balance > 0) {
+    if (user.loggedIn && user.activeAccount != null){
+      if ( user.loggedIn && user.activeAccount!.balance > 0) {
         showDialog(
           context: context,
           builder: (BuildContext context) {
