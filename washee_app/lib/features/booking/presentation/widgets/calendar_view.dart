@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:washee/core/helpers/date_helper.dart';
@@ -12,11 +13,9 @@ import '../provider/calendar_provider.dart';
 class CalendarView extends StatefulWidget {
   CalendarView({
     required this.date,
-    required this.bookings,
   }) : super();
 
   final DateTime date;
-  final List<BookingModel> bookings;
 
   @override
   State<CalendarView> createState() => _CalendarViewState();
@@ -24,6 +23,16 @@ class CalendarView extends StatefulWidget {
 
 class _CalendarViewState extends State<CalendarView> {
   DateHelper _dateHelper = DateHelper();
+  List<BookingModel> _localBookings = [];
+
+  @override
+  void initState() {
+    super.initState();
+    SchedulerBinding.instance?.addPostFrameCallback((timeStamp) async {
+      var calendar = Provider.of<CalendarProvider>(context, listen: false);
+      _localBookings = calendar.getBookingsForMonth(widget.date);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -61,6 +70,7 @@ class _CalendarViewState extends State<CalendarView> {
                             _dateHelper.monthName(widget.date.month)]![index]);
 
                     return DayCard(
+                      booking: _localBookings[index],
                       greenScore: data.getGreenScore(_currentDate,
                           data.dateHelper.getDaysInMonth(_currentDate)),
                       dayNumber: index + 1,

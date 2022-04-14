@@ -48,7 +48,7 @@ void initBooking() {
 
   // Data Sources
   sl.registerLazySingleton<BookRemote>(
-    () => BookLaundryRemoteImpl(networkInfo: sl(), communicator: sl()),
+    () => BookRemoteImpl(networkInfo: sl(), communicator: sl()),
   );
 }
 

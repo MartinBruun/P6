@@ -50,7 +50,7 @@ class BookingModel extends Booking {
       service: (json['service']).split("/").last,
       created: DateTime.parse(json['created']),
       account: (json['account']).split("/").last,
-      id: json['id'],
+      id: int.parse(json['id']),
     );
   }
 }

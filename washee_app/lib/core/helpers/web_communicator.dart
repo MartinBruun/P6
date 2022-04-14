@@ -21,7 +21,7 @@ abstract class WebCommunicator {
   Future<Map<String, dynamic>> getValidToken(String email, String password);
   Future<Map<String, dynamic>> getCurrentUser(int userID);
   Future<Map<String, dynamic>> getCurrentLocation(int locationID);
-  Future<Map<String, dynamic>> getCurrentBookings(int locationID);
+  Future<List<Map<String, dynamic>>> getCurrentBookings(int locationID);
   Future<Map<String, dynamic>> postBooking(String timeStart, String timeEnd,
       int accountID, int machineID, int serviceID);
 }
@@ -142,14 +142,14 @@ class WebCommunicatorImpl implements WebCommunicator {
   }
 
   @override
-  Future<Map<String, dynamic>> getCurrentBookings(int locationID) async {
+  Future<List<Map<String, dynamic>>> getCurrentBookings(int locationID) async {
     Response response;
 
     response = await dio.get(bookingsURL);
     if (response.statusCode == 200) {
-      return {
-        "get": "The current bookings already made for the current location"
-      };
+      return [
+        {"get": "The current bookings already made for the current location"}
+      ];
     } else {
       ExceptionHandler().handle(
           "Something went wrong with status code: " +

@@ -4,18 +4,23 @@ import 'package:washee/core/helpers/date_helper.dart';
 import 'package:washee/core/presentation/themes/colors.dart';
 import 'package:washee/core/presentation/themes/dimens.dart';
 import 'package:washee/core/presentation/themes/themes.dart';
+import 'package:washee/features/booking/data/models/booking_model.dart';
+
+import '../../domain/entities/booking.dart';
 
 class DayCard extends StatefulWidget {
   final int greenScore;
   final int dayNumber;
   final String dayName;
   final DateTime currentDate;
+  final Booking? booking;
 
   DayCard({
     required this.greenScore,
     required this.dayNumber,
     required this.dayName,
     required this.currentDate,
+    required this.booking,
   });
 
   @override
@@ -93,6 +98,19 @@ class _DayCardState extends State<DayCard> {
                 softWrap: false,
                 overflow: TextOverflow.visible,
               ),
+              widget.booking == null
+                  ? SizedBox.shrink()
+                  : Text(
+                      widget.booking!.start_time.toString(),
+                      style: textStyle.copyWith(
+                        fontSize: textSize_15,
+                        fontWeight: FontWeight.w700,
+                        color: Colors.white,
+                      ),
+                      textAlign: TextAlign.justify,
+                      softWrap: false,
+                      overflow: TextOverflow.visible,
+                    ),
             ],
           ),
         ),

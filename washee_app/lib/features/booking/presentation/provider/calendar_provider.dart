@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:washee/core/helpers/date_helper.dart';
 import 'package:washee/features/booking/data/models/booking_model.dart';
-import 'package:washee/features/booking/domain/entities/booking.dart';
 
 class CalendarProvider extends ChangeNotifier {
   bool _isLoadingDays = false;
@@ -156,7 +155,12 @@ class CalendarProvider extends ChangeNotifier {
     }
   }
 
-  getBookings() {
-    return _bookings;
+  List<BookingModel> getBookingsForMonth(DateTime date) {
+    var _bookingsForMonth =
+        _bookings.where((element) => element.start_time.month == date.month);
+    if (_bookingsForMonth.isNotEmpty) {
+      return _bookingsForMonth.toList();
+    }
+    return List.empty();
   }
 }

@@ -8,12 +8,11 @@ abstract class BookRemote {
   Future<List<BookingModel>> getBookings();
 }
 
-class BookLaundryRemoteImpl implements BookRemote {
+class BookRemoteImpl implements BookRemote {
   WebCommunicator communicator;
   NetworkInfo networkInfo;
 
-  BookLaundryRemoteImpl(
-      {required this.communicator, required this.networkInfo});
+  BookRemoteImpl({required this.communicator, required this.networkInfo});
 
   @override
   Future<bool> book() async {
@@ -34,12 +33,13 @@ class BookLaundryRemoteImpl implements BookRemote {
     return List.empty();
   }
 
-  List<BookingModel> constructBookingList(Map<String, dynamic> machinesAsJson) {
-    List<BookingModel> _machines = [];
-    for (var machine in machinesAsJson['machines']) {
-      _machines.add(BookingModel.fromJSON(machine));
+  List<BookingModel> constructBookingList(
+      List<Map<String, dynamic>> bookingsAsJson) {
+    List<BookingModel> _bookings = [];
+    for (var booking in bookingsAsJson) {
+      _bookings.add(BookingModel.fromJSON(booking));
     }
 
-    return _machines;
+    return _bookings;
   }
 }

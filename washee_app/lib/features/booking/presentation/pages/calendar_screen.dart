@@ -25,7 +25,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
     new DateTime(DateTime.now().year, DateTime.now().month + 2, 1)
   ];
 
-  bool _isLoadingDays = false;
+  bool _isLoadingDaysAndBookings = false;
 
   @override
   void initState() {
@@ -34,14 +34,14 @@ class _CalendarScreenState extends State<CalendarScreen> {
     super.initState();
 
     setState(() {
-      _isLoadingDays = true;
+      _isLoadingDaysAndBookings = true;
     });
 
     _setUpCalendar();
     _getBookings();
 
     setState(() {
-      _isLoadingDays = false;
+      _isLoadingDaysAndBookings = false;
     });
   }
 
@@ -78,7 +78,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
         ),
         centerTitle: true,
       ),
-      body: _isLoadingDays
+      body: _isLoadingDaysAndBookings
           ? Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -103,15 +103,12 @@ class _CalendarScreenState extends State<CalendarScreen> {
               children: [
                 CalendarView(
                   date: months[0],
-                  bookings: [],
                 ),
                 CalendarView(
                   date: months[1],
-                  bookings: [],
                 ),
                 CalendarView(
                   date: months[2],
-                  bookings: [],
                 ),
               ],
             ),
