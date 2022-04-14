@@ -1,6 +1,5 @@
-import 'dart:io';
-
 import 'package:dio/dio.dart';
+import 'package:washee/core/account/user.dart';
 import 'package:washee/core/environments/environment.dart';
 
 import '../errors/exception_handler.dart';
@@ -15,6 +14,8 @@ abstract class Authorizer {
 
 class AuthorizerImpl implements Authorizer {
   Dio dio;
+
+  ActiveUser user = ActiveUser();
 
   AuthorizerImpl({required this.dio}) {
     dio = initDio();
@@ -55,7 +56,11 @@ class AuthorizerImpl implements Authorizer {
     try {
       response = await dio.post(tokenURL, data: data);
       if (response.statusCode == 200) {
+        print(response.data.toString());
         this.token = response.data["token"];
+        
+        user.initUser(response.data["user_id"], response.data["email"], response.data["username"], response.data["accounts"]);
+
         return true;
       } else {
         ExceptionHandler().handle(

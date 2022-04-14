@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:washee/features/unlock/presentation/pages/wash_screen.dart';
+import 'package:washee/core/account/user.dart';
 import 'package:washee/core/pages/washee_screen.dart';
+import 'package:washee/features/sign_in/presentation/pages/sign_in_screen.dart';
+import 'package:washee/features/unlock/presentation/pages/wash_screen.dart';
 import 'package:washee/features/booking/presentation/pages/calendar_screen.dart';
-
-import 'package:dio/dio.dart'; // ONLY FOR TESTING! SHOULD BE REMOVED BEFORE MERGE TO MASTER!
-import 'package:washee/features/booking/data/models/booking_model.dart'; // ONLY FOR TESTING! SHOULD BE REMOVED BEFORE MERGE TO MASTER!
-import 'package:washee/features/booking/data/datasources/book_remote.dart'; // ONLY FOR TESTING! SHOULD BE REMOVED BEFORE MERGE TO MASTER!
 
 class HomeScreen extends StatefulWidget {
   static const routeName = "/home-screen";
@@ -23,6 +21,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   int _selectedPageIndex = 0;
 
+  ActiveUser user = ActiveUser();
+
   @override
   void initState() {
     _pages = [
@@ -31,11 +31,7 @@ class _HomeScreenState extends State<HomeScreen> {
       CalendarScreen(),
     ];
 
-    _selectedPageIndex = 1;
-
-    // _pages
-    //     .indexWhere((element) => element.toString() == widget.page.toString());
-    // print(widget.page.toString());
+      _selectedPageIndex = 1;
 
     super.initState();
   }
@@ -48,8 +44,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: _pages[_selectedPageIndex],
+    return !user.loggedIn 
+    ? SignInScreen(callback)
+    : Scaffold(
+      body: _pages[_selectedPageIndex],        
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
           color: Colors.white,
@@ -79,5 +77,11 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
     );
+  }
+
+  void callback() {
+    setState(() {
+      this._selectedPageIndex = 1;
+    });
   }
 }

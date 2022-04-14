@@ -66,83 +66,9 @@ class _StartWashState extends State<StartWash> {
             children: [
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 30.w),
-                child: Container(
-                  height: 84.h,
-                  width: 254.w,
-                  decoration: BoxDecoration(
-                    color: AppColors.deepGreen,
-                    borderRadius: BorderRadius.circular(20.h),
-                  ),
-                  child: Center(
-                    child: InkWell(
-                      onTap: () async {
-                        setState(() {
-                          _isUnlockingMachine = true;
-                        });
-                        try {
-                          fetchedMachine = await sl<UnlockUseCase>().call(
-                              UnlockParams(
-                                  machine: widget.currentMachine,
-                                  duration: Duration(hours: 2, minutes: 30)));
-                          if (fetchedMachine == null) {
-                            setState(() {
-                              _isUnlockingMachine = false;
-                            });
-                            ErrorHandler.errorHandlerView(
-                                context: context,
-                                prompt: HTTPErrorPrompt(
-                                    message:
-                                        "Det ser ud til, at du ikke har forbindelse til WasheeBox"));
-                          }
-                        } catch (e) {
-                          setState(() {
-                            _isUnlockingMachine = false;
-                          });
-                          print(e.toString());
-                          await showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return HTTPErrorPrompt(
-                                  message:
-                                      "Noget gik galt da vi forsøgte at låse maskinen op! Prøv venligst igen");
-                            },
-                          );
-                        }
-                        setState(() {
-                          _isUnlockingMachine = false;
-                        });
-                        // var provider =
-                        //     Provider.of<GlobalProvider>(context, listen: false);
-                        // var machineToStart = provider.machines.where(
-                        //     (element) =>
-                        //         element.name.toLowerCase() ==
-                        //         fetchedMachine!.name.toLowerCase());
-                        // provider.machines.removeWhere((element) =>
-                        //     element.name.toLowerCase() ==
-                        //     fetchedMachine!.name.toLowerCase());
-                        // machineToStart.startTime = DateTime.now();
-                        // machineToStart.endTime = machineToStart.startTime!
-                        //     .add(Duration(hours: 7, minutes: 30));
-                        // provider.machines.add(machineToStart);
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => HomeScreen()));
-                      },
-                      child: _isUnlockingMachine
-                          ? CircularProgressIndicator(
-                              color: Colors.black,
-                            )
-                          : Text(
-                              'Start',
-                              style: textStyle.copyWith(
-                                fontSize: textSize_32,
-                                fontWeight: FontWeight.w600,
-                                color: Colors.black,
-                              ),
-                            ),
-                    ),
-                  ),
+                child: Center(
+                  child: _startButton(context) 
+
                 ),
               ),
             ],
@@ -150,5 +76,87 @@ class _StartWashState extends State<StartWash> {
         ],
       ),
     );
+  }
+
+  Widget _startButton(BuildContext context) {
+    return ElevatedButton(
+      onPressed: () async {
+        await _pressed(context);
+      },
+      child: _isUnlockingMachine
+      ? CircularProgressIndicator(
+        color: Colors.black,
+      )
+      : Text(
+        'Start',
+        style: textStyle.copyWith(
+          fontSize: textSize_32,
+          fontWeight: FontWeight.w600,
+          color: Colors.white,
+        ),
+      ),
+      style: ElevatedButton.styleFrom(
+        fixedSize: Size(254.w, 84.h),
+        primary: AppColors.deepGreen,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20.h)
+        )
+      ),
+    );
+  }
+
+  Future<void> _pressed(BuildContext context) async {
+    setState(() {
+      _isUnlockingMachine = true;
+    });
+    try {
+      fetchedMachine = await sl<UnlockUseCase>().call(
+          UnlockParams(
+              machine: widget.currentMachine,
+              duration: Duration(hours: 2, minutes: 30)));
+      if (fetchedMachine == null) {
+        setState(() {
+          _isUnlockingMachine = false;
+        });
+        ErrorHandler.errorHandlerView(
+            context: context,
+            prompt: HTTPErrorPrompt(
+                message:
+                    "Det ser ud til, at du ikke har forbindelse til WasheeBox"));
+      }
+    } catch (e) {
+      setState(() {
+        _isUnlockingMachine = false;
+      });
+      print(e.toString());
+      await showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return HTTPErrorPrompt(
+              message:
+                  "Noget gik galt da vi forsøgte at låse maskinen op! Prøv venligst igen");
+        },
+      );
+    }
+    setState(() {
+      _isUnlockingMachine = false;
+    });
+    // var provider =
+    //     Provider.of<GlobalProvider>(context, listen: false);
+    // var machineToStart = provider.machines.where(
+    //     (element) =>
+    //         element.name.toLowerCase() ==
+    //         fetchedMachine!.name.toLowerCase());
+    // provider.machines.removeWhere((element) =>
+    //     element.name.toLowerCase() ==
+    //     fetchedMachine!.name.toLowerCase());
+    // machineToStart.startTime = DateTime.now();
+    // machineToStart.endTime = machineToStart.startTime!
+    //     .add(Duration(hours: 7, minutes: 30));
+    // provider.machines.add(machineToStart);
+    Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+            builder: (context) => HomeScreen()));
   }
 }

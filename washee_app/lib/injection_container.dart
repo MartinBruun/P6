@@ -22,12 +22,14 @@ import 'package:washee/features/unlock/domain/usecases/unlock.dart';
 import 'core/network/network_info.dart';
 import 'features/booking/domain/repositories/book_repository.dart';
 
+// sl is short for service locater
 final GetIt sl = GetIt.instance;
 
 void initAll() {
   initCoreAndExternal();
   initUnlock();
   initGetMachines();
+  initSignIn();
 }
 
 initCoreAndExternal() {
@@ -36,9 +38,6 @@ initCoreAndExternal() {
   sl.registerLazySingleton(() => http.Client());
   sl.registerLazySingleton(() => Connectivity());
 
-  sl.registerLazySingleton<Authorizer>(() => AuthorizerImpl(dio: sl()));
-  sl.registerLazySingleton<WebCommunicator>(
-      () => WebCommunicatorImpl(dio: sl(), authorizer: sl()));
   sl.registerLazySingleton<BoxCommunicator>(
       () => BoxCommunicatorImpl(dio: sl()));
   sl.registerLazySingleton(() => Dio());
