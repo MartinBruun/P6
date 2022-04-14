@@ -5,12 +5,12 @@ import 'package:washee/core/presentation/themes/themes.dart';
 import 'package:washee/features/sign_in/domain/usecases/sign_in.dart';
 import 'package:washee/injection_container.dart';
 
-class LogInScreen extends StatefulWidget {
+class SignInScreen extends StatefulWidget {
   @override
-  State<LogInScreen> createState() => _LogInScreenState();
+  State<SignInScreen> createState() => _SignInScreenState();
 }
 
-class _LogInScreenState extends State<LogInScreen> {
+class _SignInScreenState extends State<SignInScreen> {
   final OutlineInputBorder _borderStyle = OutlineInputBorder(
     borderSide: BorderSide(color: Colors.white),
   );

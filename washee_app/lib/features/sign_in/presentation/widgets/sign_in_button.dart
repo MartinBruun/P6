@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:washee/core/presentation/themes/colors.dart';
 import 'package:washee/core/presentation/themes/dimens.dart';
 import 'package:washee/core/presentation/themes/themes.dart';
+import 'package:washee/features/sign_in/presentation/pages/sign_in_screen.dart';
 
-import '../../../core/account/user.dart';
+import '../../../../core/account/user.dart';
 
 class LogInButton extends StatefulWidget {
   @override
@@ -35,13 +36,11 @@ class _LogInButtonState extends State<LogInButton> {
   }
 
   void _openLogInScreen() async {
-    await Navigator.push(context, MaterialPageRoute(builder: (context) => const LogInScreen()));
+    await Navigator.push(
+        context, MaterialPageRoute(builder: (context) => SignInScreen()));
     ActiveUser user = ActiveUser();
     //print("username: " + user.username.toString());
- 
-    //print("user balance: " + user.account!.balance.toString());
- 
- 
-  }
 
+    //print("user balance: " + user.account!.balance.toString());
+  }
 }

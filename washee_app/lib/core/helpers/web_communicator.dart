@@ -21,8 +21,6 @@ abstract class WebCommunicator {
   Future<Map<String, dynamic>> getCurrentBookings(int locationID);
   Future<Map<String, dynamic>> postBooking(String timeStart, String timeEnd,
       int accountID, int machineID, int serviceID);
-  // FOR TESTING
-  Future<List<User>> getAllUsers();
 }
 
 class WebCommunicatorImpl implements WebCommunicator {
@@ -155,28 +153,28 @@ class WebCommunicatorImpl implements WebCommunicator {
   }
 
   // ONLY FOR TESTING! SHOULD BE REMOVED WHEN THIS IS SOLVED!
-  @override
-  Future<List<User>> getAllUsers() async {
-    Response response;
+  // @override
+  // Future<List<User>> getAllUsers() async {
+  //   Response response;
 
-    response = await dio.get(usersURL);
-    if (response.statusCode == 200) {
-      List<User> _users = [];
-      for (var user in response.data) {
-        _users.add(User.fromJson(user));
-      }
+  //   response = await dio.get(usersURL);
+  //   if (response.statusCode == 200) {
+  //     List<User> _users = [];
+  //     for (var user in response.data) {
+  //       _users.add(User.fromJson(user));
+  //     }
 
-      return _users;
-    } else {
-      ExceptionHandler().handle(
-          "Something went wrong with status code: " +
-              response.statusCode.toString() +
-              " with response:\n" +
-              response.data['response'],
-          log: true,
-          show: true,
-          crash: false);
-      return [];
-    }
-  }
+  //     return _users;
+  //   } else {
+  //     ExceptionHandler().handle(
+  //         "Something went wrong with status code: " +
+  //             response.statusCode.toString() +
+  //             " with response:\n" +
+  //             response.data['response'],
+  //         log: true,
+  //         show: true,
+  //         crash: false);
+  //     return [];
+  //   }
+  // }
 }
