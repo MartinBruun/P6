@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:washee/core/helpers/date_helper.dart';
 import 'package:washee/features/booking/data/models/booking_model.dart';
 
+import '../../domain/entities/booking.dart';
+
 class CalendarProvider extends ChangeNotifier {
   bool _isLoadingDays = false;
   bool _didFetchBookings = false;
@@ -76,7 +78,11 @@ class CalendarProvider extends ChangeNotifier {
 
   List<BookingModel> _bookings = [];
 
+  List<DateTime> _addedTimeSlots = [];
+
   List<BookingModel> get bookings => _bookings;
+
+  List<DateTime> get addedTimeSlots => _addedTimeSlots;
 
   Map<String, List<DateTime>> daysInMonthMap = {};
 
@@ -156,11 +162,98 @@ class CalendarProvider extends ChangeNotifier {
   }
 
   List<BookingModel> getBookingsForMonth(DateTime date) {
-    var _bookingsForMonth =
-        _bookings.where((element) => element.startTime.month == date.month);
-    if (_bookingsForMonth.isNotEmpty) {
-      return _bookingsForMonth.toList();
+    if (_bookings.isNotEmpty) {
+      var _bookingsForMonth =
+          _bookings.where((element) => element.startTime.month == date.month);
+      if (_bookingsForMonth.isNotEmpty) {
+        return _bookingsForMonth.toList();
+      }
+      return List.empty();
     }
     return List.empty();
+  }
+
+  bool dateIncludesBooking(DateTime date) {
+    var validBookings = _bookings.where((element) =>
+        (element.startTime.day == date.day) &&
+        (element.startTime.month == date.month) &&
+        (element.startTime.year == date.year));
+    print("Valid bookings for day: ${date.day} \n" +
+        validBookings.toList().toString());
+    if (validBookings.isNotEmpty) {
+      return true;
+    }
+    return false;
+  }
+
+  List<BookingModel> getBookingsForDay(DateTime date) {
+    var validBookings =
+        _bookings.where((element) => element.startTime.day == date.day);
+    if (validBookings.isNotEmpty) {
+      return validBookings.toList();
+    }
+    return List.empty();
+  }
+
+  List<DateTime> getTimeSlots() {
+    var startTime = DateTime(2022, 04, 01, 0);
+    List<DateTime> _slots = [];
+    _slots.add(startTime);
+    for (int i = 1; i <= 47; i++) {
+      startTime = startTime.add(Duration(minutes: 30));
+      _slots.add(startTime);
+    }
+    return _slots;
+  }
+
+  addTimeSlot(DateTime time) {
+    _addedTimeSlots.add(time);
+    notifyListeners();
+  }
+
+  removeTimeSlot(DateTime time) {
+    _addedTimeSlots.removeWhere((element) =>
+        (element.day == time.day) &&
+        (element.hour == time.hour) &&
+        (element.minute == time.minute));
+    notifyListeners();
+  }
+
+  clearTimeSlots() {
+    _addedTimeSlots.clear();
+    notifyListeners();
+  }
+
+  bool isBookedTimeValid() {
+    bool _durationAccepted = false;
+    bool _consecutiveSlots = false;
+    DateTime _startTime = DateTime(2022, 01, 01, 0, 0);
+    DateTime _duration = DateTime(2022, 01, 01, 0, 0);
+    for (var time in _addedTimeSlots) {
+      _duration = _duration.add(Duration(minutes: time.minute));
+    }
+
+    if (_duration.difference(_startTime) == Duration(hours: 2, minutes: 30)) {
+      _durationAccepted = true;
+    }
+
+    if (!_durationAccepted) {
+      return false;
+    }
+
+    for (int i = 0; i < _addedTimeSlots.length; i++) {
+      if (_addedTimeSlots[i].difference(_addedTimeSlots[i + 1]) ==
+          Duration(minutes: 30)) {
+        _consecutiveSlots = true;
+      } else {
+        _consecutiveSlots = false;
+      }
+    }
+
+    if (!_consecutiveSlots) {
+      return false;
+    }
+
+    return true;
   }
 }

@@ -28,9 +28,11 @@ class _CalendarViewState extends State<CalendarView> {
   @override
   void initState() {
     super.initState();
-    SchedulerBinding.instance?.addPostFrameCallback((timeStamp) async {
+    SchedulerBinding.instance?.addPostFrameCallback((_) {
       var calendar = Provider.of<CalendarProvider>(context, listen: false);
       _localBookings = calendar.getBookingsForMonth(widget.date);
+      print("Local Bookings for month: ${widget.date.month} - \n" +
+          _localBookings.toString());
     });
   }
 
@@ -70,7 +72,7 @@ class _CalendarViewState extends State<CalendarView> {
                             _dateHelper.monthName(widget.date.month)]![index]);
 
                     return DayCard(
-                      booking: _localBookings[index],
+                      localBookings: _localBookings,
                       greenScore: data.getGreenScore(_currentDate,
                           data.dateHelper.getDaysInMonth(_currentDate)),
                       dayNumber: index + 1,

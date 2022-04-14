@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
+import 'package:washee/features/booking/presentation/provider/calendar_provider.dart';
 
 import '../../../../core/presentation/themes/colors.dart';
 import '../../../../core/presentation/themes/dimens.dart';
@@ -7,8 +9,10 @@ import '../../../../core/presentation/themes/dimens.dart';
 class CancelButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    var calendar = Provider.of<CalendarProvider>(context, listen: false);
     return InkWell(
       onTap: () {
+        calendar.clearTimeSlots();
         Navigator.of(context).pop();
       },
       child: Container(

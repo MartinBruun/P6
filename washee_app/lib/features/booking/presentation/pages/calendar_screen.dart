@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
+import 'package:flutter/services.dart' as rootBundle;
 import 'package:provider/provider.dart';
 import 'package:washee/core/presentation/themes/dimens.dart';
+import 'package:washee/core/providers/global_provider.dart';
 import 'package:washee/core/usecases/usecase.dart';
 import 'package:washee/features/booking/domain/usecases/get_bookings.dart';
 import 'package:washee/features/booking/presentation/provider/calendar_provider.dart';
@@ -8,6 +11,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:washee/injection_container.dart';
 import '../../../../core/presentation/themes/colors.dart';
 import '../../../../core/presentation/themes/themes.dart';
+import '../../data/models/booking_model.dart';
 import '../widgets/calendar_view.dart';
 
 class CalendarScreen extends StatefulWidget {
@@ -36,12 +40,12 @@ class _CalendarScreenState extends State<CalendarScreen> {
     setState(() {
       _isLoadingDaysAndBookings = true;
     });
-
-    _setUpCalendar();
-    _getBookings();
-
-    setState(() {
-      _isLoadingDaysAndBookings = false;
+    Future.delayed(Duration(seconds: 3)).then((value) async {
+      _setUpCalendar();
+      await _getBookings();
+      setState(() {
+        _isLoadingDaysAndBookings = false;
+      });
     });
   }
 
@@ -53,15 +57,29 @@ class _CalendarScreenState extends State<CalendarScreen> {
   }
 
   _getBookings() async {
-    var provider = Provider.of<CalendarProvider>(context, listen: false);
+    var calendar = Provider.of<CalendarProvider>(context, listen: false);
+    var global = Provider.of<GlobalProvider>(context, listen: false);
 
     await Future.delayed(Duration(seconds: 1));
-    if (!provider.didFetchBookings) {
-      provider.updateBookings(await sl<GetBookingsUseCase>().call(NoParams()));
-      if (provider.bookings.isNotEmpty) {
-        provider.didFetchBookings = true;
-      }
+    // if (!provider.didFetchBookings) {
+    //   provider.updateBookings(await sl<GetBookingsUseCase>().call(NoParams()));
+    //   if (provider.bookings.isNotEmpty) {
+    //     provider.didFetchBookings = true;
+    //   }
+    // }
+    var jsonBookings = global.getMockBookings();
+    var parsedBookings = constructBookingList(jsonBookings);
+    calendar.updateBookings(parsedBookings);
+  }
+
+  List<BookingModel> constructBookingList(
+      List<Map<String, dynamic>> bookingsAsJson) {
+    List<BookingModel> _bookings = [];
+    for (var booking in bookingsAsJson) {
+      _bookings.add(BookingModel.fromJSON(booking));
     }
+
+    return _bookings;
   }
 
   @override

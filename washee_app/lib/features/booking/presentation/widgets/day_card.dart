@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 import 'package:washee/core/helpers/date_helper.dart';
 import 'package:washee/core/presentation/themes/colors.dart';
 import 'package:washee/core/presentation/themes/dimens.dart';
 import 'package:washee/core/presentation/themes/themes.dart';
+import 'package:washee/features/booking/data/models/booking_model.dart';
+import 'package:washee/features/booking/presentation/provider/calendar_provider.dart';
 import 'package:washee/features/booking/presentation/widgets/choose_time_view.dart';
 
 import '../../domain/entities/booking.dart';
@@ -13,14 +16,14 @@ class DayCard extends StatefulWidget {
   final int dayNumber;
   final String dayName;
   final DateTime currentDate;
-  final Booking? booking;
+  final List<Booking> localBookings;
 
   DayCard({
     required this.greenScore,
     required this.dayNumber,
     required this.dayName,
     required this.currentDate,
-    required this.booking,
+    required this.localBookings,
   });
 
   @override
@@ -43,12 +46,15 @@ class _DayCardState extends State<DayCard> {
     return lighten ? Colors.white24 : Colors.black;
   }
 
+  List<BookingModel> _bookingsForDay = [];
   bool _isToday = false;
   DateHelper helper = DateHelper();
 
   @override
   void initState() {
+    var calendar = Provider.of<CalendarProvider>(context, listen: false);
     _isToday = helper.isToday(widget.currentDate);
+    _bookingsForDay = calendar.getBookingsForDay(widget.currentDate);
     super.initState();
   }
 
@@ -65,60 +71,49 @@ class _DayCardState extends State<DayCard> {
         ),
         child: Padding(
           padding: const EdgeInsets.all(0.1),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                width: 50.h,
-                height: 50.h,
-                decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: _isToday ? Colors.blue : Colors.transparent),
-                child: Center(
-                  child: Text(
-                    '${widget.dayNumber.toString()}',
-                    style: textStyle.copyWith(
-                        fontSize: textSize_20,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white),
-                    textAlign: TextAlign.justify,
-                    softWrap: false,
-                    overflow: TextOverflow.visible,
-                  ),
-                ),
-              ),
-              Text(
-                helper.translateDayName(widget.dayName),
-                style: textStyle.copyWith(
-                  fontSize: textSize_15,
-                  fontWeight: FontWeight.w700,
-                  color: Colors.white,
-                ),
-                textAlign: TextAlign.justify,
-                softWrap: false,
-                overflow: TextOverflow.visible,
-              ),
-              widget.booking == null
-                  ? SizedBox.shrink()
-                  : Text(
-                      widget.booking!.startTime.toString(),
+          child: Consumer<CalendarProvider>(
+            builder: (context, data, _) => Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  width: 50.h,
+                  height: 50.h,
+                  decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: _isToday ? Colors.blue : Colors.transparent),
+                  child: Center(
+                    child: Text(
+                      '${widget.dayNumber.toString()}',
                       style: textStyle.copyWith(
-                        fontSize: textSize_15,
-                        fontWeight: FontWeight.w700,
-                        color: Colors.white,
-                      ),
+                          fontSize: textSize_20,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white),
                       textAlign: TextAlign.justify,
                       softWrap: false,
                       overflow: TextOverflow.visible,
                     ),
-            ],
+                  ),
+                ),
+                Text(
+                  helper.translateDayName(widget.dayName),
+                  style: textStyle.copyWith(
+                    fontSize: textSize_15,
+                    fontWeight: FontWeight.w700,
+                    color: Colors.white,
+                  ),
+                  textAlign: TextAlign.justify,
+                  softWrap: false,
+                  overflow: TextOverflow.visible,
+                ),
+              ],
+            ),
           ),
         ),
         onPressed: () async {
           await showDialog(
             context: context,
             builder: (BuildContext context) {
-              return ChooseTimeView();
+              return ChooseTimeView(bookingsForDate: _bookingsForDay);
             },
           );
         },
