@@ -4,7 +4,7 @@ import 'package:washee/core/helpers/date_helper.dart';
 import 'package:washee/core/presentation/themes/colors.dart';
 import 'package:washee/core/presentation/themes/dimens.dart';
 import 'package:washee/core/presentation/themes/themes.dart';
-import 'package:washee/features/booking/data/models/booking_model.dart';
+import 'package:washee/features/booking/presentation/widgets/choose_time_view.dart';
 
 import '../../domain/entities/booking.dart';
 
@@ -101,7 +101,7 @@ class _DayCardState extends State<DayCard> {
               widget.booking == null
                   ? SizedBox.shrink()
                   : Text(
-                      widget.booking!.start_time.toString(),
+                      widget.booking!.startTime.toString(),
                       style: textStyle.copyWith(
                         fontSize: textSize_15,
                         fontWeight: FontWeight.w700,
@@ -114,8 +114,13 @@ class _DayCardState extends State<DayCard> {
             ],
           ),
         ),
-        onPressed: () {
-          showTimePicker(context: context, initialTime: TimeOfDay.now());
+        onPressed: () async {
+          await showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return ChooseTimeView();
+            },
+          );
         },
       ),
     );

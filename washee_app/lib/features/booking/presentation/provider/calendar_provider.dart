@@ -157,7 +157,7 @@ class CalendarProvider extends ChangeNotifier {
 
   List<BookingModel> getBookingsForMonth(DateTime date) {
     var _bookingsForMonth =
-        _bookings.where((element) => element.start_time.month == date.month);
+        _bookings.where((element) => element.startTime.month == date.month);
     if (_bookingsForMonth.isNotEmpty) {
       return _bookingsForMonth.toList();
     }

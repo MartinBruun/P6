@@ -3,11 +3,13 @@ import 'dart:convert';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:washee/features/booking/data/models/booking_model.dart';
 
+import '../../fixtures/bookings.dart';
 import '../../fixtures/fixture_reader.dart';
 
-List<BookingModel> constructBookingList(Map<String, dynamic> bookingsAsJson) {
+List<BookingModel> constructBookingList(
+    List<Map<String, dynamic>> bookingsAsJson) {
   List<BookingModel> _bookings = [];
-  for (var booking in bookingsAsJson['data']) {
+  for (var booking in bookingsAsJson) {
     _bookings.add(BookingModel.fromJSON(booking));
   }
 
@@ -20,11 +22,9 @@ void main() {
     () async {
       // arrange
 
-      var string = fixture("bookings.json");
-      var stringAsJson = json.decode(string);
-      print(stringAsJson);
+      var bookings = getAllBookingsMock();
       // // act
-      final result = constructBookingList(stringAsJson);
+      final result = constructBookingList(bookings);
 
       // // assert
       expect(result.length, 6);
