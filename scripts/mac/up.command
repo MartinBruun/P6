@@ -3,7 +3,9 @@
 cd ..
 cd ..
 cd washee_app
-osascript -e 'tell app "Terminal" to do script "cd developer/p6-washee/P6/washee_app/ && flutter run --dart-define=ENVIRONMENT=DEV"'
+flutter pub get
+osascript -e 'tell application "System Events" to tell process "Terminal" to keystroke "t" using command down' > /dev/null
+osascript -e "tell application \"Terminal\" to do script \"cd $PWD && flutter run --dart-define=ENVIRONMENT=DEV\" in window 1" > /dev/null
 cd ..
 docker-compose up -d --build
 docker-compose exec web python3 manage.py flush --no-input
@@ -25,15 +27,16 @@ docker-compose exec web python3 manage.py loaddata init_priorgade_machines.json
 echo Loading bookings from ./washee_web/location/fixtures/init_priorgade_bookings.json
 docker-compose exec web python3 manage.py loaddata init_priorgade_bookings.json
 cd scripts
-cd win
+cd mac
 echo 
-echo The -- box -- container is now accessible on localhost:8001/
-echo The -- web -- container is now accessible on localhost:8000/
+echo The -- box -- container is accessible on localhost:8001/
+echo The -- web -- container is accessible on localhost:8000/
 echo The -- app -- flutter application is started in a seperate prompt on chrome
-echo
-echo You can run the -- test_app.command -- command to run tests for the mobile application
-echo You can run the -- test_box.command -- command to run tests for the box application
-echo You can run the -- test_web.command -- command to run tests for the web application
-echo
-echo REMEMBER to run the -- down.command -- command to close the containers!
+echo 
+echo You can run the -- test_app.bat -- command to run tests for the mobile application
+echo You can run the -- test_box.bat -- command to run tests for the box application
+echo You can run the -- test_web.bat -- command to run tests for the web application
+echo You can run the -- logs.bat ------ command to see the logs of the containers
+echo 
+echo REMEMBER to run the -- down.bat -- command to close the containers!
 echo The flutter application should be shut down in the seperate prompt

@@ -34,7 +34,7 @@
         "pk": 3, 
         "fields": {
             "password": "password", 
-            "email": "emil@mail.com", 
+            "email": "emiccha17aau@gmail.com", 
             "username": "Emil Bruun Michaelsen", 
             "date_joined": "2022-04-01T12:35:14.076Z", 
             "last_login": "2022-04-01T12:35:14.076Z", 
@@ -64,7 +64,7 @@
         "pk": 5, 
         "fields": {
             "password": "password", 
-            "email": "sarah@mail.com", 
+            "email": "sarahalind@gmail.com", 
             "username": "Sarah Aagaard Lind", 
             "date_joined": "2022-04-01T12:35:30.118Z", 
             "last_login": "2022-04-01T12:35:30.118Z", 
@@ -79,7 +79,7 @@
         "pk": 6, 
         "fields": {
             "password": "password", 
-            "email": "julie@mail.com", 
+            "email": "julieaalind@gmail.com", 
             "username": "Julie Aagaard Lind", 
             "date_joined": "2022-04-01T12:35:35.507Z", 
             "last_login": "2022-04-01T12:35:35.507Z", 
@@ -94,7 +94,7 @@
         "pk": 7, 
         "fields": {
             "password": "password", 
-            "email": "frederik@mail.com", 
+            "email": "frederik.friislind@gmail.com", 
             "username": "Frederik Friis Lind", 
             "date_joined": "2022-04-01T12:35:43.740Z", 
             "last_login": "2022-04-01T12:35:43.740Z",
@@ -109,7 +109,7 @@
         "pk": 8, 
         "fields": {
             "password": "password", 
-            "email": "frida@mail.com", 
+            "email": "FridaFPetersen@hotmail.com", 
             "username": "Frida Petersen", 
             "date_joined": "2022-04-01T12:35:55.458Z", 
             "last_login": "2022-04-01T12:35:55.458Z", 
@@ -156,6 +156,21 @@
             "password": "password", 
             "email": "kamilllunddal@outlook.com", 
             "username": "Kamilaa Lunddal", 
+            "date_joined": "2022-04-01T12:36:09.747Z", 
+            "last_login": "2022-04-01T12:36:09.747Z", 
+            "is_active": true, 
+            "staff": false, 
+            "admin": false, 
+            "superuser": false
+        }
+    },
+    {
+        "model": "account.user", 
+        "pk": 12, 
+        "fields": {
+            "password": "password", 
+            "email": "zanderh6@gmail.com ", 
+            "username": "Zander", 
             "date_joined": "2022-04-01T12:36:09.747Z", 
             "last_login": "2022-04-01T12:36:09.747Z", 
             "is_active": true, 

@@ -1,4 +1,7 @@
 from django.db import models
+from datetime import timedelta
+from django.db.models import Q
+from rest_framework.exceptions import ValidationError
 
 from location.models import Machine, Service
 from account.models import Account
@@ -17,7 +20,7 @@ class Booking(models.Model):
     # Fields
     id = models.AutoField(primary_key=True)
     start_time = models.DateTimeField(editable=True)
-    end_time = models.DateTimeField(editable=True)
+    end_time = models.DateTimeField(editable=False)
     
     created = models.DateTimeField(auto_now_add=True, editable=False)
     last_updated = models.DateTimeField(auto_now=True, editable=False)
@@ -48,6 +51,23 @@ class Booking(models.Model):
     
     def __str__(self):
         return "Booking made by " + self.account.name + " at " + str(self.created)
+    
+    def save(self, *args, **kwargs):
+        self.end_time = self.start_time + timedelta(seconds=self.service.duration_in_sec)
+        overlapping_bookings = Booking.objects.filter(machine=self.machine).exclude(
+            Q(start_time__lte=self.start_time, end_time__lte=self.start_time) |
+            Q(start_time__gte=self.end_time, end_time__gte=self.end_time)
+        ).all()
+        
+        if overlapping_bookings.exists():
+            validation_error = "ERROR! The booking clashes with the following bookings:"
+            for booking in overlapping_bookings:
+                validation_error += ' <' + str(booking.start_time) + ' to ' + str(booking.end_time) +'>'
+            raise ValidationError(validation_error)
+        else:
+            self.account.balance -= self.service.price_in_dk
+            self.account.save()
+            return super(Booking, self).save(*args,**kwargs)
     
     class Meta:
         ordering = ['-created']

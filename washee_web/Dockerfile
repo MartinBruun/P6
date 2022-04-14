@@ -5,8 +5,8 @@ FROM debian:10.3-slim
 WORKDIR /usr/src/washee_web
 
 # set environment variables
-ENV PYTHONDONTWRITEBYTECODE 1
-ENV PYTHONUNBUFFERED 1
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
 
 # install psycopg2 dependencies
 RUN apt-get update \

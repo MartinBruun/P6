@@ -2,6 +2,8 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
+import 'package:washee/core/helpers/authorizer.dart';
+import 'package:washee/core/helpers/web_communicator.dart';
 import 'package:washee/core/helpers/box_communicator.dart';
 import 'package:washee/features/booking/data/datasources/book_remote.dart';
 import 'package:washee/features/booking/data/repositories/book_repository_impl.dart';
@@ -9,6 +11,9 @@ import 'package:washee/features/booking/domain/usecases/book.dart';
 import 'package:washee/features/get_machines/data/repositories/get_machines_repo_impl.dart';
 import 'package:washee/features/get_machines/domain/repositories/get_machines_repository.dart';
 import 'package:washee/features/get_machines/domain/usecases/get_machines.dart';
+import 'package:washee/features/sign_in/data/repositories/sign_in_repo_impl.dart';
+import 'package:washee/features/sign_in/domain/repositories/sign_in_repository.dart';
+import 'package:washee/features/sign_in/domain/usecases/sign_in.dart';
 import 'package:washee/features/unlock/data/datasources/unlock_remote.dart';
 import 'package:washee/features/unlock/data/repositories/unlock_repo_impl.dart';
 import 'package:washee/features/unlock/domain/repositories/unlock_repository.dart';
@@ -31,9 +36,17 @@ initCoreAndExternal() {
   sl.registerLazySingleton(() => http.Client());
   sl.registerLazySingleton(() => Connectivity());
 
+  sl.registerLazySingleton<Authorizer>(() => AuthorizerImpl(dio: sl()));
+  sl.registerLazySingleton<WebCommunicator>(
+      () => WebCommunicatorImpl(dio: sl(), authorizer: sl()));
   sl.registerLazySingleton<BoxCommunicator>(
       () => BoxCommunicatorImpl(dio: sl()));
   sl.registerLazySingleton(() => Dio());
+
+  sl.registerLazySingleton<Authorizer>(() => AuthorizerImpl(dio: sl()));
+
+  sl.registerLazySingleton<WebCommunicator>(
+      () => WebCommunicatorImpl(dio: sl(), authorizer: sl()));
 }
 
 void initBooking() {
@@ -47,7 +60,7 @@ void initBooking() {
 
   // Data Sources
   sl.registerLazySingleton<BookRemote>(
-    () => BookLaundryRemoteImpl(client: sl()),
+    () => BookLaundryRemoteImpl(dio: sl()),
   );
 }
 
@@ -71,4 +84,13 @@ void initGetMachines() {
   // Repositories
   sl.registerLazySingleton<GetMachinesRepository>(
       () => GetMachinesRepositoryImpl(communicator: sl(), networkInfo: sl()));
+}
+
+void initSignIn() {
+  // Usecases
+  sl.registerLazySingleton(() => SignInUseCase(repository: sl()));
+
+  // Repository
+  sl.registerLazySingleton<SignInRepository>(
+      () => SignInRepositoryImpl(authorizer: sl()));
 }
