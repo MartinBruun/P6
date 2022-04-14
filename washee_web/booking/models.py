@@ -65,6 +65,8 @@ class Booking(models.Model):
                 validation_error += ' <' + str(booking.start_time) + ' to ' + str(booking.end_time) +'>'
             raise ValidationError(validation_error)
         else:
+            self.account.balance -= self.service.price_in_dk
+            self.account.save()
             return super(Booking, self).save(*args,**kwargs)
     
     class Meta:
