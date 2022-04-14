@@ -227,13 +227,9 @@ class CalendarProvider extends ChangeNotifier {
   bool isBookedTimeValid() {
     bool _durationAccepted = false;
     bool _consecutiveSlots = false;
-    DateTime _startTime = DateTime(2022, 01, 01, 0, 0);
-    DateTime _duration = DateTime(2022, 01, 01, 0, 0);
-    for (var time in _addedTimeSlots) {
-      _duration = _duration.add(Duration(minutes: time.minute));
-    }
+    Duration _duration = _getAccumulatedTimes(_addedTimeSlots);
 
-    if (_duration.difference(_startTime) == Duration(hours: 2, minutes: 30)) {
+    if (_duration == Duration(hours: 2, minutes: 30)) {
       _durationAccepted = true;
     }
 
@@ -241,19 +237,34 @@ class CalendarProvider extends ChangeNotifier {
       return false;
     }
 
-    for (int i = 0; i < _addedTimeSlots.length; i++) {
-      if (_addedTimeSlots[i].difference(_addedTimeSlots[i + 1]) ==
-          Duration(minutes: 30)) {
-        _consecutiveSlots = true;
-      } else {
-        _consecutiveSlots = false;
-      }
-    }
+    _consecutiveSlots = _checkConsecutiveness(_addedTimeSlots);
 
     if (!_consecutiveSlots) {
       return false;
     }
 
     return true;
+  }
+
+  Duration _getAccumulatedTimes(List<DateTime> slots) {
+    return Duration(minutes: slots.last.difference(slots.first).inMinutes);
+  }
+
+  bool _checkConsecutiveness(List<DateTime> slots) {
+    bool _consecutivenessPreserved = false;
+    for (int i = 0; i < slots.length; i++) {
+      if (i == slots.length - 1) {
+        break;
+      } else {
+        var duration = slots[i + 1].difference(slots[i]);
+        if (duration == Duration(hours: 0, minutes: 30)) {
+          _consecutivenessPreserved = true;
+        } else {
+          _consecutivenessPreserved = false;
+          return false;
+        }
+      }
+    }
+    return _consecutivenessPreserved;
   }
 }
