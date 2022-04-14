@@ -112,6 +112,46 @@ class GlobalProvider extends ChangeNotifier {
         "id": "2"
       },
       {
+        "start_time": "2022-04-14T15:00:00Z",
+        "end_time": "2022-04-14T17:00:00Z",
+        "created": "2022-04-14T13:07:08.711Z",
+        "last_updated": "2022-04-14T13:07:08.711Z",
+        "machine": "http://localhost:8000/api/1/machines/2",
+        "service": "http://localhost:8000/api/1/services/2",
+        "account": "http://localhost:8000/api/1/accounts/2",
+        "id": "2"
+      },
+      {
+        "start_time": "2022-04-14T17:00:00Z",
+        "end_time": "2022-04-14T19:30:00Z",
+        "created": "2022-04-14T13:07:08.711Z",
+        "last_updated": "2022-04-14T13:07:08.711Z",
+        "machine": "http://localhost:8000/api/1/machines/2",
+        "service": "http://localhost:8000/api/1/services/2",
+        "account": "http://localhost:8000/api/1/accounts/2",
+        "id": "2"
+      },
+      {
+        "start_time": "2022-04-14T20:00:00Z",
+        "end_time": "2022-04-14T22:30:00Z",
+        "created": "2022-04-14T13:07:08.711Z",
+        "last_updated": "2022-04-14T13:07:08.711Z",
+        "machine": "http://localhost:8000/api/1/machines/2",
+        "service": "http://localhost:8000/api/1/services/2",
+        "account": "http://localhost:8000/api/1/accounts/2",
+        "id": "2"
+      },
+      {
+        "start_time": "2022-04-14T04:00:00Z",
+        "end_time": "2022-04-14T06:30:00Z",
+        "created": "2022-04-14T13:07:08.711Z",
+        "last_updated": "2022-04-14T13:07:08.711Z",
+        "machine": "http://localhost:8000/api/1/machines/2",
+        "service": "http://localhost:8000/api/1/services/2",
+        "account": "http://localhost:8000/api/1/accounts/2",
+        "id": "2"
+      },
+      {
         "start_time": "2022-04-18T12:00:00Z",
         "end_time": "2022-04-18T15:00:00Z",
         "created": "2022-04-12T13:07:08.711Z",

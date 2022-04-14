@@ -33,8 +33,6 @@ class _CalendarScreenState extends State<CalendarScreen> {
 
   @override
   void initState() {
-    // Load up the Map with months and their respective number of days before we
-    // show the calendar views to the user
     super.initState();
 
     setState(() {

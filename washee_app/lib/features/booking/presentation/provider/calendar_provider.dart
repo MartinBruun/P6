@@ -195,8 +195,8 @@ class CalendarProvider extends ChangeNotifier {
     return List.empty();
   }
 
-  List<DateTime> getTimeSlots() {
-    var startTime = DateTime(2022, 04, 01, 0);
+  List<DateTime> getTimeSlots(DateTime currentDate) {
+    var startTime = DateTime(2022, currentDate.month, currentDate.day, 0, 0);
     List<DateTime> _slots = [];
     _slots.add(startTime);
     for (int i = 1; i <= 47; i++) {
@@ -222,6 +222,20 @@ class CalendarProvider extends ChangeNotifier {
   clearTimeSlots() {
     _addedTimeSlots.clear();
     notifyListeners();
+  }
+
+  bool doesSlotOverlap(
+      DateTime startDate1, DateTime currentSlot, DateTime endDate1) {
+    // if ((startDate1.isBefore(currentSlot) ||
+    //         startDate1.isAtSameMomentAs(currentSlot)) &&
+    //     (endDate1.isAfter(currentSlot) ||
+    //         endDate1.isAtSameMomentAs(currentSlot))) {
+    if ((startDate1.hour <= currentSlot.hour) &&
+        (endDate1.hour >= currentSlot.hour)) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   bool isBookedTimeValid() {

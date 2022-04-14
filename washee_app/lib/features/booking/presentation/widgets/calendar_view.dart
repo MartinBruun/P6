@@ -23,17 +23,10 @@ class CalendarView extends StatefulWidget {
 
 class _CalendarViewState extends State<CalendarView> {
   DateHelper _dateHelper = DateHelper();
-  List<BookingModel> _localBookings = [];
 
   @override
   void initState() {
     super.initState();
-    SchedulerBinding.instance?.addPostFrameCallback((_) {
-      var calendar = Provider.of<CalendarProvider>(context, listen: false);
-      _localBookings = calendar.getBookingsForMonth(widget.date);
-      print("Local Bookings for month: ${widget.date.month} - \n" +
-          _localBookings.toString());
-    });
   }
 
   @override
@@ -72,7 +65,6 @@ class _CalendarViewState extends State<CalendarView> {
                             _dateHelper.monthName(widget.date.month)]![index]);
 
                     return DayCard(
-                      localBookings: _localBookings,
                       greenScore: data.getGreenScore(_currentDate,
                           data.dateHelper.getDaysInMonth(_currentDate)),
                       dayNumber: index + 1,

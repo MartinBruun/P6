@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:washee/core/errors/booking_error_prompt.dart';
+import 'package:washee/core/errors/error_handler.dart';
 import 'package:washee/features/booking/presentation/provider/calendar_provider.dart';
 
 import '../../../../core/presentation/themes/colors.dart';
@@ -9,8 +11,9 @@ import '../../../../core/presentation/themes/themes.dart';
 
 class TimeSlotItem extends StatefulWidget {
   final DateTime time;
+  bool isAvailable;
 
-  TimeSlotItem({required this.time});
+  TimeSlotItem({required this.time, required this.isAvailable});
 
   @override
   State<TimeSlotItem> createState() => _TimeSlotItemState();
@@ -33,8 +36,8 @@ class _TimeSlotItemState extends State<TimeSlotItem> {
     return formatted;
   }
 
-  bool _available = true;
   bool _selected = false;
+
   @override
   Widget build(BuildContext context) {
     var calendar = Provider.of<CalendarProvider>(context, listen: false);
@@ -55,35 +58,53 @@ class _TimeSlotItemState extends State<TimeSlotItem> {
               child: InkWell(
                 onTap: () {},
                 child: Text(
-                  _formatHoursAndMinutes(widget.time),
+                  widget.isAvailable
+                      ? _formatHoursAndMinutes(widget.time)
+                      : _formatHoursAndMinutes(widget.time) + "       optaget",
                   style: textStyle.copyWith(
                     fontWeight: FontWeight.w600,
                     fontSize: textSize_32,
+                    color: !widget.isAvailable ? AppColors.red : Colors.white,
                   ),
                 ),
               ),
             ),
             IconButton(
-              onPressed: () async {
-                if (_selected == false) {
-                  // Adds the timeslot to the user provider
-                  calendar.addTimeSlot(widget.time);
-                  print("Added: " + widget.time.toString());
-                } else {
-                  // Removes the timeslot from the user
-                  calendar.removeTimeSlot(widget.time);
-                  print("Removed: " + widget.time.toString());
-                }
-                setState(() {
-                  _selected = !_selected;
-                });
-              },
-              icon: Icon(
-                _selected ? Icons.check_box : Icons.check_box_outline_blank,
-                color: _selected ? AppColors.activeTrackGreen : Colors.white,
-                size: iconSize_44,
-              ),
-            ),
+                onPressed: () async {
+                  if (!widget.isAvailable) {
+                    ErrorHandler.errorHandlerView(
+                        context: context,
+                        prompt: BookingErrorPrompt(
+                            message: "Tidspunktet er optaget!"));
+                  } else {
+                    if (_selected == false) {
+                      // Adds the timeslot to the user provider
+                      calendar.addTimeSlot(widget.time);
+                      print("Added: " + widget.time.toString());
+                    } else {
+                      // Removes the timeslot from the user
+                      calendar.removeTimeSlot(widget.time);
+                      print("Removed: " + widget.time.toString());
+                    }
+                    setState(() {
+                      _selected = !_selected;
+                    });
+                  }
+                },
+                icon: widget.isAvailable
+                    ? Icon(
+                        _selected
+                            ? Icons.check_box
+                            : Icons.check_box_outline_blank,
+                        color: _selected
+                            ? AppColors.activeTrackGreen
+                            : Colors.white,
+                        size: iconSize_44,
+                      )
+                    : Icon(
+                        Icons.not_interested_outlined,
+                        color: AppColors.red,
+                      )),
           ],
         ),
       ),

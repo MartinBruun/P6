@@ -11,8 +11,9 @@ import '../../../../core/widgets/cancel_button.dart';
 
 class ChooseTimeView extends StatefulWidget {
   final List<BookingModel>? bookingsForDate;
+  final DateTime currentDate;
 
-  ChooseTimeView({required this.bookingsForDate});
+  ChooseTimeView({required this.bookingsForDate, required this.currentDate});
 
   @override
   State<ChooseTimeView> createState() => _ChooseTimeViewState();
@@ -30,7 +31,7 @@ class _ChooseTimeViewState extends State<ChooseTimeView> {
 
     Future.delayed(Duration(seconds: 2)).then((value) {
       var calendar = Provider.of<CalendarProvider>(context, listen: false);
-      _slots = calendar.getTimeSlots();
+      _slots = calendar.getTimeSlots(widget.currentDate);
       setState(() {
         _loadingTimeSlots = false;
       });

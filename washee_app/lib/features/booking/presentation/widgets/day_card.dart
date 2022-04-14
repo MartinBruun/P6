@@ -16,14 +16,12 @@ class DayCard extends StatefulWidget {
   final int dayNumber;
   final String dayName;
   final DateTime currentDate;
-  final List<Booking> localBookings;
 
   DayCard({
     required this.greenScore,
     required this.dayNumber,
     required this.dayName,
     required this.currentDate,
-    required this.localBookings,
   });
 
   @override
@@ -46,7 +44,7 @@ class _DayCardState extends State<DayCard> {
     return lighten ? Colors.white24 : Colors.black;
   }
 
-  List<BookingModel> _bookingsForDay = [];
+  List<BookingModel> _bookingsForCurrentDay = [];
   bool _isToday = false;
   DateHelper helper = DateHelper();
 
@@ -54,7 +52,7 @@ class _DayCardState extends State<DayCard> {
   void initState() {
     var calendar = Provider.of<CalendarProvider>(context, listen: false);
     _isToday = helper.isToday(widget.currentDate);
-    _bookingsForDay = calendar.getBookingsForDay(widget.currentDate);
+    _bookingsForCurrentDay = calendar.getBookingsForDay(widget.currentDate);
     super.initState();
   }
 
@@ -113,7 +111,10 @@ class _DayCardState extends State<DayCard> {
           await showDialog(
             context: context,
             builder: (BuildContext context) {
-              return ChooseTimeView(bookingsForDate: _bookingsForDay);
+              return ChooseTimeView(
+                bookingsForDate: _bookingsForCurrentDay,
+                currentDate: widget.currentDate,
+              );
             },
           );
         },
