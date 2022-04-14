@@ -1,5 +1,4 @@
 import 'package:intl/intl.dart';
-import 'package:washee/core/presentation/themes/dimens.dart';
 
 class DateHelper {
   int _daysInMonth(DateTime date) {

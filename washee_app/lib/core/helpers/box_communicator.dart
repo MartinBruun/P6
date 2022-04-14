@@ -1,8 +1,6 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
 import 'package:washee/core/washee_box/machine_model.dart';
 import 'package:washee/core/environments/environment.dart';
 
