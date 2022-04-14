@@ -1,4 +1,5 @@
 from django.db import models
+from datetime import timedelta
 
 from location.models import Machine, Service
 from account.models import Account
@@ -48,6 +49,16 @@ class Booking(models.Model):
     
     def __str__(self):
         return "Booking made by " + self.account.name + " at " + str(self.created)
+    
+    def save(self, *args, **kwargs):
+        start = self.start_time.date_time()
+        end = start + timedelta(seconds=9000)
+        overlapping_bookings = Booking.objects.filter(start_time__range=[start, end]).all()
+        
+        print(overlapping_bookings)
+        
+        
+        return super(Booking, self).save(*args,**kwargs)
     
     class Meta:
         ordering = ['-created']

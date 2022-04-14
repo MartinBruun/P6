@@ -3,6 +3,7 @@
 cd ..
 cd ..
 cd washee_app
+call flutter pub get
 call start cmd /k flutter run --dart-define=ENVIRONMENT=DEV
 cd ..
 call docker-compose up -d --build

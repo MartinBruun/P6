@@ -124,7 +124,7 @@ class Service(models.Model):
     # Fields
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=64)
-    duration_in_min = models.IntegerField()
+    duration_in_sec = models.IntegerField()
     price_in_dk = models.DecimalField(max_digits=19,decimal_places=4)
     
     created = models.DateTimeField(auto_now_add=True, editable=False)
