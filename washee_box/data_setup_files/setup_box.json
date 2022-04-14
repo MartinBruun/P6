@@ -8,21 +8,21 @@
         "serviceType": "washing_service",
         "machineType": "AKG Vaskemaskine",
         "machineID": "1",
-        "name": "prod Vaskemaskinen",
+        "name": "Vaskemaskinen",
         "startTime": "null",
         "endTime": "null",
-        "pin_a": 4,
-        "pin_b": 17
+        "pin_a": 14,
+        "pin_b": 15
     },
     {
         "serviceType": "drying_service",
         "machineType": "Electrolux Tørretumbler",
         "machineID": "2",
-        "name": "prod Tørretumbleren",
+        "name": "Tørretumbleren",
         "startTime": "null",
         "endTime": "null",
-        "pin_a": 27,
-        "pin_b": 22
+        "pin_a": 3,
+        "pin_b": 4
     }
   ],
 
