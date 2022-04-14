@@ -114,7 +114,6 @@ class _SignInScreenState extends State<SignInScreen> {
                                     // TODO: this is placeholder code
                                     print("something went right!");
                                     
-                                    user.initUser(1, "email", "username", Account(id: 1, name: "name", balance: 123));
                                     this.widget.callback();
 
                                   } else {
