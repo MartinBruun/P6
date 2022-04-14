@@ -97,5 +97,16 @@
             "last_updated": "2022-04-01T12:37:34.165Z", 
             "users": []
         }
+    },
+    {
+        "model": "account.account",
+        "pk": 10, 
+        "fields": {
+            "name": "admin secret stash", 
+            "balance": "10", 
+            "created": "2022-04-01T12:37:34.165Z", 
+            "last_updated": "2022-04-01T12:37:34.165Z", 
+            "users": [1]
+        }
     }
 ]
