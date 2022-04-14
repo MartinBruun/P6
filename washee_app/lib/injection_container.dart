@@ -28,6 +28,7 @@ void initAll() {
   initCoreAndExternal();
   initUnlock();
   initGetMachines();
+  initSignIn();
 }
 
 initCoreAndExternal() {
@@ -42,11 +43,6 @@ initCoreAndExternal() {
   sl.registerLazySingleton<BoxCommunicator>(
       () => BoxCommunicatorImpl(dio: sl()));
   sl.registerLazySingleton(() => Dio());
-
-  sl.registerLazySingleton<Authorizer>(() => AuthorizerImpl(dio: sl()));
-
-  sl.registerLazySingleton<WebCommunicator>(
-      () => WebCommunicatorImpl(dio: sl(), authorizer: sl()));
 }
 
 void initBooking() {
