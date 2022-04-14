@@ -21,7 +21,8 @@ raspberry = Raspberry()
 # machine_name = ['l1', 'l2', 't1', 't2']
 # machine_list = []
 # user_list = []
-MAX_WASHINGTIME_IN_SEC = int(os.environ.get("MAX_WASHING_TIME_IN_SEC",default="9000"))  # 2timer og 30 min
+MAX_WASHINGTIME_IN_SEC = int(os.environ.get(
+    "MAX_WASHING_TIME_IN_SEC", default="9000"))  # 2timer og 30 min
 running = True
 
 # format of a machine:
@@ -67,6 +68,13 @@ def unlockEndPoint():
     # if not data:
     #     return json.dumps("The url was called with no arguments")
     # machine = json.loads(data)
+    user = "user??"
+    if "user" in data:
+        user = data["user"]
+
+    account = "account??"
+    if "account" in data:
+        account = data["account"]
 
     name = data["name"]
     machineType = data["machineType"]
@@ -97,7 +105,7 @@ def unlockEndPoint():
     pprint(machine)
 
     t = threading.Thread(name="powering_machine",
-                         target=controller.unlockMachineInThread, args=(machine, duration))
+                         target=controller.unlockMachineInThread, args=(machine, duration, user, account))
     t.start()
 
     machine["startTime"] = str(now)

@@ -17,6 +17,7 @@ void main() async {
   Environment().initConfig(environment);
   WidgetsFlutterBinding.ensureInitialized();
   ic.initAll();
+  print(Environment().config.webApiHost);
   runApp(WasheeApp());
 }
 
