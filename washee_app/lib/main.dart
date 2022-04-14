@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
@@ -10,11 +11,17 @@ import 'injection_container.dart' as ic;
 import 'core/presentation/themes/themes.dart';
 
 void main() async {
-  const String environment = String.fromEnvironment(
-    'ENVIRONMENT',
-    defaultValue: Environment.PROD,
-  );
-  Environment().initConfig(environment);
+
+   final String env = kDebugMode ? Environment.DEV : Environment.PROD; 
+
+  // final String env = Environment.PROD;
+
+
+  // const String environment = String.fromEnvironment(
+  //   'ENVIRONMENT',
+  //   defaultValue: env,
+  // );
+  Environment().initConfig(env);
   WidgetsFlutterBinding.ensureInitialized();
   ic.initAll();
   print(Environment().config.webApiHost);
