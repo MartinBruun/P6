@@ -12,7 +12,7 @@ import 'core/presentation/themes/themes.dart';
 void main() async {
   const String environment = String.fromEnvironment(
     'ENVIRONMENT',
-    defaultValue: Environment.RALLEFAR,
+    defaultValue: Environment.DEV,
   );
   Environment().initConfig(environment);
   WidgetsFlutterBinding.ensureInitialized();
