@@ -35,7 +35,7 @@ class _SaveTimeButtonState extends State<SaveTimeButton> {
               // clear the addedTimeSlots list
               var result = await sl<PostBookingUsecase>().call(
                                       PostBookingParams(
-                                          startTime: DateTime(1906),
+                                          startTime: DateTime(1909),
                                           machineResource: "http://localhost:8000/api/1/machines/1/",
                                           serviceResource: "http://locahost:8000/api/1/services/1/",
                                           accountResource: "http://localhost:8000/api/1/accounts/1/")

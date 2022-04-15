@@ -9,7 +9,7 @@ import 'package:washee/features/booking/data/models/booking_model.dart';
 import 'package:washee/features/booking/presentation/provider/calendar_provider.dart';
 import 'package:washee/features/booking/presentation/widgets/choose_time_view.dart';
 
-import '../../domain/entities/booking.dart';
+import '../../data/models/booking_model.dart';
 
 class DayCard extends StatefulWidget {
   final int greenScore;

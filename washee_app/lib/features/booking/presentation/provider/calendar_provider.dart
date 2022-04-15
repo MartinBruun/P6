@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:washee/core/helpers/date_helper.dart';
 import 'package:washee/features/booking/data/models/booking_model.dart';
 
-import '../../domain/entities/booking.dart';
+import '../../data/models/booking_model.dart';
 
 class CalendarProvider extends ChangeNotifier {
   bool _isLoadingDays = false;
