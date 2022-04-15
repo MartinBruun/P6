@@ -20,6 +20,12 @@ void main() async {
   Environment().initConfig(env);
   WidgetsFlutterBinding.ensureInitialized();
   ic.initAll();
+  print("From main.dart: webApiHost = ${Environment().config.webApiHost}");
+  print("From main.dart: boxApiHost = ${Environment().config.boxApiHost}");
+  print("From main.dart: boxWifiSSID = ${Environment().config.boxWifiSSID}");
+  print("From main.dart: boxWifiPassword = ${Environment().config.boxWifiPassword}");
+  print("From main.dart: boxHasInternetAccess = ${Environment().config.boxHasInternetAccess}");
+
   runApp(WasheeApp());
 }
 
