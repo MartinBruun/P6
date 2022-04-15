@@ -40,8 +40,6 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void _selectPage(int index) async {
-    bool isEnabled = await sl<GetWifiPermissionUsecase>().call(NoParams());
-    print(isEnabled);
     setState(() {
       _selectedPageIndex = index;
     });
