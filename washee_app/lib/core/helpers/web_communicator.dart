@@ -1,6 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:intl/intl.dart';
+import 'dart:convert';
 import 'package:washee/core/account/user.dart';
+import 'package:washee/features/booking/data/models/booking_entity.dart';
 import 'package:washee/core/environments/environment.dart';
 import 'package:washee/core/errors/exception_handler.dart';
 import 'package:washee/core/helpers/authorizer.dart';
@@ -87,14 +89,27 @@ class WebCommunicatorImpl implements WebCommunicator {
   }
 
   @override
-  Future<List<Map<String, dynamic>>> getCurrentBookings(int locationID) async {
+  Future<List<Map<String,dynamic>>> getCurrentBookings(int locationID) async {
     Response response;
 
     response = await dio.get(bookingsURL);
     if (response.statusCode == 200) {
       print("IN WEBCOMMUNICATOR!");
       print(response.data);
-      return response.data;
+      List<Map<String,dynamic>> convertedData = [];
+      for(var booking in response.data){
+        convertedData.add({
+          "id": booking["id"],
+          "start_time": booking["start_time"],
+          "end_time": booking["end_time"],
+          "created": booking["created"],
+          "last_updated": booking["last_updated"],
+          "machine": booking["machine"],
+          "service": booking["service"],
+          "account": booking["account"],
+        });
+      }
+      return convertedData;
     } else {
       ExceptionHandler().handle(
           "Something went wrong with status code: " +
