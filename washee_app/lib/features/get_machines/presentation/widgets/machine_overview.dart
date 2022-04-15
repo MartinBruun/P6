@@ -28,15 +28,15 @@ class _MachineOverviewState extends State<MachineOverview> {
       var provider = Provider.of<GlobalProvider>(context, listen: false);
       provider.isConnectingToBox = true;
       await Future.delayed(Duration(seconds: 1));
-      if (!provider.fetchedMachines) {
+      
         // var string = await loadAsset();
         // var stringAsJson = json.decode(string);
         // provider.constructMachineList(stringAsJson);
         //This is the usecase to be called on every initstate fetching from backend
-        // provider
-        //     .updateMachines(await sl<GetMachinesUseCase>().call(NoParams()));
-        // provider.fetchedMachines = true;
-      }
+        provider
+            .updateMachines(await sl<GetMachinesUseCase>().call(NoParams()));
+        provider.fetchedMachines = true;
+      
 
       provider.isConnectingToBox = false;
     });

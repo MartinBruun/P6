@@ -21,6 +21,7 @@ import 'package:washee/features/unlock/domain/usecases/unlock.dart';
 
 import 'core/network/network_info.dart';
 import 'features/booking/domain/repositories/book_repository.dart';
+import 'features/booking/domain/usecases/get_bookings.dart';
 
 // sl is short for service locater
 final GetIt sl = GetIt.instance;
@@ -52,6 +53,7 @@ initCoreAndExternal() {
 void initBooking() {
   // Usecases
   sl.registerLazySingleton(() => PostBookingUsecase(repository: sl()));
+  sl.registerLazySingleton(() => GetBookingsUseCase(repository: sl()));
 
   // Repositories
   sl.registerLazySingleton<BookRepository>(
