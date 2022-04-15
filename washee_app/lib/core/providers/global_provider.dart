@@ -111,9 +111,9 @@ class GlobalProvider extends ChangeNotifier {
         "end_time": "2022-04-14T15:00:00Z",
         "created": "2022-04-14T13:07:08.711Z",
         "last_updated": "2022-04-14T13:07:08.711Z",
-        "machine": "http://localhost:8000/api/1/machines/1",
-        "service": "http://localhost:8000/api/1/services/1",
-        "account": "http://localhost:8000/api/1/accounts/1",
+        "machine": "http://localhost:8000/api/1/machines/1/",
+        "service": "http://localhost:8000/api/1/services/1/",
+        "account": "http://localhost:8000/api/1/accounts/1/",
         "id": "1"
       },
       {
@@ -121,9 +121,9 @@ class GlobalProvider extends ChangeNotifier {
         "end_time": "2022-04-14T17:00:00Z",
         "created": "2022-04-14T13:07:08.711Z",
         "last_updated": "2022-04-14T13:07:08.711Z",
-        "machine": "http://localhost:8000/api/1/machines/2",
-        "service": "http://localhost:8000/api/1/services/2",
-        "account": "http://localhost:8000/api/1/accounts/2",
+        "machine": "http://localhost:8000/api/1/machines/2/",
+        "service": "http://localhost:8000/api/1/services/2/",
+        "account": "http://localhost:8000/api/1/accounts/2/",
         "id": "2"
       },
       {
@@ -131,9 +131,9 @@ class GlobalProvider extends ChangeNotifier {
         "end_time": "2022-04-14T17:00:00Z",
         "created": "2022-04-14T13:07:08.711Z",
         "last_updated": "2022-04-14T13:07:08.711Z",
-        "machine": "http://localhost:8000/api/1/machines/2",
-        "service": "http://localhost:8000/api/1/services/2",
-        "account": "http://localhost:8000/api/1/accounts/2",
+        "machine": "http://localhost:8000/api/1/machines/2/",
+        "service": "http://localhost:8000/api/1/services/2/",
+        "account": "http://localhost:8000/api/1/accounts/2/",
         "id": "2"
       },
       {
@@ -141,9 +141,9 @@ class GlobalProvider extends ChangeNotifier {
         "end_time": "2022-04-14T19:30:00Z",
         "created": "2022-04-14T13:07:08.711Z",
         "last_updated": "2022-04-14T13:07:08.711Z",
-        "machine": "http://localhost:8000/api/1/machines/2",
-        "service": "http://localhost:8000/api/1/services/2",
-        "account": "http://localhost:8000/api/1/accounts/2",
+        "machine": "http://localhost:8000/api/1/machines/2/",
+        "service": "http://localhost:8000/api/1/services/2/",
+        "account": "http://localhost:8000/api/1/accounts/2/",
         "id": "2"
       },
       {
@@ -151,9 +151,9 @@ class GlobalProvider extends ChangeNotifier {
         "end_time": "2022-04-14T22:30:00Z",
         "created": "2022-04-14T13:07:08.711Z",
         "last_updated": "2022-04-14T13:07:08.711Z",
-        "machine": "http://localhost:8000/api/1/machines/2",
-        "service": "http://localhost:8000/api/1/services/2",
-        "account": "http://localhost:8000/api/1/accounts/2",
+        "machine": "http://localhost:8000/api/1/machines/2/",
+        "service": "http://localhost:8000/api/1/services/2/",
+        "account": "http://localhost:8000/api/1/accounts/2/",
         "id": "2"
       },
       {
@@ -161,9 +161,9 @@ class GlobalProvider extends ChangeNotifier {
         "end_time": "2022-04-14T06:30:00Z",
         "created": "2022-04-14T13:07:08.711Z",
         "last_updated": "2022-04-14T13:07:08.711Z",
-        "machine": "http://localhost:8000/api/1/machines/2",
-        "service": "http://localhost:8000/api/1/services/2",
-        "account": "http://localhost:8000/api/1/accounts/2",
+        "machine": "http://localhost:8000/api/1/machines/2/",
+        "service": "http://localhost:8000/api/1/services/2/",
+        "account": "http://localhost:8000/api/1/accounts/2/",
         "id": "2"
       },
       {
@@ -171,9 +171,9 @@ class GlobalProvider extends ChangeNotifier {
         "end_time": "2022-04-18T15:00:00Z",
         "created": "2022-04-12T13:07:08.711Z",
         "last_updated": "2022-04-12T13:07:08.711Z",
-        "machine": "http://localhost:8000/api/1/machines/1",
-        "service": "http://localhost:8000/api/1/services/1",
-        "account": "http://localhost:8000/api/1/accounts/3",
+        "machine": "http://localhost:8000/api/1/machines/1/",
+        "service": "http://localhost:8000/api/1/services/1/",
+        "account": "http://localhost:8000/api/1/accounts/3/",
         "id": "3"
       },
       {
@@ -181,9 +181,9 @@ class GlobalProvider extends ChangeNotifier {
         "end_time": "2022-05-01T15:00:00Z",
         "created": "2022-05-01T13:07:08.711Z",
         "last_updated": "2022-05-01T13:07:08.711Z",
-        "machine": "http://localhost:8000/api/1/machines/2",
-        "service": "http://localhost:8000/api/1/services/2",
-        "account": "http://localhost:8000/api/1/accounts/4",
+        "machine": "http://localhost:8000/api/1/machines/2/",
+        "service": "http://localhost:8000/api/1/services/2/",
+        "account": "http://localhost:8000/api/1/accounts/4/",
         "id": "4"
       },
       {
@@ -191,9 +191,9 @@ class GlobalProvider extends ChangeNotifier {
         "end_time": "2022-05-10T15:00:00Z",
         "created": "2022-05-02T13:07:08.711Z",
         "last_updated": "2022-05-02T13:07:08.711Z",
-        "machine": "http://localhost:8000/api/1/machines/2",
-        "service": "http://localhost:8000/api/1/services/2",
-        "account": "http://localhost:8000/api/1/accounts/5",
+        "machine": "http://localhost:8000/api/1/machines/2/",
+        "service": "http://localhost:8000/api/1/services/2/",
+        "account": "http://localhost:8000/api/1/accounts/5/",
         "id": "5"
       },
       {
@@ -201,9 +201,9 @@ class GlobalProvider extends ChangeNotifier {
         "end_time": "2022-05-20T15:00:00Z",
         "created": "2022-05-01T13:07:08.711Z",
         "last_updated": "2022-05-01T13:07:08.711Z",
-        "machine": "http://localhost:8000/api/1/machines/1",
-        "service": "http://localhost:8000/api/1/services/1",
-        "account": "http://localhost:8000/api/1/accounts/6",
+        "machine": "http://localhost:8000/api/1/machines/1/",
+        "service": "http://localhost:8000/api/1/services/1/",
+        "account": "http://localhost:8000/api/1/accounts/6/",
         "id": "6"
       }
     ];

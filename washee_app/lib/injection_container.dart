@@ -30,6 +30,7 @@ void initAll() {
   initUnlock();
   initGetMachines();
   initSignIn();
+  initBooking();
 }
 
 initCoreAndExternal() {

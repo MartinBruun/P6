@@ -46,6 +46,10 @@ class BookingModel extends Booking {
       };
 
   factory BookingModel.fromJson(Map<String, dynamic> json) {
+    print("CONTENT OF JSON");
+    print(json);
+
+
     return BookingModel(
       startTime: DateTime.parse(json['start_time']),
       endTime: DateTime.parse(json['end_time']),

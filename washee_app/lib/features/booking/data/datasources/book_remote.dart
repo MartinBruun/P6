@@ -50,6 +50,7 @@ class BookRemoteImpl implements BookRemote {
           machineResource:machineResource,
           serviceResource: serviceResource,
           accountResource: accountResource);
+        print("BOOK REMOTE DATA:" + data.toString());
         return constructBooking(data);
       }
       throw new Exception("Wont make sense to return an 'empty' booking model, what is that?");

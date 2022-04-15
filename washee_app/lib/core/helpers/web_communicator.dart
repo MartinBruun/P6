@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:intl/intl.dart';
 import 'package:washee/core/account/user.dart';
 import 'package:washee/core/environments/environment.dart';
 import 'package:washee/core/errors/exception_handler.dart';
@@ -110,12 +111,13 @@ class WebCommunicatorImpl implements WebCommunicator {
     Response response;
 
     response = await dio.post(bookingsURL, data: {
-      "start_time": startTime,
+      "start_time": DateFormat("yyyy-MM-dd'T'HH:mm:ss").format(startTime) + "Z",
       "account": accountResource,
       "machine": machineResource,
       "service": serviceResource
     });
-    if (response.statusCode == 200) {
+    if (response.statusCode == 201) {
+      print("RESPONSE DATA WEBCOMMUNICATOR: " + response.data.toString());
       return response.data;
     } else {
       ExceptionHandler().handle(
