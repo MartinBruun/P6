@@ -35,7 +35,8 @@ class _SaveTimeButtonState extends State<SaveTimeButton> {
                 // post booking to the backend
                 // clear the addedTimeSlots list
                 print("VALID BOOKING! Posting to the backend");
-                calendar.clearTimeSlots();
+                calendar
+                    .clearTimeSlots(); //needs to be set AFTER a valid response from the backend
                 setState(() {
                   _isBookingTimeSlot = true;
                 });
