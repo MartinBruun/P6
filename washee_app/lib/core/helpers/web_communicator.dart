@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:intl/intl.dart';
+import 'package:washee/core/account/account.dart';
 import 'package:washee/core/environments/environment.dart';
 import 'package:washee/core/errors/exception_handler.dart';
 import 'package:washee/core/helpers/authorizer.dart';
@@ -23,6 +24,7 @@ abstract class WebCommunicator {
       required String accountResource,
       required String machineResource,
       required String serviceResource});
+  Future<Map<String, dynamic>> updateAccount(Account account);
 }
 
 class WebCommunicatorImpl implements WebCommunicator {
@@ -148,6 +150,29 @@ class WebCommunicatorImpl implements WebCommunicator {
           show: true,
           crash: false);
       return response.data;
+    }
+  }
+
+  @override
+  Future<Map<String, dynamic>> updateAccount(Account account) async {
+    Response response;
+    String url = accountsURL + account.id.toString();
+
+    response = await dio.get(url);
+
+    if (response.statusCode == 200) {
+      return response.data;
+    } else {
+      ExceptionHandler().handle(
+          "Something went wrong with status code: " +
+              response.statusCode.toString() +
+              " with response:\n" +
+              response.data['response'],
+          log: true,
+          show: true,
+          crash: false);
+
+      throw Exception(response.data);
     }
   }
 }
