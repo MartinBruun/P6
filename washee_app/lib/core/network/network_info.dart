@@ -23,10 +23,10 @@ class NetworkInfoImpl implements NetworkInfo {
   NetworkSecurity get chosenSecurity => NetworkSecurity.WPA;
 
   @override
-  String get boxDomainName => "???";
+  String get boxDomainName => Environment().config.boxWifiSSID;
 
   @override
-  String get boxDomainPassword => "???"; // Should be injected by secret production environment variables
+  String get boxDomainPassword => Environment().config.boxWifiPassword;
 
   @override
   Future<bool> get isConnected async {
@@ -50,7 +50,7 @@ class NetworkInfoImpl implements NetworkInfo {
       WiFiForIoTPlugin.connect(boxDomainName,
                           password: boxDomainPassword,
                           joinOnce: true,
-                          withInternet: true, // Should be changed depending on production or dev environment being run
+                          withInternet: Environment().config.boxHasInternetAccess,
                           isHidden: false,
                           security: chosenSecurity);
       WiFiForIoTPlugin.forceWifiUsage(true);
