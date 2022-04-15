@@ -11,20 +11,20 @@ class HasCurrentBookingUseCase implements UseCase<bool, HasCurrentBookingParams>
   @override
   Future<bool> call(HasCurrentBookingParams params) async {
     return await repository.hasCurrentBooking(
-      accountResource: params.accountResource,
-      machineResource: params.machineResource
+      accountID: params.accountID,
+      machineID: params.machineID
     );
   }
 }
 
 class HasCurrentBookingParams extends Equatable {
-  final String accountResource;
-  final String machineResource;
+  final int accountID;
+  final int machineID;
 
   HasCurrentBookingParams(
-      {required this.accountResource, required this.machineResource});
+      {required this.accountID, required this.machineID});
 
   @override
   List<Object?> get props =>
-      [accountResource, machineResource];
+      [accountID, machineID];
 }

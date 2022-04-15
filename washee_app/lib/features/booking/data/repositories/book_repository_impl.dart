@@ -34,24 +34,24 @@ class BookRepositoryImpl implements BookRepository {
 
   @override
   Future<bool> hasCurrentBooking({
-    required String accountResource,
-    required String machineResource
+    required int accountID,
+    required int machineID
   }) async {
     if (await networkInfo.isConnected){
       List<BookingModel> validBooking = await remote.getBookings(
-        accountResource: accountResource,
-        machineResource: machineResource,
+        accountID: accountID,
+        machineID: machineID,
         startTimeLessThan: DateTime.now(),
         endTimeGreaterThan: DateTime.now()
       );
-      if (validBooking.isEmpty()){
+      if (validBooking.isEmpty){
         return false;
       }
       else{
         return true;
       }
     }
-    ExceptionHandler().handle("", log:true, show:true, crash:false);
+    ExceptionHandler().handle("Not on network", log:true, show:true, crash:false);
     throw new Exception("Not on network");
   }
 }
