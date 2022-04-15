@@ -1,3 +1,4 @@
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -11,9 +12,11 @@ import 'injection_container.dart' as ic;
 import 'core/presentation/themes/themes.dart';
 
 void main() async {
-
-  final String env = kDebugMode ? Environment.DEV : Environment.PROD; 
-
+  String env = Environment.PROD;
+  if (kDebugMode) {
+    await dotenv.load(fileName: ".env.dev");
+    env = Environment.DEV;
+  }
   Environment().initConfig(env);
   WidgetsFlutterBinding.ensureInitialized();
   ic.initAll();
