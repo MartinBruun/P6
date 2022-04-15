@@ -92,6 +92,8 @@ class WebCommunicatorImpl implements WebCommunicator {
 
     response = await dio.get(bookingsURL);
     if (response.statusCode == 200) {
+      print("IN WEBCOMMUNICATOR!");
+      print(response.data);
       return response.data;
     } else {
       ExceptionHandler().handle(
