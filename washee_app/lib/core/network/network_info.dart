@@ -1,13 +1,31 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:washee/core/errors/exception_handler.dart';
+import 'package:wifi_iot/wifi_iot.dart';
+
+import 'package:washee/core/environments/environment.dart';
 
 abstract class NetworkInfo {
   Future<bool> get isConnected;
+  NetworkSecurity get chosenSecurity;
+  String get boxDomainName;
+  String get boxDomainPassword;
+  Future<bool> connectToBoxWifi();
+  Future<bool> disconnectFromBoxWifi();
 }
 
 class NetworkInfoImpl implements NetworkInfo {
   final Connectivity connectionChecker;
 
   NetworkInfoImpl({required this.connectionChecker});
+
+  @override
+  NetworkSecurity get chosenSecurity => NetworkSecurity.WPA;
+
+  @override
+  String get boxDomainName => "Wifi?";
+
+  @override
+  String get boxDomainPassword => "11223344556677889900112233"; // Should be injected by secret production environment variables
 
   @override
   Future<bool> get isConnected async {
@@ -17,5 +35,33 @@ class NetworkInfoImpl implements NetworkInfo {
       return true;
     }
     return false;
+  }
+
+  @override
+  Future<bool> connectToBoxWifi() async {
+    try{
+      WiFiForIoTPlugin.connect(boxDomainName,
+                          password: boxDomainPassword,
+                          joinOnce: true,
+                          security: chosenSecurity);
+      return true;
+    }
+    catch (e) {
+      ExceptionHandler().handle("Could not connect to wifi from NetworkInfo", log:true, show:true, crash:false);
+      return false;
+    }
+  }
+
+  @override
+  Future<bool> disconnectFromBoxWifi() async {
+    try{
+      WiFiForIoTPlugin.disconnect();
+      return true;
+    }
+    catch (e) {
+      ExceptionHandler().handle("Could not disconnect from wifi at NetworkInfo", log:true, show:true, crash:false);
+      return false;
+    }
+    
   }
 }
