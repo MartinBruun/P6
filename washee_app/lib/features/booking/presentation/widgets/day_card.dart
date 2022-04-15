@@ -7,8 +7,7 @@ import 'package:washee/core/presentation/themes/dimens.dart';
 import 'package:washee/core/presentation/themes/themes.dart';
 import 'package:washee/features/booking/data/models/booking_model.dart';
 import 'package:washee/features/booking/presentation/provider/calendar_provider.dart';
-import 'package:washee/features/booking/presentation/widgets/choose_time_view.dart';
-
+import 'package:washee/features/booking/presentation/widgets/choose_machine_view.dart';
 import '../../data/models/booking_model.dart';
 
 class DayCard extends StatefulWidget {
@@ -111,8 +110,8 @@ class _DayCardState extends State<DayCard> {
           await showDialog(
             context: context,
             builder: (BuildContext context) {
-              return ChooseTimeView(
-                bookingsForDate: _bookingsForCurrentDay,
+              return ChooseMachineView(
+                bookingsForDay: _bookingsForCurrentDay,
                 currentDate: widget.currentDate,
               );
             },

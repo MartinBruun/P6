@@ -11,6 +11,9 @@ import '../../../../core/presentation/themes/colors.dart';
 import '../../../../core/presentation/themes/dimens.dart';
 
 class SaveTimeButton extends StatefulWidget {
+  final int machineType;
+
+  SaveTimeButton({required this.machineType});
   @override
   State<SaveTimeButton> createState() => _SaveTimeButtonState();
 }
@@ -34,15 +37,15 @@ class _SaveTimeButtonState extends State<SaveTimeButton> {
               var valid = calendar.isBookedTimeValid();
 
               if (valid) {
-                var result = await sl<PostBookingUsecase>().call(
-                    PostBookingParams(
-                        startTime: calendar.addedTimeSlots[0],
-                        machineResource:
-                            "http://localhost:8000/api/1/machines/1/",
-                        serviceResource:
-                            "http://locahost:8000/api/1/services/1/",
-                        accountResource:
-                            "http://localhost:8000/api/1/accounts/1/"));
+                var result = await sl<PostBookingUsecase>().call(PostBookingParams(
+                    startTime: calendar.addedTimeSlots[0],
+                    machineResource:
+                        "http://localhost:8000/api/1/machines/${widget.machineType}/",
+                    serviceResource:
+                        "http://locahost:8000/api/1/services/${widget.machineType}/",
+                    accountResource:
+                        "http://localhost:8000/api/1/accounts/1/"));
+
                 if (result != null) {
                   print(
                       "VALID BOOKING! Posting to the backend, got response: " +
