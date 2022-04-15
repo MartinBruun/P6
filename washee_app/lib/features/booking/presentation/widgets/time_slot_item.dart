@@ -19,7 +19,8 @@ class TimeSlotItem extends StatefulWidget {
   State<TimeSlotItem> createState() => _TimeSlotItemState();
 }
 
-class _TimeSlotItemState extends State<TimeSlotItem> {
+class _TimeSlotItemState extends State<TimeSlotItem>
+    with AutomaticKeepAliveClientMixin {
   String _formatHoursAndMinutes(DateTime time) {
     String formatted = "";
     if (time.hour < 9) {
@@ -40,6 +41,7 @@ class _TimeSlotItemState extends State<TimeSlotItem> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     var calendar = Provider.of<CalendarProvider>(context, listen: false);
     return Padding(
       padding: EdgeInsets.only(top: 20.h),
@@ -77,21 +79,33 @@ class _TimeSlotItemState extends State<TimeSlotItem> {
                         prompt: BookingErrorPrompt(
                             message: "Tidspunktet er optaget!"));
                   } else {
-                    final endTime = widget.time.add(const Duration(minutes: 150));
+                    final endTime =
+                        widget.time.add(const Duration(minutes: 150));
                     if (_selected == false) {
                       calendar.clearTimeSlots();
                       calendar.addTimeSlot(widget.time);
-                      calendar.addTimeSlot(widget.time.add(const Duration(minutes: 30))); // Should be rewritten as a loop, with duration taken from the chosen services length
-                      calendar.addTimeSlot(widget.time.add(const Duration(minutes: 60)));
-                      calendar.addTimeSlot(widget.time.add(const Duration(minutes: 90)));
-                      calendar.addTimeSlot(widget.time.add(const Duration(minutes: 120)));
+                      calendar.addTimeSlot(widget.time.add(const Duration(
+                          minutes:
+                              30))); // Should be rewritten as a loop, with duration taken from the chosen services length
+                      calendar.addTimeSlot(
+                          widget.time.add(const Duration(minutes: 60)));
+                      calendar.addTimeSlot(
+                          widget.time.add(const Duration(minutes: 90)));
+                      calendar.addTimeSlot(
+                          widget.time.add(const Duration(minutes: 120)));
                       calendar.addTimeSlot(endTime);
 
-                      print("Added from: " + widget.time.toString() + " to " + endTime.toString());
+                      print("Added from: " +
+                          widget.time.toString() +
+                          " to " +
+                          endTime.toString());
                       print(calendar.addedTimeSlots.toString());
                     } else {
                       calendar.clearTimeSlots();
-                      print("Removed from: " + widget.time.toString() + " to " + endTime.toString());
+                      print("Removed from: " +
+                          widget.time.toString() +
+                          " to " +
+                          endTime.toString());
                       print(calendar.addedTimeSlots.toString());
                     }
                     setState(() {
@@ -118,4 +132,7 @@ class _TimeSlotItemState extends State<TimeSlotItem> {
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

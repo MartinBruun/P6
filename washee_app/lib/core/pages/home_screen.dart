@@ -23,8 +23,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   ActiveUser user = ActiveUser();
 
-  
-
   @override
   void initState() {
     _pages = [
@@ -33,7 +31,7 @@ class _HomeScreenState extends State<HomeScreen> {
       CalendarScreen(),
     ];
 
-      _selectedPageIndex = 1;
+    _selectedPageIndex = 2;
 
     super.initState();
   }
@@ -46,10 +44,12 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return !user.loggedIn 
-    ? SignInScreen(callback)
-    : Scaffold(
-      body: _pages[_selectedPageIndex],        
+    return
+        // !user.loggedIn
+        // ? SignInScreen(callback)
+        // :
+        Scaffold(
+      body: _pages[_selectedPageIndex],
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
           color: Colors.white,

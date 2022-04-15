@@ -100,7 +100,10 @@ class CalendarProvider extends ChangeNotifier {
       }
     } else {
       ExceptionHandler().handle(
-          "NULL IN getDaysInBetween - Month name is: ${_dateHelper.monthName(startDate.month)}",log:true, show:true, crash:false);
+          "NULL IN getDaysInBetween - Month name is: ${_dateHelper.monthName(startDate.month)}",
+          log: true,
+          show: true,
+          crash: false);
     }
   }
 
@@ -227,10 +230,6 @@ class CalendarProvider extends ChangeNotifier {
 
   bool doesSlotOverlap(
       DateTime startDate1, DateTime currentSlot, DateTime endDate1) {
-    // if ((startDate1.isBefore(currentSlot) ||
-    //         startDate1.isAtSameMomentAs(currentSlot)) &&
-    //     (endDate1.isAfter(currentSlot) ||
-    //         endDate1.isAtSameMomentAs(currentSlot))) {
     if ((startDate1.hour <= currentSlot.hour) &&
         (endDate1.hour >= currentSlot.hour)) {
       return true;
