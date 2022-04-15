@@ -47,7 +47,7 @@ urlpatterns = [
     path('api-token-auth/', UserAndAuthToken.as_view(),name='api-token-auth'),
     path('upload/', image_upload, name="upload"),
     path('api/1/', include(router.urls), name="api"),
-    path('admin/', include('admin_honeypot.urls', namespace='admin_honeypot')),
+    #path('admin/', include('admin_honeypot.urls', namespace='admin_honeypot')), # Not working, see explanation in settings under INSTALLED_APPS
     path("", homePageView, name="home")
 ]
 

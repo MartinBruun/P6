@@ -8,6 +8,7 @@ from account.managers import (
     UserManager, AccountManager
 )
 
+
 class User(AbstractBaseUser):
     """
         This has been taken as a template from the web.
@@ -117,3 +118,5 @@ class Account(models.Model):
         managed = True
         verbose_name = "account"
         verbose_name_plural = "accounts"
+        
+        

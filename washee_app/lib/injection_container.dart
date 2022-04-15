@@ -7,7 +7,7 @@ import 'package:washee/core/helpers/web_communicator.dart';
 import 'package:washee/core/helpers/box_communicator.dart';
 import 'package:washee/features/booking/data/datasources/book_remote.dart';
 import 'package:washee/features/booking/data/repositories/book_repository_impl.dart';
-import 'package:washee/features/booking/domain/usecases/book.dart';
+import 'package:washee/features/booking/domain/usecases/post_booking.dart';
 import 'package:washee/features/get_machines/data/repositories/get_machines_repo_impl.dart';
 import 'package:washee/features/get_machines/domain/repositories/get_machines_repository.dart';
 import 'package:washee/features/get_machines/domain/usecases/get_machines.dart';
@@ -30,6 +30,7 @@ void initAll() {
   initUnlock();
   initGetMachines();
   initSignIn();
+  initBooking();
 }
 
 initCoreAndExternal() {
@@ -50,7 +51,7 @@ initCoreAndExternal() {
 
 void initBooking() {
   // Usecases
-  sl.registerLazySingleton(() => BookUseCase(repository: sl()));
+  sl.registerLazySingleton(() => PostBookingUsecase(repository: sl()));
 
   // Repositories
   sl.registerLazySingleton<BookRepository>(
@@ -59,7 +60,7 @@ void initBooking() {
 
   // Data Sources
   sl.registerLazySingleton<BookRemote>(
-    () => BookLaundryRemoteImpl(dio: sl()),
+    () => BookRemoteImpl(networkInfo: sl(), communicator: sl()),
   );
 }
 

@@ -1,8 +1,8 @@
 cd ..
 cd ..
-docker-compose logs -f -t
+docker-compose logs -t
 cd scripts
-cd win
+cd mac
 echo 
 echo The -- box -- container is accessible on localhost:8001/
 echo The -- web -- container is accessible on localhost:8000/

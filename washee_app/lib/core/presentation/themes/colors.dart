@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 class AppColors {
   static const Color main = Color(0xFF25F860);
   static const Color mainMedium = Color(0xFF07C83C);
+  static const Color alreadyBooked = Color(0X00000);
   static const Color red = Color(0xFFC85530);
   static const Color dirtyMain = Color(0xFF203926);
   static const Color dirtyMain2 = Color(0xFF2C693D);

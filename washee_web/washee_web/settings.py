@@ -27,7 +27,7 @@ SECRET_KEY = os.environ.get("SECRET_KEY")
 DEBUG = int(os.environ.get("DEBUG",default=0))
 
 # SECURITY WARNING: Controls all security related to the nginx proxy server
-SECURE_PROXY_SSL_HEADER = os.environ.get("SECURE_PROXY_HEADER",default=None)
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https") if int(os.environ.get("SECURE_PROXY_HEADER",default=0)) == 1 else None
 
 # SECURITY WARNING! Controls all CSRF based security
 CSRF_COOKIE_SECURE = False if os.environ.get("DJANGO_CSRF_COOKIE",default=1) == 0 else True
@@ -66,7 +66,7 @@ THIRD_PARTY = [
     'rest_framework',
     'rest_framework.authtoken',
     'corsheaders',
-    'admin_honeypot'
+    #'admin_honeypot' # Doesnt work, because the makemigrations file is placed in the python libraries, which wont (and shouldnt!!!) get copied to the containers. makemigrations should NEVER be run on the production server. EVER!
 ]
 
 INSTALLED_APPS = CORE_APPS+THIRD_PARTY+OWN_APPS

@@ -1,3 +1,4 @@
+import 'package:washee/features/booking/data/models/booking_model.dart';
 import 'package:washee/features/booking/domain/repositories/book_repository.dart';
 
 import '../../../../core/network/network_info.dart';
@@ -10,18 +11,21 @@ class BookRepositoryImpl implements BookRepository {
   BookRepositoryImpl({required this.networkInfo, required this.remote});
 
   @override
-  Future<bool> book() async {
-    if (await networkInfo.isConnected) {
-      return await remote.book();
-    }
-    return false;
+  Future<List<BookingModel>> getBookings() async {
+    return await remote.getBookings();
   }
 
   @override
-  Future<bool> pay() async {
-    if (await networkInfo.isConnected) {
-      return await remote.pay();
-    }
-    return false;
+  Future<BookingModel> postBooking({
+      required DateTime startTime, 
+      required String machineResource, 
+      required String serviceResource, 
+      required String accountResource
+    }) async {
+      return await remote.postBooking(
+        startTime:startTime, 
+        machineResource:machineResource, 
+        serviceResource:serviceResource, 
+        accountResource:accountResource);
   }
 }

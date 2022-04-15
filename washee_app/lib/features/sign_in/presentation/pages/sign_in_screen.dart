@@ -5,6 +5,7 @@ import 'package:washee/core/presentation/themes/colors.dart';
 import 'package:washee/core/presentation/themes/dimens.dart';
 import 'package:washee/core/presentation/themes/themes.dart';
 import 'package:washee/features/sign_in/domain/usecases/sign_in.dart';
+import 'package:washee/features/sign_in/presentation/pages/wrong_input.dart';
 import 'package:washee/injection_container.dart';
 
 class SignInScreen extends StatefulWidget {
@@ -109,18 +110,32 @@ class _SignInScreenState extends State<SignInScreen> {
                                           password: _passwordController.text));
                 
                                   if (result) {
-                                    // navigate
-                                    // TODO: this is placeholder code
-                                    print("something went right!");
+                                    print("something went right!");                                    
                                     
+                                    // update the homescreen with the callback function
                                     this.widget.callback();
 
                                   } else {
                                     print("something went wrong");
-                                    // let the user know that something went wrong
+                                  
+                                    showDialog(
+                                      context: context, 
+                                      builder: (BuildContext context) {
+                                        return IncorrectInput();
+                                      }
+                                    );
+
                                   }
                                 } on Exception catch (e) {
                                   print("DioError occured: " + e.toString());
+                                  
+                                  showDialog(
+                                    context: context, 
+                                    builder: (BuildContext context) {
+                                      return IncorrectInput();
+                                    }
+                                  );
+
                                 }
                               }
                             }
