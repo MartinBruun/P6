@@ -65,8 +65,8 @@ class _CalendarScreenState extends State<CalendarScreen> {
     //   if (provider.bookings.isNotEmpty) {
     //     provider.didFetchBookings = true;
     //   }
-
-    var jsonBookings = global.getMockBookings();
+    var jsonBookings = await sl<WebCommunicator>().getCurrentBookings(1);
+    // var jsonBookings = global.getMockBookings();
     var parsedBookings = constructBookingList(jsonBookings);
     calendar.updateBookings(parsedBookings);
   }

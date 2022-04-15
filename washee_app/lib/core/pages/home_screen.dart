@@ -44,41 +44,40 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return
-        // !user.loggedIn
-        // ? SignInScreen(callback)
-        // :
-        Scaffold(
-      body: _pages[_selectedPageIndex],
-      bottomNavigationBar: Container(
-        decoration: BoxDecoration(
-          color: Colors.white,
-          border: Border(top: BorderSide(color: Colors.white, width: 2.0)),
-        ),
-        child: BottomNavigationBar(
-          type: BottomNavigationBarType.fixed,
-          onTap: _selectPage,
-          backgroundColor: Theme.of(context).canvasColor,
-          unselectedItemColor: Colors.white54,
-          selectedItemColor: Colors.white,
-          currentIndex: _selectedPageIndex,
-          items: [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.bookmark_add_outlined),
-              label: 'Wash',
+    return !user.loggedIn
+        ? SignInScreen(callback)
+        : Scaffold(
+            body: _pages[_selectedPageIndex],
+            bottomNavigationBar: Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                border:
+                    Border(top: BorderSide(color: Colors.white, width: 2.0)),
+              ),
+              child: BottomNavigationBar(
+                type: BottomNavigationBarType.fixed,
+                onTap: _selectPage,
+                backgroundColor: Theme.of(context).canvasColor,
+                unselectedItemColor: Colors.white54,
+                selectedItemColor: Colors.white,
+                currentIndex: _selectedPageIndex,
+                items: [
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.bookmark_add_outlined),
+                    label: 'Wash',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.home),
+                    label: 'Home',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.calendar_month),
+                    label: 'Calendar',
+                  ),
+                ],
+              ),
             ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              label: 'Home',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.calendar_month),
-              label: 'Calendar',
-            ),
-          ],
-        ),
-      ),
-    );
+          );
   }
 
   void callback() {

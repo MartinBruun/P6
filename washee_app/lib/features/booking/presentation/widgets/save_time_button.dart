@@ -37,30 +37,30 @@ class _SaveTimeButtonState extends State<SaveTimeButton> {
               var valid = calendar.isBookedTimeValid();
 
               if (valid) {
+                print("VALID BOOKING! Posting to the backend");
+                setState(() {
+                  _isBookingTimeSlot = true;
+                });
                 var result = await sl<PostBookingUsecase>().call(PostBookingParams(
-                    startTime: calendar.addedTimeSlots[0],
+                    startTime: calendar.getLeastTimeSlot()!,
                     machineResource:
                         "http://localhost:8000/api/1/machines/${widget.machineType}/",
                     serviceResource:
                         "http://locahost:8000/api/1/services/${widget.machineType}/",
                     accountResource:
                         "http://localhost:8000/api/1/accounts/1/"));
-
+                await Future.delayed(Duration(seconds: 3));
                 if (result != null) {
-                  print(
-                      "VALID BOOKING! Posting to the backend, got response: " +
-                          result.toString());
-                  calendar
-                      .clearTimeSlots(); //needs to be set AFTER a valid response from the backend
-                  setState(() {
-                    _isBookingTimeSlot = true;
-                  });
-                  await Future.delayed(Duration(seconds: 3));
+                  calendar.clearTimeSlots();
+
                   setState(() {
                     _isBookingTimeSlot = false;
                   });
                   Navigator.of(context).popUntil((route) => route.isFirst);
                 } else {
+                  setState(() {
+                    _isBookingTimeSlot = false;
+                  });
                   ErrorHandler.errorHandlerView(
                       context: context,
                       prompt: BookingErrorPrompt(
