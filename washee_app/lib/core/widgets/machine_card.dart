@@ -107,7 +107,7 @@ class MachineCard extends StatelessWidget {
             builder: (BuildContext context) {
               return DoesNotHaveCurrentBookingDialog();
             }
-          )
+          );
         }
         
       } else {
