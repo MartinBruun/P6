@@ -27,6 +27,7 @@ jobs:
     - name: Run flutter commands
       working-directory: ./washee_app
       run: |
+        touch .env.dev
         flutter pub get
         flutter test --dart-define=ENVIRONMENT=DEV
         flutter build apk --debug --dart-define=ENVIRONMENT=PROD
