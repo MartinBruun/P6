@@ -8,11 +8,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../core/providers/global_provider.dart';
-import '../../../../core/usecases/usecase.dart';
 import '../../../../core/widgets/machine_card.dart';
-import '../../../../injection_container.dart';
-import '../../../booking/data/models/booking_model.dart';
-import '../../domain/usecases/get_machines.dart';
 import 'refresh_machines.dart';
 
 class MachineOverview extends StatefulWidget {
