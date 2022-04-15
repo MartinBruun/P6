@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:washee/features/booking/presentation/provider/calendar_provider.dart';
 import 'package:washee/features/booking/presentation/widgets/time_slot_item.dart';
@@ -28,14 +27,17 @@ class _TimeSlotsState extends State<TimeSlots> {
         overlaps++;
       }
     }
-    
+
     for (var timeslot in calendar.addedTimeSlots) {
       if (currentSlot == timeslot) {
         alreadyChosen = true;
       }
     }
 
-    print("Is slot: " + currentSlot.toString() + " available? " + alreadyChosen.toString());
+    print("Is slot: " +
+        currentSlot.toString() +
+        " available? " +
+        alreadyChosen.toString());
 
     return overlaps > 0 || alreadyChosen ? false : true;
   }
