@@ -2,26 +2,26 @@ import 'package:equatable/equatable.dart';
 
 // ignore: must_be_immutable
 class Booking extends Equatable {
-  final String bookingID;
+  final int? bookingID;
   DateTime? startTime;
   DateTime? endTime;
   DateTime? created;
   DateTime? lastUpdated;
-  final int machineID;
-  final int serviceID;
-  final int accountID;
+  final String machineResource;
+  final String serviceResource;
+  final String accountResource;
 
   Booking({
-    required this.bookingID,
+    this.bookingID,
     required this.startTime,
     this.endTime,
-    required this.created,
+    this.created,
     this.lastUpdated,
-    required this.machineID,
-    required this.serviceID,
-    required this.accountID
+    required this.machineResource,
+    required this.serviceResource,
+    required this.accountResource
   });
 
   @override
-  List<Object?> get props => [bookingID, startTime, endTime, created, lastUpdated, machineID, serviceID, accountID];
+  List<Object?> get props => [bookingID, startTime, endTime, created, lastUpdated, machineResource, serviceResource, accountResource];
 }

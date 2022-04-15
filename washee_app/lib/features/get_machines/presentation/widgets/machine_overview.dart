@@ -11,6 +11,7 @@ import '../../../../core/providers/global_provider.dart';
 import '../../../../core/usecases/usecase.dart';
 import '../../../../core/widgets/machine_card.dart';
 import '../../../../injection_container.dart';
+import '../../../booking/data/models/booking_model.dart';
 import '../../domain/usecases/get_machines.dart';
 import 'refresh_machines.dart';
 
@@ -36,9 +37,9 @@ class _MachineOverviewState extends State<MachineOverview> {
         // var stringAsJson = json.decode(string);
         // provider.constructMachineList(stringAsJson);
         //This is the usecase to be called on every initstate fetching from backend
-        provider
-            .updateMachines(await sl<GetMachinesUseCase>().call(NoParams()));
-        provider.fetchedMachines = true;
+        // provider
+        //     .updateMachines(await sl<GetMachinesUseCase>().call(NoParams()));
+        // provider.fetchedMachines = true;
       }
 
       provider.isConnectingToBox = false;

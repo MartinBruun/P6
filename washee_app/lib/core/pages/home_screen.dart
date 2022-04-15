@@ -19,7 +19,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   List<Widget> _pages = [];
 
-  int _selectedPageIndex = 0;
+  int _selectedPageIndex = 2;
 
   ActiveUser user = ActiveUser();
 

@@ -1,5 +1,8 @@
 import 'package:dio/dio.dart';
+import 'package:intl/intl.dart';
+import 'dart:convert';
 import 'package:washee/core/account/user.dart';
+import 'package:washee/features/booking/data/models/booking_entity.dart';
 import 'package:washee/core/environments/environment.dart';
 import 'package:washee/core/errors/exception_handler.dart';
 import 'package:washee/core/helpers/authorizer.dart';
@@ -17,9 +20,9 @@ abstract class WebCommunicator {
   String get servicesURL;
   // Data Methods
   Future<Map<String, dynamic>> getCurrentLocation(int locationID);
-  Future<Map<String, dynamic>> getCurrentBookings(int locationID);
-  Future<Map<String, dynamic>> postBooking(String timeStart,
-      int accountID, int machineID, int serviceID);
+  Future<List<Map<String, dynamic>>> getCurrentBookings(int locationID);
+  Future<Map<String, dynamic>> postBooking({ required DateTime startTime,
+      required String accountResource, required String machineResource, required String serviceResource});
 }
 
 class WebCommunicatorImpl implements WebCommunicator {
@@ -86,12 +89,27 @@ class WebCommunicatorImpl implements WebCommunicator {
   }
 
   @override
-  Future<Map<String, dynamic>> getCurrentBookings(int locationID) async {
+  Future<List<Map<String,dynamic>>> getCurrentBookings(int locationID) async {
     Response response;
 
     response = await dio.get(bookingsURL);
     if (response.statusCode == 200) {
-      return response.data;
+      print("IN WEBCOMMUNICATOR!");
+      print(response.data);
+      List<Map<String,dynamic>> convertedData = [];
+      for(var booking in response.data){
+        convertedData.add({
+          "id": booking["id"],
+          "start_time": booking["start_time"],
+          "end_time": booking["end_time"],
+          "created": booking["created"],
+          "last_updated": booking["last_updated"],
+          "machine": booking["machine"],
+          "service": booking["service"],
+          "account": booking["account"],
+        });
+      }
+      return convertedData;
     } else {
       ExceptionHandler().handle(
           "Something went wrong with status code: " +
@@ -105,17 +123,17 @@ class WebCommunicatorImpl implements WebCommunicator {
     }
   }
 
-  Future<Map<String, dynamic>> postBooking(String timeStart,
-      int accountID, int machineID, int serviceID) async {
+  Future<Map<String, dynamic>> postBooking({ required DateTime startTime,
+      required String accountResource, required String machineResource, required String serviceResource}) async {
     Response response;
 
     response = await dio.post(bookingsURL, data: {
-      "start_time": timeStart,
-      "account": accountID,
-      "machine": machineID,
-      "service": serviceID
+      "start_time": DateFormat("yyyy-MM-dd'T'HH:mm:ss").format(startTime) + "Z",
+      "account": accountResource,
+      "machine": machineResource,
+      "service": serviceResource
     });
-    if (response.statusCode == 200) {
+    if (response.statusCode == 201) {
       return response.data;
     } else {
       ExceptionHandler().handle(

@@ -1,47 +1,62 @@
-import 'package:dio/dio.dart';
-import 'dart:convert';
+import 'package:washee/core/helpers/web_communicator.dart';
+import 'package:washee/core/network/network_info.dart';
+import 'package:washee/features/booking/data/models/booking_entity.dart';
 import 'package:washee/features/booking/data/models/booking_model.dart';
-import 'package:washee/core/errors/exception_handler.dart';
-
-const String ENDPOINT = "http://localhost:8000/api/1/bookings/"; // localhost when using a browser
-// "http://10.0.2.2:8000/api/1/bookings/" Calling localhost from an Android phone or emulator
-
-// THIS IS MADE SIDE BY SIDE WITH BACKEND_COMMUNICATOR!!! Presently, this is the one being used in the home screen
 
 abstract class BookRemote {
-  Future<List<BookingModel>> getAllBookings();
-  Future<bool> book();
-  Future<bool> pay();
+  Future<List<BookingModel>> getBookings();
+  List<BookingModel> constructBookingList(List<Map<String, dynamic>> bookingsAsJson);
+  Future<BookingModel> postBooking({required DateTime startTime, 
+    required String machineResource, 
+    required String serviceResource, 
+    required String accountResource});
+  BookingModel constructBooking(
+      Map<String, dynamic> bookingAsJson);
 }
 
-class BookLaundryRemoteImpl implements BookRemote {
-   Dio dio = new Dio();
+class BookRemoteImpl implements BookRemote {
+  WebCommunicator communicator;
+  NetworkInfo networkInfo;
 
-  BookLaundryRemoteImpl({required this.dio});
+  BookRemoteImpl({required this.communicator, required this.networkInfo});
 
   @override
-  Future<List<BookingModel>> getAllBookings() async {
-    List<BookingModel> allBookings = [];
-    final response = await dio.get(ENDPOINT);
-    if (response.statusCode == 200) {
-      allBookings = (jsonDecode(response.data) as List).map((i) => BookingModel.fromJson(i)).toList();
+  Future<List<BookingModel>> getBookings() async {
+    if (await networkInfo.isConnected) {
+      var data = await communicator.getCurrentBookings(1);
+      return constructBookingList(data);
     }
-    else{
-      ExceptionHandler().handle("Could not get response from backend with statuscode: " 
-        + response.statusCode.toString() 
-        + " with response"
-        + response.data['response'], log:true, show:true);
-    }
-    return allBookings;
+    throw new Exception("I would argue this should not return an empty list. No response from database is not the same as there are no bookings on the database!");
   }
 
-  @override
-  Future<bool> book() async {
-    return Future.delayed(Duration(seconds: 5)).then((value) => true);
+  List<BookingModel> constructBookingList(
+      List<Map<String, dynamic>> bookingsAsJson) {
+    List<BookingModel> _bookings = [];
+    for (var booking in bookingsAsJson) {
+      _bookings.add(BookingModel.fromJson(booking));
+    }
+
+    return _bookings;
   }
 
-  @override
-  Future<bool> pay() async {
-    return Future.delayed(Duration(seconds: 5)).then((value) => true);
+  Future<BookingModel> postBooking({required DateTime startTime, 
+    required String machineResource, 
+    required String serviceResource, 
+    required String accountResource}
+    ) async {
+      if (await networkInfo.isConnected) {
+        var data = await communicator.postBooking(
+          startTime:startTime, 
+          machineResource:machineResource,
+          serviceResource: serviceResource,
+          accountResource: accountResource);
+        return constructBooking(data);
+      }
+      throw new Exception("Wont make sense to return an 'empty' booking model, what is that?");
+  }
+
+  BookingModel constructBooking(
+      Map<String, dynamic> bookingAsJson) {
+    return BookingModel.fromJson(bookingAsJson);
   }
 }
