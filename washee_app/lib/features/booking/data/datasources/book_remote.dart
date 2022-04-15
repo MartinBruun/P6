@@ -6,7 +6,12 @@ import 'package:washee/features/booking/data/models/booking_model.dart';
 abstract class BookRemote {
   Future<List<BookingModel>> getBookings();
   List<BookingModel> constructBookingList(List<Map<String, dynamic>> bookingsAsJson);
-  Future<BookingModel> postBooking();
+  Future<BookingModel> postBooking({required DateTime startTime, 
+    required String machineResource, 
+    required String serviceResource, 
+    required String accountResource});
+  BookingModel constructBooking(
+      Map<String, dynamic> bookingAsJson);
 }
 
 class BookRemoteImpl implements BookRemote {
@@ -21,7 +26,7 @@ class BookRemoteImpl implements BookRemote {
       var data = await communicator.getCurrentBookings(1);
       return constructBookingList(data);
     }
-    return List.empty();
+    throw new Exception("I would argue this should not return an empty list. No response from database is not the same as there are no bookings on the database!");
   }
 
   List<BookingModel> constructBookingList(
@@ -34,7 +39,24 @@ class BookRemoteImpl implements BookRemote {
     return _bookings;
   }
 
-  Future<BookingModel> postBooking(){
-    throw new Exception("Not implemented yet, dunno how");
+  Future<BookingModel> postBooking({required DateTime startTime, 
+    required String machineResource, 
+    required String serviceResource, 
+    required String accountResource}
+    ) async {
+      if (await networkInfo.isConnected) {
+        var data = await communicator.postBooking(
+          startTime:startTime, 
+          machineResource:machineResource,
+          serviceResource: serviceResource,
+          accountResource: accountResource);
+        return constructBooking(data);
+      }
+      throw new Exception("Wont make sense to return an 'empty' booking model, what is that?");
+  }
+
+  BookingModel constructBooking(
+      Map<String, dynamic> bookingAsJson) {
+    return BookingModel.fromJson(bookingAsJson);
   }
 }

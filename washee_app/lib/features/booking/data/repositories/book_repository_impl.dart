@@ -16,7 +16,16 @@ class BookRepositoryImpl implements BookRepository {
   }
 
   @override
-  Future<BookingModel> postBooking() async {
-    return await remote.postBooking();
+  Future<BookingModel> postBooking({
+      required DateTime startTime, 
+      required String machineResource, 
+      required String serviceResource, 
+      required String accountResource
+    }) async {
+      return await remote.postBooking(
+        startTime:startTime, 
+        machineResource:machineResource, 
+        serviceResource:serviceResource, 
+        accountResource:accountResource);
   }
 }

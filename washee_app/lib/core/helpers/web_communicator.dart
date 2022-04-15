@@ -18,8 +18,8 @@ abstract class WebCommunicator {
   // Data Methods
   Future<Map<String, dynamic>> getCurrentLocation(int locationID);
   Future<List<Map<String, dynamic>>> getCurrentBookings(int locationID);
-  Future<Map<String, dynamic>> postBooking(String timeStart,
-      int accountID, int machineID, int serviceID);
+  Future<Map<String, dynamic>> postBooking({ required DateTime startTime,
+      required String accountResource, required String machineResource, required String serviceResource});
 }
 
 class WebCommunicatorImpl implements WebCommunicator {
@@ -105,15 +105,15 @@ class WebCommunicatorImpl implements WebCommunicator {
     }
   }
 
-  Future<Map<String, dynamic>> postBooking(String timeStart,
-      int accountID, int machineID, int serviceID) async {
+  Future<Map<String, dynamic>> postBooking({ required DateTime startTime,
+      required String accountResource, required String machineResource, required String serviceResource}) async {
     Response response;
 
     response = await dio.post(bookingsURL, data: {
-      "start_time": timeStart,
-      "account": accountID,
-      "machine": machineID,
-      "service": serviceID
+      "start_time": startTime,
+      "account": accountResource,
+      "machine": machineResource,
+      "service": serviceResource
     });
     if (response.statusCode == 200) {
       return response.data;
