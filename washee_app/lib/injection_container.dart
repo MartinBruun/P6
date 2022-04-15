@@ -17,6 +17,9 @@ import 'package:washee/features/sign_in/domain/usecases/sign_in.dart';
 import 'package:washee/features/unlock/data/datasources/unlock_remote.dart';
 import 'package:washee/features/unlock/data/repositories/unlock_repo_impl.dart';
 import 'package:washee/features/unlock/domain/repositories/unlock_repository.dart';
+import 'package:washee/features/unlock/domain/usecases/connect_box_wifi.dart';
+import 'package:washee/features/unlock/domain/usecases/disconnect_box_wifi.dart';
+import 'package:washee/features/unlock/domain/usecases/get_wifi_permission.dart';
 import 'package:washee/features/unlock/domain/usecases/unlock.dart';
 
 import 'core/network/network_info.dart';
@@ -67,6 +70,9 @@ void initBooking() {
 void initUnlock() {
   // Usecases
   sl.registerLazySingleton(() => UnlockUseCase(repository: sl()));
+  sl.registerLazySingleton(() => GetWifiPermissionUsecase(repository: sl()));
+  sl.registerLazySingleton(() => ConnectBoxWifiUsecase(repository: sl()));
+  sl.registerLazySingleton(() => DisconnectBoxWifiUsecase(repository: sl()));
 
   // Repositories
   sl.registerLazySingleton<UnlockRepository>(
