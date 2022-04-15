@@ -100,11 +100,6 @@ class _SignInScreenState extends State<SignInScreen> {
                                   borderRadius: BorderRadius.circular(20))),
                           onPressed: () async {
                             if (_formKey.currentState != null) {
-                              var valid = _formKey.currentState!.validate();
-                              if (!valid) {
-                                // show error prompt
-
-                              } else {
                                 _formKey.currentState!.save();
                                 try {
                                   var result = await sl<SignInUseCase>().call(
@@ -135,7 +130,6 @@ class _SignInScreenState extends State<SignInScreen> {
                                         return IncorrectInput();
                                       });
                                 }
-                              }
                             }
                           },
                         ),

@@ -11,8 +11,9 @@ import 'injection_container.dart' as ic;
 import 'core/presentation/themes/themes.dart';
 
 void main() async {
-  final String env = kDebugMode ? Environment.JAKOB : Environment.PROD;
+  final String env = kDebugMode ? Environment.DEV : Environment.PROD;
 
+  print("YOU ARE USING THE ("+ env + ") ENVIRONMENT!");
   Environment().initConfig(env);
   WidgetsFlutterBinding.ensureInitialized();
   ic.initAll();
