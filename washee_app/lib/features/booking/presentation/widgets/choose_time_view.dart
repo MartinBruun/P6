@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:washee/core/helpers/machine_enum.dart';
+import 'package:washee/core/presentation/themes/dimens.dart';
+import 'package:washee/core/presentation/themes/themes.dart';
 import 'package:washee/features/booking/data/models/booking_model.dart';
 import 'package:washee/features/booking/presentation/provider/calendar_provider.dart';
 import 'package:washee/features/booking/presentation/widgets/save_time_button.dart';
@@ -12,8 +15,12 @@ import '../../../../core/widgets/cancel_button.dart';
 class ChooseTimeView extends StatefulWidget {
   final List<BookingModel>? bookingsForDate;
   final DateTime currentDate;
+  final int machineType;
 
-  ChooseTimeView({required this.bookingsForDate, required this.currentDate});
+  ChooseTimeView(
+      {required this.bookingsForDate,
+      required this.currentDate,
+      required this.machineType});
 
   @override
   State<ChooseTimeView> createState() => _ChooseTimeViewState();
@@ -56,8 +63,17 @@ class _ChooseTimeViewState extends State<ChooseTimeView> {
               width: 900.w,
               child: Column(
                 children: [
+                  Padding(
+                    padding: EdgeInsets.only(bottom: 30.h),
+                    child: Text(
+                      widget.machineType == MachineType.WashingMachine
+                          ? "Vaskemaskine"
+                          : "Tørretumbler",
+                      style: textStyle.copyWith(fontSize: textSize_40),
+                    ),
+                  ),
                   Container(
-                    height: 1120.h,
+                    height: 1000.h,
                     width: 800.w,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(30.w),
@@ -85,7 +101,7 @@ class _ChooseTimeViewState extends State<ChooseTimeView> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           CancelButton(),
-                          SaveTimeButton(),
+                          SaveTimeButton(machineType: widget.machineType),
                         ],
                       ),
                     ),

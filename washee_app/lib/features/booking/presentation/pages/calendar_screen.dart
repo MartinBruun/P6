@@ -54,16 +54,8 @@ class _CalendarScreenState extends State<CalendarScreen> {
     var calendar = Provider.of<CalendarProvider>(context, listen: false);
     // var global = Provider.of<GlobalProvider>(context, listen: false);
 
-    await Future.delayed(Duration(seconds: 1));
-    // if (!provider.didFetchBookings) {
-    //   provider.updateBookings(await sl<GetBookingsUseCase>().call(NoParams()));
-    //   if (provider.bookings.isNotEmpty) {
-    //     provider.didFetchBookings = true;
-    //   }
-    // }
     var jsonBookings = await sl<WebCommunicator>().getCurrentBookings(1);
-    print("IN CALENDAR SCREEN");
-    print(jsonBookings);
+    // var jsonBookings = global.getMockBookings();
     var parsedBookings = constructBookingList(jsonBookings);
     calendar.updateBookings(parsedBookings);
   }
