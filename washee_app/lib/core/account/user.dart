@@ -1,7 +1,7 @@
 import 'package:washee/core/account/account.dart';
 
 class ActiveUser {
-  bool _loggedIn = false; 
+  bool _loggedIn = false;
   int? _id;
   String? _email;
   String? _username;
@@ -27,7 +27,8 @@ class ActiveUser {
     _id = id;
     _email = email;
     _username = username;
-    _accounts = List<Account>.from(accounts.map((model) => Account.fromJson(model)));
+    _accounts =
+        List<Account>.from(accounts.map((model) => Account.fromJson(model)));
     _activeAccount = _accounts[0];
     _loggedIn = true;
   }
@@ -41,18 +42,23 @@ class ActiveUser {
     _loggedIn = false;
   }
 
+  void upDateAccount(Account account) {
+    this._activeAccount = account;
+  }
+
   Map<String, dynamic> toJson() => {
-    'id': _id,
-    'email': _email,
-    'username': _username,
-    'accounts': List<Account>.of(_accounts)
-  };
+        'id': _id,
+        'email': _email,
+        'username': _username,
+        'accounts': List<Account>.of(_accounts)
+      };
 
   factory ActiveUser.fromJson(Map<String, dynamic> json) {
-      _singleton._id = int.parse(json["id"]);
-      _singleton._email = json["email"];
-      _singleton._username = json['username'];
-      _singleton._accounts = List<Account>.from(json["accounts"].map((model) => Account.fromJson(model)));
-      return _singleton;
+    _singleton._id = int.parse(json["id"]);
+    _singleton._email = json["email"];
+    _singleton._username = json['username'];
+    _singleton._accounts = List<Account>.from(
+        json["accounts"].map((model) => Account.fromJson(model)));
+    return _singleton;
   }
 }
