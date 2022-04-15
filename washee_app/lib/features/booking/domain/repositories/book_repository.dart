@@ -7,4 +7,8 @@ abstract class BookRepository {
       required String machineResource,
       required String serviceResource,
       required String accountResource});
+  Future<bool> hasCurrentBooking({
+    required String accountResource,
+    required String machineResource
+  });
 }
