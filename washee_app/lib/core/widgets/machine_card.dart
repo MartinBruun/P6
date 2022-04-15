@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:washee/core/account/user.dart';
+import 'package:washee/core/usecases/usecase.dart';
 import 'package:washee/core/washee_box/machine_model.dart';
+import 'package:washee/features/unlock/domain/usecases/get_wifi_permission.dart';
 import 'package:washee/features/unlock/presentation/widgets/insufficient_funds_dialog.dart';
 import 'package:washee/features/unlock/presentation/widgets/please_login_dialog.dart';
 import '../../features/unlock/presentation/widgets/initiate_wash_dialog.dart';
@@ -9,6 +11,7 @@ import '../presentation/themes/colors.dart';
 import '../presentation/themes/dimens.dart';
 import '../presentation/themes/themes.dart';
 import 'wash_timer_on_card.dart';
+import 'package:washee/injection_container.dart';
 
 // ignore: must_be_immutable
 class MachineCard extends StatelessWidget {
@@ -87,7 +90,11 @@ class MachineCard extends StatelessWidget {
 
   void _cardPressed(BuildContext context) {
     if (user.loggedIn && user.activeAccount != null){
-      if ( user.loggedIn && user.activeAccount!.balance > 0) {
+      if (user.activeAccount!.balance > 0) {
+        bool hasPermission = false; // Don't know how to find out, so asks everytime
+        if (!hasPermission){
+          sl<GetWifiPermissionUsecase>().call(NoParams());
+        }
         showDialog(
           context: context,
           builder: (BuildContext context) {

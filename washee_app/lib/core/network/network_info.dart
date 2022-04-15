@@ -59,6 +59,7 @@ class NetworkInfoImpl implements NetworkInfo {
                           isHidden: false,
                           security: chosenSecurity);
       WiFiForIoTPlugin.forceWifiUsage(true);
+      print("Connected to BoxWifi from NetworkInfo");
       return true;
     }
     catch (e) {
@@ -72,6 +73,7 @@ class NetworkInfoImpl implements NetworkInfo {
     try{
       WiFiForIoTPlugin.forceWifiUsage(false);
       WiFiForIoTPlugin.disconnect();
+      print("Disconnected from BoxWifi from NetworkInfo");
       return true;
     }
     catch (e) {
