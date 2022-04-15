@@ -1,12 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
-import 'package:flutter/services.dart' as rootBundle;
 import 'package:provider/provider.dart';
 import 'package:washee/core/helpers/web_communicator.dart';
 import 'package:washee/core/presentation/themes/dimens.dart';
-import 'package:washee/core/providers/global_provider.dart';
-import 'package:washee/core/usecases/usecase.dart';
-import 'package:washee/features/booking/domain/usecases/get_bookings.dart';
 import 'package:washee/features/booking/presentation/provider/calendar_provider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:washee/injection_container.dart';

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:washee/features/booking/presentation/provider/calendar_provider.dart';
 import 'package:washee/features/booking/presentation/widgets/time_slot_item.dart';

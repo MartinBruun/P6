@@ -46,7 +46,8 @@ class _SignInScreenState extends State<SignInScreen> {
               child: Column(
                 children: <Widget>[
                   Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 16.h),
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 8.w, vertical: 16.h),
                     child: TextFormField(
                       controller: _emailController,
                       style: TextStyle(color: Colors.white),
@@ -60,16 +61,16 @@ class _SignInScreenState extends State<SignInScreen> {
                     ),
                   ),
                   Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 16.h),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 8.w, vertical: 16.h),
                       child: TextFormField(
                         validator: (value) {
-                          if (value == "hello"){
+                          if (value == "hello") {
                             return "the password cannot be hello";
                           }
+                          return "";
                         },
-                        onSaved: (value) {
-                          
-                        },
+                        onSaved: (value) {},
                         controller: _passwordController,
                         obscureText: true,
                         style: TextStyle(color: Colors.white),
@@ -81,7 +82,8 @@ class _SignInScreenState extends State<SignInScreen> {
                             labelStyle: TextStyle(color: Colors.white)),
                       )),
                   Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 16.h),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 8.w, vertical: 16.h),
                       child: Container(
                         height: 40,
                         width: 200,
@@ -97,9 +99,10 @@ class _SignInScreenState extends State<SignInScreen> {
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(20))),
                           onPressed: () async {
-                            if (_formKey.currentState != null){
+                            if (_formKey.currentState != null) {
                               var valid = _formKey.currentState!.validate();
-                              if (!valid){ // show error prompt
+                              if (!valid) {
+                                // show error prompt
 
                               } else {
                                 _formKey.currentState!.save();
@@ -108,34 +111,29 @@ class _SignInScreenState extends State<SignInScreen> {
                                       SignInParams(
                                           email: _emailController.text,
                                           password: _passwordController.text));
-                
+
                                   if (result) {
-                                    print("something went right!");                                    
-                                    
+                                    print("something went right!");
+
                                     // update the homescreen with the callback function
                                     this.widget.callback();
-
                                   } else {
                                     print("something went wrong");
-                                  
-                                    showDialog(
-                                      context: context, 
-                                      builder: (BuildContext context) {
-                                        return IncorrectInput();
-                                      }
-                                    );
 
+                                    showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return IncorrectInput();
+                                        });
                                   }
                                 } on Exception catch (e) {
                                   print("DioError occured: " + e.toString());
-                                  
-                                  showDialog(
-                                    context: context, 
-                                    builder: (BuildContext context) {
-                                      return IncorrectInput();
-                                    }
-                                  );
 
+                                  showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return IncorrectInput();
+                                      });
                                 }
                               }
                             }

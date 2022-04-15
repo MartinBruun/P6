@@ -1,10 +1,7 @@
-import 'dart:convert';
-
 import 'package:flutter_test/flutter_test.dart';
 import 'package:washee/features/booking/data/models/booking_model.dart';
 
 import '../../fixtures/bookings.dart';
-import '../../fixtures/fixture_reader.dart';
 
 List<BookingModel> constructBookingList(
     List<Map<String, dynamic>> bookingsAsJson) {

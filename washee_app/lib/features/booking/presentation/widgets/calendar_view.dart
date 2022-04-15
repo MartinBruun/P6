@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:washee/core/helpers/date_helper.dart';
-import 'package:washee/features/booking/data/models/booking_model.dart';
 import 'package:washee/features/booking/presentation/widgets/day_card.dart';
 
 import '../../../../core/presentation/themes/dimens.dart';

@@ -1,6 +1,5 @@
 import 'package:washee/core/helpers/web_communicator.dart';
 import 'package:washee/core/network/network_info.dart';
-import 'package:washee/features/booking/data/models/booking_entity.dart';
 import 'package:washee/features/booking/data/models/booking_model.dart';
 
 abstract class BookRemote {

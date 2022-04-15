@@ -11,7 +11,7 @@ import '../../../../core/presentation/themes/themes.dart';
 
 class TimeSlotItem extends StatefulWidget {
   final DateTime time;
-  bool isAvailable;
+  final bool isAvailable;
 
   TimeSlotItem({required this.time, required this.isAvailable});
 

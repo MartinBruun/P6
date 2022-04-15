@@ -32,10 +32,9 @@ class _InitiateWashDialogState extends State<InitiateWashDialog> {
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: Center(
-        child: _machineReady
-            ? UnlockSuccessfull(machine: widget.machine)  //TODO WHAT IS THIS FOR????
-            : _dialogBox(context)
-      ),
+          child: _machineReady
+              ? UnlockSuccessfull(machine: widget.machine)
+              : _dialogBox(context)),
     );
   }
 
@@ -84,61 +83,55 @@ class _InitiateWashDialogState extends State<InitiateWashDialog> {
 
   Widget _noButton(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 30.w),
-      child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          fixedSize: Size(254.w, 84.h),
-          primary: Colors.white,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20.h)
-          )
-        ),
-        child: Text(
-          'Nej',
-          style: textStyle.copyWith(
-            fontSize: textSize_32,
-            fontWeight: FontWeight.w600,
-            color: Colors.black,
+        padding: EdgeInsets.symmetric(horizontal: 30.w),
+        child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+              fixedSize: Size(254.w, 84.h),
+              primary: Colors.white,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20.h))),
+          child: Text(
+            'Nej',
+            style: textStyle.copyWith(
+              fontSize: textSize_32,
+              fontWeight: FontWeight.w600,
+              color: Colors.black,
+            ),
           ),
-        ),
-        onPressed: () {
-          Navigator.of(context).pop();
-        },
-      )
-    );
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ));
   }
 
   Widget _yesButton(BuildContext context) {
-    var unlockProvider = Provider.of<UnlockProvider>(context, listen: true); 
-    
+    var unlockProvider = Provider.of<UnlockProvider>(context, listen: true);
+
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 30.w),
-      child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          fixedSize: Size(254.w, 84.h),
-          primary: AppColors.deepGreen,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20.h)
-          )
-        ),
-        child: Text(
-          'Ja',
-          style: textStyle.copyWith(
-            fontSize: textSize_32,
-            fontWeight: FontWeight.w600,
-            color: Colors.black,
+        padding: EdgeInsets.symmetric(horizontal: 30.w),
+        child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+              fixedSize: Size(254.w, 84.h),
+              primary: AppColors.deepGreen,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20.h))),
+          child: Text(
+            'Ja',
+            style: textStyle.copyWith(
+              fontSize: textSize_32,
+              fontWeight: FontWeight.w600,
+              color: Colors.black,
+            ),
           ),
-        ),
-        onPressed: () async {
-          unlockProvider.isUnlocking = true;
-          await Future.delayed(Duration(seconds: 3)).then((_) {
-            unlockProvider.isUnlocking = false;
-            setState(() {
-              _machineReady = true;
+          onPressed: () async {
+            unlockProvider.isUnlocking = true;
+            await Future.delayed(Duration(seconds: 3)).then((_) {
+              unlockProvider.isUnlocking = false;
+              setState(() {
+                _machineReady = true;
+              });
             });
-          });
-        },
-      )
-    );
+          },
+        ));
   }
 }
