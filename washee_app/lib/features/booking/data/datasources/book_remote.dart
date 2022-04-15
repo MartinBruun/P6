@@ -45,16 +45,17 @@ class BookRemoteImpl implements BookRemote {
       required String machineResource,
       required String serviceResource,
       required String accountResource}) async {
-    if (await networkInfo.isConnected) {
-      var data = await communicator.postBooking(
-          startTime: startTime,
-          machineResource: machineResource,
-          serviceResource: serviceResource,
-          accountResource: accountResource);
+    var data = await communicator.postBooking(
+        startTime: startTime,
+        machineResource: machineResource,
+        serviceResource: serviceResource,
+        accountResource: accountResource);
+    if (data.isEmpty) {
+      throw new Exception(
+          "Wont make sense to return an 'empty' booking model, what is that?");
+    } else {
       return constructBooking(data);
     }
-    throw new Exception(
-        "Wont make sense to return an 'empty' booking model, what is that?");
   }
 
   BookingModel constructBooking(Map<String, dynamic> bookingAsJson) {

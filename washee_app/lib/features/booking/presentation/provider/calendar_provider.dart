@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:washee/core/helpers/date_helper.dart';
 import 'package:washee/features/booking/data/models/booking_model.dart';
-
+import 'dart:math';
 import 'package:washee/core/errors/exception_handler.dart';
 import '../../data/models/booking_model.dart';
 
@@ -100,7 +100,10 @@ class CalendarProvider extends ChangeNotifier {
       }
     } else {
       ExceptionHandler().handle(
-          "NULL IN getDaysInBetween - Month name is: ${_dateHelper.monthName(startDate.month)}",log:true, show:true, crash:false);
+          "NULL IN getDaysInBetween - Month name is: ${_dateHelper.monthName(startDate.month)}",
+          log: true,
+          show: true,
+          crash: false);
     }
   }
 
@@ -227,10 +230,6 @@ class CalendarProvider extends ChangeNotifier {
 
   bool doesSlotOverlap(
       DateTime startDate1, DateTime currentSlot, DateTime endDate1) {
-    // if ((startDate1.isBefore(currentSlot) ||
-    //         startDate1.isAtSameMomentAs(currentSlot)) &&
-    //     (endDate1.isAfter(currentSlot) ||
-    //         endDate1.isAtSameMomentAs(currentSlot))) {
     if ((startDate1.hour <= currentSlot.hour) &&
         (endDate1.hour >= currentSlot.hour)) {
       return true;
@@ -281,5 +280,13 @@ class CalendarProvider extends ChangeNotifier {
       }
     }
     return _consecutivenessPreserved;
+  }
+
+  DateTime? getLeastTimeSlot() {
+    if (_addedTimeSlots.isNotEmpty) {
+      return _addedTimeSlots.reduce(
+          (current, next) => current.compareTo(next) > 0 ? next : current);
+    }
+    return null;
   }
 }
