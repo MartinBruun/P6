@@ -105,8 +105,6 @@ class _InitiateWashDialogState extends State<InitiateWashDialog> {
   }
 
   Widget _yesButton(BuildContext context) {
-    var unlockProvider = Provider.of<UnlockProvider>(context, listen: true);
-
     return Padding(
         padding: EdgeInsets.symmetric(horizontal: 30.w),
         child: ElevatedButton(
@@ -124,12 +122,8 @@ class _InitiateWashDialogState extends State<InitiateWashDialog> {
             ),
           ),
           onPressed: () async {
-            unlockProvider.isUnlocking = true;
-            await Future.delayed(Duration(seconds: 3)).then((_) {
-              unlockProvider.isUnlocking = false;
-              setState(() {
-                _machineReady = true;
-              });
+            setState(() {
+              _machineReady = true;
             });
           },
         ));

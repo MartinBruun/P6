@@ -64,12 +64,6 @@ class _SignInScreenState extends State<SignInScreen> {
                       padding:
                           EdgeInsets.symmetric(horizontal: 8.w, vertical: 16.h),
                       child: TextFormField(
-                        validator: (value) {
-                          if (value == "hello") {
-                            return "the password cannot be hello";
-                          }
-                          return "";
-                        },
                         onSaved: (value) {},
                         controller: _passwordController,
                         obscureText: true,
