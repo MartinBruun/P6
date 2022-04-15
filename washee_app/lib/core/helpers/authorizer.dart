@@ -56,7 +56,6 @@ class AuthorizerImpl implements Authorizer {
     try {
       response = await dio.post(tokenURL, data: data);
       if (response.statusCode == 200) {
-        print(response.data.toString());
         this.token = response.data["token"];
         
         user.initUser(response.data["user_id"], response.data["email"], response.data["username"], response.data["accounts"]);

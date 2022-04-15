@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:washee/core/washee_box/machine_model.dart';
 import 'package:washee/core/environments/environment.dart';
 
+import 'package:washee/core/errors/exception_handler.dart';
 import '../errors/failures.dart';
 
 abstract class BoxCommunicator {
@@ -36,10 +37,10 @@ class BoxCommunicatorImpl implements BoxCommunicator {
     if (response.statusCode == 200) {
       return response.data;
     } else {
-      print("Something went wrong, status code and response: " +
+      ExceptionHandler().handle("Something went wrong, status code and response: " +
           response.statusCode.toString() +
           " " +
-          response.data['response']);
+          response.data['response'], log:true, show:true, crash:false);
       return response.data;
     }
   }
@@ -55,14 +56,14 @@ class BoxCommunicatorImpl implements BoxCommunicator {
         if (response.statusCode == 200) {
           return response.data;
         } else {
-          print("Something went wrong, status code and response: " +
+          ExceptionHandler().handle("Something went wrong, status code and response: " +
               response.statusCode.toString() +
               " " +
-              response.data['response']);
+              response.data['response'], log:true, show:true, crash:false);
           return response.data;
         }
       } on HttpException catch (e) {
-        print(e.toString());
+        ExceptionHandler().handle(e.toString(),log:true,show:true,crash:false);
         throw new HTTPFailure();
       }
   }
@@ -87,10 +88,10 @@ class BoxCommunicatorImpl implements BoxCommunicator {
         return response.data;
       }
     } else {
-      print("Something went wrong, status code and response: " +
+      ExceptionHandler().handle("Something went wrong, status code and response: " +
           response.statusCode.toString() +
           " " +
-          response.data['response']);
+          response.data['response'],log:true,show:true,crash:false);
       return response.data;
     }
     return response.data;
@@ -105,7 +106,7 @@ class BoxCommunicatorImpl implements BoxCommunicator {
         return response.data;
       }
     } else {
-      print("Something went wrong...");
+      ExceptionHandler().handle("Something went wrong during dummy fetching in BoxCommunicator",show:true,log:true,crash:false);
       return response.data;
     }
     return response.data;

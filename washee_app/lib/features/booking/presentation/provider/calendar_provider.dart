@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:washee/core/helpers/date_helper.dart';
 import 'package:washee/features/booking/data/models/booking_model.dart';
 
+import 'package:washee/core/errors/exception_handler.dart';
 import '../../data/models/booking_model.dart';
 
 class CalendarProvider extends ChangeNotifier {
@@ -98,8 +99,8 @@ class CalendarProvider extends ChangeNotifier {
             .add(startDate.add(Duration(days: i)));
       }
     } else {
-      print(
-          "NULL!!! - Month name is: ${_dateHelper.monthName(startDate.month)}");
+      ExceptionHandler().handle(
+          "NULL IN getDaysInBetween - Month name is: ${_dateHelper.monthName(startDate.month)}",log:true, show:true, crash:false);
     }
   }
 
