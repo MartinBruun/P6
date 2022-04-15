@@ -6,6 +6,7 @@ import 'package:washee/core/presentation/themes/dimens.dart';
 import 'package:washee/core/presentation/themes/themes.dart';
 import 'package:washee/features/sign_in/domain/usecases/sign_in.dart';
 import 'package:washee/features/sign_in/presentation/pages/wrong_input.dart';
+import 'package:washee/features/sign_in/presentation/widgets/text_input.dart';
 import 'package:washee/injection_container.dart';
 
 class SignInScreen extends StatefulWidget {
@@ -18,9 +19,7 @@ class SignInScreen extends StatefulWidget {
 }
 
 class _SignInScreenState extends State<SignInScreen> {
-  final OutlineInputBorder _borderStyle = OutlineInputBorder(
-    borderSide: BorderSide(color: Colors.white),
-  );
+  
 
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
@@ -45,42 +44,22 @@ class _SignInScreenState extends State<SignInScreen> {
               key: _formKey,
               child: Column(
                 children: <Widget>[
-                  Padding(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 8.w, vertical: 16.h),
-                    child: TextFormField(
-                      controller: _emailController,
-                      style: TextStyle(color: Colors.white),
-                      cursorColor: Colors.white,
-                      decoration: InputDecoration(
-                        enabledBorder: _borderStyle,
-                        focusedBorder: _borderStyle,
-                        labelText: 'Indtast email',
-                        labelStyle: TextStyle(color: Colors.white),
-                      ),
-                    ),
+                  TextInput("Email", _emailController, false, 
+                    (value) {
+                      if (value == "") {
+                        return "Du har ikke indtastet en Email";
+                      }
+                      return null;
+                    }
                   ),
-                  Padding(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 8.w, vertical: 16.h),
-                      child: TextFormField(
-                        validator: (value) {
-                          if (value == "hello") {
-                            return "the password cannot be hello";
-                          }
-                          return "";
-                        },
-                        onSaved: (value) {},
-                        controller: _passwordController,
-                        obscureText: true,
-                        style: TextStyle(color: Colors.white),
-                        cursorColor: Colors.white,
-                        decoration: InputDecoration(
-                            enabledBorder: _borderStyle,
-                            focusedBorder: _borderStyle,
-                            labelText: 'Indtast kodeord',
-                            labelStyle: TextStyle(color: Colors.white)),
-                      )),
+                  TextInput("Password", _passwordController, true, 
+                    (value) {
+                      if (value == "") {
+                        return "Du har ikke indtastet et kodeord";
+                      }
+                      return null;
+                    }
+                  ),
                   Padding(
                       padding:
                           EdgeInsets.symmetric(horizontal: 8.w, vertical: 16.h),
