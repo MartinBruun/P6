@@ -111,7 +111,7 @@ class _TimeSlotItemState extends State<TimeSlotItem> {
                       )
                     : Icon(
                         Icons.not_interested_outlined,
-                        color: AppColors.red,
+                        color: AppColors.alreadyBooked,
                       )),
           ],
         ),
