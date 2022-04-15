@@ -1,8 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:intl/intl.dart';
-import 'dart:convert';
-import 'package:washee/core/account/user.dart';
-import 'package:washee/features/booking/data/models/booking_entity.dart';
 import 'package:washee/core/environments/environment.dart';
 import 'package:washee/core/errors/exception_handler.dart';
 import 'package:washee/core/helpers/authorizer.dart';
