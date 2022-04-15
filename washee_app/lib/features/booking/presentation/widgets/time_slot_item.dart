@@ -64,7 +64,7 @@ class _TimeSlotItemState extends State<TimeSlotItem> {
                   style: textStyle.copyWith(
                     fontWeight: FontWeight.w600,
                     fontSize: textSize_32,
-                    color: !widget.isAvailable ? AppColors.red : Colors.white,
+                    color: !widget.isAvailable ? AppColors.alreadyBooked : Colors.white,
                   ),
                 ),
               ),
@@ -77,14 +77,22 @@ class _TimeSlotItemState extends State<TimeSlotItem> {
                         prompt: BookingErrorPrompt(
                             message: "Tidspunktet er optaget!"));
                   } else {
+                    final endTime = widget.time.add(const Duration(minutes: 150));
                     if (_selected == false) {
-                      // Adds the timeslot to the user provider
+                      calendar.clearTimeSlots();
                       calendar.addTimeSlot(widget.time);
-                      print("Added: " + widget.time.toString());
+                      calendar.addTimeSlot(widget.time.add(const Duration(minutes: 30))); // Should be rewritten as a loop, with duration taken from the chosen services length
+                      calendar.addTimeSlot(widget.time.add(const Duration(minutes: 60)));
+                      calendar.addTimeSlot(widget.time.add(const Duration(minutes: 90)));
+                      calendar.addTimeSlot(widget.time.add(const Duration(minutes: 120)));
+                      calendar.addTimeSlot(endTime);
+
+                      print("Added from: " + widget.time.toString() + " to " + endTime.toString());
+                      print(calendar.addedTimeSlots.toString());
                     } else {
-                      // Removes the timeslot from the user
-                      calendar.removeTimeSlot(widget.time);
-                      print("Removed: " + widget.time.toString());
+                      calendar.clearTimeSlots();
+                      print("Removed from: " + widget.time.toString() + " to " + endTime.toString());
+                      print(calendar.addedTimeSlots.toString());
                     }
                     setState(() {
                       _selected = !_selected;
