@@ -25,7 +25,7 @@ class _BookingErrorPromptState extends State<BookingErrorPrompt> {
             color: AppColors.dialogLightGray,
             borderRadius: BorderRadius.circular(30.h),
           ),
-          height: 500.h,
+          height: 550.h,
           width: 750.w,
           child: Column(
             children: [
@@ -35,10 +35,10 @@ class _BookingErrorPromptState extends State<BookingErrorPrompt> {
                     size: iconSize_120, color: AppColors.lightGray),
               ),
               Padding(
-                padding: EdgeInsets.only(top: 50.h, bottom: 10.h),
+                padding: EdgeInsets.only(top: 50.h, bottom: 50.h),
                 child: Container(
                   width: 675.w,
-                  height: 120.h,
+                  height: 135.h,
                   child: Text(
                     widget.message,
                     style: textStyle.copyWith(
