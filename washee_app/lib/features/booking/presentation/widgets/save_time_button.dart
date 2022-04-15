@@ -57,6 +57,12 @@ class _SaveTimeButtonState extends State<SaveTimeButton> {
                     _isBookingTimeSlot = false;
                   });
                   Navigator.of(context).popUntil((route) => route.isFirst);
+                } else {
+                  ErrorHandler.errorHandlerView(
+                      context: context,
+                      prompt: BookingErrorPrompt(
+                          message:
+                              "Ups! Det ser ud til, at du ikke har forbindelse til internettet"));
                 }
               } else {
                 // Show dialog to the user with propriate error message
