@@ -79,34 +79,10 @@ class _TimeSlotItemState extends State<TimeSlotItem>
                         prompt: BookingErrorPrompt(
                             message: "Tidspunktet er optaget!"));
                   } else {
-                    final endTime =
-                        widget.time.add(const Duration(minutes: 150));
                     if (_selected == false) {
-                      calendar.clearTimeSlots();
                       calendar.addTimeSlot(widget.time);
-                      calendar.addTimeSlot(widget.time.add(const Duration(
-                          minutes:
-                              30))); // Should be rewritten as a loop, with duration taken from the chosen services length
-                      calendar.addTimeSlot(
-                          widget.time.add(const Duration(minutes: 60)));
-                      calendar.addTimeSlot(
-                          widget.time.add(const Duration(minutes: 90)));
-                      calendar.addTimeSlot(
-                          widget.time.add(const Duration(minutes: 120)));
-                      calendar.addTimeSlot(endTime);
-
-                      print("Added from: " +
-                          widget.time.toString() +
-                          " to " +
-                          endTime.toString());
-                      print(calendar.addedTimeSlots.toString());
                     } else {
-                      calendar.clearTimeSlots();
-                      print("Removed from: " +
-                          widget.time.toString() +
-                          " to " +
-                          endTime.toString());
-                      print(calendar.addedTimeSlots.toString());
+                      calendar.removeTimeSlot(widget.time);
                     }
                     setState(() {
                       _selected = !_selected;
