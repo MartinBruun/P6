@@ -117,7 +117,6 @@ class WebCommunicatorImpl implements WebCommunicator {
       "service": serviceResource
     });
     if (response.statusCode == 201) {
-      print("RESPONSE DATA WEBCOMMUNICATOR: " + response.data.toString());
       return response.data;
     } else {
       ExceptionHandler().handle(
