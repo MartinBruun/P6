@@ -40,12 +40,12 @@ class NetworkInfoImpl implements NetworkInfo {
 
   @override
   Future<bool> getWifiAccessPermissions() async {
-    WiFiForIoTPlugin.showWritePermissionSettings(true);
     if (await WiFiForIoTPlugin.isEnabled()){
       return true;
     }
     else{
-      return false;
+      WiFiForIoTPlugin.showWritePermissionSettings(true);
+      return await WiFiForIoTPlugin.isEnabled();
     }
   }
 
