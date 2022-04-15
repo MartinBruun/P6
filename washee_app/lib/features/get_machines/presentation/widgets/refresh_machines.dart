@@ -42,7 +42,7 @@ class _RefreshMachinesState extends State<RefreshMachines> {
                 size: iconSize_76,
               ),
               onPressed: () async {
-                /*var global =
+                var global =
                     Provider.of<GlobalProvider>(context, listen: false);
                 global.isRefreshing = true;
                 global.updateMachines(
@@ -50,27 +50,6 @@ class _RefreshMachinesState extends State<RefreshMachines> {
 
                 global.fetchedMachines = true;
                 global.isRefreshing = false;
-                */
-                sl<NetworkInfo>().disconnectFromBoxWifi();
-              }),
-          IconButton(
-              padding: EdgeInsets.only(right: 75.w, bottom: 45.h),
-              icon: Icon(
-                Icons.refresh,
-                color: Colors.red,
-                size: iconSize_76,
-              ),
-              onPressed: () async {
-                /*var global =
-                    Provider.of<GlobalProvider>(context, listen: false);
-                global.isRefreshing = true;
-                global.updateMachines(
-                    await sl<GetMachinesUseCase>().call(NoParams()));
-
-                global.fetchedMachines = true;
-                global.isRefreshing = false;
-                */
-                sl<NetworkInfo>().connectToBoxWifi();
               }),
         ],
       ),

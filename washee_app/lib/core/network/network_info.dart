@@ -9,6 +9,7 @@ abstract class NetworkInfo {
   NetworkSecurity get chosenSecurity;
   String get boxDomainName;
   String get boxDomainPassword;
+  Future<bool> getWifiAccessPermissions();
   Future<bool> connectToBoxWifi();
   Future<bool> disconnectFromBoxWifi();
 }
@@ -22,10 +23,10 @@ class NetworkInfoImpl implements NetworkInfo {
   NetworkSecurity get chosenSecurity => NetworkSecurity.WPA;
 
   @override
-  String get boxDomainName => "Wifi?";
+  String get boxDomainName => "???";
 
   @override
-  String get boxDomainPassword => "11223344556677889900112233"; // Should be injected by secret production environment variables
+  String get boxDomainPassword => "???"; // Should be injected by secret production environment variables
 
   @override
   Future<bool> get isConnected async {
@@ -38,16 +39,25 @@ class NetworkInfoImpl implements NetworkInfo {
   }
 
   @override
+  Future<bool> getWifiAccessPermissions() async {
+    WiFiForIoTPlugin.showWritePermissionSettings(true);
+    return true;
+  }
+
+  @override
   Future<bool> connectToBoxWifi() async {
     try{
       WiFiForIoTPlugin.connect(boxDomainName,
                           password: boxDomainPassword,
                           joinOnce: true,
+                          withInternet: true, // Should be changed depending on production or dev environment being run
+                          isHidden: false,
                           security: chosenSecurity);
+      WiFiForIoTPlugin.forceWifiUsage(true);
       return true;
     }
     catch (e) {
-      ExceptionHandler().handle("Could not connect to wifi from NetworkInfo", log:true, show:true, crash:false);
+      ExceptionHandler().handle("Could not connect to wifi from NetworkInfo with error: " + e.toString(), log:true, show:true, crash:false);
       return false;
     }
   }
@@ -59,9 +69,8 @@ class NetworkInfoImpl implements NetworkInfo {
       return true;
     }
     catch (e) {
-      ExceptionHandler().handle("Could not disconnect from wifi at NetworkInfo", log:true, show:true, crash:false);
+      ExceptionHandler().handle("Could not disconnect from wifi at NetworkInfo with error: " + e.toString(), log:true, show:true, crash:false);
       return false;
     }
-    
   }
 }
