@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:washee/injection_container.dart';
 
 import '../../../../core/providers/global_provider.dart';
 import '../../../../core/widgets/machine_card.dart';
@@ -33,8 +34,8 @@ class _MachineOverviewState extends State<MachineOverview> {
         // var stringAsJson = json.decode(string);
         // provider.constructMachineList(stringAsJson);
         //This is the usecase to be called on every initstate fetching from backend
-        provider
-            .updateMachines(await sl<GetMachinesUseCase>().call(NoParams()));
+        //provider
+         //   .updateMachines(await sl<GetMachinesUseCase>().call(NoParams()));
         provider.fetchedMachines = true;
       
 
