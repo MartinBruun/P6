@@ -13,8 +13,6 @@ class Booking(models.Model):
     """
         Represents a single booking, with a chosen start_time, where the booking was made at a specific time (created)
         It is setup so that it is possible to change this booking.
-        
-        TODO: Presently, the database does not make any validation if there happens to be a double booking.
     """
     
     # Fields
