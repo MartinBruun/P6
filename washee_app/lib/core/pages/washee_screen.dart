@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:washee/features/sign_out/presentation/widgets/log_out_button.dart';
+import 'package:washee/features/user_info/presentation/widgets/user_info.dart';
 
 class WasheeScreen extends StatelessWidget {
   static const routeName = "/washee-screen";
+
+  final Function updatePage;
+
+  WasheeScreen(this.updatePage);
 
   @override
   Widget build(BuildContext context) {
@@ -9,10 +16,14 @@ class WasheeScreen extends StatelessWidget {
 
     return Scaffold(
       body: Padding(
-        padding: EdgeInsets.only(top: mediaHeight * 0.2),
+        padding: EdgeInsets.only(top: 130.h),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
+            Align(
+              alignment: Alignment.topRight,
+              child: LogOutButton(updatePage),
+            ),
             Container(
               height: mediaHeight * 0.3,
               width: mediaHeight * 0.3,
@@ -41,6 +52,7 @@ class WasheeScreen extends StatelessWidget {
                 ),
               ),
             ),
+            UserInfo()
           ],
         ),
       ),

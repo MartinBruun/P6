@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:washee/core/account/account.dart';
 import 'package:washee/core/account/user.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:washee/core/presentation/themes/colors.dart';
@@ -61,7 +60,7 @@ class _SignInScreenState extends State<SignInScreen> {
                     ),
                   ),
                   Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+                      padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 16.h),
                       child: TextFormField(
                         validator: (value) {
                           if (value == "hello"){
@@ -82,7 +81,7 @@ class _SignInScreenState extends State<SignInScreen> {
                             labelStyle: TextStyle(color: Colors.white)),
                       )),
                   Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+                      padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 16.h),
                       child: Container(
                         height: 40,
                         width: 200,

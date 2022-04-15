@@ -23,11 +23,13 @@ class _HomeScreenState extends State<HomeScreen> {
 
   ActiveUser user = ActiveUser();
 
+  
+
   @override
   void initState() {
     _pages = [
       WashScreen(),
-      WasheeScreen(),
+      WasheeScreen(callback),
       CalendarScreen(),
     ];
 

@@ -33,7 +33,7 @@ class _InitiateWashDialogState extends State<InitiateWashDialog> {
       backgroundColor: Colors.transparent,
       body: Center(
         child: _machineReady
-            ? UnlockSuccessfull(machine: widget.machine)  // WHAT IS THIS FOR????
+            ? UnlockSuccessfull(machine: widget.machine)  //TODO WHAT IS THIS FOR????
             : _dialogBox(context)
       ),
     );
@@ -139,39 +139,6 @@ class _InitiateWashDialogState extends State<InitiateWashDialog> {
           });
         },
       )
-      // Container(
-      //   height: 84.h,
-      //   width: 254.w,
-      //   decoration: BoxDecoration(
-      //     color: AppColors.deepGreen,
-      //     borderRadius: BorderRadius.circular(20.h),
-      //   ),
-      //   child: Center(
-      //     child: InkWell(
-            // onTap: () async {
-            //   unlockProvider.isUnlocking = true;
-            //   await Future.delayed(Duration(seconds: 3)).then((_) {
-            //     unlockProvider.isUnlocking = false;
-            //     setState(() {
-            //       _machineReady = true;
-            //     });
-            //   });
-            // },
-      //       child: unlockProvider.isUnlocking
-      //         ? CircularProgressIndicator(
-      //             color: Colors.black,
-      //         )
-      //         : Text(
-      //           'Ja',
-      //           style: textStyle.copyWith(
-      //             fontSize: textSize_32,
-      //             fontWeight: FontWeight.w600,
-      //             color: Colors.black,
-      //           ),
-      //         ),
-      //     ),
-      //   ),
-      // ),
     );
   }
 }
