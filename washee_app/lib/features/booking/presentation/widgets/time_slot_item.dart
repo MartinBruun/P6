@@ -64,7 +64,7 @@ class _TimeSlotItemState extends State<TimeSlotItem> {
                   style: textStyle.copyWith(
                     fontWeight: FontWeight.w600,
                     fontSize: textSize_32,
-                    color: !widget.isAvailable ? AppColors.alreadyBooked : Colors.white,
+                    color: !widget.isAvailable ? AppColors.red : Colors.white,
                   ),
                 ),
               ),
@@ -111,7 +111,7 @@ class _TimeSlotItemState extends State<TimeSlotItem> {
                       )
                     : Icon(
                         Icons.not_interested_outlined,
-                        color: AppColors.alreadyBooked,
+                        color: AppColors.red,
                       )),
           ],
         ),
