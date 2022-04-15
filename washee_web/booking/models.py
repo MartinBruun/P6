@@ -68,6 +68,11 @@ class Booking(models.Model):
             self.account.balance -= self.service.price_in_dk
             self.account.save()
             return super(Booking, self).save(*args,**kwargs)
+        
+    def delete(self):
+        self.account.balance += self.service.price_in_dk
+        self.account.save()
+        return super(Booking, self).delete()
     
     class Meta:
         ordering = ['-created']
