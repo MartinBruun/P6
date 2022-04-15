@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:washee/core/errors/booking_error_prompt.dart';
+import 'package:washee/core/errors/error_handler.dart';
 import 'package:washee/features/booking/presentation/provider/calendar_provider.dart';
 
 import '../../../../core/presentation/themes/colors.dart';
@@ -26,26 +28,38 @@ class _SaveTimeButtonState extends State<SaveTimeButton> {
       child: Center(
         child: InkWell(
           onTap: () async {
-            var valid = calendar.isBookedTimeValid();
+            if (calendar.addedTimeSlots.isNotEmpty) {
+              var valid = calendar.isBookedTimeValid();
 
-            if (valid) {
-              // post booking to the backend
-              // clear the addedTimeSlots list
-              print("VALID BOOKING! Posting to the backend");
-              calendar.clearTimeSlots();
-              setState(() {
-                _isBookingTimeSlot = true;
-              });
-              await Future.delayed(Duration(seconds: 3));
-              setState(() {
-                _isBookingTimeSlot = false;
-              });
-              Navigator.of(context).popUntil((route) => route.isFirst);
+              if (valid) {
+                // post booking to the backend
+                // clear the addedTimeSlots list
+                print("VALID BOOKING! Posting to the backend");
+                calendar.clearTimeSlots();
+                setState(() {
+                  _isBookingTimeSlot = true;
+                });
+                await Future.delayed(Duration(seconds: 3));
+                setState(() {
+                  _isBookingTimeSlot = false;
+                });
+                Navigator.of(context).popUntil((route) => route.isFirst);
+              } else {
+                // Show dialog to the user with propriate error message
+                print("INVALID BOOKING! Aborting");
+                ErrorHandler.errorHandlerView(
+                    context: context,
+                    prompt: BookingErrorPrompt(
+                        message:
+                            "Ugyldig booking! Enten har du ikke valgt 2.5 time eller også er tiderne ikke sammenhængende"));
+              }
             } else {
-              // Show dialog to the user with propriate error message
               print("INVALID BOOKING! Aborting");
-              calendar.clearTimeSlots();
-              Navigator.of(context).pop();
+              ErrorHandler.errorHandlerView(
+                  context: context,
+                  prompt: BookingErrorPrompt(
+                      message:
+                          "Ugyldig booking! Du skal vælge 6 sammenhængende tidsrum"));
             }
           },
           child: _isBookingTimeSlot
