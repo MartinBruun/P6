@@ -27,6 +27,6 @@ jobs:
     - name: Run flutter commands
       working-directory: ./washee_app
       run: |
-        flutter pub get --release
-        flutter test --release
-        flutter build apk --release
+        flutter pub get
+        flutter test
+        flutter build apk --debug
