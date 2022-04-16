@@ -1,4 +1,4 @@
-from ml_electricity.nordpool_API.Nordpool import NordpoolAPI
+from electricity.ml_electricity.nordpool_API.Nordpool import NordpoolAPI
 from unittest.mock import MagicMock
 
 def test_Nordpool_API_can_be_mocked(mocker, mock_ftp, test_access_data):

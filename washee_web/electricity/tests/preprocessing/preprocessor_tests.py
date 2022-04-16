@@ -1,4 +1,4 @@
-from ml_electricity.preprocessing.preprocessor import Preprocessor
+from electricity.ml_electricity.preprocessing.preprocessor import Preprocessor
 import pandas as pd
 import numpy as np
 from unittest.mock import MagicMock
