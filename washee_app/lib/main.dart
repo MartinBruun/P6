@@ -13,10 +13,12 @@ import 'core/presentation/themes/themes.dart';
 
 void main() async {
   String env = Environment.PROD;
+  String envFile = Environment.PROD_ENV;
   if (kDebugMode) {
-    await dotenv.load(fileName: ".env.dev");
     env = Environment.DEV;
+    envFile = Environment.DEV_ENV;
   }
+  await dotenv.load(fileName: envFile);
   Environment().initConfig(env);
   WidgetsFlutterBinding.ensureInitialized();
   ic.initAll();

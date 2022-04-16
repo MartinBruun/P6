@@ -12,6 +12,9 @@ class Environment {
 
   Environment._internal();
 
+  static const String DEV_ENV = ".env.dev";
+  static const String PROD_ENV = ".env.prod";
+
   static const String DEV = 'DEV';
   static const String PROD = 'PROD';
   static const String RALLEFAR = "RALLEFAR";

@@ -119,7 +119,7 @@ class _StartWashState extends State<StartWash> {
         fetchedMachine = await sl<UnlockUseCase>().call(
           UnlockParams(
               machine: widget.currentMachine,
-              duration: Duration(hours: 2, minutes: 30)));
+              duration: Duration(seconds: 10)));
         sl<DisconnectBoxWifiUsecase>().call(NoParams());
         if (fetchedMachine == null) {
           setState(() {
