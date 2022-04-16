@@ -4,9 +4,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:washee/core/presentation/themes/colors.dart';
 import 'package:washee/core/presentation/themes/dimens.dart';
 import 'package:washee/core/presentation/themes/themes.dart';
+import 'package:washee/core/usecases/usecase.dart';
 import 'package:washee/features/sign_in/domain/usecases/sign_in.dart';
 import 'package:washee/features/sign_in/presentation/pages/wrong_input.dart';
 import 'package:washee/features/sign_in/presentation/widgets/text_input.dart';
+import 'package:washee/features/unlock/domain/usecases/get_wifi_permission.dart';
 import 'package:washee/injection_container.dart';
 
 class SignInScreen extends StatefulWidget {
@@ -92,7 +94,8 @@ class _SignInScreenState extends State<SignInScreen> {
                                           password: _passwordController.text));
 
                                   if (result) {
-                                    print("something went right!");
+                                    print("something went right! Asking for wifi permissions");
+                                    await sl<GetWifiPermissionUsecase>().call(NoParams());
 
                                     // update the homescreen with the callback function
                                     this.widget.callback();

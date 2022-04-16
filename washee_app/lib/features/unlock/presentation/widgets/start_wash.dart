@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:washee/core/pages/home_screen.dart';
-import 'package:washee/core/usecases/usecase.dart';
 import 'package:washee/core/washee_box/machine_model.dart';
-import 'package:washee/features/unlock/domain/usecases/connect_box_wifi.dart';
-import 'package:washee/features/unlock/domain/usecases/disconnect_box_wifi.dart';
-import 'package:washee/features/unlock/domain/usecases/get_wifi_permission.dart';
 
 import '../../../../core/errors/error_handler.dart';
 import '../../../../core/errors/http_error_prompt.dart';
@@ -114,13 +110,10 @@ class _StartWashState extends State<StartWash> {
       _isUnlockingMachine = true;
     });
     try {
-      bool hasConnection = await sl<ConnectBoxWifiUsecase>().call(NoParams());
-      if (await hasConnection){
         fetchedMachine = await sl<UnlockUseCase>().call(
           UnlockParams(
               machine: widget.currentMachine,
               duration: Duration(seconds: 10)));
-        sl<DisconnectBoxWifiUsecase>().call(NoParams());
         if (fetchedMachine == null) {
           setState(() {
             _isUnlockingMachine = false;
@@ -134,10 +127,6 @@ class _StartWashState extends State<StartWash> {
         else{
           print("From start_wash.dart: fetchedMachine went correctly!");
         }
-      }
-      else{
-        throw new Exception("Cant get connection. This Exception should probably be refactored so that the NetworkInfo throws exceptions instead");
-      }
     } catch (e) {
       setState(() {
         _isUnlockingMachine = false;

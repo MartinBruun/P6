@@ -15,6 +15,7 @@ void main() async {
   await setupEnvironment();
   WidgetsFlutterBinding.ensureInitialized();
   ic.initAll();
+  
   print("From main.dart: webApiHost = ${Environment().config.webApiHost}");
   print("From main.dart: boxApiHost = ${Environment().config.boxApiHost}");
   print("From main.dart: boxWifiSSID = ${Environment().config.boxWifiSSID}");
