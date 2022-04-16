@@ -67,7 +67,6 @@ flutter:
     - assets/data/machine_list.json
     - .env.dev
     - .env.prod
-    - .env.default
 
   fonts:
     - family: Poppins

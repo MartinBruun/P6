@@ -15,7 +15,7 @@ void main() async {
   await setupEnvironment();
   WidgetsFlutterBinding.ensureInitialized();
   ic.initAll();
-  
+
   print("From main.dart: webApiHost = ${Environment().config.webApiHost}");
   print("From main.dart: boxApiHost = ${Environment().config.boxApiHost}");
   print("From main.dart: boxWifiSSID = ${Environment().config.boxWifiSSID}");
@@ -55,12 +55,7 @@ Future<void> setupEnvironment() async {
     env = Environment.DEV;
     envFile = Environment.DEV_ENV;
   }
-  try{
-    await dotenv.load(fileName: envFile);
-  }
-  catch (e){
-    await dotenv.load(fileName: ".env.default");
-  }
+  await dotenv.load(fileName: envFile);
   
   Environment().initConfig(env);
 }
