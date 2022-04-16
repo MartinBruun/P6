@@ -12,14 +12,7 @@ import 'injection_container.dart' as ic;
 import 'core/presentation/themes/themes.dart';
 
 void main() async {
-  String env = Environment.PROD;
-  String envFile = Environment.PROD_ENV;
-  if (kDebugMode) {
-    env = Environment.DEV;
-    envFile = Environment.DEV_ENV;
-  }
-  await dotenv.load(fileName: envFile);
-  Environment().initConfig(env);
+  await setupEnvironment();
   WidgetsFlutterBinding.ensureInitialized();
   ic.initAll();
   print("From main.dart: webApiHost = ${Environment().config.webApiHost}");
@@ -52,4 +45,21 @@ class WasheeApp extends StatelessWidget {
       ),
     );
   }
+}
+
+Future<void> setupEnvironment() async {
+  String env = Environment.PROD;
+  String envFile = Environment.PROD_ENV;
+  if (kDebugMode) {
+    env = Environment.DEV;
+    envFile = Environment.DEV_ENV;
+  }
+  try{
+    await dotenv.load(fileName: envFile);
+  }
+  catch (e){
+    await dotenv.load(fileName: ".env.default");
+  }
+  
+  Environment().initConfig(env);
 }
