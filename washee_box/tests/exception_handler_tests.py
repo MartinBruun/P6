@@ -1,4 +1,5 @@
 import pytest
+import pytz
 
 from datetime import datetime
 
@@ -89,5 +90,5 @@ def test_exception_handlers_log_is_timestamped():
     with open(eh.log_location, "r+") as f:
         lines_list = f.readlines()
         lines_str = "\n".join(lines_list)
-        assert str(datetime.now().strftime("%Y/%m/%d, %H:%M")) in lines_str
+        assert str(datetime.now(pytz.timezone('Europe/Copenhagen')).strftime("%Y/%m/%d, %H:%M")) in lines_str
     eh.reset_log()

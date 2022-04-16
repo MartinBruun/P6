@@ -86,30 +86,26 @@ class MachineCard extends StatelessWidget {
     );
   }
 
-
-
   void _cardPressed(BuildContext context, MachineModel machine) async {
-    if (user.loggedIn && user.activeAccount != null){
-      if ( user.loggedIn && user.activeAccount!.balance > 0) {
-        if ( true == await sl<HasCurrentBookingUseCase>().call(HasCurrentBookingParams(
-          accountID: user.id!, machineID: int.parse(machine.machineID)
-        ))){
+    if (user.loggedIn && user.activeAccount != null) {
+      if (user.loggedIn && user.activeAccount!.balance > 0) {
+        if (true ==
+            await sl<HasCurrentBookingUseCase>().call(HasCurrentBookingParams(
+                accountID: user.id!,
+                machineID: int.parse(machine.machineID)))) {
           showDialog(
             context: context,
             builder: (BuildContext context) {
               return InitiateWashDialog(machine: machine);
             },
           );
-        }
-        else{
+        } else {
           showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return DoesNotHaveCurrentBookingDialog();
-            }
-          );
+              context: context,
+              builder: (BuildContext context) {
+                return DoesNotHaveCurrentBookingDialog();
+              });
         }
-        
       } else {
         showDialog(
           context: context,
@@ -118,7 +114,7 @@ class MachineCard extends StatelessWidget {
           },
         );
       }
-    } else{
+    } else {
       showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -127,12 +123,4 @@ class MachineCard extends StatelessWidget {
       );
     }
   }
-
 }
-
-
-//  // Container(
-//     //   width: 700.w,
-//     //   height: 200.h,
-//       child: 
-//     // );

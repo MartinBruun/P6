@@ -1,6 +1,7 @@
 from datetime import datetime
 import json
 import os
+import pytz
 from datetime import datetime
 from datetime import timedelta
 from flask import Flask, request
@@ -88,7 +89,7 @@ def unlockEndPoint():
     endTime = data["endTime"]
 
     duration = min(controller.getWashTimeLimit(), int(
-        (endTime-datetime.now()).total_seconds()))
+        (endTime-datetime.now(pytz.timezone('Europe/Copenhagen'))).total_seconds()))
 
     id = data["machineID"]
     pin = controller.getPin(id)
@@ -98,7 +99,7 @@ def unlockEndPoint():
 
     # TODO: her resetter jeg det som brugeren har bedt om , det er nok ikke så smart. ellers så er det???
 
-    now = datetime.now()
+    now = datetime.now(pytz.timezone('Europe/Copenhagen'))
     machine["startTime"] = now
     machine["endTime"] = now + timedelta(seconds=duration)
 
