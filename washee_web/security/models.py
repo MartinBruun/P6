@@ -17,15 +17,17 @@ class Log(models.Model):
     last_updated = models.DateTimeField(auto_now=True, editable=False)
     
     # Choices
-    SOURCE = (
-        ("APP", "Logs from app"),
-        ("BOX", "Logs from box"),
-        ("WEB" "Logs from web"),
-        ("MAN", "Manual logs")
-    )
+    class SourceChoices(models.TextChoices):
+        APP = "APP", "Logs from app"
+        BOX = "BOX", "Logs from box"
+        WEB = "WEB" "Logs from web"
+        MANUAL = "MAN", "Manual logs"
+        NONE = "NON", "No given source"
+        
     source = models.CharField(
-        choices=SOURCE,
-        max_length=3
+        max_length=3,
+        choices=SourceChoices.choices,
+        default=SourceChoices.NONE
     )
     
     # Foreign Keys

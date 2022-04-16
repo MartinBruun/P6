@@ -18,13 +18,15 @@ class ElectricityBlock(models.Model):
     last_updated = models.DateTimeField(auto_now=True, editable=False)
     
     # Choices
-    ZONES = (
-        ("DK1", "West Denmark"),
-        ("DK2", "East Denmark")
-    )
+    class ZoneChoices(models.TextChoices):
+        NONE = "NON", "No given zone"
+        WEST_DK = "DK1", "West Denmark"
+        EAST_DK = "DK2", "East Denmark"
+    
     zone = models.CharField(
-        choices=ZONES,
-        max_length=3
+        max_length=3,
+        choices=ZoneChoices.choices,
+        default=ZoneChoices.NONE
     )
     
     # Foreign Keys
