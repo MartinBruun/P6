@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:washee/injection_container.dart';
 
 import '../../../../core/providers/global_provider.dart';
 import '../../../../core/usecases/usecase.dart';

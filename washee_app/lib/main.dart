@@ -11,12 +11,14 @@ import 'injection_container.dart' as ic;
 import 'core/presentation/themes/themes.dart';
 
 void main() async {
-
-  final String env = kDebugMode ? Environment.DEV : Environment.PROD; 
+  final String env = kDebugMode ? Environment.DEV : Environment.PROD;
 
   Environment().initConfig(env);
   WidgetsFlutterBinding.ensureInitialized();
   ic.initAll();
+  print("From main.dart: webApiHost = ${Environment().config.webApiHost}");
+  print("From main.dart: boxApiHost = ${Environment().config.boxApiHost}");
+
   runApp(WasheeApp());
 }
 
