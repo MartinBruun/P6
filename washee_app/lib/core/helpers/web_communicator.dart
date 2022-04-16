@@ -7,7 +7,7 @@ import 'package:washee/core/helpers/authorizer.dart';
 
 abstract class WebCommunicator {
   // Setup
-  Dio initDio();
+  Future<Dio> initDio();
   // URLs
   String get usersURL;
   String get accountsURL;
@@ -31,14 +31,12 @@ class WebCommunicatorImpl implements WebCommunicator {
   Dio dio;
   Authorizer authorizer;
 
-  WebCommunicatorImpl({required this.dio, required this.authorizer}) {
-    dio = initDio();
-  }
+  WebCommunicatorImpl({required this.dio, required this.authorizer});
 
   @override
-  Dio initDio() {
+  Future<Dio> initDio() async {
     dio.options.headers["content-Type"] = "application/json";
-    String token = authorizer.getTokenFromCache();
+    String token = await authorizer.getTokenFromCache();
     dio.options.headers["authorization"] = "TOKEN $token";
     return dio;
   }
