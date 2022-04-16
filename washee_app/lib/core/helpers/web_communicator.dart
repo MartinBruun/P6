@@ -96,8 +96,6 @@ class WebCommunicatorImpl implements WebCommunicator {
 
     response = await dio.get(bookingsURL);
     if (response.statusCode == 200) {
-      print("IN WEBCOMMUNICATOR!");
-      print(response.data);
       List<Map<String, dynamic>> convertedData = [];
       for (var booking in response.data) {
         convertedData.add({
