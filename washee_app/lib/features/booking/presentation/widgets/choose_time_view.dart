@@ -36,7 +36,7 @@ class _ChooseTimeViewState extends State<ChooseTimeView> {
       _loadingTimeSlots = true;
     });
 
-    Future.delayed(Duration(seconds: 2)).then((value) {
+    Future.delayed(Duration()).then((value) {
       var calendar = Provider.of<CalendarProvider>(context, listen: false);
       _slots = calendar.getTimeSlots(widget.currentDate);
       setState(() {
