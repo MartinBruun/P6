@@ -25,7 +25,7 @@ class Log(models.Model):
         NONE = "NON", "No given source"
         
     source = models.CharField(
-        max_length=3,
+        max_length=32,
         choices=SourceChoices.choices,
         default=SourceChoices.NONE
     )

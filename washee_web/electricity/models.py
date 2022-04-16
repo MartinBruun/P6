@@ -24,7 +24,7 @@ class ElectricityBlock(models.Model):
         EAST_DK = "DK2", "East Denmark"
     
     zone = models.CharField(
-        max_length=3,
+        max_length=32,
         choices=ZoneChoices.choices,
         default=ZoneChoices.NONE
     )
