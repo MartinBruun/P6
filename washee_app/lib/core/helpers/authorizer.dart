@@ -1,15 +1,19 @@
 import 'package:dio/dio.dart';
 import 'package:washee/core/account/user.dart';
 import 'package:washee/core/environments/environment.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:washee/core/helpers/web_communicator.dart';
+import 'package:washee/injection_container.dart';
 
 import '../errors/exception_handler.dart';
 
 abstract class Authorizer {
   Dio initDio();
-  String get token;
   String get tokenURL;
-  String getTokenFromCache();
+  Future<String> getTokenFromCache();
   Future<bool> signIn({required String email, required String password});
+  Future<bool> autoSignIn();
+  Future<void> removeAllCredentials();
 }
 
 class AuthorizerImpl implements Authorizer {
@@ -29,15 +33,13 @@ class AuthorizerImpl implements Authorizer {
   }
 
   @override
-  String token = "";
-
-  @override
   String get tokenURL => Environment().config.webApiHost + "/api-token-auth/";
 
   @override
-  String getTokenFromCache() {
-    if (this.token != "") {
-      return this.token;
+  Future<String> getTokenFromCache() async {
+    String? token = await sl<FlutterSecureStorage>().read(key: "token");
+    if (token != null) {
+      return token;
     } else {
       ExceptionHandler().handle(
           "Token expected to be found, even though it was empty. User not logged in properly!",
@@ -56,8 +58,11 @@ class AuthorizerImpl implements Authorizer {
     try {
       response = await dio.post(tokenURL, data: data);
       if (response.statusCode == 200) {
-        this.token = response.data["token"];
-        
+        await sl<FlutterSecureStorage>().write(key: "token", value: response.data["token"]);
+        await sl<FlutterSecureStorage>().write(key: "username", value: email);
+        await sl<FlutterSecureStorage>().write(key: "password", value: password);
+        sl<WebCommunicator>().initDio();
+
         user.initUser(response.data["user_id"], response.data["email"], response.data["username"], response.data["accounts"]);
 
         return true;
@@ -77,5 +82,20 @@ class AuthorizerImpl implements Authorizer {
           .handle(e.toString(), log: true, show: true, crash: false);
       return false;
     }
+  }
+
+  Future<bool> autoSignIn() async {
+    String? username = await sl<FlutterSecureStorage>().read(key: "username");
+    String? password = await sl<FlutterSecureStorage>().read(key: "password");
+    if( username != null && password != null ){
+      return await this.signIn(email: username, password: password);
+    }
+    else{
+      return await false;
+    }
+  }
+
+  Future<void> removeAllCredentials() async {
+    await sl<FlutterSecureStorage>().deleteAll();
   }
 }

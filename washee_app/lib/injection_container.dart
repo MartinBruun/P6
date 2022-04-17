@@ -18,6 +18,7 @@ import 'package:washee/features/unlock/data/datasources/unlock_remote.dart';
 import 'package:washee/features/unlock/data/repositories/unlock_repo_impl.dart';
 import 'package:washee/features/unlock/domain/repositories/unlock_repository.dart';
 import 'package:washee/features/unlock/domain/usecases/unlock.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import 'core/network/network_info.dart';
 import 'features/booking/domain/repositories/book_repository.dart';
@@ -43,6 +44,7 @@ initCoreAndExternal() {
       () => BoxCommunicatorImpl(dio: sl()));
   sl.registerLazySingleton(() => Dio());
 
+  sl.registerLazySingleton(() => FlutterSecureStorage());
   sl.registerLazySingleton<Authorizer>(() => AuthorizerImpl(dio: sl()));
 
   sl.registerLazySingleton<WebCommunicator>(
