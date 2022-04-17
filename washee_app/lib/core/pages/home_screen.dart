@@ -1,30 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:washee/core/account/user.dart';
+import 'package:washee/core/pages/pages_enum.dart';
 import 'package:washee/core/pages/washee_screen.dart';
-import 'package:washee/core/usecases/usecase.dart';
 import 'package:washee/features/sign_in/presentation/pages/sign_in_screen.dart';
-import 'package:washee/features/unlock/domain/usecases/get_wifi_permission.dart';
 import 'package:washee/features/unlock/presentation/pages/wash_screen.dart';
 import 'package:washee/features/booking/presentation/pages/calendar_screen.dart';
-import 'package:washee/injection_container.dart';
 
 class HomeScreen extends StatefulWidget {
   static const routeName = "/home-screen";
-  final Object page;
+  final int page;
 
   HomeScreen({
-    this.page = WashScreen,
+    this.page = PageNumber.WasheeScreen,
   });
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  List<Widget> _pages = [
-    WashScreen(),
-    WasheeScreen(),
-    CalendarScreen(),
-  ];
+  List<Widget> _pages = [];
 
   int _selectedPageIndex = 0;
 
@@ -32,14 +26,14 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
-    _selectedPageIndex = _getPageIndexFromPageName();
+    _pages = [
+      WashScreen(),
+      WasheeScreen(),
+      CalendarScreen(),
+    ];
+    _selectedPageIndex = widget.page;
 
     super.initState();
-  }
-
-  _getPageIndexFromPageName() {
-    return _pages
-        .indexWhere((element) => element.toString() == widget.page.toString());
   }
 
   void _selectPage(int index) {
@@ -51,7 +45,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return !user.loggedIn
-        ? SignInScreen(callback)
+        ? SignInScreen()
         : Scaffold(
             body: _pages[_selectedPageIndex],
             bottomNavigationBar: Container(
@@ -84,11 +78,5 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
           );
-  }
-
-  void callback() {
-    setState(() {
-      this._selectedPageIndex = 1;
-    });
   }
 }
