@@ -20,6 +20,10 @@ class SaveTimeButton extends StatefulWidget {
 
 class _SaveTimeButtonState extends State<SaveTimeButton> {
   bool _isBookingTimeSlot = false;
+  Future _simulateDelay() async {
+    Future.delayed(Duration(seconds: 2));
+  }
+
   @override
   Widget build(BuildContext context) {
     var calendar = Provider.of<CalendarProvider>(context, listen: false);
@@ -49,6 +53,7 @@ class _SaveTimeButtonState extends State<SaveTimeButton> {
                         "http://locahost:8000/api/1/services/${widget.machineType}/",
                     accountResource:
                         "http://localhost:8000/api/1/accounts/1/"));
+                await _simulateDelay();
                 if (result != null) {
                   calendar.clearTimeSlots();
 

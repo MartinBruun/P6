@@ -26,15 +26,17 @@ class _MachineOverviewState extends State<MachineOverview> {
   //       .loadString("assets/data/machine_list.json");
   // }
 
+  Future _simulateDelay() async {
+    Future.delayed(Duration(seconds: 5));
+  }
+
   @override
   void initState() {
     SchedulerBinding.instance?.addPostFrameCallback((_) async {
       var provider = Provider.of<GlobalProvider>(context, listen: false);
       provider.isConnectingToBox = true;
-
       //This is the usecase to be called on every initstate fetching from backend
       provider.updateMachines(await sl<GetMachinesUseCase>().call(NoParams()));
-      provider.fetchedMachines = true;
 
       provider.isConnectingToBox = false;
     });
