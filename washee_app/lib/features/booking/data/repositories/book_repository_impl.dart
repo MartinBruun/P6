@@ -1,3 +1,4 @@
+import 'package:washee/core/errors/exception_handler.dart';
 import 'package:washee/features/booking/data/models/booking_model.dart';
 import 'package:washee/features/booking/domain/repositories/book_repository.dart';
 
@@ -29,5 +30,38 @@ class BookRepositoryImpl implements BookRepository {
           accountResource: accountResource);
     }
     return null;
+  }
+
+  @override
+  Future<bool> hasCurrentBooking({
+    required int accountID,
+    required int machineID
+  }) async {
+    if (await networkInfo.isConnected){
+      List<BookingModel> validBooking = await remote.getBookings(
+        accountID: accountID,
+        machineID: machineID,
+        startTimeLessThan: DateTime.now(),
+        endTimeGreaterThan: DateTime.now()
+      );
+      if (validBooking.isEmpty){
+        return false;
+      }
+      else{
+        return true;
+      }
+    }
+    ExceptionHandler().handle("Not on network", log:true, show:true, crash:false);
+    throw new Exception("Not on network");
+  }
+
+  @override
+  Future<bool> deleteBooking({required int bookingID}) async {
+    if (await networkInfo.isConnected){
+      bool wasDeleted = await remote.deleteBooking(bookingID);
+      return wasDeleted;
+    }
+    ExceptionHandler().handle("Not on network", log:true, show:true, crash:false);
+    throw new Exception("Not on network");
   }
 }

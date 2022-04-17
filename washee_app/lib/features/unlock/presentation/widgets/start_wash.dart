@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:washee/core/pages/home_screen.dart';
 import 'package:washee/core/washee_box/machine_model.dart';
+import 'package:washee/features/unlock/presentation/pages/wash_screen.dart';
 
 import '../../../../core/errors/error_handler.dart';
 import '../../../../core/errors/http_error_prompt.dart';
@@ -23,6 +24,8 @@ class StartWash extends StatefulWidget {
 
 class _StartWashState extends State<StartWash> {
   late MachineModel? fetchedMachine;
+  var fetcedAccount;
+
 
   bool _isUnlockingMachine = false;
 
@@ -66,10 +69,7 @@ class _StartWashState extends State<StartWash> {
             children: [
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 30.w),
-                child: Center(
-                  child: _startButton(context) 
-
-                ),
+                child: Center(child: _startButton(context)),
               ),
             ],
           ),
@@ -84,24 +84,22 @@ class _StartWashState extends State<StartWash> {
         await _pressed(context);
       },
       child: _isUnlockingMachine
-      ? CircularProgressIndicator(
-        color: Colors.black,
-      )
-      : Text(
-        'Start',
-        style: textStyle.copyWith(
-          fontSize: textSize_32,
-          fontWeight: FontWeight.w600,
-          color: Colors.white,
-        ),
-      ),
+          ? CircularProgressIndicator(
+              color: Colors.black,
+            )
+          : Text(
+              'Start',
+              style: textStyle.copyWith(
+                fontSize: textSize_32,
+                fontWeight: FontWeight.w600,
+                color: Colors.white,
+              ),
+            ),
       style: ElevatedButton.styleFrom(
-        fixedSize: Size(254.w, 84.h),
-        primary: AppColors.deepGreen,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20.h)
-        )
-      ),
+          fixedSize: Size(254.w, 84.h),
+          primary: AppColors.deepGreen,
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20.h))),
     );
   }
 
@@ -110,6 +108,7 @@ class _StartWashState extends State<StartWash> {
       _isUnlockingMachine = true;
     });
     try {
+<<<<<<< HEAD
         fetchedMachine = await sl<UnlockUseCase>().call(
           UnlockParams(
               machine: widget.currentMachine,
@@ -119,6 +118,16 @@ class _StartWashState extends State<StartWash> {
             _isUnlockingMachine = false;
           });
           ErrorHandler.errorHandlerView(
+=======
+      fetchedMachine = await sl<UnlockUseCase>().call(UnlockParams(
+          machine: widget.currentMachine,
+          duration: Duration(hours: 2, minutes: 30)));
+      if (fetchedMachine == null) {
+        setState(() {
+          _isUnlockingMachine = false;
+        });
+        ErrorHandler.errorHandlerView(
+>>>>>>> 56c7c0d1ee3891074443b95b7985cd70f432fde0
             context: context,
             prompt: HTTPErrorPrompt(
                 message:
@@ -158,8 +167,12 @@ class _StartWashState extends State<StartWash> {
     //     .add(Duration(hours: 7, minutes: 30));
     // provider.machines.add(machineToStart);
     Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-            builder: (context) => HomeScreen()));
+      context,
+      MaterialPageRoute(
+        builder: (context) => HomeScreen(
+          page: WashScreen,
+        ),
+      ),
+    );
   }
 }

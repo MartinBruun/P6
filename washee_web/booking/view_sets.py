@@ -8,7 +8,7 @@ class BookingViewSet(viewsets.ModelViewSet):
     serializer_class = BookingSerializer
     
     def get_queryset(self):
-        queryset = Booking.objects.all()
+        queryset = Booking.objects.all().filter(active=True)
         
         start_time__gte = self.request.query_params.get('start_time__gte')
         if start_time__gte is not None:

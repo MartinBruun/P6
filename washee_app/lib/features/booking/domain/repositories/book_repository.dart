@@ -7,4 +7,9 @@ abstract class BookRepository {
       required String machineResource,
       required String serviceResource,
       required String accountResource});
+  Future<bool> hasCurrentBooking({
+    required int accountID,
+    required int machineID
+  });
+  Future<bool> deleteBooking({required int bookingID});
 }

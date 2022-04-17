@@ -22,7 +22,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   List<Widget> _pages = [];
 
-  int _selectedPageIndex = 2;
+  int _selectedPageIndex = 0;
 
   ActiveUser user = ActiveUser();
 
@@ -34,12 +34,17 @@ class _HomeScreenState extends State<HomeScreen> {
       CalendarScreen(),
     ];
 
-    _selectedPageIndex = 2;
+    _selectedPageIndex = _getPageIndexFromPageName();
 
     super.initState();
   }
 
-  void _selectPage(int index) async {
+  _getPageIndexFromPageName() {
+    return _pages
+        .indexWhere((element) => element.toString() == widget.page.toString());
+  }
+
+  void _selectPage(int index) {
     setState(() {
       _selectedPageIndex = index;
     });

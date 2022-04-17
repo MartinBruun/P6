@@ -1,4 +1,4 @@
-from ml_electricity.preprocessing.preprocessor import Preprocessor
+from electricity.ml_electricity.preprocessing.preprocessor import Preprocessor
 import pandas as pd
 import numpy as np
 from unittest.mock import MagicMock
@@ -6,7 +6,7 @@ from unittest.mock import MagicMock
 def test_that_we_can_get_data(mocker, test_pandas_data):
     # Arrange
     df = pd.DataFrame(test_pandas_data)
-    mocker.patch('ml_electricity.preprocessing.preprocessor.pandas.read_csv', return_value=df)
+    mocker.patch('electricity.ml_electricity.preprocessing.preprocessor.pandas.read_csv', return_value=df)
 
     p = Preprocessor()
 
@@ -18,9 +18,9 @@ def test_that_we_can_get_data(mocker, test_pandas_data):
 
 def test_that_we_can_prune_data(mocker, test_data):
     # Arrange
-    mocker.patch('ml_electricity.preprocessing.preprocessor.open', return_value=MagicMock())
+    mocker.patch('electricity.ml_electricity.preprocessing.preprocessor.open', return_value=MagicMock())
 
-    mocker.patch('ml_electricity.preprocessing.preprocessor.csv.reader', return_value=test_data)
+    mocker.patch('electricity.ml_electricity.preprocessing.preprocessor.csv.reader', return_value=test_data)
 
     p = Preprocessor()
     # Act
@@ -32,9 +32,9 @@ def test_that_we_can_prune_data(mocker, test_data):
 
 def test_pruned_data_contains_the_correct_headers(mocker, test_data):
     # Arrange
-    mocker.patch('ml_electricity.preprocessing.preprocessor.open', return_value=MagicMock())
+    mocker.patch('electricity.ml_electricity.preprocessing.preprocessor.open', return_value=MagicMock())
 
-    mocker.patch('ml_electricity.preprocessing.preprocessor.csv.reader', return_value=test_data)
+    mocker.patch('electricity.ml_electricity.preprocessing.preprocessor.csv.reader', return_value=test_data)
  
     p = Preprocessor()
 
@@ -65,9 +65,9 @@ def test_pruned_data_contains_the_correct_headers(mocker, test_data):
 def test_pruned_data_has_correct_data_types(mocker, test_data):
     # Arrange
 
-    mocker.patch('ml_electricity.preprocessing.preprocessor.open', return_value=MagicMock())
+    mocker.patch('electricity.ml_electricity.preprocessing.preprocessor.open', return_value=MagicMock())
 
-    mocker.patch('ml_electricity.preprocessing.preprocessor.csv.reader', return_value=test_data)
+    mocker.patch('electricity.ml_electricity.preprocessing.preprocessor.csv.reader', return_value=test_data)
 
     p = Preprocessor()
     

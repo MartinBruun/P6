@@ -19,6 +19,7 @@ class Booking(models.Model):
     id = models.AutoField(primary_key=True)
     start_time = models.DateTimeField(editable=True)
     end_time = models.DateTimeField(editable=False)
+    active = models.BooleanField(default=True)
     
     created = models.DateTimeField(auto_now_add=True, editable=False)
     last_updated = models.DateTimeField(auto_now=True, editable=False)
@@ -52,7 +53,7 @@ class Booking(models.Model):
     
     def save(self, *args, **kwargs):
         self.end_time = self.start_time + timedelta(seconds=self.service.duration_in_sec)
-        overlapping_bookings = Booking.objects.filter(machine=self.machine).exclude(
+        overlapping_bookings = Booking.objects.filter(machine=self.machine).exclude(id=self.id).exclude(active=False).exclude(
             Q(start_time__lte=self.start_time, end_time__lte=self.start_time) |
             Q(start_time__gte=self.end_time, end_time__gte=self.end_time)
         ).all()
@@ -70,7 +71,8 @@ class Booking(models.Model):
     def delete(self):
         self.account.balance += self.service.price_in_dk
         self.account.save()
-        return super(Booking, self).delete()
+        self.active = False
+        return super(Booking, self).save()
     
     class Meta:
         ordering = ['-created']

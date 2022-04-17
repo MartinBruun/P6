@@ -3,7 +3,15 @@ import 'package:washee/core/network/network_info.dart';
 import 'package:washee/features/booking/data/models/booking_model.dart';
 
 abstract class BookRemote {
-  Future<List<BookingModel>> getBookings();
+  Future<List<BookingModel>> getBookings({
+    DateTime? startTimeGreaterThan,
+    DateTime? startTimeLessThan,
+    DateTime? endTimeGreaterThan,
+    DateTime? endTimeLessThan,
+    int? machineID,
+    int? accountID,
+    int? serviceID
+  });
   List<BookingModel> constructBookingList(
       List<Map<String, dynamic>> bookingsAsJson);
   Future<BookingModel> postBooking(
@@ -12,6 +20,7 @@ abstract class BookRemote {
       required String serviceResource,
       required String accountResource});
   BookingModel constructBooking(Map<String, dynamic> bookingAsJson);
+  Future<bool> deleteBooking(bookingID);
 }
 
 class BookRemoteImpl implements BookRemote {
@@ -21,9 +30,25 @@ class BookRemoteImpl implements BookRemote {
   BookRemoteImpl({required this.communicator, required this.networkInfo});
 
   @override
-  Future<List<BookingModel>> getBookings() async {
+  Future<List<BookingModel>> getBookings({
+    DateTime? startTimeGreaterThan,
+    DateTime? startTimeLessThan,
+    DateTime? endTimeGreaterThan,
+    DateTime? endTimeLessThan,
+    int? machineID,
+    int? accountID,
+    int? serviceID
+  }) async {
     if (await networkInfo.isConnected) {
-      var data = await communicator.getCurrentBookings(1);
+      var data = await communicator.getCurrentBookings(
+        startTimeGreaterThan: startTimeGreaterThan,
+        startTimeLessThan: startTimeLessThan,
+        endTimeGreaterThan: endTimeGreaterThan,
+        endTimeLessThan: endTimeLessThan,
+        machineID: machineID,
+        accountID: accountID,
+        serviceID: serviceID
+      );
       return constructBookingList(data);
     }
     throw new Exception(
@@ -60,5 +85,14 @@ class BookRemoteImpl implements BookRemote {
 
   BookingModel constructBooking(Map<String, dynamic> bookingAsJson) {
     return BookingModel.fromJson(bookingAsJson);
+  }
+
+  @override
+  Future<bool> deleteBooking(bookingID) async {
+    if (await networkInfo.isConnected) {
+      bool wasDeleted = await communicator.deleteBooking(bookingID);
+      return wasDeleted;
+    }
+    return false;
   }
 }

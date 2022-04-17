@@ -52,7 +52,8 @@ class WasheeScreen extends StatelessWidget {
                 ),
               ),
             ),
-            UserInfo()
+            UserInfo(),
+            
           ],
         ),
       ),
