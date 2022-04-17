@@ -42,7 +42,7 @@ class _RefreshMachinesState extends State<RefreshMachines> {
               onPressed: () async {
                 var global =
                     Provider.of<GlobalProvider>(context, listen: false);
-                global.isRefreshing = true;
+                global.startRefresh();
               }),
         ],
       ),

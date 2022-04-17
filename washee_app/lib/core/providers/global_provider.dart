@@ -44,14 +44,22 @@ class GlobalProvider extends ChangeNotifier {
   bool get fetchedMachines => _fetchedMachines;
   bool get fetchedBookings => _fetchedBookings;
 
-  set isConnectingToBox(bool value) {
-    _isConnectingToBox = value;
+  startConnectingToBox() {
+    _isConnectingToBox = true;
     notifyListeners();
   }
 
-  set isRefreshing(bool value) {
-    _isRefreshing = value;
+  stopConnectingToBox() {
+    _isConnectingToBox = false;
+  }
+
+  startRefresh() {
+    _isRefreshing = true;
     notifyListeners();
+  }
+
+  stopRefresh() {
+    _isRefreshing = false;
   }
 
   set fetchedMachines(bool value) {
