@@ -13,19 +13,14 @@ docker-compose exec web python3 manage.py makemigrations
 docker-compose exec web python3 manage.py migrate
 echo 
 echo Loading users from ./washee_web/account/fixtures/init_priorgade_users.json
-docker-compose exec web python3 manage.py loaddata init_priorgade_users.json
 echo Loading accounts from ./washee_web/account/fixtures/init_priorgade_accounts.json
-docker-compose exec web python3 manage.py loaddata init_priorgade_accounts.json
 echo Loading machine models from ./washee_web/location/fixtures/init_priorgade_models.json
-docker-compose exec web python3 manage.py loaddata init_priorgade_models.json
 echo Loading services from ./washee_web/location/fixtures/init_priorgade_services.json
-docker-compose exec web python3 manage.py loaddata init_priorgade_services.json
 echo Loading locations from ./washee_web/location/fixtures/init_priorgade_locations.json
-docker-compose exec web python3 manage.py loaddata init_priorgade_locations.json
 echo Loading machines from ./washee_web/location/fixtures/init_priorgade_machines.json
-docker-compose exec web python3 manage.py loaddata init_priorgade_machines.json
 echo Loading bookings from ./washee_web/location/fixtures/init_priorgade_bookings.json
-docker-compose exec web python3 manage.py loaddata init_priorgade_bookings.json
+echo 
+docker-compose exec web python3 manage.py loaddata init_priorgade_users.json init_priorgade_accounts.json init_priorgade_models.json init_priorgade_services.json init_priorgade_locations.json init_priorgade_machines.json init_priorgade_bookings.json
 cd scripts
 cd mac
 echo 
