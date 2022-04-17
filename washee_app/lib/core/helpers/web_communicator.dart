@@ -111,16 +111,16 @@ class WebCommunicatorImpl implements WebCommunicator {
     String queryString = "";
     
     if (startTimeGreaterThan != null){
-      queryString += "start_time__gte=" + startTimeGreaterThan.toString() + "&";
+      queryString += "start_time__gte=" + _convertToNonNaiveTime(startTimeGreaterThan) + "&";
     }
     if (startTimeLessThan != null){
-      queryString += "start_time__lte=" + startTimeLessThan.toString() + "&";
+      queryString += "start_time__lte=" + _convertToNonNaiveTime(startTimeLessThan) + "&";
     }
     if (endTimeGreaterThan != null){
-      queryString += "end_time__gte=" + endTimeGreaterThan.toString() + "&";
+      queryString += "end_time__gte=" + _convertToNonNaiveTime(endTimeGreaterThan) + "&";
     }
     if (endTimeLessThan != null){
-      queryString += "end_time__lte=" + endTimeLessThan.toString() + "&";
+      queryString += "end_time__lte=" + _convertToNonNaiveTime(endTimeLessThan) + "&";
     }
     if (machineID != null){
       queryString += "machine_id=" + machineID.toString() + "&";
@@ -179,7 +179,7 @@ class WebCommunicatorImpl implements WebCommunicator {
     Response response;
 
     response = await dio.post(bookingsURL + "/", data: {
-      "start_time": DateFormat("yyyy-MM-dd'T'HH:mm:ss").format(startTime) + "Z",
+      "start_time": _convertToNonNaiveTime(startTime),
       "account": accountResource,
       "machine": machineResource,
       "service": serviceResource
@@ -220,5 +220,9 @@ class WebCommunicatorImpl implements WebCommunicator {
 
       throw Exception(response.data);
     }
+  }
+  String _convertToNonNaiveTime(DateTime time){
+    // The backend is timezone sensitive, and needs it in the following specified format
+    return DateFormat("yyyy-MM-dd'T'HH:mm:ss").format(time) + "Z";
   }
 }
