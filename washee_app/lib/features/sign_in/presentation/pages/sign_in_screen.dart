@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:washee/core/account/user.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -82,14 +84,20 @@ class _SignInScreenState extends State<SignInScreen> {
                                         email: _emailController.text,
                                         password: _passwordController.text));
 
-                                  if (result) {
-                                    print("something went right! Asking for wifi permissions");
-                                    await sl<GetWifiPermissionUsecase>().call(NoParams());
+                                if (result) {
+                                  print(
+                                      "something went right! Asking for wifi permissions");
+                                  if (Platform.isAndroid) {
+                                    await sl<GetWifiPermissionUsecase>()
+                                        .call(NoParams());
 
-                                  // update the homescreen with the callback function
+                                    // update the homescreen with the callback function
+                                    //this.widget.callback();
+                                  }
                                   this.widget.callback();
                                 } else {
-                                  print("something went wrong");
+                                  print(
+                                      "something went wrong you need to login to washeenet manually");
 
                                   showDialog(
                                       context: context,

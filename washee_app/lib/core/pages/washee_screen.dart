@@ -6,10 +6,7 @@ import 'package:washee/features/user_info/presentation/widgets/user_info.dart';
 class WasheeScreen extends StatelessWidget {
   static const routeName = "/washee-screen";
 
-  final Function updatePage;
-
-  WasheeScreen(this.updatePage);
-
+  
   @override
   Widget build(BuildContext context) {
     var mediaHeight = MediaQuery.of(context).size.height;
@@ -20,10 +17,10 @@ class WasheeScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-            Align(
-              alignment: Alignment.topRight,
-              child: LogOutButton(updatePage),
-            ),
+            // Align(
+            //   alignment: Alignment.topRight,
+            //   child: LogOutButton(updatePage),
+            // ),
             Container(
               height: mediaHeight * 0.3,
               width: mediaHeight * 0.3,
