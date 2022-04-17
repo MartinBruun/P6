@@ -1,8 +1,10 @@
 import json
+import pytz
 from time import sleep
 from datetime import datetime
 from hardware.raspberryLED import RaspberryLED
 from hardware.raspberry import Raspberry
+
 
 
 class MainController:
@@ -24,7 +26,7 @@ class MainController:
         self.unlockMachine(arg[0], arg[1], arg[2], arg[3])
 
     def unlockMachine(self, machine, duration, user="user??", account="account??"):
-        now = datetime.now()
+        now = datetime.now(pytz.timezone('Europe/Copenhagen'))
         running = True
         max_wash_time = self.getWashTimeLimit()
         timeLeft = min(max_wash_time, duration)
@@ -57,7 +59,7 @@ class MainController:
 
         # update machine so that users get notified of the changed machine status when fetching the machine list
         # the update should write to the machinelist file
-        machine["endTime"] = datetime.now()
+        machine["endTime"] = datetime.now(pytz.timezone('Europe/Copenhagen'))
         logmessage = "machine turned off ; endTime:" + str(machine["endTime"])
         self.writeToLog(account, user, machine, logmessage)
 
@@ -85,14 +87,14 @@ class MainController:
     def getMachinesInfo(self):
         with open("data_setup_files/machine_list.json", "r") as file:
             machines = json.loads(file.read())
-            machines["last_fetched"] = datetime.now()
+            machines["last_fetched"] = datetime.now(pytz.timezone('Europe/Copenhagen'))
 
         return machines
 
     def getUsersInfo(self):
         with open("data_setup_files/allowed_users.json", "r") as file:
             users = json.loads(file.read())
-            users["last_fetched"] = datetime.now()
+            users["last_fetched"] = datetime.now(pytz.timezone('Europe/Copenhagen'))
 
         return users
 
@@ -110,7 +112,7 @@ class MainController:
         return logFile
 
     def writeToLog(self, account, user, machine, message):
-        timestamp = datetime.now()
+        timestamp = datetime.now(pytz.timezone('Europe/Copenhagen'))
         machine["startTime"] = str(machine["startTime"])
         machine["endTime"] = str(machine["endTime"])
 
@@ -132,7 +134,7 @@ class MainController:
         if self.allowedUser(user, password):
             with open("data_setup_files/machine_list.json", "w") as file:
                 # machines["setup_date"]=str(datetime.now())
-                now = str(datetime.now())
+                now = str(datetime.now(pytz.timezone('Europe/Copenhagen')))
                 data = {
                     "last-edited": now,
                     "machines": machines
@@ -145,7 +147,7 @@ class MainController:
         if self.allowedUser(user, password):
             with open("data_setup_files/allowed_users.json", "w") as file:
                 # users["setup_date"]=datetime.now()
-                now = str(datetime.now())
+                now = str(datetime.now(pytz.timezone('Europe/Copenhagen')))
                 data = {
                     "last-edited": now,
                     "users": users
@@ -158,7 +160,7 @@ class MainController:
         if self.allowedUser(user, password):
             with open("data_setup_files/max_washing_time.json", "w") as file:
                 # users["setup_date"]=datetime.now()
-                now = str(datetime.now())
+                now = str(datetime.now(pytz.timezone('Europe/Copenhagen')))
                 data = {
                     "last-edited": now,
                     "MAX_WASHINGTIME_IN_SEC": timelimit_json

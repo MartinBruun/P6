@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:washee/core/account/user.dart';
 import 'package:washee/core/washee_box/machine_model.dart';
+import 'package:washee/injection_container.dart';
+import 'package:washee/features/booking/domain/usecases/has_current_booking.dart';
 import 'package:washee/features/unlock/presentation/widgets/insufficient_funds_dialog.dart';
 import 'package:washee/features/unlock/presentation/widgets/please_login_dialog.dart';
 import '../../features/unlock/presentation/widgets/initiate_wash_dialog.dart';
+import 'package:washee/features/unlock/presentation/widgets/does_not_have_current_booking_dialog.dart';
 import '../presentation/themes/colors.dart';
 import '../presentation/themes/dimens.dart';
 import '../presentation/themes/themes.dart';
@@ -64,7 +67,7 @@ class MachineCard extends StatelessWidget {
                                 fontWeight: FontWeight.w500),
                           ),
                           onPressed: () async {
-                            _cardPressed(context);
+                            _cardPressed(context, machine);
                           },
                           style: ElevatedButton.styleFrom(
                             primary: AppColors.deepGreen,
@@ -83,17 +86,26 @@ class MachineCard extends StatelessWidget {
     );
   }
 
-
-
-  void _cardPressed(BuildContext context) {
-    if (user.loggedIn && user.activeAccount != null){
-      if ( user.loggedIn && user.activeAccount!.balance > 0) {
-        showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return InitiateWashDialog(machine: machine);
-          },
-        );
+  void _cardPressed(BuildContext context, MachineModel machine) async {
+    if (user.loggedIn && user.activeAccount != null) {
+      if (user.loggedIn && user.activeAccount!.balance > 0) {
+        if (true ==
+            await sl<HasCurrentBookingUseCase>().call(HasCurrentBookingParams(
+                accountID: user.id!,
+                machineID: int.parse(machine.machineID)))) {
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return InitiateWashDialog(machine: machine);
+            },
+          );
+        } else {
+          showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return DoesNotHaveCurrentBookingDialog();
+              });
+        }
       } else {
         showDialog(
           context: context,
@@ -102,7 +114,7 @@ class MachineCard extends StatelessWidget {
           },
         );
       }
-    } else{
+    } else {
       showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -111,12 +123,4 @@ class MachineCard extends StatelessWidget {
       );
     }
   }
-
 }
-
-
-//  // Container(
-//     //   width: 700.w,
-//     //   height: 200.h,
-//       child: 
-//     // );

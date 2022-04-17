@@ -5,6 +5,7 @@ import 'package:washee/core/presentation/themes/colors.dart';
 import 'package:washee/core/presentation/themes/dimens.dart';
 import 'package:washee/core/presentation/themes/themes.dart';
 import 'package:washee/features/user_info/presentation/widgets/user_text.dart';
+import '../../../booking/presentation/widgets/my_bookings_list.dart';
 
 
 class UserInfo extends StatefulWidget {
@@ -35,7 +36,7 @@ class _UserInfoState extends State<UserInfo> {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 5),
       child:Container(
-        height: 500.h,
+        height: 1000.h,
         width: 900.w,
         decoration: BoxDecoration(
           color: AppColors.fieldItemGray,
@@ -51,6 +52,7 @@ class _UserInfoState extends State<UserInfo> {
               UserText(user.email!, smallText, bottomPadding),
               UserText("Saldo:", bigText,0),
               UserText(user.activeAccount!.balance.toString() + " kr", smallText, bottomPadding),
+              MyAccountBookingList(),
             ],
           ),
         )

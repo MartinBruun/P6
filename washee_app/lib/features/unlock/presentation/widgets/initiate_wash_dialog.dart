@@ -60,7 +60,7 @@ class _InitiateWashDialogState extends State<InitiateWashDialog> {
               width: 760.w,
               height: 170.h,
               child: Text(
-                "Vil du låse ${widget.machine.name} op? Det vil koste dig ét klip",
+                "${widget.machine.name} er låst op! Betalingen er trukket fra din konto",
                 style: textStyle.copyWith(
                   fontSize: textSize_32,
                   fontWeight: FontWeight.w500,
@@ -105,8 +105,6 @@ class _InitiateWashDialogState extends State<InitiateWashDialog> {
   }
 
   Widget _yesButton(BuildContext context) {
-    var unlockProvider = Provider.of<UnlockProvider>(context, listen: true);
-
     return Padding(
         padding: EdgeInsets.symmetric(horizontal: 30.w),
         child: ElevatedButton(
@@ -124,12 +122,8 @@ class _InitiateWashDialogState extends State<InitiateWashDialog> {
             ),
           ),
           onPressed: () async {
-            unlockProvider.isUnlocking = true;
-            await Future.delayed(Duration(seconds: 3)).then((_) {
-              unlockProvider.isUnlocking = false;
-              setState(() {
-                _machineReady = true;
-              });
+            setState(() {
+              _machineReady = true;
             });
           },
         ));

@@ -49,7 +49,6 @@ class _SaveTimeButtonState extends State<SaveTimeButton> {
                         "http://locahost:8000/api/1/services/${widget.machineType}/",
                     accountResource:
                         "http://localhost:8000/api/1/accounts/1/"));
-                await Future.delayed(Duration(seconds: 3));
                 if (result != null) {
                   calendar.clearTimeSlots();
 

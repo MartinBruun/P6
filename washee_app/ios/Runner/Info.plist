@@ -52,5 +52,7 @@
 	<string>Washee needs access to your local network and mobile in order to start a washing machine and connect to the server</string>
 	<key>com.apple.developer.networking.wifi-info</key>
 	<string>Washee needs access to your local network in order to start a washing machine</string>
+	<key>CADisableMinimumFrameDurationOnPhone</key>
+	<true/>
 </dict>
 </plist>

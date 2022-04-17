@@ -7,6 +7,7 @@ import 'package:washee/core/helpers/web_communicator.dart';
 import 'package:washee/core/helpers/box_communicator.dart';
 import 'package:washee/features/booking/data/datasources/book_remote.dart';
 import 'package:washee/features/booking/data/repositories/book_repository_impl.dart';
+import 'package:washee/features/booking/domain/usecases/has_current_booking.dart';
 import 'package:washee/features/booking/domain/usecases/post_booking.dart';
 import 'package:washee/features/get_machines/data/repositories/get_machines_repo_impl.dart';
 import 'package:washee/features/get_machines/domain/repositories/get_machines_repository.dart';
@@ -18,9 +19,11 @@ import 'package:washee/features/unlock/data/datasources/unlock_remote.dart';
 import 'package:washee/features/unlock/data/repositories/unlock_repo_impl.dart';
 import 'package:washee/features/unlock/domain/repositories/unlock_repository.dart';
 import 'package:washee/features/unlock/domain/usecases/unlock.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import 'core/network/network_info.dart';
 import 'features/booking/domain/repositories/book_repository.dart';
+import 'features/booking/domain/usecases/get_bookings.dart';
 
 // sl is short for service locater
 final GetIt sl = GetIt.instance;
@@ -43,6 +46,7 @@ initCoreAndExternal() {
       () => BoxCommunicatorImpl(dio: sl()));
   sl.registerLazySingleton(() => Dio());
 
+  sl.registerLazySingleton(() => FlutterSecureStorage());
   sl.registerLazySingleton<Authorizer>(() => AuthorizerImpl(dio: sl()));
 
   sl.registerLazySingleton<WebCommunicator>(
@@ -52,6 +56,8 @@ initCoreAndExternal() {
 void initBooking() {
   // Usecases
   sl.registerLazySingleton(() => PostBookingUsecase(repository: sl()));
+  sl.registerLazySingleton(() => GetBookingsUseCase(repository: sl()));
+  sl.registerLazySingleton(() => HasCurrentBookingUseCase(repository: sl()));
 
   // Repositories
   sl.registerLazySingleton<BookRepository>(
@@ -92,5 +98,5 @@ void initSignIn() {
 
   // Repository
   sl.registerLazySingleton<SignInRepository>(
-      () => SignInRepositoryImpl(authorizer: sl()));
+      () => SignInRepositoryImpl(authorizer: sl(), communicator: sl()));
 }
