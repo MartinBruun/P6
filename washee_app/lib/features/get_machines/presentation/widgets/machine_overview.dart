@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:washee/core/washee_box/machine_model.dart';
 import 'package:washee/injection_container.dart';
 
 import '../../../../core/providers/global_provider.dart';
@@ -26,54 +27,53 @@ class _MachineOverviewState extends State<MachineOverview> {
   //       .loadString("assets/data/machine_list.json");
   // }
 
-  Future _simulateDelay() async {
-    Future.delayed(Duration(seconds: 5));
-  }
-
-  @override
-  void initState() {
-    SchedulerBinding.instance?.addPostFrameCallback((_) async {
-      var provider = Provider.of<GlobalProvider>(context, listen: false);
-      provider.isConnectingToBox = true;
-      //This is the usecase to be called on every initstate fetching from backend
-      provider.updateMachines(await sl<GetMachinesUseCase>().call(NoParams()));
-
-      provider.isConnectingToBox = false;
-    });
-
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Consumer<GlobalProvider>(
-      builder: (context, data, _) {
-        return Center(
-          child: data.isConnectingToBox || data.isRefreshing
-              ? CircularProgressIndicator(
-                  color: Colors.white,
-                )
-              : Column(
-                  children: [
-                    RefreshMachines(),
-                    SizedBox(
-                      height: 100.h,
-                    ),
-                    Expanded(
-                      child: ListView.builder(
-                        itemBuilder: (context, index) => Padding(
-                          padding: EdgeInsets.all(10.h),
-                          child: MachineCard(
-                            machine: data.machines[index],
-                          ),
-                        ),
-                        itemCount: data.machines.length,
+      builder: (context, value, _) => FutureBuilder(
+          future: sl<GetMachinesUseCase>().call(NoParams()),
+          builder: ((context, snapshot) {
+            switch (snapshot.connectionState) {
+              case ConnectionState.waiting:
+                return Center(
+                  child: CircularProgressIndicator(
+                    color: Colors.white,
+                  ),
+                );
+              case ConnectionState.done:
+                if (snapshot.hasData) {
+                  value.updateMachines(snapshot.data as List<MachineModel>);
+                  return Column(
+                    children: [
+                      RefreshMachines(),
+                      SizedBox(
+                        height: 50.h,
                       ),
-                    ),
-                  ],
-                ),
-        );
-      },
+                      Expanded(
+                        child: ListView.builder(
+                          itemBuilder: (context, index) => Padding(
+                            padding: EdgeInsets.all(10.h),
+                            child: MachineCard(
+                              machine: value.machines[index],
+                            ),
+                          ),
+                          itemCount: value.machines.length,
+                        ),
+                      ),
+                    ],
+                  );
+                }
+                return Center(
+                  child: Text("Der kunne ikke hentes nogen maskiner!"),
+                );
+              case ConnectionState.active:
+                return const Text("Active");
+              case ConnectionState.none:
+                return Center(
+                  child: Text("Der kunne ikke hentes nogen maskiner!"),
+                );
+            }
+          })),
     );
   }
 }
