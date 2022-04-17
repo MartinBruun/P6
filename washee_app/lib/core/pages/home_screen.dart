@@ -30,7 +30,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     _pages = [
       WashScreen(),
-      WasheeScreen(callback),
+      WasheeScreen(),
       CalendarScreen(),
     ];
 
