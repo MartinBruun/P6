@@ -32,15 +32,16 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
-    _selectedPageIndex = _getPageIndexFromPageName();
+    _selectedPageIndex = 1; //_getPageIndexFromPageName(); 
 
     super.initState();
   }
 
-  _getPageIndexFromPageName() {
-    return _pages
-        .indexWhere((element) => element.toString() == widget.page.toString());
-  }
+//Denne implementation ser rigtig lækker ud, men den virker ikke med IOS!
+  // _getPageIndexFromPageName() {
+  //   return _pages
+  //       .indexWhere((element) => element.toString() == widget.page.toString());
+  // }
 
   void _selectPage(int index) {
     setState(() {
