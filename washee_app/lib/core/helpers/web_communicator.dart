@@ -143,7 +143,6 @@ class WebCommunicatorImpl implements WebCommunicator {
       bookingsFinalURL += "?" + queryString;
       bookingsFinalURL = bookingsFinalURL.substring(0, bookingsFinalURL.length-1);
     }
-    print(bookingsFinalURL);
 
     response = await dio.get(bookingsFinalURL);
     if (response.statusCode == 200) {
