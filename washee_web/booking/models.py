@@ -53,7 +53,7 @@ class Booking(models.Model):
     
     def save(self, *args, **kwargs):
         self.end_time = self.start_time + timedelta(seconds=self.service.duration_in_sec)
-        overlapping_bookings = Booking.objects.filter(machine=self.machine).exclude(
+        overlapping_bookings = Booking.objects.filter(machine=self.machine).exclude(id=self.id).exclude(active=False).exclude(
             Q(start_time__lte=self.start_time, end_time__lte=self.start_time) |
             Q(start_time__gte=self.end_time, end_time__gte=self.end_time)
         ).all()

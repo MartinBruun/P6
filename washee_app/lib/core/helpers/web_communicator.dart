@@ -6,6 +6,8 @@ import 'package:washee/core/errors/exception_handler.dart';
 import 'package:washee/core/helpers/authorizer.dart';
 
 abstract class WebCommunicator {
+  // ALL ID and Resource should be changed to their corresponding Model instead!
+  // Models should then also have their resource AND id saved (or have the resource as a getter for convenience)
   // Setup
   Future<Dio> initDio();
   // URLs
@@ -32,7 +34,8 @@ abstract class WebCommunicator {
       required String accountResource,
       required String machineResource,
       required String serviceResource});
-  Future<Map<String, dynamic>> updateAccount(Account account);
+  Future<Map<String, dynamic>> getAccount(Account account);
+  Future<bool> deleteBooking(bookingID); // Should be changed to return Map<String,dynamic>
 }
 
 class WebCommunicatorImpl implements WebCommunicator {
@@ -140,7 +143,6 @@ class WebCommunicatorImpl implements WebCommunicator {
       bookingsFinalURL += "?" + queryString;
       bookingsFinalURL = bookingsFinalURL.substring(0, bookingsFinalURL.length-1);
     }
-    print(bookingsFinalURL);
 
     response = await dio.get(bookingsFinalURL);
     if (response.statusCode == 200) {
@@ -200,9 +202,9 @@ class WebCommunicatorImpl implements WebCommunicator {
   }
 
   @override
-  Future<Map<String, dynamic>> updateAccount(Account account) async {
+  Future<Map<String, dynamic>> getAccount(Account account) async {
     Response response;
-    String url = accountsURL + account.id.toString();
+    String url = accountsURL + "/${account.id.toString()}/";
 
     response = await dio.get(url);
 
@@ -221,6 +223,31 @@ class WebCommunicatorImpl implements WebCommunicator {
       throw Exception(response.data);
     }
   }
+
+  @override
+  Future<bool> deleteBooking(bookingID) async {
+    Response response;
+    String url = bookingsURL + "/${bookingID}/";
+
+    response = await dio.delete(url);
+
+    if (response.statusCode != null && response.statusCode! < 400) {
+      print("STATUS CODE!: " + response.statusCode.toString());
+      return response.data;
+    } else {
+      ExceptionHandler().handle(
+          "Something went wrong with status code: " +
+              response.statusCode.toString() +
+              " with response:\n" +
+              response.data['response'],
+          log: true,
+          show: true,
+          crash: false);
+
+      throw Exception(response.data);
+    }
+  }
+
   String _convertToNonNaiveTime(DateTime time){
     // The backend is timezone sensitive, and needs it in the following specified format
     return DateFormat("yyyy-MM-dd'T'HH:mm:ss").format(time) + "Z";

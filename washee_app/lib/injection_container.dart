@@ -98,5 +98,5 @@ void initSignIn() {
 
   // Repository
   sl.registerLazySingleton<SignInRepository>(
-      () => SignInRepositoryImpl(authorizer: sl()));
+      () => SignInRepositoryImpl(authorizer: sl(), communicator: sl()));
 }

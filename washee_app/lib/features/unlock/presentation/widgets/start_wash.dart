@@ -24,6 +24,8 @@ class StartWash extends StatefulWidget {
 
 class _StartWashState extends State<StartWash> {
   late MachineModel? fetchedMachine;
+  var fetcedAccount;
+
 
   bool _isUnlockingMachine = false;
 

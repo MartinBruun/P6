@@ -54,4 +54,14 @@ class BookRepositoryImpl implements BookRepository {
     ExceptionHandler().handle("Not on network", log:true, show:true, crash:false);
     throw new Exception("Not on network");
   }
+
+  @override
+  Future<bool> deleteBooking({required int bookingID}) async {
+    if (await networkInfo.isConnected){
+      bool wasDeleted = await remote.deleteBooking(bookingID);
+      return wasDeleted;
+    }
+    ExceptionHandler().handle("Not on network", log:true, show:true, crash:false);
+    throw new Exception("Not on network");
+  }
 }

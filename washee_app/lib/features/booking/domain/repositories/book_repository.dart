@@ -11,4 +11,5 @@ abstract class BookRepository {
     required int accountID,
     required int machineID
   });
+  Future<bool> deleteBooking({required int bookingID});
 }

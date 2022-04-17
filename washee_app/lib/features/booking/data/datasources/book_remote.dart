@@ -20,6 +20,7 @@ abstract class BookRemote {
       required String serviceResource,
       required String accountResource});
   BookingModel constructBooking(Map<String, dynamic> bookingAsJson);
+  Future<bool> deleteBooking(bookingID);
 }
 
 class BookRemoteImpl implements BookRemote {
@@ -84,5 +85,14 @@ class BookRemoteImpl implements BookRemote {
 
   BookingModel constructBooking(Map<String, dynamic> bookingAsJson) {
     return BookingModel.fromJson(bookingAsJson);
+  }
+
+  @override
+  Future<bool> deleteBooking(bookingID) async {
+    if (await networkInfo.isConnected) {
+      bool wasDeleted = await communicator.deleteBooking(bookingID);
+      return wasDeleted;
+    }
+    return false;
   }
 }
