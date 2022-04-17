@@ -68,24 +68,22 @@ class _ChooseMachineViewState extends State<ChooseMachineView> {
                       ),
                     ),
                   ),
+                  // needs UI fixing
                   Center(
-                    child: Text(
-                      "Det koster 10 kr. at booke Vaskemaskinen i 2,5 time",
-                      style: textStyle.copyWith(fontSize: textSize_29),
-                    )
-                  ),
+                      child: Text(
+                    "Det koster 10 kr. at booke Vaskemaskinen i 2,5 time",
+                    style: textStyle.copyWith(fontSize: textSize_29),
+                  )),
                   Center(
-                    child: Text(
-                      "Det koster 5 kr. at booke Tørretumbleren i 2,5 time",
-                      style: textStyle.copyWith(fontSize: textSize_29),
-                    )
-                  ),
+                      child: Text(
+                    "Det koster 5 kr. at booke Tørretumbleren i 2,5 time",
+                    style: textStyle.copyWith(fontSize: textSize_29),
+                  )),
                   Center(
-                    child: Text(
-                      "Du kan slette bookings i Home under din saldo",
-                      style: textStyle.copyWith(fontSize: textSize_29),
-                    )
-                  )
+                      child: Text(
+                    "Du kan slette bookings i Home under din saldo",
+                    style: textStyle.copyWith(fontSize: textSize_29),
+                  ))
                 ],
               ),
             ),
