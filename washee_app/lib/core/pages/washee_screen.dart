@@ -1,61 +1,39 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:washee/core/presentation/themes/dimens.dart';
+import 'package:washee/core/presentation/themes/themes.dart';
 import 'package:washee/features/sign_out/presentation/widgets/log_out_button.dart';
 import 'package:washee/features/user_info/presentation/widgets/user_info.dart';
 
 class WasheeScreen extends StatelessWidget {
   static const routeName = "/washee-screen";
 
-  final Function updatePage;
-
-  WasheeScreen(this.updatePage);
-
   @override
   Widget build(BuildContext context) {
-    var mediaHeight = MediaQuery.of(context).size.height;
-
     return Scaffold(
-      body: Padding(
-        padding: EdgeInsets.only(top: 130.h),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            Align(
-              alignment: Alignment.topRight,
-              child: LogOutButton(updatePage),
-            ),
-            Container(
-              height: mediaHeight * 0.3,
-              width: mediaHeight * 0.3,
+      appBar: AppBar(
+          leading: LogOutButton(),
+          centerTitle: true,
+          title: Text(
+            "WASHEE",
+            style: textStyle.copyWith(
+                fontSize: textSize_40, fontWeight: FontWeight.w600),
+          )),
+      body: Column(
+        children: [
+          Padding(
+            padding: EdgeInsets.only(bottom: 40.h, top: 24.h),
+            child: Container(
+              height: 200.h,
+              width: 200.w,
               child: Image.asset(
                 'assets/images/washingmachine.png',
                 fit: BoxFit.cover,
               ),
             ),
-            SizedBox(
-              height: mediaHeight * 0.05,
-            ),
-            Padding(
-              padding: EdgeInsets.all(mediaHeight * 0.005),
-              child: Center(
-                child: Container(
-                  height: mediaHeight * 0.075,
-                  child: FittedBox(
-                    child: Text(
-                      'WASHEEEEEE',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            UserInfo(),
-            
-          ],
-        ),
+          ),
+          Center(child: UserInfo()),
+        ],
       ),
     );
   }
