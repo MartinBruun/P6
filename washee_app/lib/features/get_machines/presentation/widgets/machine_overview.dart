@@ -6,9 +6,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:washee/injection_container.dart';
 
 import '../../../../core/providers/global_provider.dart';
+import '../../../../core/usecases/usecase.dart';
 import '../../../../core/widgets/machine_card.dart';
+import '../../../../injection_container.dart';
+import '../../domain/usecases/get_machines.dart';
 import 'refresh_machines.dart';
 
 class MachineOverview extends StatefulWidget {
@@ -17,25 +21,20 @@ class MachineOverview extends StatefulWidget {
 }
 
 class _MachineOverviewState extends State<MachineOverview> {
-  Future<String> loadAsset() async {
-    return await rootBundle.rootBundle
-        .loadString("assets/data/machine_list.json");
-  }
+  // Future<String> loadAsset() async {
+  //   return await rootBundle.rootBundle
+  //       .loadString("assets/data/machine_list.json");
+  // }
 
   @override
   void initState() {
     SchedulerBinding.instance?.addPostFrameCallback((_) async {
       var provider = Provider.of<GlobalProvider>(context, listen: false);
       provider.isConnectingToBox = true;
-      if (!provider.fetchedMachines) {
-        // var string = await loadAsset();
-        // var stringAsJson = json.decode(string);
-        // provider.constructMachineList(stringAsJson);
-        //This is the usecase to be called on every initstate fetching from backend
-        // provider
-        //     .updateMachines(await sl<GetMachinesUseCase>().call(NoParams()));
-        // provider.fetchedMachines = true;
-      }
+
+      //This is the usecase to be called on every initstate fetching from backend
+      provider.updateMachines(await sl<GetMachinesUseCase>().call(NoParams()));
+      provider.fetchedMachines = true;
 
       provider.isConnectingToBox = false;
     });
@@ -43,7 +42,6 @@ class _MachineOverviewState extends State<MachineOverview> {
     super.initState();
   }
 
-  // Might need to be a futurebuilder
   @override
   Widget build(BuildContext context) {
     return Consumer<GlobalProvider>(

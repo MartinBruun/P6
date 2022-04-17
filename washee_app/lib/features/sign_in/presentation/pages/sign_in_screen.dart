@@ -19,8 +19,6 @@ class SignInScreen extends StatefulWidget {
 }
 
 class _SignInScreenState extends State<SignInScreen> {
-  
-
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -44,22 +42,18 @@ class _SignInScreenState extends State<SignInScreen> {
               key: _formKey,
               child: Column(
                 children: <Widget>[
-                  TextInput("Email", _emailController, false, 
-                    (value) {
-                      if (value == "") {
-                        return "Du har ikke indtastet en Email";
-                      }
-                      return null;
+                  TextInput("Email", _emailController, false, (value) {
+                    if (value == "") {
+                      return "Du har ikke indtastet en Email";
                     }
-                  ),
-                  TextInput("Password", _passwordController, true, 
-                    (value) {
-                      if (value == "") {
-                        return "Du har ikke indtastet et kodeord";
-                      }
-                      return null;
+                    return null;
+                  }),
+                  TextInput("Password", _passwordController, true, (value) {
+                    if (value == "") {
+                      return "Du har ikke indtastet et kodeord";
                     }
-                  ),
+                    return null;
+                  }),
                   Padding(
                       padding:
                           EdgeInsets.symmetric(horizontal: 8.w, vertical: 16.h),
@@ -79,34 +73,20 @@ class _SignInScreenState extends State<SignInScreen> {
                                   borderRadius: BorderRadius.circular(20))),
                           onPressed: () async {
                             if (_formKey.currentState != null) {
-                              var valid = _formKey.currentState!.validate();
-                              if (!valid) {
-                                // show error prompt
+                              _formKey.currentState!.save();
+                              try {
+                                var result = await sl<SignInUseCase>().call(
+                                    SignInParams(
+                                        email: _emailController.text,
+                                        password: _passwordController.text));
 
-                              } else {
-                                _formKey.currentState!.save();
-                                try {
-                                  var result = await sl<SignInUseCase>().call(
-                                      SignInParams(
-                                          email: _emailController.text,
-                                          password: _passwordController.text));
+                                if (result) {
+                                  print("something went right!");
 
-                                  if (result) {
-                                    print("something went right!");
-
-                                    // update the homescreen with the callback function
-                                    this.widget.callback();
-                                  } else {
-                                    print("something went wrong");
-
-                                    showDialog(
-                                        context: context,
-                                        builder: (BuildContext context) {
-                                          return IncorrectInput();
-                                        });
-                                  }
-                                } on Exception catch (e) {
-                                  print("DioError occured: " + e.toString());
+                                  // update the homescreen with the callback function
+                                  this.widget.callback();
+                                } else {
+                                  print("something went wrong");
 
                                   showDialog(
                                       context: context,
@@ -114,6 +94,14 @@ class _SignInScreenState extends State<SignInScreen> {
                                         return IncorrectInput();
                                       });
                                 }
+                              } on Exception catch (e) {
+                                print("DioError occured: " + e.toString());
+
+                                showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return IncorrectInput();
+                                    });
                               }
                             }
                           },
