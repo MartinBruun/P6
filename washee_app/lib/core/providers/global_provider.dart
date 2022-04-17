@@ -32,7 +32,7 @@ class GlobalProvider extends ChangeNotifier {
     //         .add(Duration(hours: 3, minutes: 15))),
   ];
   List<BookingModel> _bookings = [];
-  bool _isConnectingToBox = false;
+  bool _isConnectingToBox = true;
   bool _isRefreshing = false;
   bool _fetchedMachines = false;
   bool _fetchedBookings = false;

@@ -20,7 +20,11 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  List<Widget> _pages = [];
+  List<Widget> _pages = [
+    WashScreen(),
+    WasheeScreen(),
+    CalendarScreen(),
+  ];
 
   int _selectedPageIndex = 0;
 
@@ -28,12 +32,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
-    _pages = [
-      WashScreen(),
-      WasheeScreen(),
-      CalendarScreen(),
-    ];
-
     _selectedPageIndex = _getPageIndexFromPageName();
 
     super.initState();

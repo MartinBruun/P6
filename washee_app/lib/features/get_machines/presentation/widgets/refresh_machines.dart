@@ -9,8 +9,6 @@ import '../../../../core/usecases/usecase.dart';
 import '../../../../injection_container.dart';
 import '../../domain/usecases/get_machines.dart';
 
-import 'package:washee/core/network/network_info.dart'; // Should be refactored as a UseCase, only done now for testing
-
 class RefreshMachines extends StatefulWidget {
   @override
   State<RefreshMachines> createState() => _RefreshMachinesState();
@@ -45,11 +43,6 @@ class _RefreshMachinesState extends State<RefreshMachines> {
                 var global =
                     Provider.of<GlobalProvider>(context, listen: false);
                 global.isRefreshing = true;
-                global.updateMachines(
-                    await sl<GetMachinesUseCase>().call(NoParams()));
-
-                global.fetchedMachines = true;
-                global.isRefreshing = false;
               }),
         ],
       ),
