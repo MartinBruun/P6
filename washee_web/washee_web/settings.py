@@ -59,7 +59,9 @@ OWN_APPS = [
     "account",
     "upload",
     "booking",
-    "location"
+    "location",
+    "electricity",
+    "security"
 ]
 
 THIRD_PARTY = [

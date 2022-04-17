@@ -101,7 +101,7 @@ class Account(models.Model):
     # Choices
     
     # Foreign Keys
-    users = models.ManyToManyField(
+    owners = models.ManyToManyField(
         settings.AUTH_USER_MODEL, 
         related_name="accounts"
     )
