@@ -27,7 +27,7 @@ class _RefreshMachinesState extends State<RefreshMachines> {
           Padding(
             padding: EdgeInsets.only(bottom: 10.h),
             child: Text(
-              "Refresh maskiner",
+              "Refresh",
               style: textStyle.copyWith(
                 fontSize: textSize_36,
                 fontWeight: FontWeight.w300,

@@ -59,14 +59,13 @@ class GlobalProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  set fetchedBookings(bool value){
+  set fetchedBookings(bool value) {
     _fetchedBookings = value;
     notifyListeners();
   }
 
   updateMachines(List<MachineModel> machines) {
     _machines = machines;
-    notifyListeners();
   }
 
   updateBookings(List<BookingModel> bookings) {

@@ -97,6 +97,7 @@ class _SignInScreenState extends State<SignInScreen> {
                           if (_formKey.currentState != null) {
                             _formKey.currentState!.save();
                             try {
+                              data.updateSignIn(true);
                               var result = await sl<SignInUseCase>().call(
                                   SignInParams(
                                       email: _emailController.text,
@@ -107,7 +108,7 @@ class _SignInScreenState extends State<SignInScreen> {
                                     "something went right! Asking for wifi permissions");
                                 await sl<GetWifiPermissionUsecase>()
                                     .call(NoParams());
-                                data.updateSignIn(true);
+
                                 await data.delay();
                                 data.updateSignIn(false);
                                 Navigator.pushReplacement(
@@ -120,7 +121,7 @@ class _SignInScreenState extends State<SignInScreen> {
                                 );
                               } else {
                                 print("something went wrong");
-
+                                data.updateSignIn(false);
                                 showDialog(
                                     context: context,
                                     builder: (BuildContext context) {
