@@ -5,20 +5,20 @@ import 'package:washee/core/presentation/themes/dimens.dart';
 import 'package:washee/core/presentation/themes/themes.dart';
 
 class DoesNotHaveCurrentBookingDialog extends StatefulWidget {
-  const DoesNotHaveCurrentBookingDialog({ Key? key }) : super(key: key);
+  const DoesNotHaveCurrentBookingDialog({Key? key}) : super(key: key);
 
   @override
-  State<DoesNotHaveCurrentBookingDialog> createState() => _DoesNotHaveCurrentBookingDialogState();
+  State<DoesNotHaveCurrentBookingDialog> createState() =>
+      _DoesNotHaveCurrentBookingDialogState();
 }
 
-class _DoesNotHaveCurrentBookingDialogState extends State<DoesNotHaveCurrentBookingDialog> {
+class _DoesNotHaveCurrentBookingDialogState
+    extends State<DoesNotHaveCurrentBookingDialog> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.transparent,
-      body: Center(
-        child: _dialogBox(context)
-      ),
+      body: Center(child: _dialogBox(context)),
     );
   }
 
@@ -28,21 +28,18 @@ class _DoesNotHaveCurrentBookingDialogState extends State<DoesNotHaveCurrentBook
         color: AppColors.dialogLightGray,
         borderRadius: BorderRadius.circular(30.h),
       ),
-      height: 350.h,
+      height: 420.h,
       width: 754.w,
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          Padding(
-            padding: EdgeInsets.only(
-                top: 45.h, bottom: 45.h, left: 30.w, right: 30.w),
-            child:Text(
-                "Du har ikke booket en tid\nBook venligst en tid gennem booking systemet først",
-                style: textStyle.copyWith(
-                  fontSize: textSize_32,
-                  fontWeight: FontWeight.w500,
-                ),
-                textAlign: TextAlign.center,
-              ),
+          Text(
+            "Book venligst en tid gennem booking systemet først!",
+            style: textStyle.copyWith(
+              fontSize: textSize_32,
+              fontWeight: FontWeight.w500,
+            ),
+            textAlign: TextAlign.center,
           ),
           Center(
             child: _okButton(context),
@@ -53,22 +50,32 @@ class _DoesNotHaveCurrentBookingDialogState extends State<DoesNotHaveCurrentBook
   }
 
   Widget _okButton(BuildContext context) {
-    return ElevatedButton(
-      style: ElevatedButton.styleFrom(
-        fixedSize: Size(254.w, 84.h),
-        primary: AppColors.deepGreen
-      ),
-      child: Text(
-        'Ok',
-        style: textStyle.copyWith(
-          fontSize: textSize_32,
-          fontWeight: FontWeight.w600,
-          color: Colors.white,
-        ),
-      ),
-      onPressed: () {
+    return InkWell(
+      onTap: () {
         Navigator.of(context).pop();
       },
+      child: Container(
+        height: 84.h,
+        width: 279.81.w,
+        decoration: BoxDecoration(
+          color: AppColors.dialogLightGray,
+          borderRadius: BorderRadius.circular(20.w),
+          border: Border.all(
+            color: Colors.white,
+            width: 1.w,
+          ),
+        ),
+        child: Center(
+          child: Text(
+            "OK",
+            style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.w500,
+              fontSize: textSize_32,
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

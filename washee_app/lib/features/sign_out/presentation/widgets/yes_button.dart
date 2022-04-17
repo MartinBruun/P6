@@ -8,37 +8,32 @@ import 'package:washee/core/presentation/themes/themes.dart';
 import '../../domain/usecases/log_out.dart';
 
 class YesButton extends StatelessWidget {
-  final Function updatePage;
-  
-  const YesButton(this.updatePage);
-
-
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 30.w),
-      child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          fixedSize: Size(254.w, 84.h),
-          primary: AppColors.deepGreen,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20.h)
-          )
-        ),
-        child: Text(
-          'Ja',
-          style: textStyle.copyWith(
-            fontSize: textSize_32,
-            fontWeight: FontWeight.w600,
-            color: Colors.black,
+        padding: EdgeInsets.symmetric(horizontal: 30.w),
+        child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+              fixedSize: Size(254.w, 84.h),
+              primary: AppColors.deepGreen,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20.h))),
+          child: Text(
+            'Ja',
+            style: textStyle.copyWith(
+              fontSize: textSize_32,
+              fontWeight: FontWeight.w600,
+              color: Colors.black,
+            ),
           ),
-        ),
-        onPressed: () {
-          LogOutUseCase().call(LogoutParams(user: ActiveUser(), updatePage: updatePage));
-          print("logged out");
-          Navigator.of(context).pop();
-        },
-      )
-    );
+          onPressed: () {
+            // breaking architecture!
+            LogOutUseCase().call(LogoutParams(
+              user: ActiveUser(),
+            ));
+            print("logged out");
+            Navigator.of(context).pop();
+          },
+        ));
   }
 }

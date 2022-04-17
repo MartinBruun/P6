@@ -32,7 +32,7 @@ class GlobalProvider extends ChangeNotifier {
     //         .add(Duration(hours: 3, minutes: 15))),
   ];
   List<BookingModel> _bookings = [];
-  bool _isConnectingToBox = false;
+  bool _isConnectingToBox = true;
   bool _isRefreshing = false;
   bool _fetchedMachines = false;
   bool _fetchedBookings = false;
@@ -44,14 +44,22 @@ class GlobalProvider extends ChangeNotifier {
   bool get fetchedMachines => _fetchedMachines;
   bool get fetchedBookings => _fetchedBookings;
 
-  set isConnectingToBox(bool value) {
-    _isConnectingToBox = value;
+  startConnectingToBox() {
+    _isConnectingToBox = true;
     notifyListeners();
   }
 
-  set isRefreshing(bool value) {
-    _isRefreshing = value;
+  stopConnectingToBox() {
+    _isConnectingToBox = false;
+  }
+
+  startRefresh() {
+    _isRefreshing = true;
     notifyListeners();
+  }
+
+  stopRefresh() {
+    _isRefreshing = false;
   }
 
   set fetchedMachines(bool value) {
@@ -59,14 +67,13 @@ class GlobalProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  set fetchedBookings(bool value){
+  set fetchedBookings(bool value) {
     _fetchedBookings = value;
     notifyListeners();
   }
 
   updateMachines(List<MachineModel> machines) {
     _machines = machines;
-    notifyListeners();
   }
 
   updateBookings(List<BookingModel> bookings) {

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:washee/core/pages/home_screen.dart';
+import 'package:washee/core/pages/pages_enum.dart';
 import 'package:washee/core/washee_box/machine_model.dart';
 import 'package:washee/features/unlock/presentation/pages/wash_screen.dart';
 
@@ -25,7 +26,6 @@ class StartWash extends StatefulWidget {
 class _StartWashState extends State<StartWash> {
   late MachineModel? fetchedMachine;
   var fetcedAccount;
-
 
   bool _isUnlockingMachine = false;
 
@@ -120,10 +120,9 @@ class _StartWashState extends State<StartWash> {
             prompt: HTTPErrorPrompt(
                 message:
                     "Det ser ud til, at du ikke har forbindelse til WasheeBox"));
-        }
-        else{
-          print("From start_wash.dart: fetchedMachine went correctly!");
-        }
+      } else {
+        print("From start_wash.dart: fetchedMachine went correctly!");
+      }
     } catch (e) {
       setState(() {
         _isUnlockingMachine = false;
@@ -158,7 +157,7 @@ class _StartWashState extends State<StartWash> {
       context,
       MaterialPageRoute(
         builder: (context) => HomeScreen(
-          page: WashScreen,
+          page: PageNumber.WashScreen,
         ),
       ),
     );

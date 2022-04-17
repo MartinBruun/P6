@@ -1,18 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:provider/provider.dart';
-import 'package:washee/core/usecases/usecase.dart';
 import 'package:washee/core/washee_box/machine_model.dart';
-import 'package:washee/features/unlock/domain/usecases/get_wifi_permission.dart';
 
 import '../../../../core/presentation/themes/colors.dart';
 import '../../../../core/presentation/themes/dimens.dart';
 import '../../../../core/presentation/themes/themes.dart';
 import '../../../../core/widgets/common_used_widgets.dart';
-import '../provider/unlock_provider.dart';
 import 'unlock_successfull.dart';
-
-import 'package:washee/injection_container.dart';
 
 // ignore: must_be_immutable
 class InitiateWashDialog extends StatefulWidget {
@@ -42,6 +36,14 @@ class _InitiateWashDialogState extends State<InitiateWashDialog> {
     );
   }
 
+  String _displayName() {
+    if (widget.machine.name.toLowerCase() == "Vaskemaskine".toLowerCase() ||
+        widget.machine.name.toLowerCase() == "Vaskemaskinen".toLowerCase()) {
+      return "vask";
+    }
+    return "tørring";
+  }
+
   Widget _dialogBox(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
@@ -64,7 +66,7 @@ class _InitiateWashDialogState extends State<InitiateWashDialog> {
               width: 760.w,
               height: 170.h,
               child: Text(
-                "${widget.machine.name} er låst op! Betalingen er trukket fra din konto",
+                "Betalingen er trukket fra din konto. Vil du igangsætte din ${_displayName()}?",
                 style: textStyle.copyWith(
                   fontSize: textSize_32,
                   fontWeight: FontWeight.w500,
