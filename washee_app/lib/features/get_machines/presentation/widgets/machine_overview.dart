@@ -31,22 +31,10 @@ class _MachineOverviewState extends State<MachineOverview> {
     SchedulerBinding.instance?.addPostFrameCallback((_) async {
       var provider = Provider.of<GlobalProvider>(context, listen: false);
       provider.isConnectingToBox = true;
-<<<<<<< HEAD
 
       //This is the usecase to be called on every initstate fetching from backend
       provider.updateMachines(await sl<GetMachinesUseCase>().call(NoParams()));
       provider.fetchedMachines = true;
-=======
-      if (!provider.fetchedMachines) {
-        // var string = await loadAsset();
-        // var stringAsJson = json.decode(string);
-        // provider.constructMachineList(stringAsJson);
-        //This is the usecase to be called on every initstate fetching from backend
-        // provider
-        //     .updateMachines(await sl<GetMachinesUseCase>().call(NoParams()));
-        // provider.fetchedMachines = true;
-      }
->>>>>>> 09c7be976ce8d65b09ea001afd034e1a8f7b7b3c
 
       provider.isConnectingToBox = false;
     });
