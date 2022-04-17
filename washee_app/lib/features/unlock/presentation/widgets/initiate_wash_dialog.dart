@@ -125,7 +125,7 @@ class _InitiateWashDialogState extends State<InitiateWashDialog> {
           ),
           onPressed: () async {
             unlockProvider.isUnlocking = true;
-            await Future.delayed(Duration(seconds: 3)).then((_) {
+            await Future.delayed(Duration()).then((_) {
               unlockProvider.isUnlocking = false;
               setState(() {
                 _machineReady = true;

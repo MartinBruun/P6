@@ -10,6 +10,8 @@ import '../../../../core/presentation/themes/themes.dart';
 import '../../data/models/booking_model.dart';
 import '../widgets/calendar_view.dart';
 
+import 'dart:io';
+
 class CalendarScreen extends StatefulWidget {
   static const routeName = "/calendar-screen";
 
@@ -34,13 +36,11 @@ class _CalendarScreenState extends State<CalendarScreen> {
     setState(() {
       _isLoadingDaysAndBookings = true;
     });
-    Future.delayed(Duration(seconds: 3)).then((value) async {
-      _setUpCalendar();
-      await _getBookings();
-      setState(() {
+    _getBookings()
+      .then((dynamic) => _setUpCalendar())
+      .then((dynamic) => setState(() {
         _isLoadingDaysAndBookings = false;
-      });
-    });
+        }));
   }
 
   _setUpCalendar() {
