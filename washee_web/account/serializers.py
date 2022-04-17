@@ -19,4 +19,4 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
 class AccountSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Account
-        fields = ['id', 'name','balance','created','last_updated','users','bookings']
+        fields = ['id', 'name','balance','created','last_updated','owners','bookings']

@@ -2,7 +2,7 @@ import pytest
 
 from datetime import datetime
 
-from washee_web.exception_handler import ExceptionHandler
+from security.exception_handler import ExceptionHandler
 
 def test_exception_handler_can_be_initialized():
     #Arrange

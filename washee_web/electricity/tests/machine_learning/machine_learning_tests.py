@@ -1,4 +1,4 @@
-from ml_electricity.machine_learning.machine_learning import NordpoolML
+from electricity.ml_electricity.machine_learning.machine_learning import NordpoolML
 import pandas
 import numpy
 

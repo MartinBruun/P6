@@ -26,6 +26,8 @@ from booking.view_sets import BookingViewSet
 from location.view_sets import (
     LocationViewSet, MachineViewSet, MachineModelViewSet, ServiceViewSet
 )
+from electricity.view_sets import ElectricityBlockViewSet
+from security.view_sets import LogViewSet
 
 # Routes
 router = routers.DefaultRouter()
@@ -36,6 +38,8 @@ router.register(r"locations", LocationViewSet)
 router.register(r"machines", MachineViewSet)
 router.register(r"machine_models", MachineModelViewSet)
 router.register(r"services", ServiceViewSet)
+router.register(r"electricity_blocks", ElectricityBlockViewSet)
+router.register(r"logs", LogViewSet)
 
 from django.http import HttpResponse
 def homePageView(request):

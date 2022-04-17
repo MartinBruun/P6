@@ -1,7 +1,7 @@
 import pandas
-from preprocessing.preprocessor import Preprocessor
-from nordpool_API.Nordpool import NordpoolAPI
-from machine_learning.machine_learning import NordpoolML
+from electricity.ml_electricity.preprocessing.preprocessor import Preprocessor
+from electricity.ml_electricity.nordpool_API.Nordpool import NordpoolAPI
+from electricity.ml_electricity.machine_learning.machine_learning import NordpoolML
 
 class MIcontroller:
 
