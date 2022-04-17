@@ -36,84 +36,95 @@ class _SignInScreenState extends State<SignInScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Login')),
+      resizeToAvoidBottomInset: false,
+      appBar: AppBar(
+        title: Text(
+          'Login',
+          style: textStyle.copyWith(
+            fontSize: textSize_40,
+            fontWeight: FontWeight.w400,
+          ),
+        ),
+        centerTitle: true,
+      ),
       body: Container(
-          alignment: Alignment.center,
-          child: ListView(children: [
-            Form(
-              key: _formKey,
-              child: Column(
-                children: <Widget>[
-                  TextInput("Email", _emailController, false, (value) {
-                    if (value == "") {
-                      return "Du har ikke indtastet en Email";
-                    }
-                    return null;
-                  }),
-                  TextInput("Password", _passwordController, true, (value) {
-                    if (value == "") {
-                      return "Du har ikke indtastet et kodeord";
-                    }
-                    return null;
-                  }),
-                  Padding(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 8.w, vertical: 16.h),
-                      child: Container(
-                        height: 40,
-                        width: 200,
-                        child: ElevatedButton(
-                          child: Text(
-                            "Log ind",
-                            style: textStyle.copyWith(
-                                fontSize: textSize_45,
-                                fontWeight: FontWeight.w600),
-                          ),
-                          style: ElevatedButton.styleFrom(
-                              primary: AppColors.deepGreen,
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20))),
-                          onPressed: () async {
-                            if (_formKey.currentState != null) {
-                              _formKey.currentState!.save();
-                              try {
-                                var result = await sl<SignInUseCase>().call(
-                                    SignInParams(
-                                        email: _emailController.text,
-                                        password: _passwordController.text));
+        alignment: Alignment.topCenter,
+        child: SingleChildScrollView(
+            child: Form(
+          key: _formKey,
+          child: Column(
+            children: <Widget>[
+              TextInput("Email", _emailController, false, (value) {
+                if (value == "") {
+                  return "Du har ikke indtastet en Email";
+                }
+                return null;
+              }),
+              TextInput("Password", _passwordController, true, (value) {
+                if (value == "") {
+                  return "Du har ikke indtastet et kodeord";
+                }
+                return null;
+              }),
+              Padding(
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 8.w, vertical: 16.h),
+                  child: Container(
+                    height: 82.h,
+                    width: 279.81.w,
+                    child: ElevatedButton(
+                      child: Text(
+                        "Log ind",
+                        style: textStyle.copyWith(
+                            fontSize: textSize_38, fontWeight: FontWeight.w600),
+                      ),
+                      style: ElevatedButton.styleFrom(
+                          primary: AppColors.dialogLightGray,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20.w))),
+                      onPressed: () async {
+                        if (_formKey.currentState != null) {
+                          _formKey.currentState!.save();
+                          try {
+                            var result = await sl<SignInUseCase>().call(
+                                SignInParams(
+                                    email: _emailController.text,
+                                    password: _passwordController.text));
 
-                                  if (result) {
-                                    print("something went right! Asking for wifi permissions");
-                                    await sl<GetWifiPermissionUsecase>().call(NoParams());
+                            if (result) {
+                              print(
+                                  "something went right! Asking for wifi permissions");
+                              await sl<GetWifiPermissionUsecase>()
+                                  .call(NoParams());
 
-                                  // update the homescreen with the callback function
-                                  this.widget.callback();
-                                } else {
-                                  print("something went wrong");
+                              // update the homescreen with the callback function
+                              this.widget.callback();
+                            } else {
+                              print("something went wrong");
 
-                                  showDialog(
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        return IncorrectInput();
-                                      });
-                                }
-                              } on Exception catch (e) {
-                                print("DioError occured: " + e.toString());
-
-                                showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return IncorrectInput();
-                                    });
-                              }
+                              showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return IncorrectInput();
+                                  });
                             }
-                          },
-                        ),
-                      ))
-                ],
-              ),
-            )
-          ])),
+                          } on Exception catch (e) {
+                            print("DioError occured: " + e.toString());
+
+                            showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return IncorrectInput();
+                                });
+                          }
+                        }
+                      },
+                    ),
+                  ))
+            ],
+          ),
+        )),
+      ),
     );
   }
 }
