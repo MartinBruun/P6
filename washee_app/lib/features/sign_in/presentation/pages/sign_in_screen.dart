@@ -18,10 +18,6 @@ import 'package:washee/injection_container.dart';
 import '../../../../core/pages/home_screen.dart';
 
 class SignInScreen extends StatefulWidget {
-  final Function callback;
-
-  SignInScreen(this.callback);
-
   @override
   State<SignInScreen> createState() => _SignInScreenState();
 }
