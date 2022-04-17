@@ -82,14 +82,9 @@ class _SignInScreenState extends State<SignInScreen> {
                                         email: _emailController.text,
                                         password: _passwordController.text));
 
-<<<<<<< HEAD
                                   if (result) {
                                     print("something went right! Asking for wifi permissions");
                                     await sl<GetWifiPermissionUsecase>().call(NoParams());
-=======
-                                if (result) {
-                                  print("something went right!");
->>>>>>> 56c7c0d1ee3891074443b95b7985cd70f432fde0
 
                                   // update the homescreen with the callback function
                                   this.widget.callback();

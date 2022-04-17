@@ -108,17 +108,6 @@ class _StartWashState extends State<StartWash> {
       _isUnlockingMachine = true;
     });
     try {
-<<<<<<< HEAD
-        fetchedMachine = await sl<UnlockUseCase>().call(
-          UnlockParams(
-              machine: widget.currentMachine,
-              duration: Duration(seconds: 10)));
-        if (fetchedMachine == null) {
-          setState(() {
-            _isUnlockingMachine = false;
-          });
-          ErrorHandler.errorHandlerView(
-=======
       fetchedMachine = await sl<UnlockUseCase>().call(UnlockParams(
           machine: widget.currentMachine,
           duration: Duration(hours: 2, minutes: 30)));
@@ -127,7 +116,6 @@ class _StartWashState extends State<StartWash> {
           _isUnlockingMachine = false;
         });
         ErrorHandler.errorHandlerView(
->>>>>>> 56c7c0d1ee3891074443b95b7985cd70f432fde0
             context: context,
             prompt: HTTPErrorPrompt(
                 message:
