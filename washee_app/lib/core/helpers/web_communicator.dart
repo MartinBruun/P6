@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:intl/intl.dart';
 import 'package:washee/core/account/account.dart';
+import 'package:washee/core/account/user.dart';
 import 'package:washee/core/environments/environment.dart';
 import 'package:washee/core/errors/exception_handler.dart';
 import 'package:washee/core/helpers/authorizer.dart';
@@ -24,7 +25,7 @@ abstract class WebCommunicator {
       required String accountResource,
       required String machineResource,
       required String serviceResource});
-  Future<Map<String, dynamic>> updateAccount(Account account);
+  Future<Map<String, dynamic>> getAccount();
 }
 
 class WebCommunicatorImpl implements WebCommunicator {
@@ -154,7 +155,7 @@ class WebCommunicatorImpl implements WebCommunicator {
   }
 
   @override
-  Future<Map<String, dynamic>> updateAccount(Account account) async {
+  Future<Map<String, dynamic>> getAccount(Account account) async {
     Response response;
     String url = accountsURL + account.id.toString();
 
