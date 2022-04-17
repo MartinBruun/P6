@@ -120,7 +120,10 @@ class _StartWashState extends State<StartWash> {
             prompt: HTTPErrorPrompt(
                 message:
                     "Det ser ud til, at du ikke har forbindelse til WasheeBox"));
-      }
+        }
+        else{
+          print("From start_wash.dart: fetchedMachine went correctly!");
+        }
     } catch (e) {
       setState(() {
         _isUnlockingMachine = false;

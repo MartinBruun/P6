@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:washee/core/usecases/usecase.dart';
 import 'package:washee/core/washee_box/machine_model.dart';
+import 'package:washee/features/unlock/domain/usecases/get_wifi_permission.dart';
 
 import '../../../../core/presentation/themes/colors.dart';
 import '../../../../core/presentation/themes/dimens.dart';
@@ -9,6 +11,8 @@ import '../../../../core/presentation/themes/themes.dart';
 import '../../../../core/widgets/common_used_widgets.dart';
 import '../provider/unlock_provider.dart';
 import 'unlock_successfull.dart';
+
+import 'package:washee/injection_container.dart';
 
 // ignore: must_be_immutable
 class InitiateWashDialog extends StatefulWidget {

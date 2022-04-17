@@ -26,4 +26,19 @@ class UnlockRepositoryImpl implements UnlockRepository {
     print(machineAsJson);
     return MachineModel.fromJson(machineAsJson);
   }
+
+  @override
+  Future<bool> getWifiPermission() async {
+    return await networkInfo.getWifiAccessPermissions();
+  }
+
+  @override
+  Future<bool> connectToBoxWifi() async {
+    return await networkInfo.connectToBoxWifi();
+  }
+
+  @override
+  Future<bool> disconnectFromBoxWifi() async {
+    return await networkInfo.disconnectFromBoxWifi();
+  }
 }

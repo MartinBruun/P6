@@ -3,4 +3,7 @@ abstract class BaseConfig {
   String get webApiHost;
   // Vars for the box
   String get boxApiHost;
+  String get boxWifiSSID;
+  String get boxWifiPassword;
+  bool get boxHasInternetAccess;
 }

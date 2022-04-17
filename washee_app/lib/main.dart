@@ -1,3 +1,4 @@
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -13,13 +14,15 @@ import 'core/presentation/themes/themes.dart';
 import 'package:washee/injection_container.dart';
 
 void main() async {
-  final String env = kDebugMode ? Environment.DEV : Environment.PROD;
-
-  Environment().initConfig(env);
+  await setupEnvironment();
   WidgetsFlutterBinding.ensureInitialized();
   ic.initAll();
+
   print("From main.dart: webApiHost = ${Environment().config.webApiHost}");
   print("From main.dart: boxApiHost = ${Environment().config.boxApiHost}");
+  print("From main.dart: boxWifiSSID = ${Environment().config.boxWifiSSID}");
+  print("From main.dart: boxWifiPassword = ${Environment().config.boxWifiPassword}");
+  print("From main.dart: boxHasInternetAccess = ${Environment().config.boxHasInternetAccess}");
 
   if (kDebugMode){
     await sl<Authorizer>().removeAllCredentials();
@@ -49,4 +52,16 @@ class WasheeApp extends StatelessWidget {
       ),
     );
   }
+}
+
+Future<void> setupEnvironment() async {
+  String env = Environment.PROD;
+  String envFile = Environment.PROD_ENV;
+  if (kDebugMode) {
+    env = Environment.DEV;
+    envFile = Environment.DEV_ENV;
+  }
+  await dotenv.load(fileName: envFile);
+  
+  Environment().initConfig(env);
 }

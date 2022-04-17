@@ -9,6 +9,8 @@ import '../../../../core/usecases/usecase.dart';
 import '../../../../injection_container.dart';
 import '../../domain/usecases/get_machines.dart';
 
+import 'package:washee/core/network/network_info.dart'; // Should be refactored as a UseCase, only done now for testing
+
 class RefreshMachines extends StatefulWidget {
   @override
   State<RefreshMachines> createState() => _RefreshMachinesState();

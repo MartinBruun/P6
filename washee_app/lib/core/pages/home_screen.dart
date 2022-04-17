@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:washee/core/account/user.dart';
 import 'package:washee/core/pages/washee_screen.dart';
+import 'package:washee/core/usecases/usecase.dart';
 import 'package:washee/features/sign_in/presentation/pages/sign_in_screen.dart';
+import 'package:washee/features/unlock/domain/usecases/get_wifi_permission.dart';
 import 'package:washee/features/unlock/presentation/pages/wash_screen.dart';
 import 'package:washee/features/booking/presentation/pages/calendar_screen.dart';
+import 'package:washee/injection_container.dart';
 
 class HomeScreen extends StatefulWidget {
   static const routeName = "/home-screen";

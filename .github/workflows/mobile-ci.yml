@@ -27,6 +27,16 @@ jobs:
     - name: Run flutter commands
       working-directory: ./washee_app
       run: |
+        echo "WEB_API_HOST=http://localhost:8000" > .env.dev
+        echo "BOX_API_HOST=http://localhost:8001" >> .env.dev
+        echo "BOX_WIFI_SSID=boxNetworkName" >> .env.dev
+        echo "BOX_WIFI_PASSWORD=boxNetworkPassword" >> .env.dev
+        echo "BOX_HAS_INTERNET=true" >> .env.dev
+        echo "Necessary production environment to satisfy flutter assets" > .env.prod
         flutter pub get
-        flutter test --dart-define=ENVIRONMENT=DEV
-        flutter build apk --debug --dart-define=ENVIRONMENT=PROD
+        flutter test
+        flutter build apk --debug 
+
+
+
+
