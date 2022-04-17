@@ -81,8 +81,7 @@ class _StartWashState extends State<StartWash> {
   Widget _startButton(BuildContext context) {
     return ElevatedButton(
       onPressed: () async {
-        await _pressedMock(context);
-        // await _pressed(context);
+        await _pressed(context);
       },
       child: _isUnlockingMachine
           ? CircularProgressIndicator(
@@ -101,17 +100,6 @@ class _StartWashState extends State<StartWash> {
           primary: AppColors.deepGreen,
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(20.h))),
-    );
-  }
-
-  Future _pressedMock(BuildContext context) async {
-    await Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(
-        builder: (context) => HomeScreen(
-          page: PageNumber.CalendarScreen,
-        ),
-      ),
     );
   }
 
