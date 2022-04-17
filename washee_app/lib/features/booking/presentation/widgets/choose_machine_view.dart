@@ -38,7 +38,7 @@ class _ChooseMachineViewState extends State<ChooseMachineView> {
                 color: AppColors.dialogLightGray,
                 borderRadius: BorderRadius.circular(30.w),
               ),
-              height: 400.h,
+              height: 450.h,
               width: 900.w,
               child: Column(
                 children: [
@@ -48,7 +48,7 @@ class _ChooseMachineViewState extends State<ChooseMachineView> {
                     style: textStyle.copyWith(fontSize: textSize_29),
                   )),
                   Padding(
-                    padding: EdgeInsets.only(top: 49.h, bottom: 40.h),
+                    padding: EdgeInsets.only(top: 49.h, bottom: 60.h),
                     child: Container(
                       width: 623.w,
                       child: Row(
@@ -69,23 +69,15 @@ class _ChooseMachineViewState extends State<ChooseMachineView> {
                     ),
                   ),
                   Center(
-                    child: Text(
-                      "Det koster 10 kr. at booke Vaskemaskinen i 2,5 time",
-                      style: textStyle.copyWith(fontSize: textSize_29),
-                    )
-                  ),
+                      child: Text(
+                    "Det koster 10 kr. at booke Vaskemaskinen i 2,5 time",
+                    style: textStyle.copyWith(fontSize: textSize_29),
+                  )),
                   Center(
-                    child: Text(
-                      "Det koster 5 kr. at booke Tørretumbleren i 2,5 time",
-                      style: textStyle.copyWith(fontSize: textSize_29),
-                    )
-                  ),
-                  Center(
-                    child: Text(
-                      "Du kan slette bookings i Home under din saldo",
-                      style: textStyle.copyWith(fontSize: textSize_29),
-                    )
-                  )
+                      child: Text(
+                    "Det koster 5 kr. at booke Tørretumbleren i 2,5 time",
+                    style: textStyle.copyWith(fontSize: textSize_29),
+                  )),
                 ],
               ),
             ),

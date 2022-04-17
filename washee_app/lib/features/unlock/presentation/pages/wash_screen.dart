@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:washee/core/presentation/themes/dimens.dart';
+import 'package:washee/core/presentation/themes/themes.dart';
 
 import '../../../get_machines/presentation/widgets/machine_overview.dart';
 
@@ -14,6 +16,12 @@ class _WashScreenState extends State<WashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+          centerTitle: true,
+          title: Text(
+            "Maskiner",
+            style: textStyle.copyWith(fontSize: textSize_44),
+          )),
       backgroundColor: Colors.black87,
       body: MachineOverview(),
     );
