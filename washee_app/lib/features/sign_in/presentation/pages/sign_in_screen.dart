@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:washee/core/account/user.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:washee/core/pages/pages_enum.dart';
 import 'package:washee/core/pages/washee_screen.dart';
 import 'package:washee/core/presentation/themes/colors.dart';
 import 'package:washee/core/presentation/themes/dimens.dart';
@@ -115,7 +116,7 @@ class _SignInScreenState extends State<SignInScreen> {
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) => HomeScreen(
-                                      page: WasheeScreen(),
+                                      page: PageNumber.WasheeScreen,
                                     ),
                                   ),
                                 );
