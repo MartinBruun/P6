@@ -109,8 +109,7 @@ class _StartWashState extends State<StartWash> {
     });
     try {
       fetchedMachine = await sl<UnlockUseCase>().call(UnlockParams(
-          machine: widget.currentMachine,
-          duration: Duration(hours: 2, minutes: 30)));
+          machine: widget.currentMachine));
       if (fetchedMachine == null) {
         setState(() {
           _isUnlockingMachine = false;

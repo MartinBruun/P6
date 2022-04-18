@@ -10,9 +10,9 @@ class UnlockRepositoryImpl implements UnlockRepository {
 
   UnlockRepositoryImpl({required this.remote, required this.networkInfo});
   @override
-  Future<MachineModel?> unlock(MachineModel machine, Duration duration) async {
+  Future<MachineModel?> unlock(MachineModel machine) async {
     if (await networkInfo.isConnected) {
-      var data = await remote.unlock(machine, duration);
+      var data = await remote.unlock(machine);
       MachineModel updatedMachine = _constructMachineFromResponse(data);
       print(updatedMachine);
       return updatedMachine;

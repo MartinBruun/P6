@@ -15,7 +15,7 @@ class UnlockUseCase implements UseCase<MachineModel?, UnlockParams> {
   @override
   Future<MachineModel?> call(UnlockParams params) async {
     await sl<ConnectBoxWifiUsecase>().call(NoParams());
-    MachineModel? machine = await repository.unlock(params.machine, params.duration);
+    MachineModel? machine = await repository.unlock(params.machine);
     sl<DisconnectBoxWifiUsecase>().call(NoParams());
     return machine;
   }
@@ -23,10 +23,9 @@ class UnlockUseCase implements UseCase<MachineModel?, UnlockParams> {
 
 class UnlockParams extends Equatable {
   final MachineModel machine;
-  final Duration duration;
 
-  UnlockParams({required this.machine, required this.duration});
+  UnlockParams({required this.machine});
 
   @override
-  List<Object?> get props => [machine, duration];
+  List<Object?> get props => [machine];
 }
