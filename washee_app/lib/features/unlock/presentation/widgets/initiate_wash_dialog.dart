@@ -1,6 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:washee/core/errors/error_handler.dart';
+import 'package:washee/core/errors/http_error_prompt.dart';
+import 'package:washee/core/pages/home_screen.dart';
+import 'package:washee/core/pages/pages_enum.dart';
 import 'package:washee/core/washee_box/machine_model.dart';
+import 'package:washee/features/sign_out/presentation/widgets/no_buttton.dart';
+import 'package:washee/features/unlock/domain/usecases/unlock.dart';
+import 'package:washee/injection_container.dart';
 
 import '../../../../core/presentation/themes/colors.dart';
 import '../../../../core/presentation/themes/dimens.dart';
@@ -18,19 +25,21 @@ class InitiateWashDialog extends StatefulWidget {
 }
 
 class _InitiateWashDialogState extends State<InitiateWashDialog> {
+  late MachineModel? fetchedMachine;
+  bool _isUnlockingMachine = false;
+  bool _machineStarted = false;
+  
   @override
   void initState() {
     super.initState();
   }
-
-  bool _machineReady = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: Center(
-          child: _machineReady
+          child: _machineStarted
               ? UnlockSuccessfull(machine: widget.machine)
               : _dialogBox(context)),
     );
@@ -66,7 +75,7 @@ class _InitiateWashDialogState extends State<InitiateWashDialog> {
               width: 760.w,
               height: 170.h,
               child: Text(
-                "Betalingen er trukket fra din konto. Vil du igangsætte din ${_displayName()}?",
+                "Vil du igangsætte din ${_displayName()}?",
                 style: textStyle.copyWith(
                   fontSize: textSize_32,
                   fontWeight: FontWeight.w500,
@@ -78,36 +87,15 @@ class _InitiateWashDialogState extends State<InitiateWashDialog> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              _yesButton(context),
-              _noButton(context),
+              _isUnlockingMachine
+                  ? CircularProgressIndicator() 
+                  : _yesButton(context),
+              NoButton(),
             ],
           ),
         ],
       ),
     );
-  }
-
-  Widget _noButton(BuildContext context) {
-    return Padding(
-        padding: EdgeInsets.symmetric(horizontal: 30.w),
-        child: ElevatedButton(
-          style: ElevatedButton.styleFrom(
-              fixedSize: Size(254.w, 84.h),
-              primary: Colors.white,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20.h))),
-          child: Text(
-            'Nej',
-            style: textStyle.copyWith(
-              fontSize: textSize_32,
-              fontWeight: FontWeight.w600,
-              color: Colors.black,
-            ),
-          ),
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-        ));
   }
 
   Widget _yesButton(BuildContext context) {
@@ -129,9 +117,59 @@ class _InitiateWashDialogState extends State<InitiateWashDialog> {
           ),
           onPressed: () async {
             setState(() {
-              _machineReady = true;
+              _isUnlockingMachine = true;
             });
+            try {
+              fetchedMachine = await sl<UnlockUseCase>().call(UnlockParams(
+                  machine: widget.machine,
+                  duration: Duration(hours: 2, minutes: 30)));
+              if (fetchedMachine == null) {
+                setState(() {
+                  _isUnlockingMachine = false;
+                });
+                ErrorHandler.errorHandlerView(
+                    context: context,
+                    prompt: HTTPErrorPrompt(
+                        message:
+                            "Det ser ud til, at du ikke har forbindelse til WasheeBox"));
+              } else {
+                setState(() {
+                  _machineStarted = true;                   
+                });
+                print("From initiate_wash_dialog.dart: fetchedMachine went correctly!");
+              }
+            } catch (e) {
+              setState(() {
+                _isUnlockingMachine = false;
+              });
+              print(e.toString());
+              await showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return HTTPErrorPrompt(
+                      message:
+                          "Noget gik galt da vi forsøgte at låse maskinen op! Prøv venligst igen");
+                },
+              );
+            }
+            setState(() {
+              _isUnlockingMachine = false;
+            });
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => HomeScreen(
+                  page: PageNumber.WashScreen,
+                ),
+              ),
+            );
+                 
+                    
+            // setState(() {
+            //   _machineStarted = true;
+            // });
           },
-        ));
+        )
+    );
   }
 }
