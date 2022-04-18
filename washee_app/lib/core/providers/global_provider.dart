@@ -88,6 +88,11 @@ class GlobalProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  updateMachine(MachineModel newMachine){
+    machines[machines.indexWhere((element) => element.machineID == newMachine.machineID)] = newMachine;
+    notifyListeners();
+  }
+
   bool _isConnectingToWeb = false;
   bool _isRefreshingWeb = false;
   bool _fetchedRegisteredBookings = false;

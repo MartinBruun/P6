@@ -26,7 +26,6 @@ class UnlockUseCase implements UseCase<MachineModel?, UnlockParams> {
       );
       if (currentBooking.isNotEmpty){
         endTime = DateTime.parse(currentBooking[0]["end_time"]);
-        print("GOT ENDTIME: " + endTime.toString());
       }
       else{
         ExceptionHandler().handle("BIG ERROR! No Booking is active for this time! " + DateHelper.currentTime().toString(),log:true, show:true);
@@ -35,8 +34,7 @@ class UnlockUseCase implements UseCase<MachineModel?, UnlockParams> {
     catch (e){
       ExceptionHandler().handle("Could not get booking time, defaulting to 2 hours and 30 minutes",log:true, show:true);
     }
-    Duration duration = endTime.difference(DateHelper.currentTime().toUtc().add(Duration(hours:2)));
-    print("DURATION DIFFERENCE: " + duration.toString());
+    Duration duration = endTime.difference(DateHelper.currentTime());
 
     await sl<ConnectBoxWifiUsecase>().call(NoParams());
     MachineModel? machine = await repository.unlock(params.machine, duration);

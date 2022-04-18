@@ -233,7 +233,6 @@ class WebCommunicatorImpl implements WebCommunicator {
     response = await dio.delete(url);
 
     if (response.statusCode != null && response.statusCode! < 400) {
-      print("STATUS CODE!: " + response.statusCode.toString());
       return response.data;
     } else {
       ExceptionHandler().handle(

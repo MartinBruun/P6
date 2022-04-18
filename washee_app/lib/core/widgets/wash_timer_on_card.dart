@@ -28,6 +28,7 @@ class _WashTimerOnCardState extends State<WashTimerOnCard>
   void initState() {
     super.initState();
     Duration? calculatedDuration;
+    print("THE ACTIVE MACHINE!" + widget.activeMachine.startTime.toString());
     if (!widget.activeMachine.isAvailable) {
       calculatedDuration =
           widget.activeMachine.endTime!.difference(DateHelper.currentTime()).abs();

@@ -46,10 +46,10 @@ class MachineModel extends Machine {
       name: json['name'],
       machineType: json['machineType'],
       startTime: json['startTime'] != "null"
-          ? DateTime.parse(json['startTime'])
+          ? DateTime.parse(json['startTime']).toUtc().add(Duration(hours: 2))
           : null,
       endTime:
-          json['endTime'] != "null" ? DateTime.parse(json['endTime']) : null,
+          json['endTime'] != "null" ? DateTime.parse(json['endTime']).toUtc().add(Duration(hours: 2)) : null,
     );
   }
 
