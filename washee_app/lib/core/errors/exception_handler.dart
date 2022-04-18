@@ -1,5 +1,8 @@
 import 'dart:io';
 
+import 'package:washee/core/helpers/web_communicator.dart';
+import 'package:washee/core/network/network_info.dart';
+import 'package:washee/injection_container.dart';
 import 'package:washee/core/helpers/date_helper.dart';
 
 class ExceptionHandler{
@@ -17,8 +20,8 @@ class ExceptionHandler{
     File(logLocation).writeAsStringSync("ExceptionHandler reset log file at: " + DateHelper.currentTime().toString() + "\n", mode: FileMode.write);
   }
 
-  String handle(exception, {log=false, show=false, crash=false}) {
-    //File(logLocation).writeAsStringSync("ExceptionHandler initialized at: " + DateHelper.currentTime().toString() + "\n", mode: FileMode.append);
+  String handle(String exception, {log=false, show=false, crash=false}) {
+    //File(logLocation).writeAsStringSync("ExceptionHandler initialized at: " + DateTime.now().toString() + "\n", mode: FileMode.append);
 
     if (log==false && show==false && crash==false){
       throw new Exception("ExceptionHandler not configured properly.\n" +
@@ -27,10 +30,18 @@ class ExceptionHandler{
                         exception.toString());
     }
 
-    // Logging is temporarily gone, since the file handling in this is wrong!
-    //if (log){
-    //  File(logLocation).writeAsStringSync(exception.toString(), mode: FileMode.append);
-    //}
+    if (log){
+      try{
+        sl<NetworkInfo>().isConnected.then((connected) => {
+          if(connected){
+            sl<WebCommunicator>().postLog(exception)
+          }
+      });
+      }
+      catch (e){
+        print("Error could not be send to logs: " + exception);
+      }
+    }
     if (show){
       print(exception.toString());
     }

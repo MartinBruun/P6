@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:intl/intl.dart';
 import 'package:washee/core/account/account.dart';
+import 'package:washee/core/account/user.dart';
 import 'package:washee/core/environments/environment.dart';
 import 'package:washee/core/errors/exception_handler.dart';
 import 'package:washee/core/helpers/authorizer.dart';
@@ -19,6 +20,7 @@ abstract class WebCommunicator {
   String get machinesURL;
   String get machineModelsURL;
   String get servicesURL;
+  String get logsURL;
   // Data Methods
   Future<Map<String, dynamic>> getCurrentLocation(int locationID);
   Future<List<Map<String, dynamic>>> getCurrentBookings({
@@ -38,7 +40,8 @@ abstract class WebCommunicator {
   Future<Map<String, dynamic>> getAccount(Account account);
   Future<bool> deleteBooking(bookingID);
   Future<List<Map<String,dynamic>>> getMachines();
-  updateBooking(String bookingID, {bool? activated});
+  Future<bool> postLog(String content);
+  Future<bool> updateBooking(String bookingID, {bool? activated});
 }
 
 class WebCommunicatorImpl implements WebCommunicator {
@@ -81,6 +84,10 @@ class WebCommunicatorImpl implements WebCommunicator {
   @override
   String get servicesURL =>
       Environment().config.webApiHost + "/api/1/services";
+
+  @override
+  String get logsURL =>
+      Environment().config.webApiHost + "/api/1/logs";
 
   @override
   Future<Map<String, dynamic>> getCurrentLocation(int locationID) async {
@@ -333,6 +340,38 @@ class WebCommunicatorImpl implements WebCommunicator {
           crash: false);
 
       throw Exception(response.data);
+    }
+  }
+
+  Future<bool> postLog(String content) async {
+    Response response;
+    ActiveUser user = ActiveUser();
+    String userResource = usersURL + "/${user.id}/";
+
+    print("GOT THE CONTENT:" + content);
+    try{
+      response = await dio.post(logsURL + "/", data: {
+        "content": content,
+        "user": userResource,
+        "source": "APP"
+      });
+      if (response.statusCode == 201) {
+        return true;
+      } else {
+        ExceptionHandler().handle(
+            "Something went wrong with status code: " +
+                response.statusCode.toString() +
+                " with response:\n" +
+                response.data['response'],
+            log: true,
+            show: true,
+            crash: false);
+        return false;
+      }
+    }
+    catch (e){
+      print("Could not send message to logs: " + content + " because of: " + e.toString());
+      return false;
     }
   }
 
