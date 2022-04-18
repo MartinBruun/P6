@@ -204,10 +204,10 @@ class CalendarProvider extends ChangeNotifier {
   }
 
   List<DateTime> getTimeSlots(DateTime currentDate) {
-    var startTime = DateTime(2022, currentDate.month, currentDate.day, 0, 0);
+    var startTime = DateTime(2022, currentDate.month, currentDate.day, 06, 0);
     List<DateTime> _slots = [];
     _slots.add(startTime);
-    for (int i = 1; i <= 47; i++) {
+    for (int i = 0; i < 34; i++) {
       startTime = startTime.add(Duration(minutes: 30));
       _slots.add(startTime);
     }
@@ -292,5 +292,38 @@ class CalendarProvider extends ChangeNotifier {
           (current, next) => current.compareTo(next) > 0 ? next : current);
     }
     return null;
+  }
+
+  bool isSlotAvailable(List<BookingModel> bookings, DateTime currentSlot) {
+    int overlaps = 0;
+    // bool alreadyChosen = false;
+
+    for (var booking in bookings) {
+      if (doesSlotOverlap(booking.startTime!, currentSlot, booking.endTime!)) {
+        overlaps++;
+      }
+    }
+
+    return overlaps > 0 ? false : true;
+  }
+
+  int getNumberOfOccupiedSlots(
+      List<BookingModel> bookingsForDate, DateTime currentDate) {
+    var slots = getTimeSlots(currentDate);
+    var occupied = [];
+    for (var slot in slots) {
+      for (var booking in bookingsForDate) {
+        if (booking.startTime!.hour == slot.hour &&
+            booking.startTime!.minute == slot.minute) {
+          occupied.add(slot);
+        }
+      }
+    }
+
+    if (occupied.isNotEmpty) {
+      return (occupied.length);
+    }
+
+    return 0;
   }
 }

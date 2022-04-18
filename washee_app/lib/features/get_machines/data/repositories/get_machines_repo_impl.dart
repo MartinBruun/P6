@@ -13,7 +13,6 @@ class GetMachinesRepositoryImpl implements GetMachinesRepository {
   Future<List<MachineModel>> getMachines() async {
     if (await networkInfo.isConnected) {
       var data = await communicator.getMachines();
-      print("MACHINES GOT!");
       return constructMachineList(data);
     }
     return List.empty();
@@ -22,7 +21,6 @@ class GetMachinesRepositoryImpl implements GetMachinesRepository {
   List<MachineModel> constructMachineList(List<Map<String, dynamic>> machinesAsJson) {
     List<MachineModel> _machines = [];
     for (var machine in machinesAsJson) {
-      print("MACHINE: " + machine.toString());
       _machines.add(MachineModel.fromJson(machine));
     }
 
