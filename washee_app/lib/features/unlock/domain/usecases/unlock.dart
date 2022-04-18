@@ -21,9 +21,7 @@ class UnlockUseCase implements UseCase<MachineModel?, UnlockParams> {
       duration = params.machine.endTime!.difference(DateHelper.currentTime());
     }
 
-    await sl<ConnectBoxWifiUsecase>().call(NoParams());
     MachineModel? machine = await repository.unlock(params.machine, duration);
-    sl<DisconnectBoxWifiUsecase>().call(NoParams());
 
     // Bad practice, should be severely reorganized, when we have a proper understanding of the domain structure
     // There is no strict seperation of Machine and Booking, giving these problems

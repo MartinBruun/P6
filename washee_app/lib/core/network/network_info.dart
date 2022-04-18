@@ -58,10 +58,9 @@ class NetworkInfoImpl implements NetworkInfo {
   //ANDROID SPECIFIC
   @override
   Future<bool> getWifiAccessPermissions() async {
-    if (await WiFiForIoTPlugin.isEnabled()){
+    if (await WiFiForIoTPlugin.isEnabled()) {
       return true;
-    }
-    else{
+    } else {
       WiFiForIoTPlugin.showWritePermissionSettings(true);
       return await WiFiForIoTPlugin.isEnabled();
     }
@@ -70,18 +69,22 @@ class NetworkInfoImpl implements NetworkInfo {
   //ANDROID SPECIFIC
   @override
   Future<bool> connectToBoxWifi() async {
-    try{
-      WiFiForIoTPlugin.connect(boxDomainName,
-                          password: boxDomainPassword,
-                          joinOnce: true,
-                          withInternet: Environment().config.boxHasInternetAccess,
-                          isHidden: false,
-                          security: chosenSecurity);
+    try {
+      bool result = await WiFiForIoTPlugin.connect(boxDomainName,
+          password: boxDomainPassword,
+          joinOnce: true,
+          isHidden: false,
+          security: NetworkSecurity.WPA);
       WiFiForIoTPlugin.forceWifiUsage(true);
-      return true;
-    }
-    catch (e) {
-      ExceptionHandler().handle("Could not connect to wifi from NetworkInfo with error: " + e.toString(), log:true, show:true, crash:false);
+      print("Connected to BoxWifi from NetworkInfo");
+      return result;
+    } catch (e) {
+      ExceptionHandler().handle(
+          "Could not connect to wifi from NetworkInfo with error: " +
+              e.toString(),
+          log: true,
+          show: true,
+          crash: false);
       return false;
     }
   }
@@ -89,13 +92,17 @@ class NetworkInfoImpl implements NetworkInfo {
   //ANDROID SPECIFIC
   @override
   Future<bool> disconnectFromBoxWifi() async {
-    try{
+    try {
       WiFiForIoTPlugin.forceWifiUsage(false);
       WiFiForIoTPlugin.disconnect();
       return true;
-    }
-    catch (e) {
-      ExceptionHandler().handle("Could not disconnect from wifi at NetworkInfo with error: " + e.toString(), log:true, show:true, crash:false);
+    } catch (e) {
+      ExceptionHandler().handle(
+          "Could not disconnect from wifi at NetworkInfo with error: " +
+              e.toString(),
+          log: true,
+          show: true,
+          crash: false);
       return false;
     }
   }
