@@ -13,8 +13,9 @@ class UnlockRepositoryImpl implements UnlockRepository {
   Future<MachineModel?> unlock(MachineModel machine, Duration duration) async {
     if (await networkInfo.isConnected) {
       var data = await remote.unlock(machine, duration);
+      print("UNLOCK IS FINE");
       MachineModel updatedMachine = _constructMachineFromResponse(data);
-      print(updatedMachine);
+      print("CONSTRUCT NOT FINE");
       return updatedMachine;
     } else {
       return null;
@@ -23,7 +24,6 @@ class UnlockRepositoryImpl implements UnlockRepository {
 
   MachineModel _constructMachineFromResponse(
       Map<String, dynamic> machineAsJson) {
-    print(machineAsJson);
     return MachineModel.fromJson(machineAsJson);
   }
 

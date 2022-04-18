@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:washee/core/helpers/date_helper.dart';
 import 'package:washee/core/washee_box/machine_model.dart';
 
 import '../../../../core/presentation/themes/colors.dart';
@@ -27,9 +28,6 @@ class _WashTimerState extends State<WashTimer> with TickerProviderStateMixin {
   void initState() {
     super.initState();
     // mocking the start and end times for now
-    widget.activeMachine.startTime = DateTime.now();
-    widget.activeMachine.endTime =
-        widget.activeMachine.startTime!.add(Duration(hours: 2, minutes: 30));
     Duration calculatedDuration = widget.activeMachine.endTime!
         .difference(widget.activeMachine.startTime!)
         .abs();
