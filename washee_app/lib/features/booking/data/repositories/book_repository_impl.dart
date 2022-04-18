@@ -1,4 +1,5 @@
 import 'package:washee/core/errors/exception_handler.dart';
+import 'package:washee/core/helpers/date_helper.dart';
 import 'package:washee/features/booking/data/models/booking_model.dart';
 import 'package:washee/features/booking/domain/repositories/book_repository.dart';
 
@@ -41,8 +42,8 @@ class BookRepositoryImpl implements BookRepository {
       List<BookingModel> validBooking = await remote.getBookings(
         accountID: accountID,
         machineID: machineID,
-        startTimeLessThan: DateTime.now(),
-        endTimeGreaterThan: DateTime.now()
+        startTimeLessThan: DateHelper.currentTime(),
+        endTimeGreaterThan: DateHelper.currentTime()
       );
       if (validBooking.isEmpty){
         return false;

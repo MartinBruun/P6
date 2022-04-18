@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:washee/core/presentation/themes/dimens.dart';
 import 'package:washee/core/presentation/themes/themes.dart';
+import 'package:washee/core/providers/global_provider.dart';
 
 import '../../../../core/usecases/usecase.dart';
 import '../../../../injection_container.dart';

@@ -2,6 +2,6 @@
     "machineID" : "l1",
     "name" : "vaskemaskine1",
     "machineType" : "laundryMachine",
-    "startTime" : "2022-02-27T13:27:00",
-    "endTime" : "2022-03-27T13:27:00"
+    "startTime" : "2022-02-27T13:27:00Z",
+    "endTime" : "2022-03-27T13:27:00Z"
 }
