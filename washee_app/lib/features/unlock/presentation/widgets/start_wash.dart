@@ -145,7 +145,7 @@ class _StartWashState extends State<StartWash> {
           builder: (BuildContext context) {
             return HTTPErrorPrompt(
                 message:
-                    "Det ser ud til, at du ikke har forbindelse til WasheeBox");
+                    "Det ser ud til, at du ikke har forbindelse til WasheeBox. Forbind til boxen og prøv igen!");
           },
         );
       }
