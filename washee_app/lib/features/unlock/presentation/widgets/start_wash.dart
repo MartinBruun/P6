@@ -122,8 +122,6 @@ class _StartWashState extends State<StartWash> {
                 message:
                     "Det ser ud til, at du ikke har forbindelse til WasheeBox"));
       } else {
-        var provider = Provider.of<GlobalProvider>(context, listen: false);
-        provider.updateMachine(fetchedMachine!);
         print("From start_wash.dart: fetchedMachine went correctly!");
       }
     } catch (e) {

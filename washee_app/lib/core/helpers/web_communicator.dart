@@ -4,6 +4,7 @@ import 'package:washee/core/account/account.dart';
 import 'package:washee/core/environments/environment.dart';
 import 'package:washee/core/errors/exception_handler.dart';
 import 'package:washee/core/helpers/authorizer.dart';
+import 'package:washee/core/helpers/date_helper.dart';
 
 abstract class WebCommunicator {
   // ALL ID and Resource should be changed to their corresponding Model instead!
@@ -251,6 +252,7 @@ class WebCommunicatorImpl implements WebCommunicator {
   @override
   Future<List<Map<String,dynamic>>> getMachines() async {
     Response response;
+
     String url = machinesURL + "/";
 
     response = await dio.get(url);
@@ -258,10 +260,30 @@ class WebCommunicatorImpl implements WebCommunicator {
     if (response.statusCode == 200) {
       List<Map<String, dynamic>> convertedData = [];
       for (var machine in response.data) {
+        DateTime? startTime;
+        DateTime? endTime;
+        try {
+          List<Map<String,dynamic>> currentBooking = await getCurrentBookings(
+            machineID: int.parse(machine["id"].toString()),
+            startTimeLessThan: DateHelper.currentTime(),
+            endTimeGreaterThan: DateHelper.currentTime()
+          );
+          if (currentBooking.isNotEmpty){
+            // It is necessary to remove 2 hours from the time, since there will automatically be added
+            // 2 hours when the machine model is made
+            // It is completely stupid, and should be remade, but honestly i'm tired
+            startTime = DateTime.parse(currentBooking[0]["start_time"]).add(Duration(hours: -2));
+            endTime = DateTime.parse(currentBooking[0]["end_time"]).add(Duration(hours: -2));
+          }
+        } 
+        catch (e){
+          print("Throws error: " + e.toString());
+        }
+
         convertedData.add({
           "machineID": machine["id"].toString(),
-          "startTime": "2022-04-15 22:47:18.289741",
-          "endTime": "2022-04-15 22:47:18.289741",
+          "startTime": startTime != null ? startTime : null,
+          "endTime": endTime != null ? endTime : null,
           "name": machine["name"],
           "machineType": machine["machine_model"].toString().contains('/api/1/machine_models/1/') ? "AKG Vaskemaskine" : "Electrolux Tørretumbler"
         });

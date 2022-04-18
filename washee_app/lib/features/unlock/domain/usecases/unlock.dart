@@ -17,24 +17,10 @@ class UnlockUseCase implements UseCase<MachineModel?, UnlockParams> {
 
   @override
   Future<MachineModel?> call(UnlockParams params) async {
-    DateTime endTime = DateHelper.currentTime().add(Duration(hours: 2, minutes: 30));
-    try {
-      List<Map<String,dynamic>> currentBooking = await sl<WebCommunicator>().getCurrentBookings(
-        machineID: int.parse(params.machine.machineID),
-        startTimeLessThan: DateHelper.currentTime(),
-        endTimeGreaterThan: DateHelper.currentTime()
-      );
-      if (currentBooking.isNotEmpty){
-        endTime = DateTime.parse(currentBooking[0]["end_time"]);
-      }
-      else{
-        ExceptionHandler().handle("BIG ERROR! No Booking is active for this time! " + DateHelper.currentTime().toString(),log:true, show:true);
-      }
+    Duration duration = Duration(hours: 2, minutes: 30);
+    if(params.machine.endTime != null){
+      duration = params.machine.endTime!.difference(DateHelper.currentTime());
     }
-    catch (e){
-      ExceptionHandler().handle("Could not get booking time, defaulting to 2 hours and 30 minutes",log:true, show:true);
-    }
-    Duration duration = endTime.difference(DateHelper.currentTime());
 
     await sl<ConnectBoxWifiUsecase>().call(NoParams());
     MachineModel? machine = await repository.unlock(params.machine, duration);

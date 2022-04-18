@@ -1,3 +1,4 @@
+import 'package:intl/intl.dart';
 import 'package:washee/core/helpers/date_helper.dart';
 import 'package:washee/core/washee_box/machine_entity.dart';
 
@@ -41,16 +42,17 @@ class MachineModel extends Machine {
       };
 
   factory MachineModel.fromJson(Map<String, dynamic> json) {
-    return MachineModel(
-      machineID: json['machineID'],
+    MachineModel machine = MachineModel(
+      machineID: json['machineID'].toString(),
       name: json['name'],
       machineType: json['machineType'],
-      startTime: json['startTime'] != "null"
-          ? DateTime.parse(json['startTime']).toUtc().add(Duration(hours: 2))
+      startTime: json['startTime'] != null
+          ? DateTime.parse(json["startTime"].toString().replaceAll(" ", "T")).toUtc().add(Duration(hours: 2))
           : null,
       endTime:
-          json['endTime'] != "null" ? DateTime.parse(json['endTime']).toUtc().add(Duration(hours: 2)) : null,
+          json['endTime'] != null ? DateTime.parse(json["endTime"].toString().replaceAll(" ", "T")).toUtc().add(Duration(hours: 2)) : null,
     );
+    return machine;
   }
 
   bool get isAvailable {

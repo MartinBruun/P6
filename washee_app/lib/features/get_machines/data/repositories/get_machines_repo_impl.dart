@@ -13,7 +13,8 @@ class GetMachinesRepositoryImpl implements GetMachinesRepository {
   Future<List<MachineModel>> getMachines() async {
     if (await networkInfo.isConnected) {
       var data = await communicator.getMachines();
-      return constructMachineList(data);
+      List<MachineModel> machines = constructMachineList(data);
+      return machines;
     }
     return List.empty();
   }
