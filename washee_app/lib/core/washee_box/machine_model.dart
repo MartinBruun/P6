@@ -9,6 +9,7 @@ class MachineModel extends Machine {
   final String machineType;
   DateTime? startTime;
   DateTime? endTime;
+  bool activated;
 
   MachineModel({
     required this.machineID,
@@ -16,12 +17,14 @@ class MachineModel extends Machine {
     required this.machineType,
     this.startTime,
     this.endTime,
+    this.activated = false
   }) : super(
           endTime: endTime,
           startTime: startTime,
           name: name,
           machineID: machineID,
           machineType: machineType,
+          activated:activated
         );
 
   @override
@@ -31,6 +34,7 @@ class MachineModel extends Machine {
         machineType,
         startTime,
         endTime,
+        activated
       ];
 
   Map<String, dynamic> toJson() => {
@@ -46,6 +50,7 @@ class MachineModel extends Machine {
       machineID: json['machineID'].toString(),
       name: json['name'],
       machineType: json['machineType'],
+      activated: json["activated"] == true ? json["activated"] : false,
       startTime: json['startTime'] != null
           ? DateTime.parse(json["startTime"].toString().replaceAll(" ", "T")).toUtc().add(Duration(hours: 2))
           : null,

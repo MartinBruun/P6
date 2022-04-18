@@ -38,6 +38,7 @@ abstract class WebCommunicator {
   Future<Map<String, dynamic>> getAccount(Account account);
   Future<bool> deleteBooking(bookingID);
   Future<List<Map<String,dynamic>>> getMachines();
+  updateBooking(String bookingID, {bool? activated});
 }
 
 class WebCommunicatorImpl implements WebCommunicator {
@@ -156,6 +157,7 @@ class WebCommunicatorImpl implements WebCommunicator {
           "end_time": booking["end_time"],
           "created": booking["created"],
           "last_updated": booking["last_updated"],
+          "activated": booking["activated"],
           "machine": booking["machine"],
           "service": booking["service"],
           "account": booking["account"],
@@ -250,6 +252,34 @@ class WebCommunicatorImpl implements WebCommunicator {
   }
 
   @override
+  Future<bool> updateBooking(String bookingID, {bool? activated}) async {
+    Response response;
+    String url = bookingsURL + "/${bookingID}/";
+
+    Map<String,dynamic> data = {};
+    if (activated != null){
+      data["activated"] = activated;
+    }
+
+    response = await dio.patch(url, data:data);
+
+    if (response.statusCode != null && response.statusCode! < 400) {
+      return response.data;
+    } else {
+      ExceptionHandler().handle(
+          "Something went wrong with status code: " +
+              response.statusCode.toString() +
+              " with response:\n" +
+              response.data['response'],
+          log: true,
+          show: true,
+          crash: false);
+
+      throw Exception(response.data);
+    }
+  }
+
+  @override
   Future<List<Map<String,dynamic>>> getMachines() async {
     Response response;
 
@@ -262,6 +292,7 @@ class WebCommunicatorImpl implements WebCommunicator {
       for (var machine in response.data) {
         DateTime? startTime;
         DateTime? endTime;
+        bool activated = false;
         try {
           List<Map<String,dynamic>> currentBooking = await getCurrentBookings(
             machineID: int.parse(machine["id"].toString()),
@@ -274,6 +305,7 @@ class WebCommunicatorImpl implements WebCommunicator {
             // It is completely stupid, and should be remade, but honestly i'm tired
             startTime = DateTime.parse(currentBooking[0]["start_time"]).add(Duration(hours: -2));
             endTime = DateTime.parse(currentBooking[0]["end_time"]).add(Duration(hours: -2));
+            activated = currentBooking[0]["activated"] == true;
           }
         } 
         catch (e){
@@ -283,6 +315,7 @@ class WebCommunicatorImpl implements WebCommunicator {
         convertedData.add({
           "machineID": machine["id"].toString(),
           "startTime": startTime != null ? startTime : null,
+          "activated": activated,
           "endTime": endTime != null ? endTime : null,
           "name": machine["name"],
           "machineType": machine["machine_model"].toString().contains('/api/1/machine_models/1/') ? "AKG Vaskemaskine" : "Electrolux Tørretumbler"

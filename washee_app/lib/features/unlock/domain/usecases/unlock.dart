@@ -23,8 +23,20 @@ class UnlockUseCase implements UseCase<MachineModel?, UnlockParams> {
     }
 
     await sl<ConnectBoxWifiUsecase>().call(NoParams());
+    print("HERE!");
     MachineModel? machine = await repository.unlock(params.machine, duration);
+    print("HERE");
     sl<DisconnectBoxWifiUsecase>().call(NoParams());
+
+    // Bad practice, should be severely reorganized, when we have a proper understanding of the domain structure
+    // There is no strict seperation of Machine and Booking, giving these problems
+    List<Map<String,dynamic>> currentBooking = await sl<WebCommunicator>().getCurrentBookings(
+            machineID: int.parse(params.machine.machineID.toString()),
+            startTimeLessThan: DateHelper.currentTime(),
+            endTimeGreaterThan: DateHelper.currentTime()
+          );
+    sl<WebCommunicator>().updateBooking(currentBooking[0]["id"].toString(), activated: true);
+    
     return machine;
   }
 }

@@ -7,6 +7,7 @@ class Machine extends Equatable {
   final String machineType;
   DateTime? startTime;
   DateTime? endTime;
+  bool activated;
 
   Machine({
     required this.machineID,
@@ -14,8 +15,9 @@ class Machine extends Equatable {
     required this.machineType,
     this.startTime,
     this.endTime,
+    this.activated = false
   });
 
   @override
-  List<Object?> get props => [machineID, name, machineType, startTime, endTime];
+  List<Object?> get props => [machineID, name, machineType, startTime, endTime, activated];
 }
