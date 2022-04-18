@@ -35,7 +35,8 @@ abstract class WebCommunicator {
       required String machineResource,
       required String serviceResource});
   Future<Map<String, dynamic>> getAccount(Account account);
-  Future<bool> deleteBooking(bookingID); // Should be changed to return Map<String,dynamic>
+  Future<bool> deleteBooking(bookingID);
+  Future<List<Map<String,dynamic>>> getMachines();
 }
 
 class WebCommunicatorImpl implements WebCommunicator {
@@ -234,6 +235,39 @@ class WebCommunicatorImpl implements WebCommunicator {
     if (response.statusCode != null && response.statusCode! < 400) {
       print("STATUS CODE!: " + response.statusCode.toString());
       return response.data;
+    } else {
+      ExceptionHandler().handle(
+          "Something went wrong with status code: " +
+              response.statusCode.toString() +
+              " with response:\n" +
+              response.data['response'],
+          log: true,
+          show: true,
+          crash: false);
+
+      throw Exception(response.data);
+    }
+  }
+
+  @override
+  Future<List<Map<String,dynamic>>> getMachines() async {
+    Response response;
+    String url = machinesURL + "/";
+
+    response = await dio.get(url);
+
+    if (response.statusCode == 200) {
+      List<Map<String, dynamic>> convertedData = [];
+      for (var machine in response.data) {
+        convertedData.add({
+          "machineID": machine["id"].toString(),
+          "startTime": "2022-04-15 22:47:18.289741",
+          "endTime": "2022-04-15 22:47:18.289741",
+          "name": machine["name"],
+          "machineType": machine["machine_model"].toString().contains('/api/1/machine_models/1/') ? "AKG Vaskemaskine" : "Electrolux Tørretumbler"
+        });
+      }
+      return convertedData;
     } else {
       ExceptionHandler().handle(
           "Something went wrong with status code: " +
