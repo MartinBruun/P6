@@ -20,15 +20,14 @@ abstract class WebCommunicator {
   String get servicesURL;
   // Data Methods
   Future<Map<String, dynamic>> getCurrentLocation(int locationID);
-  Future<List<Map<String, dynamic>>> getCurrentBookings({
-    DateTime? startTimeGreaterThan,
-    DateTime? startTimeLessThan,
-    DateTime? endTimeGreaterThan,
-    DateTime? endTimeLessThan,
-    int? machineID,
-    int? accountID,
-    int? serviceID
-  });
+  Future<List<Map<String, dynamic>>> getCurrentBookings(
+      {DateTime? startTimeGreaterThan,
+      DateTime? startTimeLessThan,
+      DateTime? endTimeGreaterThan,
+      DateTime? endTimeLessThan,
+      int? machineID,
+      int? accountID,
+      int? serviceID});
   Future<Map<String, dynamic>> postBooking(
       {required DateTime startTime,
       required String accountResource,
@@ -36,7 +35,7 @@ abstract class WebCommunicator {
       required String serviceResource});
   Future<Map<String, dynamic>> getAccount(Account account);
   Future<bool> deleteBooking(bookingID);
-  Future<List<Map<String,dynamic>>> getMachines();
+  Future<List<Map<String, dynamic>>> getMachines();
 }
 
 class WebCommunicatorImpl implements WebCommunicator {
@@ -57,12 +56,10 @@ class WebCommunicatorImpl implements WebCommunicator {
   String get usersURL => Environment().config.webApiHost + "/api/1/users";
 
   @override
-  String get accountsURL =>
-      Environment().config.webApiHost + "/api/1/accounts";
+  String get accountsURL => Environment().config.webApiHost + "/api/1/accounts";
 
   @override
-  String get bookingsURL =>
-      Environment().config.webApiHost + "/api/1/bookings";
+  String get bookingsURL => Environment().config.webApiHost + "/api/1/bookings";
 
   @override
   String get locationsURL =>
@@ -73,12 +70,10 @@ class WebCommunicatorImpl implements WebCommunicator {
       Environment().config.webApiHost + "/api/1/machine_models";
 
   @override
-  String get machinesURL =>
-      Environment().config.webApiHost + "/api/1/machines";
+  String get machinesURL => Environment().config.webApiHost + "/api/1/machines";
 
   @override
-  String get servicesURL =>
-      Environment().config.webApiHost + "/api/1/services";
+  String get servicesURL => Environment().config.webApiHost + "/api/1/services";
 
   @override
   Future<Map<String, dynamic>> getCurrentLocation(int locationID) async {
@@ -101,48 +96,52 @@ class WebCommunicatorImpl implements WebCommunicator {
   }
 
   @override
-  Future<List<Map<String, dynamic>>> getCurrentBookings({
-    DateTime? startTimeGreaterThan,
-    DateTime? startTimeLessThan,
-    DateTime? endTimeGreaterThan,
-    DateTime? endTimeLessThan,
-    int? machineID,
-    int? accountID,
-    int? serviceID}
-    ) async {
+  Future<List<Map<String, dynamic>>> getCurrentBookings(
+      {DateTime? startTimeGreaterThan,
+      DateTime? startTimeLessThan,
+      DateTime? endTimeGreaterThan,
+      DateTime? endTimeLessThan,
+      int? machineID,
+      int? accountID,
+      int? serviceID}) async {
     Response response;
 
     String queryString = "";
-    
-    if (startTimeGreaterThan != null){
-      queryString += "start_time__gte=" + _convertToNonNaiveTime(startTimeGreaterThan) + "&";
+
+    if (startTimeGreaterThan != null) {
+      queryString += "start_time__gte=" +
+          _convertToNonNaiveTime(startTimeGreaterThan) +
+          "&";
     }
-    if (startTimeLessThan != null){
-      queryString += "start_time__lte=" + _convertToNonNaiveTime(startTimeLessThan) + "&";
+    if (startTimeLessThan != null) {
+      queryString +=
+          "start_time__lte=" + _convertToNonNaiveTime(startTimeLessThan) + "&";
     }
-    if (endTimeGreaterThan != null){
-      queryString += "end_time__gte=" + _convertToNonNaiveTime(endTimeGreaterThan) + "&";
+    if (endTimeGreaterThan != null) {
+      queryString +=
+          "end_time__gte=" + _convertToNonNaiveTime(endTimeGreaterThan) + "&";
     }
-    if (endTimeLessThan != null){
-      queryString += "end_time__lte=" + _convertToNonNaiveTime(endTimeLessThan) + "&";
+    if (endTimeLessThan != null) {
+      queryString +=
+          "end_time__lte=" + _convertToNonNaiveTime(endTimeLessThan) + "&";
     }
-    if (machineID != null){
+    if (machineID != null) {
       queryString += "machine_id=" + machineID.toString() + "&";
     }
-    if (accountID != null){
+    if (accountID != null) {
       queryString += "account_id=" + accountID.toString() + "&";
     }
-    if (serviceID != null){
+    if (serviceID != null) {
       queryString += "service_id=" + serviceID.toString() + "&";
     }
 
     String bookingsFinalURL = bookingsURL;
-    if (queryString == ""){
+    if (queryString == "") {
       bookingsFinalURL += "/";
-    }
-    else{
+    } else {
       bookingsFinalURL += "?" + queryString;
-      bookingsFinalURL = bookingsFinalURL.substring(0, bookingsFinalURL.length-1);
+      bookingsFinalURL =
+          bookingsFinalURL.substring(0, bookingsFinalURL.length - 1);
     }
 
     response = await dio.get(bookingsFinalURL);
@@ -232,9 +231,8 @@ class WebCommunicatorImpl implements WebCommunicator {
 
     response = await dio.delete(url);
 
-    if (response.statusCode != null && response.statusCode! < 400) {
-      print("STATUS CODE!: " + response.statusCode.toString());
-      return response.data;
+    if (response.statusCode != null && response.statusCode! == 204) {
+      return true;
     } else {
       ExceptionHandler().handle(
           "Something went wrong with status code: " +
@@ -250,7 +248,7 @@ class WebCommunicatorImpl implements WebCommunicator {
   }
 
   @override
-  Future<List<Map<String,dynamic>>> getMachines() async {
+  Future<List<Map<String, dynamic>>> getMachines() async {
     Response response;
     String url = machinesURL + "/";
 
@@ -264,7 +262,11 @@ class WebCommunicatorImpl implements WebCommunicator {
           "startTime": "2022-04-15 22:47:18.289741",
           "endTime": "2022-04-15 22:47:18.289741",
           "name": machine["name"],
-          "machineType": machine["machine_model"].toString().contains('/api/1/machine_models/1/') ? "AKG Vaskemaskine" : "Electrolux Tørretumbler"
+          "machineType": machine["machine_model"]
+                  .toString()
+                  .contains('/api/1/machine_models/1/')
+              ? "AKG Vaskemaskine"
+              : "Electrolux Tørretumbler"
         });
       }
       return convertedData;
@@ -282,7 +284,7 @@ class WebCommunicatorImpl implements WebCommunicator {
     }
   }
 
-  String _convertToNonNaiveTime(DateTime time){
+  String _convertToNonNaiveTime(DateTime time) {
     // The backend is timezone sensitive, and needs it in the following specified format
     return DateFormat("yyyy-MM-dd'T'HH:mm:ss").format(time) + "Z";
   }
