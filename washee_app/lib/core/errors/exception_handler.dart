@@ -1,5 +1,9 @@
 import 'dart:io';
 
+import 'package:washee/core/helpers/web_communicator.dart';
+import 'package:washee/core/network/network_info.dart';
+import 'package:washee/injection_container.dart';
+
 class ExceptionHandler{
   // ExceptionHandler is a class where all try/catch blocks in the codebase use the .handle() method on any catched Exception.
   // This is to reuse and standardise how errors are handled across the codebase.
@@ -15,7 +19,7 @@ class ExceptionHandler{
     File(logLocation).writeAsStringSync("ExceptionHandler reset log file at: " + DateTime.now().toString() + "\n", mode: FileMode.write);
   }
 
-  String handle(exception, {log=false, show=false, crash=false}) {
+  String handle(String exception, {log=false, show=false, crash=false}) {
     //File(logLocation).writeAsStringSync("ExceptionHandler initialized at: " + DateTime.now().toString() + "\n", mode: FileMode.append);
 
     if (log==false && show==false && crash==false){
@@ -25,10 +29,18 @@ class ExceptionHandler{
                         exception.toString());
     }
 
-    // Logging is temporarily gone, since the file handling in this is wrong!
-    //if (log){
-    //  File(logLocation).writeAsStringSync(exception.toString(), mode: FileMode.append);
-    //}
+    if (log){
+      try{
+        sl<NetworkInfo>().isConnected.then((connected) => {
+          if(connected){
+            sl<WebCommunicator>().postLog(exception)
+          }
+      });
+      }
+      catch (e){
+        print("Error could not be send to logs: " + exception);
+      }
+    }
     if (show){
       print(exception.toString());
     }
