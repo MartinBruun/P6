@@ -28,12 +28,6 @@ class _TimeSlotsState extends State<TimeSlots> {
       }
     }
 
-    // for (var timeslot in calendar.addedTimeSlots) {
-    //   if (currentSlot == timeslot) {
-    //     alreadyChosen = true;
-    //   }
-    // }
-
     return overlaps > 0 ? false : true;
   }
 
