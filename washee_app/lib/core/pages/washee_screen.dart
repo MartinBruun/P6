@@ -19,11 +19,13 @@ class WasheeScreen extends StatelessWidget {
             style: textStyle.copyWith(
                 fontSize: textSize_40, fontWeight: FontWeight.w600),
           )),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Center(child: UserInfo()),
-        ],
+      body: SafeArea(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Center(child: UserInfo()),
+          ],
+        ),
       ),
     );
   }

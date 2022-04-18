@@ -27,9 +27,13 @@ class SignInScreen extends StatefulWidget {
 class _SignInScreenState extends State<SignInScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  final _testController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   ActiveUser user = ActiveUser();
+  final OutlineInputBorder _borderStyle = OutlineInputBorder(
+    borderSide: BorderSide(color: Colors.white),
+  );
 
   @override
   void dispose() {
@@ -40,7 +44,7 @@ class _SignInScreenState extends State<SignInScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: true,
       appBar: AppBar(
         title: Text(
           'Login',
@@ -75,18 +79,28 @@ class _SignInScreenState extends State<SignInScreen> {
                     fontSize: textSize_54, fontWeight: FontWeight.bold),
               ),
             ),
-            TextInput("Email", _emailController, false, (value) {
-              if (value == "") {
-                return "Du har ikke indtastet en Email";
-              }
-              return null;
-            }),
-            TextInput("Password", _passwordController, true, (value) {
-              if (value == "") {
-                return "Du har ikke indtastet et kodeord";
-              }
-              return null;
-            }),
+            TextInput(
+              text: "Email",
+              controller: _emailController,
+              obscure: false,
+              validator: (value) {
+                if (value == "") {
+                  return "Du har ikke indtastet en Email";
+                }
+                return null;
+              },
+            ),
+            TextInput(
+              text: "Password",
+              controller: _passwordController,
+              obscure: true,
+              validator: (value) {
+                if (value == "") {
+                  return "Du har ikke indtastet et kodeord";
+                }
+                return null;
+              },
+            ),
             Padding(
                 padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 16.h),
                 child: Container(
