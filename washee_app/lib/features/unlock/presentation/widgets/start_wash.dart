@@ -148,7 +148,7 @@ class _StartWashState extends State<StartWash> {
     // provider.machines.removeWhere((element) =>
     //     element.name.toLowerCase() ==
     //     fetchedMachine!.name.toLowerCase());
-    // machineToStart.startTime = DateTime.now();
+    // machineToStart.startTime = DateHelper.currentTime();
     // machineToStart.endTime = machineToStart.startTime!
     //     .add(Duration(hours: 7, minutes: 30));
     // provider.machines.add(machineToStart);

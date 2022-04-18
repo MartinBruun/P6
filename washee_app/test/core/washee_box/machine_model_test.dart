@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter_test/flutter_test.dart';
+import 'package:washee/core/helpers/date_helper.dart';
 import 'package:washee/core/washee_box/machine_entity.dart';
 import 'package:washee/core/washee_box/machine_model.dart';
 
@@ -15,7 +16,7 @@ void main() {
           machineID: "test1",
           name: "testName",
           machineType: "laundryMachine",
-          startTime: DateTime.now(),
+          startTime: DateHelper.currentTime(),
           endTime: DateTime(2022, 03, 07, 10, 15, 00));
 
       // assert

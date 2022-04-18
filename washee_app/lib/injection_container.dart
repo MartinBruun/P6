@@ -46,7 +46,7 @@ initCoreAndExternal() {
   sl.registerLazySingleton(() => Connectivity());
 
   sl.registerLazySingleton<BoxCommunicator>(
-      () => BoxCommunicatorImpl(dio: sl(), communicator: sl()));
+      () => BoxCommunicatorImpl(dio: sl()));
   sl.registerLazySingleton(() => Dio());
 
   sl.registerLazySingleton(() => FlutterSecureStorage());

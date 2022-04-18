@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:washee/core/helpers/date_helper.dart';
 import 'package:washee/core/washee_box/machine_model.dart';
 
 import '../../../../core/presentation/themes/dimens.dart';
@@ -29,7 +30,7 @@ class _WashTimerOnCardState extends State<WashTimerOnCard>
     Duration? calculatedDuration;
     if (!widget.activeMachine.isAvailable) {
       calculatedDuration =
-          widget.activeMachine.endTime!.difference(DateTime.now()).abs();
+          widget.activeMachine.endTime!.difference(DateHelper.currentTime()).abs();
     }
 
     controller = AnimationController(vsync: this, duration: calculatedDuration);

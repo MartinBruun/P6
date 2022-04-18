@@ -1,3 +1,4 @@
+import 'package:washee/core/helpers/date_helper.dart';
 import 'package:washee/core/washee_box/machine_entity.dart';
 
 // ignore: must_be_immutable
@@ -55,8 +56,8 @@ class MachineModel extends Machine {
   bool get isAvailable {
     if (startTime == null || endTime == null) {
       return true;
-    } else if (DateTime.now().isBefore(endTime!) &&
-        DateTime.now().isAfter(startTime!)) {
+    } else if (DateHelper.currentTime().isBefore(endTime!) &&
+        DateHelper.currentTime().isAfter(startTime!)) {
       return false;
     }
     return true;

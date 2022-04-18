@@ -1,6 +1,10 @@
 import 'package:intl/intl.dart';
 
 class DateHelper {
+  static DateTime currentTime(){
+    return DateTime.now().toUtc().add(Duration(hours:2));
+  }
+
   int _daysInMonth(DateTime date) {
     var lastDayOfMonth = DateTime(date.year, date.month + 1, 0);
     return lastDayOfMonth.day;
