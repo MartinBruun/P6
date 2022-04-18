@@ -14,9 +14,9 @@ class UnlockUseCase implements UseCase<MachineModel?, UnlockParams> {
 
   @override
   Future<MachineModel?> call(UnlockParams params) async {
-    await sl<ConnectBoxWifiUsecase>().call(NoParams());
-    MachineModel? machine = await repository.unlock(params.machine, params.duration);
-    sl<DisconnectBoxWifiUsecase>().call(NoParams());
+    MachineModel? machine =
+        await repository.unlock(params.machine, params.duration);
+
     return machine;
   }
 }
