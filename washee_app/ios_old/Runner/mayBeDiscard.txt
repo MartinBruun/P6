@@ -1,0 +1,66 @@
+import UIKit
+import Flutter
+import SystemConfiguration.CaptiveNetwork
+import NetworkExtension
+
+@UIApplicationMain
+@objc class AppDelegate: FlutterAppDelegate {
+  override func application(
+    _ application: UIApplication,
+    didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
+  ) -> Bool {
+      let controller: FlutterViewController = window?.rootViewController as! FlutterViewController
+
+      let METHOD_CHANNEL_NAME = "ios_wifi"
+      let iosNetworkingChannel = FlutterMethodChannel(
+        name:METHOD_CHANNEL_NAME,
+        binaryMessenger: controller.binaryMessenger
+      )
+
+      iosNetworkingChannel.setMethodCallHandler({
+          (call: FlutterMethodCall,result: @escaping FlutterResult) -> Void in
+
+          print("IOS METHOD CALL HANDLER !!!")
+          switch call.method{
+              case "wifiConnection":
+                  guard let args = call.arguments as? [String:String] else {return}
+                  print(args)
+//                   let domain = args["domain"]!
+//                   let password = args["password"]!
+//                   let joinOnce = args["joinOnce"]!
+//                   let withInternet = args["withInternet"]!
+//                   let isHidden = args["isHidden"]!
+//                   let security = args["security"]!
+
+                   result(self.connectToWifi())
+
+              default:
+                  result(FlutterMethodNotImplemented)
+          }
+      })
+
+      GeneratedPluginRegistrant.register(with: self)
+    return super.application(application, didFinishLaunchingWithOptions: launchOptions)
+  }
+    private func connectToWifi()-> Bool{
+        let configuration = NEHotspotConfiguration.init(ssid: "washeenet", passphrase: "raspberry", isWEP: false)
+        configuration.joinOnce = true
+        NEHotspotConfigurationManager.shared.apply(configuration) { (error) in
+            if error != nil {
+                if error?.localizedDescription == "already associated."
+                {
+                    print("Connected")
+
+                }
+                else{
+                    print("No Connected")
+                }
+            }
+            else {
+                print("Connected")
+            }
+        }
+
+        return true
+    }
+}

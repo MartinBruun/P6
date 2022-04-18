@@ -7,7 +7,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>Washee</string>
+	<string>washee</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -26,8 +26,12 @@
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
-	<key>UIApplicationSupportsIndirectInputEvents</key>
-	<true/>
+	<key>NSBonjourServices</key>
+	<array>
+		<string>_dartobservatory._tcp</string>
+	</array>
+	<key>NSLocalNetworkUsageDescription</key>
+	<string>Washee needs access to your local network in order to start a washing machine</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
@@ -52,7 +56,5 @@
 	<string>Washee needs access to your local network in order to start a washing machine.</string>
 	<key>com.apple.developer.networking.HotspotConfiguration</key>
 	<string>Washee needs access to setting up connection to a wifi network.</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Washee  needs acces to location in order to place you in the washroom.</string>
 </dict>
 </plist>

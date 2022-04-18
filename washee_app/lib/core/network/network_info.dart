@@ -28,23 +28,7 @@ class NetworkInfoImpl implements NetworkInfo {
   @override
   String get boxDomainPassword => Environment().config.boxWifiPassword;
 
-  //ANDROID SPECIFIC IOS use: NEHotspotConfigurationManager
-//   let configuration = NEHotspotConfiguration.init(ssid: "SSIDname", passphrase: "Password", isWEP: false)
-// configuration.joinOnce = true
-// NEHotspotConfigurationManager.shared.apply(configuration) { (error) in
-//   if error != nil {
-//   if error?.localizedDescription == "already associated."
-//   {
-//   print("Connected")
-//   }
-//   else{
-//   print("No Connected")
-//   }
-//   }
-//   else {
-//   print("Connected")
-//   }
-// }
+
   @override
   Future<bool> get isConnected async {
     final result = await connectionChecker.checkConnectivity();
@@ -62,6 +46,7 @@ class NetworkInfoImpl implements NetworkInfo {
       return true;
     }
     else{
+
       WiFiForIoTPlugin.showWritePermissionSettings(true);
       return await WiFiForIoTPlugin.isEnabled();
     }
