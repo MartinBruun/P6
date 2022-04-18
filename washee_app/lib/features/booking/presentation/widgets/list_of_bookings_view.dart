@@ -27,7 +27,7 @@ class ListOfBookingsView extends StatelessWidget {
             padding: EdgeInsets.only(bottom: 20.h),
             child: ElevatedButton(
               onPressed: () async {
-                await sl<DeleteBookingUseCase>().call(await DeleteBookingParams(
+                await sl<DeleteBookingUseCase>().call(DeleteBookingParams(
                     bookingID: bookings[index].bookingID!));
 
                 var booking =
