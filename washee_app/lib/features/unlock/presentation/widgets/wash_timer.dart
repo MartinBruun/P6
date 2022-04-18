@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:washee/core/helpers/date_helper.dart';
 import 'package:washee/core/washee_box/machine_model.dart';
 
 import '../../../../core/presentation/themes/colors.dart';

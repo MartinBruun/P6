@@ -7,7 +7,6 @@ import 'package:washee/features/unlock/domain/usecases/connect_box_wifi.dart';
 import 'package:washee/features/unlock/domain/usecases/disconnect_box_wifi.dart';
 import 'package:washee/injection_container.dart';
 
-import 'package:washee/core/errors/exception_handler.dart';
 import '../repositories/unlock_repository.dart';
 
 class UnlockUseCase implements UseCase<MachineModel?, UnlockParams> {

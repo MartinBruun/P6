@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:provider/provider.dart';
 import 'package:washee/core/pages/home_screen.dart';
 import 'package:washee/core/pages/pages_enum.dart';
-import 'package:washee/core/providers/global_provider.dart';
 import 'package:washee/core/washee_box/machine_model.dart';
-import 'package:washee/features/unlock/presentation/pages/wash_screen.dart';
 
 import '../../../../core/errors/error_handler.dart';
 import '../../../../core/errors/http_error_prompt.dart';
