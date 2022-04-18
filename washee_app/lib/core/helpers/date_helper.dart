@@ -23,7 +23,7 @@ class DateHelper {
   }
 
   bool isToday(DateTime aDate) {
-    DateTime now = new DateTime.now();
+    DateTime now = DateHelper.currentTime();
     return DateTime(now.year, now.month, now.day)
         .isAtSameMomentAs(DateTime(aDate.year, aDate.month, aDate.day));
   }
