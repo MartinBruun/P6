@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:washee/core/account/user.dart';
@@ -101,10 +103,12 @@ class _SignInScreenState extends State<SignInScreen> {
                                       password: _passwordController.text));
 
                               if (result) {
-                                print(
-                                    "something went right! Asking for wifi permissions");
-                                await sl<GetWifiPermissionUsecase>()
-                                    .call(NoParams());
+                                print("something went right!");
+                                if (Platform.isAndroid) {
+                                  print("Asking for wifi permissions");
+                                  await sl<GetWifiPermissionUsecase>()
+                                      .call(NoParams());
+                                }
 
                                 await data.delay();
                                 data.updateSignIn(false);
