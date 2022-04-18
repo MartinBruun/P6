@@ -1,9 +1,4 @@
-// import 'dart:convert';
-
-import 'package:flutter/services.dart' as rootBundle;
-
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:washee/core/washee_box/machine_model.dart';
@@ -22,10 +17,6 @@ class MachineOverview extends StatefulWidget {
 }
 
 class _MachineOverviewState extends State<MachineOverview> {
-  // Future<String> loadAsset() async {
-  //   return await rootBundle.rootBundle
-  //       .loadString("assets/data/machine_list.json");
-  // }
   bool _startConnectingToBox = false;
   @override
   void initState() {

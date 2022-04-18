@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:washee/core/account/user.dart';
-import 'package:washee/core/errors/exception_handler.dart';
 import 'package:washee/core/pages/pages_enum.dart';
 import 'package:washee/core/pages/washee_screen.dart';
 import 'package:washee/features/sign_in/presentation/pages/sign_in_screen.dart';

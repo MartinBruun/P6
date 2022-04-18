@@ -10,6 +10,7 @@ class BookingModel extends Booking {
   final String machineResource;
   final String serviceResource;
   final String accountResource;
+  bool? activated;
 
   BookingModel({
     this.bookingID,
@@ -17,6 +18,7 @@ class BookingModel extends Booking {
     this.endTime,
     this.created,
     this.lastUpdated,
+    this.activated,
     required this.machineResource,
     required this.serviceResource,
     required this.accountResource
@@ -40,6 +42,7 @@ class BookingModel extends Booking {
         'end_time': endTime.toString(),
         'created': created.toString(),
         'last_updated': lastUpdated.toString(),
+        'activated': activated.toString(),
         'machine': machineResource,
         'service': serviceResource,
         'account': accountResource
@@ -50,6 +53,7 @@ class BookingModel extends Booking {
       startTime: DateTime.parse(json['start_time']),
       endTime: DateTime.parse(json['end_time']),
       lastUpdated: DateTime.parse(json['last_updated']),
+      activated: json["activated"],
       machineResource: json['machine'],
       serviceResource: json['service'],
       created: DateTime.parse(json['created']),

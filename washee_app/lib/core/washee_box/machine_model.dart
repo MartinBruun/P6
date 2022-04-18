@@ -1,3 +1,4 @@
+import 'package:washee/core/helpers/date_helper.dart';
 import 'package:washee/core/washee_box/machine_entity.dart';
 
 // ignore: must_be_immutable
@@ -7,6 +8,7 @@ class MachineModel extends Machine {
   final String machineType;
   DateTime? startTime;
   DateTime? endTime;
+  bool activated;
 
   MachineModel({
     required this.machineID,
@@ -14,12 +16,14 @@ class MachineModel extends Machine {
     required this.machineType,
     this.startTime,
     this.endTime,
+    this.activated = false
   }) : super(
           endTime: endTime,
           startTime: startTime,
           name: name,
           machineID: machineID,
           machineType: machineType,
+          activated:activated
         );
 
   @override
@@ -29,6 +33,7 @@ class MachineModel extends Machine {
         machineType,
         startTime,
         endTime,
+        activated
       ];
 
   Map<String, dynamic> toJson() => {
@@ -40,23 +45,25 @@ class MachineModel extends Machine {
       };
 
   factory MachineModel.fromJson(Map<String, dynamic> json) {
-    return MachineModel(
-      machineID: json['machineID'],
+    MachineModel machine = MachineModel(
+      machineID: json['machineID'].toString(),
       name: json['name'],
       machineType: json['machineType'],
-      startTime: json['startTime'] != "null"
-          ? DateTime.parse(json['startTime'])
+      activated: json["activated"] == true ? json["activated"] : false,
+      startTime: json['startTime'] != null
+          ? DateTime.parse(json["startTime"].toString().replaceAll(" ", "T")).toUtc().add(Duration(hours: 2))
           : null,
       endTime:
-          json['endTime'] != "null" ? DateTime.parse(json['endTime']) : null,
+          json['endTime'] != null ? DateTime.parse(json["endTime"].toString().replaceAll(" ", "T")).toUtc().add(Duration(hours: 2)) : null,
     );
+    return machine;
   }
 
   bool get isAvailable {
     if (startTime == null || endTime == null) {
       return true;
-    } else if (DateTime.now().isBefore(endTime!) &&
-        DateTime.now().isAfter(startTime!)) {
+    } else if (DateHelper.currentTime().isBefore(endTime!) &&
+        DateHelper.currentTime().isAfter(startTime!)) {
       return false;
     }
     return true;

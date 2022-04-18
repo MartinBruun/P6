@@ -8,8 +8,6 @@ import 'package:washee/features/unlock/presentation/widgets/insufficient_funds_d
 import 'package:washee/features/unlock/presentation/widgets/please_login_dialog.dart';
 import '../../features/unlock/presentation/widgets/initiate_wash_dialog.dart';
 import 'package:washee/features/unlock/presentation/widgets/does_not_have_current_booking_dialog.dart';
-import '../pages/home_screen.dart';
-import '../pages/pages_enum.dart';
 import '../presentation/themes/colors.dart';
 import '../presentation/themes/dimens.dart';
 import '../presentation/themes/themes.dart';
@@ -55,7 +53,34 @@ class MachineCard extends StatelessWidget {
               ),
               Spacer(),
               !machine.isAvailable
-                  ? WashTimerOnCard(activeMachine: machine)
+                  ? 
+                    machine.activated
+                    ? WashTimerOnCard(activeMachine: machine)
+                    : Padding(
+                      padding: EdgeInsets.only(right: 38.w),
+                      child: Container(
+                        height: 90.h,
+                        width: 250.w,
+                        child: ElevatedButton(
+                          child: Text(
+                            "Aktiver maskinen!",
+                            style: textStyle.copyWith(
+                                fontSize: textSize_30,
+                                fontWeight: FontWeight.w500),
+                          ),
+                          onPressed: () async {
+                            _cardPressed(context, machine);
+                          },
+                          style: ElevatedButton.styleFrom(
+                            primary: AppColors.main,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20.h),
+                            ),
+                            elevation: 2,
+                          ),
+                        ),
+                      ),
+                    )
                   : Padding(
                       padding: EdgeInsets.only(right: 38.w),
                       child: Container(

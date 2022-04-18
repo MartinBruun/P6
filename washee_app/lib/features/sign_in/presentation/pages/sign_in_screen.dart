@@ -5,7 +5,6 @@ import 'package:provider/provider.dart';
 import 'package:washee/core/account/user.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:washee/core/pages/pages_enum.dart';
-import 'package:washee/core/pages/washee_screen.dart';
 import 'package:washee/core/presentation/themes/colors.dart';
 import 'package:washee/core/presentation/themes/dimens.dart';
 import 'package:washee/core/presentation/themes/themes.dart';
@@ -27,9 +26,13 @@ class SignInScreen extends StatefulWidget {
 class _SignInScreenState extends State<SignInScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  final _testController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   ActiveUser user = ActiveUser();
+  final OutlineInputBorder _borderStyle = OutlineInputBorder(
+    borderSide: BorderSide(color: Colors.white),
+  );
 
   @override
   void dispose() {
@@ -40,7 +43,7 @@ class _SignInScreenState extends State<SignInScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: true,
       appBar: AppBar(
         title: Text(
           'Login',
@@ -51,102 +54,127 @@ class _SignInScreenState extends State<SignInScreen> {
         ),
         centerTitle: true,
       ),
-      body: Container(
-        alignment: Alignment.topCenter,
-        child: SingleChildScrollView(
-            child: Form(
-          key: _formKey,
-          child: Column(
-            children: <Widget>[
-              TextInput("Email", _emailController, false, (value) {
+      body: SingleChildScrollView(
+          child: Form(
+        key: _formKey,
+        child: Column(
+          children: <Widget>[
+            Padding(
+              padding: EdgeInsets.only(bottom: 40.h, top: 24.h),
+              child: Container(
+                height: 500.h,
+                width: 500.w,
+                child: Image.asset(
+                  'assets/images/washingmachine.png',
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.only(bottom: 50.h),
+              child: Text(
+                "Velkommen til Washee",
+                style: textStyle.copyWith(
+                    fontSize: textSize_54, fontWeight: FontWeight.bold),
+              ),
+            ),
+            TextInput(
+              text: "Email",
+              controller: _emailController,
+              obscure: false,
+              validator: (value) {
                 if (value == "") {
                   return "Du har ikke indtastet en Email";
                 }
                 return null;
-              }),
-              TextInput("Password", _passwordController, true, (value) {
+              },
+            ),
+            TextInput(
+              text: "Password",
+              controller: _passwordController,
+              obscure: true,
+              validator: (value) {
                 if (value == "") {
                   return "Du har ikke indtastet et kodeord";
                 }
                 return null;
-              }),
-              Padding(
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 8.w, vertical: 16.h),
-                  child: Container(
-                    height: 82.h,
-                    width: 279.81.w,
-                    child: Consumer<SignInProvider>(
-                      builder: (context, data, _) => ElevatedButton(
-                        child: data.signingIn
-                            ? CircularProgressIndicator(
-                                color: Colors.white,
-                              )
-                            : Text(
-                                "Log ind",
-                                style: textStyle.copyWith(
-                                    fontSize: textSize_38,
-                                    fontWeight: FontWeight.w600),
-                              ),
-                        style: ElevatedButton.styleFrom(
-                            primary: AppColors.dialogLightGray,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20.w))),
-                        onPressed: () async {
-                          if (_formKey.currentState != null) {
-                            _formKey.currentState!.save();
-                            try {
-                              data.updateSignIn(true);
-                              var result = await sl<SignInUseCase>().call(
-                                  SignInParams(
-                                      email: _emailController.text,
-                                      password: _passwordController.text));
+              },
+            ),
+            Padding(
+                padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 16.h),
+                child: Container(
+                  height: 82.h,
+                  width: 279.81.w,
+                  child: Consumer<SignInProvider>(
+                    builder: (context, data, _) => ElevatedButton(
+                      child: data.signingIn
+                          ? CircularProgressIndicator(
+                              color: Colors.white,
+                            )
+                          : Text(
+                              "Log ind",
+                              style: textStyle.copyWith(
+                                  fontSize: textSize_38,
+                                  fontWeight: FontWeight.w600),
+                            ),
+                      style: ElevatedButton.styleFrom(
+                          primary: AppColors.dialogLightGray,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20.w))),
+                      onPressed: () async {
+                        if (_formKey.currentState != null) {
+                          _formKey.currentState!.save();
+                          try {
+                            data.updateSignIn(true);
+                            var result = await sl<SignInUseCase>().call(
+                                SignInParams(
+                                    email: _emailController.text,
+                                    password: _passwordController.text));
 
-                              if (result) {
-                                print("something went right!");
-                                if (Platform.isAndroid) {
-                                  print("Asking for wifi permissions");
-                                  await sl<GetWifiPermissionUsecase>()
-                                      .call(NoParams());
-                                }
-
-                                await data.delay();
-                                data.updateSignIn(false);
-                                Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => HomeScreen(
-                                      page: PageNumber.WasheeScreen,
-                                    ),
-                                  ),
-                                );
-                              } else {
-                                print("something went wrong");
-                                data.updateSignIn(false);
-                                showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return IncorrectInput();
-                                    });
+                            if (result) {
+                              print("something went right!");
+                              if (Platform.isAndroid) {
+                                print("Asking for wifi permissions");
+                                await sl<GetWifiPermissionUsecase>()
+                                    .call(NoParams());
                               }
-                            } on Exception catch (e) {
-                              print("DioError occured: " + e.toString());
 
+                              await data.delay();
+                              data.updateSignIn(false);
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => HomeScreen(
+                                    page: PageNumber.WasheeScreen,
+                                  ),
+                                ),
+                              );
+                            } else {
+                              print("something went wrong");
+                              data.updateSignIn(false);
                               showDialog(
                                   context: context,
                                   builder: (BuildContext context) {
                                     return IncorrectInput();
                                   });
                             }
+                          } on Exception catch (e) {
+                            print("DioError occured: " + e.toString());
+
+                            showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return IncorrectInput();
+                                });
                           }
-                        },
-                      ),
+                        }
+                      },
                     ),
-                  ))
-            ],
-          ),
-        )),
-      ),
+                  ),
+                ))
+          ],
+        ),
+      )),
     );
   }
 }

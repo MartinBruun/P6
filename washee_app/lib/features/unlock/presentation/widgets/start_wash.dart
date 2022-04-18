@@ -3,7 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:washee/core/pages/home_screen.dart';
 import 'package:washee/core/pages/pages_enum.dart';
 import 'package:washee/core/washee_box/machine_model.dart';
-import 'package:washee/features/unlock/presentation/pages/wash_screen.dart';
 
 import '../../../../core/errors/error_handler.dart';
 import '../../../../core/errors/http_error_prompt.dart';
@@ -109,8 +108,7 @@ class _StartWashState extends State<StartWash> {
     });
     try {
       fetchedMachine = await sl<UnlockUseCase>().call(UnlockParams(
-          machine: widget.currentMachine,
-          duration: Duration(hours: 2, minutes: 30)));
+          machine: widget.currentMachine));
       if (fetchedMachine == null) {
         setState(() {
           _isUnlockingMachine = false;
@@ -140,19 +138,6 @@ class _StartWashState extends State<StartWash> {
     setState(() {
       _isUnlockingMachine = false;
     });
-    // var provider =
-    //     Provider.of<GlobalProvider>(context, listen: false);
-    // var machineToStart = provider.machines.where(
-    //     (element) =>
-    //         element.name.toLowerCase() ==
-    //         fetchedMachine!.name.toLowerCase());
-    // provider.machines.removeWhere((element) =>
-    //     element.name.toLowerCase() ==
-    //     fetchedMachine!.name.toLowerCase());
-    // machineToStart.startTime = DateTime.now();
-    // machineToStart.endTime = machineToStart.startTime!
-    //     .add(Duration(hours: 7, minutes: 30));
-    // provider.machines.add(machineToStart);
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(

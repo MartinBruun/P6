@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:washee/core/helpers/date_helper.dart';
 import 'package:washee/core/helpers/web_communicator.dart';
 import 'package:washee/core/presentation/themes/dimens.dart';
 import 'package:washee/features/booking/presentation/provider/calendar_provider.dart';
@@ -10,8 +11,6 @@ import '../../../../core/presentation/themes/themes.dart';
 import '../../data/models/booking_model.dart';
 import '../widgets/calendar_view.dart';
 
-import 'dart:io';
-
 class CalendarScreen extends StatefulWidget {
   static const routeName = "/calendar-screen";
 
@@ -19,12 +18,11 @@ class CalendarScreen extends StatefulWidget {
   State<CalendarScreen> createState() => _CalendarScreenState();
 }
 
-//TODO: IT could be great not to have to call DateTime.now so many times, but just call it in top of the constructor
 class _CalendarScreenState extends State<CalendarScreen> {
   final List<DateTime> months = [
-    new DateTime(DateTime.now().year, DateTime.now().month, 1),
-    new DateTime(DateTime.now().year, DateTime.now().month + 1, 1),
-    new DateTime(DateTime.now().year, DateTime.now().month + 2, 1)
+    new DateTime(DateHelper.currentTime().year, DateHelper.currentTime().month, 1),
+    new DateTime(DateHelper.currentTime().year, DateHelper.currentTime().month + 1, 1),
+    new DateTime(DateHelper.currentTime().year, DateHelper.currentTime().month + 2, 1)
   ];
 
   bool _isLoadingDaysAndBookings = false;

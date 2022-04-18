@@ -20,6 +20,7 @@ class Booking(models.Model):
     start_time = models.DateTimeField(editable=True)
     end_time = models.DateTimeField(editable=False)
     active = models.BooleanField(default=True)
+    activated = models.BooleanField(default=False)
     
     created = models.DateTimeField(auto_now_add=True, editable=False)
     last_updated = models.DateTimeField(auto_now=True, editable=False)
