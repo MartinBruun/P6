@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:washee/core/presentation/themes/colors.dart';
 import 'package:washee/core/presentation/themes/dimens.dart';
 import 'package:washee/core/presentation/themes/themes.dart';
-import 'package:washee/features/sign_in/presentation/widgets/ok_button.dart';
+import 'package:washee/core/widgets/ok_button.dart';
 
 class DialogBoxOk extends StatelessWidget {
   final String boxMessage;
