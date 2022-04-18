@@ -20,7 +20,7 @@ class DayCard extends StatefulWidget {
     required this.greenScore,
     required this.dayNumber,
     required this.dayName,
-    required this.currentDate,
+    required this.currentDate
   });
 
   @override
@@ -43,8 +43,10 @@ class _DayCardState extends State<DayCard> {
     return lighten ? Colors.white24 : Colors.black;
   }
 
-  List<BookingModel> _bookingsForCurrentDay = [];
-  int _numberOfOccupiedSlots = 0;
+  List<BookingModel> _washBookingsForCurrentDay = [];
+  List<BookingModel> _dryBookingsForCurrentDay = [];
+  int _washNumberOfPossibleBookings = 0;
+  int _dryNumberOfPossibleBookings = 0;
   bool _isToday = false;
   DateHelper helper = DateHelper();
 
@@ -52,9 +54,12 @@ class _DayCardState extends State<DayCard> {
   void initState() {
     var calendar = Provider.of<CalendarProvider>(context, listen: false);
     _isToday = helper.isToday(widget.currentDate);
-    _bookingsForCurrentDay = calendar.getBookingsForDay(widget.currentDate);
-    _numberOfOccupiedSlots = calendar.getNumberOfOccupiedSlots(
-        _bookingsForCurrentDay, widget.currentDate);
+    _washBookingsForCurrentDay = calendar.getBookingsForDay(widget.currentDate, 1);
+    _dryBookingsForCurrentDay = calendar.getBookingsForDay(widget.currentDate, 2);
+    _washNumberOfPossibleBookings = calendar.getNumberOfPossibleBookings(
+        _washBookingsForCurrentDay, widget.currentDate);
+    _dryNumberOfPossibleBookings = calendar.getNumberOfPossibleBookings(
+        _dryBookingsForCurrentDay, widget.currentDate);
     super.initState();
   }
 
@@ -76,9 +81,9 @@ class _DayCardState extends State<DayCard> {
               Container(
                 child: Center(
                   child: Text(
-                    _numberOfOccupiedSlots == 0 ? 'Ledig' : "",
+                    "VM: " + _washNumberOfPossibleBookings.toString() + " / TT: " + _dryNumberOfPossibleBookings.toString(),
                     style: textStyle.copyWith(
-                        fontSize: textSize_14,
+                        fontSize: textSize_15,
                         fontWeight: FontWeight.bold,
                         color: Colors.white),
                     textAlign: TextAlign.justify,
@@ -125,7 +130,8 @@ class _DayCardState extends State<DayCard> {
             context: context,
             builder: (BuildContext context) {
               return ChooseMachineView(
-                bookingsForDay: _bookingsForCurrentDay,
+                washesForDay: _washBookingsForCurrentDay,
+                dryingsForDay: _dryBookingsForCurrentDay,
                 currentDate: widget.currentDate,
               );
             },

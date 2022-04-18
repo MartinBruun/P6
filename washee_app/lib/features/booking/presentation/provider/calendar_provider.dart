@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:washee/core/helpers/date_helper.dart';
+import 'package:washee/core/helpers/web_communicator.dart';
+import 'package:washee/core/washee_box/machine_model.dart';
 import 'package:washee/features/booking/data/models/booking_model.dart';
 import 'package:washee/core/errors/exception_handler.dart';
 import '../../data/models/booking_model.dart';
+import 'package:washee/injection_container.dart';
 
 class CalendarProvider extends ChangeNotifier {
   bool _isLoadingDays = false;
@@ -193,9 +196,11 @@ class CalendarProvider extends ChangeNotifier {
     return false;
   }
 
-  List<BookingModel> getBookingsForDay(DateTime date) {
+  List<BookingModel> getBookingsForDay(DateTime date, int machineID) {
     var validBookings =
-        _bookings.where((element) => element.startTime!.day == date.day);
+        _bookings.where((element) => 
+        element.startTime!.day == date.day &&
+        element.machineResource == sl<WebCommunicator>().machinesURL + "/${machineID.toString()}/");
     if (validBookings.isNotEmpty) {
       return validBookings.toList();
     }
@@ -306,23 +311,26 @@ class CalendarProvider extends ChangeNotifier {
     return overlaps > 0 ? false : true;
   }
 
-  int getNumberOfOccupiedSlots(
+  int getNumberOfPossibleBookings(
       List<BookingModel> bookingsForDate, DateTime currentDate) {
     var slots = getTimeSlots(currentDate);
-    var occupied = [];
-    for (var slot in slots) {
-      for (var booking in bookingsForDate) {
+    var openPossibleBookings = 0;
+
+    int slotCounter = 0;
+    for (var slot in slots){
+      for(var booking in bookingsForDate){
         if (booking.startTime!.hour == slot.hour &&
             booking.startTime!.minute == slot.minute) {
-          occupied.add(slot);
+          slotCounter = -5;
         }
       }
+      if(slotCounter == 6){
+        openPossibleBookings += 1;
+        slotCounter = 0;
+      }
+      slotCounter += 1;
     }
 
-    if (occupied.isNotEmpty) {
-      return (occupied.length);
-    }
-
-    return 0;
+    return openPossibleBookings;
   }
 }

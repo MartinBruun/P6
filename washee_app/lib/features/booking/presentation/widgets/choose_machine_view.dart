@@ -10,10 +10,11 @@ import '../../../../core/presentation/themes/colors.dart';
 import '../../data/models/booking_model.dart';
 
 class ChooseMachineView extends StatefulWidget {
-  final List<BookingModel> bookingsForDay;
+  final List<BookingModel> washesForDay;
+  final List<BookingModel> dryingsForDay;
   final DateTime currentDate;
 
-  ChooseMachineView({required this.bookingsForDay, required this.currentDate});
+  ChooseMachineView({required this.washesForDay, required this.dryingsForDay,  required this.currentDate});
   @override
   State<ChooseMachineView> createState() => _ChooseMachineViewState();
 }
@@ -56,12 +57,12 @@ class _ChooseMachineViewState extends State<ChooseMachineView> {
                         children: [
                           MachineTypeButton(
                             machineType: MachineType.WashingMachine,
-                            bookingsForDay: widget.bookingsForDay,
+                            bookingsForDay: widget.washesForDay,
                             currentDate: widget.currentDate,
                           ),
                           MachineTypeButton(
                             machineType: MachineType.Dryer,
-                            bookingsForDay: widget.bookingsForDay,
+                            bookingsForDay: widget.dryingsForDay,
                             currentDate: widget.currentDate,
                           ),
                         ],
