@@ -1,8 +1,12 @@
 import 'dart:io';
 
+<<<<<<< HEAD
 import 'package:washee/core/helpers/web_communicator.dart';
 import 'package:washee/core/network/network_info.dart';
 import 'package:washee/injection_container.dart';
+=======
+import 'package:washee/core/helpers/date_helper.dart';
+>>>>>>> 83cb053576df5ead889f48c1911785652a5c96a5
 
 class ExceptionHandler{
   // ExceptionHandler is a class where all try/catch blocks in the codebase use the .handle() method on any catched Exception.
@@ -16,7 +20,7 @@ class ExceptionHandler{
   ExceptionHandler();
 
   void resetLog(){
-    File(logLocation).writeAsStringSync("ExceptionHandler reset log file at: " + DateTime.now().toString() + "\n", mode: FileMode.write);
+    File(logLocation).writeAsStringSync("ExceptionHandler reset log file at: " + DateHelper.currentTime().toString() + "\n", mode: FileMode.write);
   }
 
   String handle(String exception, {log=false, show=false, crash=false}) {

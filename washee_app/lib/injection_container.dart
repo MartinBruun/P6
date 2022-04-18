@@ -76,6 +76,7 @@ void initBooking() {
 }
 
 void initUnlock() {
+  String os = Platform.operatingSystem;
   // Usecases
   sl.registerLazySingleton(() => UnlockUseCase(repository: sl()));
   if (Platform.isAndroid) {
