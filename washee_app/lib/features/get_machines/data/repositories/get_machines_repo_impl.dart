@@ -1,10 +1,10 @@
-import 'package:washee/core/helpers/box_communicator.dart';
+import 'package:washee/core/helpers/web_communicator.dart';
 import 'package:washee/core/network/network_info.dart';
 import 'package:washee/core/washee_box/machine_model.dart';
 import 'package:washee/features/get_machines/domain/repositories/get_machines_repository.dart';
 
 class GetMachinesRepositoryImpl implements GetMachinesRepository {
-  BoxCommunicator communicator;
+  WebCommunicator communicator;
   NetworkInfo networkInfo;
 
   GetMachinesRepositoryImpl(
@@ -18,9 +18,9 @@ class GetMachinesRepositoryImpl implements GetMachinesRepository {
     return List.empty();
   }
 
-  List<MachineModel> constructMachineList(Map<String, dynamic> machinesAsJson) {
+  List<MachineModel> constructMachineList(List<Map<String, dynamic>> machinesAsJson) {
     List<MachineModel> _machines = [];
-    for (var machine in machinesAsJson['machines']) {
+    for (var machine in machinesAsJson) {
       _machines.add(MachineModel.fromJson(machine));
     }
 
