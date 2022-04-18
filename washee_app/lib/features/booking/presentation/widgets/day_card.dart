@@ -44,6 +44,7 @@ class _DayCardState extends State<DayCard> {
   }
 
   List<BookingModel> _bookingsForCurrentDay = [];
+  int _numberOfOccupiedSlots = 0;
   bool _isToday = false;
   DateHelper helper = DateHelper();
 
@@ -52,6 +53,8 @@ class _DayCardState extends State<DayCard> {
     var calendar = Provider.of<CalendarProvider>(context, listen: false);
     _isToday = helper.isToday(widget.currentDate);
     _bookingsForCurrentDay = calendar.getBookingsForDay(widget.currentDate);
+    _numberOfOccupiedSlots = calendar.getNumberOfOccupiedSlots(
+        _bookingsForCurrentDay, widget.currentDate);
     super.initState();
   }
 
@@ -61,49 +64,60 @@ class _DayCardState extends State<DayCard> {
       color: Colors.black12,
       width: 0.13.sw,
       margin: EdgeInsets.all(0.0005.sw),
-      padding: EdgeInsets.all(1),
+      padding: EdgeInsets.all(1.w),
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           primary: greenScoreColor(),
         ),
-        child: Padding(
-          padding: const EdgeInsets.all(0.1),
-          child: Consumer<CalendarProvider>(
-            builder: (context, data, _) => Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  width: 50.h,
-                  height: 50.h,
-                  decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: _isToday ? Colors.blue : Colors.transparent),
-                  child: Center(
-                    child: Text(
-                      '${widget.dayNumber.toString()}',
-                      style: textStyle.copyWith(
-                          fontSize: textSize_20,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white),
-                      textAlign: TextAlign.justify,
-                      softWrap: false,
-                      overflow: TextOverflow.visible,
-                    ),
+        child: Consumer<CalendarProvider>(
+          builder: (context, data, _) => Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                child: Center(
+                  child: Text(
+                    _numberOfOccupiedSlots == 0 ? 'Ledig' : "",
+                    style: textStyle.copyWith(
+                        fontSize: textSize_14,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white),
+                    textAlign: TextAlign.justify,
+                    softWrap: false,
+                    overflow: TextOverflow.visible,
                   ),
                 ),
-                Text(
-                  helper.translateDayName(widget.dayName),
-                  style: textStyle.copyWith(
-                    fontSize: textSize_15,
-                    fontWeight: FontWeight.w700,
-                    color: Colors.white,
+              ),
+              Container(
+                width: 50.h,
+                height: 50.h,
+                decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: _isToday ? Colors.blue : Colors.transparent),
+                child: Center(
+                  child: Text(
+                    '${widget.dayNumber.toString()}',
+                    style: textStyle.copyWith(
+                        fontSize: textSize_25,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white),
+                    textAlign: TextAlign.justify,
+                    softWrap: false,
+                    overflow: TextOverflow.visible,
                   ),
-                  textAlign: TextAlign.justify,
-                  softWrap: false,
-                  overflow: TextOverflow.visible,
                 ),
-              ],
-            ),
+              ),
+              Text(
+                helper.translateDayName(widget.dayName),
+                style: textStyle.copyWith(
+                  fontSize: textSize_18,
+                  fontWeight: FontWeight.w700,
+                  color: Colors.white,
+                ),
+                textAlign: TextAlign.justify,
+                softWrap: false,
+                overflow: TextOverflow.visible,
+              ),
+            ],
           ),
         ),
         onPressed: () async {

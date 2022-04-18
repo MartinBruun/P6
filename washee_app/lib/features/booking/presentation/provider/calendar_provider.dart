@@ -289,4 +289,37 @@ class CalendarProvider extends ChangeNotifier {
     }
     return null;
   }
+
+  bool isSlotAvailable(List<BookingModel> bookings, DateTime currentSlot) {
+    int overlaps = 0;
+    // bool alreadyChosen = false;
+
+    for (var booking in bookings) {
+      if (doesSlotOverlap(booking.startTime!, currentSlot, booking.endTime!)) {
+        overlaps++;
+      }
+    }
+
+    return overlaps > 0 ? false : true;
+  }
+
+  int getNumberOfOccupiedSlots(
+      List<BookingModel> bookingsForDate, DateTime currentDate) {
+    var slots = getTimeSlots(currentDate);
+    var occupied = [];
+    for (var slot in slots) {
+      for (var booking in bookingsForDate) {
+        if (booking.startTime!.hour == slot.hour &&
+            booking.startTime!.minute == slot.minute) {
+          occupied.add(slot);
+        }
+      }
+    }
+
+    if (occupied.isNotEmpty) {
+      return (occupied.length);
+    }
+
+    return 0;
+  }
 }
