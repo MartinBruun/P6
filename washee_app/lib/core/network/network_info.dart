@@ -67,7 +67,6 @@ class NetworkInfoImpl implements NetworkInfo {
     }
   }
 
-  //ANDROID SPECIFIC
   @override
   Future<bool> connectToBoxWifi() async {
     try{
@@ -87,7 +86,6 @@ class NetworkInfoImpl implements NetworkInfo {
     }
   }
 
-  //ANDROID SPECIFIC
   @override
   Future<bool> disconnectFromBoxWifi() async {
     try{
