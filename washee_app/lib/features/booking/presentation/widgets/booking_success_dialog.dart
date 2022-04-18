@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:washee/core/widgets/dialog_box_Ok.dart';
 
-class IncorrectInput extends StatelessWidget {
-  const IncorrectInput({Key? key}) : super(key: key);
+class BookingSuccessDialog extends StatelessWidget {
+  const BookingSuccessDialog({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.transparent,
-      body: Center(child: DialogBoxOk("Ugyldig email eller kodeord indtastet")),
+      body: Center(child: DialogBoxOk("Du har nu booket en maskine")),
     );
   }
 }

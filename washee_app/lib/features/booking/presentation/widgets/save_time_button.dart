@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:washee/core/errors/booking_error_prompt.dart';
 import 'package:washee/core/errors/error_handler.dart';
 import 'package:washee/features/booking/presentation/provider/calendar_provider.dart';
+import 'package:washee/features/booking/presentation/widgets/booking_success_dialog.dart';
 import 'package:washee/injection_container.dart';
 import 'package:washee/features/booking/domain/usecases/post_booking.dart';
 
@@ -60,7 +61,13 @@ class _SaveTimeButtonState extends State<SaveTimeButton> {
                   setState(() {
                     _isBookingTimeSlot = false;
                   });
+
                   Navigator.of(context).popUntil((route) => route.isFirst);
+                  showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return BookingSuccessDialog();
+                      });
                 } else {
                   setState(() {
                     _isBookingTimeSlot = false;

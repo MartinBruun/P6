@@ -16,35 +16,16 @@ class TimeSlots extends StatefulWidget {
 }
 
 class _TimeSlotsState extends State<TimeSlots> {
-  bool isSlotAvailable(List<BookingModel> bookings, DateTime currentSlot) {
-    var calendar = Provider.of<CalendarProvider>(context, listen: false);
-    int overlaps = 0;
-    // bool alreadyChosen = false;
-
-    for (var booking in bookings) {
-      if (calendar.doesSlotOverlap(
-          booking.startTime!, currentSlot, booking.endTime!)) {
-        overlaps++;
-      }
-    }
-
-    // for (var timeslot in calendar.addedTimeSlots) {
-    //   if (currentSlot == timeslot) {
-    //     alreadyChosen = true;
-    //   }
-    // }
-
-    return overlaps > 0 ? false : true;
-  }
-
   @override
   Widget build(BuildContext context) {
+    var calendar = Provider.of<CalendarProvider>(context, listen: false);
     return ListView.builder(
       shrinkWrap: true,
       addAutomaticKeepAlives: true,
       itemBuilder: ((context, index) => Center(
               child: TimeSlotItem(
-            isAvailable: isSlotAvailable(widget.bookings!, widget.slots[index]),
+            isAvailable:
+                calendar.isSlotAvailable(widget.bookings!, widget.slots[index]),
             time: widget.slots[index],
           ))),
       itemCount: widget.slots.length,

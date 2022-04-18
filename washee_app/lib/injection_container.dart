@@ -1,3 +1,5 @@
+import 'dart:io' show Platform;
+
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
@@ -76,9 +78,12 @@ void initBooking() {
 void initUnlock() {
   // Usecases
   sl.registerLazySingleton(() => UnlockUseCase(repository: sl()));
-  sl.registerLazySingleton(() => GetWifiPermissionUsecase(repository: sl()));
-  sl.registerLazySingleton(() => ConnectBoxWifiUsecase(repository: sl()));
-  sl.registerLazySingleton(() => DisconnectBoxWifiUsecase(repository: sl()));
+  if (Platform.isAndroid) {
+    sl.registerLazySingleton(() => GetWifiPermissionUsecase(repository: sl()));
+  }
+    sl.registerLazySingleton(() => ConnectBoxWifiUsecase(repository: sl()));
+    sl.registerLazySingleton(() => DisconnectBoxWifiUsecase(repository: sl()));
+  
 
   // Repositories
   sl.registerLazySingleton<UnlockRepository>(
