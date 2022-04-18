@@ -20,18 +20,8 @@ class WasheeScreen extends StatelessWidget {
                 fontSize: textSize_40, fontWeight: FontWeight.w600),
           )),
       body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Padding(
-            padding: EdgeInsets.only(bottom: 40.h, top: 24.h),
-            child: Container(
-              height: 200.h,
-              width: 200.w,
-              child: Image.asset(
-                'assets/images/washingmachine.png',
-                fit: BoxFit.cover,
-              ),
-            ),
-          ),
           Center(child: UserInfo()),
         ],
       ),
