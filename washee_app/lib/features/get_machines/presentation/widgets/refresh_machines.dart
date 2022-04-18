@@ -5,9 +5,6 @@ import 'package:provider/provider.dart';
 import '../../../../core/presentation/themes/dimens.dart';
 import '../../../../core/presentation/themes/themes.dart';
 import '../../../../core/providers/global_provider.dart';
-import '../../../../core/usecases/usecase.dart';
-import '../../../../injection_container.dart';
-import '../../domain/usecases/get_machines.dart';
 
 class RefreshMachines extends StatefulWidget {
   @override

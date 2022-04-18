@@ -1,4 +1,3 @@
-import 'package:intl/intl.dart';
 import 'package:washee/core/helpers/date_helper.dart';
 import 'package:washee/core/washee_box/machine_entity.dart';
 

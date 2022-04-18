@@ -11,8 +11,6 @@ import '../../../../core/presentation/themes/themes.dart';
 import '../../data/models/booking_model.dart';
 import '../widgets/calendar_view.dart';
 
-import 'dart:io';
-
 class CalendarScreen extends StatefulWidget {
   static const routeName = "/calendar-screen";
 
@@ -20,7 +18,6 @@ class CalendarScreen extends StatefulWidget {
   State<CalendarScreen> createState() => _CalendarScreenState();
 }
 
-//TODO: IT could be great not to have to call DateHelper.currentTime() so many times, but just call it in top of the constructor
 class _CalendarScreenState extends State<CalendarScreen> {
   final List<DateTime> months = [
     new DateTime(DateHelper.currentTime().year, DateHelper.currentTime().month, 1),

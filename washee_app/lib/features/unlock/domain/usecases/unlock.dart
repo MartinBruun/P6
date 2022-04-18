@@ -7,7 +7,6 @@ import 'package:washee/features/unlock/domain/usecases/connect_box_wifi.dart';
 import 'package:washee/features/unlock/domain/usecases/disconnect_box_wifi.dart';
 import 'package:washee/injection_container.dart';
 
-import 'package:washee/core/errors/exception_handler.dart';
 import '../repositories/unlock_repository.dart';
 
 class UnlockUseCase implements UseCase<MachineModel?, UnlockParams> {
@@ -23,9 +22,7 @@ class UnlockUseCase implements UseCase<MachineModel?, UnlockParams> {
     }
 
     await sl<ConnectBoxWifiUsecase>().call(NoParams());
-    print("HERE!");
     MachineModel? machine = await repository.unlock(params.machine, duration);
-    print("HERE");
     sl<DisconnectBoxWifiUsecase>().call(NoParams());
 
     // Bad practice, should be severely reorganized, when we have a proper understanding of the domain structure

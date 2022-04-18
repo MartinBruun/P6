@@ -8,8 +8,6 @@ import 'package:washee/features/unlock/presentation/widgets/insufficient_funds_d
 import 'package:washee/features/unlock/presentation/widgets/please_login_dialog.dart';
 import '../../features/unlock/presentation/widgets/initiate_wash_dialog.dart';
 import 'package:washee/features/unlock/presentation/widgets/does_not_have_current_booking_dialog.dart';
-import '../pages/home_screen.dart';
-import '../pages/pages_enum.dart';
 import '../presentation/themes/colors.dart';
 import '../presentation/themes/dimens.dart';
 import '../presentation/themes/themes.dart';

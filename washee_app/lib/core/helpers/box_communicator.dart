@@ -1,9 +1,7 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:washee/core/account/user.dart';
 import 'package:washee/core/helpers/date_helper.dart';
-import 'package:washee/core/helpers/web_communicator.dart';
 import 'package:washee/core/washee_box/machine_model.dart';
 import 'package:washee/core/environments/environment.dart';
 
