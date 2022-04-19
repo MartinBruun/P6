@@ -38,7 +38,7 @@ abstract class WebCommunicator {
       required String serviceResource});
   Future<Map<String, dynamic>> getAccount(Account account);
   Future<bool> deleteBooking(bookingID);
-  Future<List<Map<String,dynamic>>> getMachines();
+  Future<List<Map<String, dynamic>>> getMachines();
   Future<bool> postLog(String content);
   Future<bool> updateBooking(String bookingID, {bool? activated});
 }
@@ -81,8 +81,7 @@ class WebCommunicatorImpl implements WebCommunicator {
   String get servicesURL => Environment().config.webApiHost + "/api/1/services";
 
   @override
-  String get logsURL =>
-      Environment().config.webApiHost + "/api/1/logs";
+  String get logsURL => Environment().config.webApiHost + "/api/1/logs";
 
   @override
   Future<Map<String, dynamic>> getCurrentLocation(int locationID) async {
@@ -192,7 +191,7 @@ class WebCommunicatorImpl implements WebCommunicator {
       required String serviceResource}) async {
     Response response;
 
-    Map<String,dynamic> data = {
+    Map<String, dynamic> data = {
       "start_time": _convertToNonNaiveTime(startTime),
       "account": accountResource,
       "machine": machineResource,
@@ -229,7 +228,7 @@ class WebCommunicatorImpl implements WebCommunicator {
     } else {
       ExceptionHandler().handle(
           "Could not get account " +
-          account.id.toString() +
+              account.id.toString() +
               "Something went wrong with status code: " +
               response.statusCode.toString() +
               " with response:\n" +
@@ -271,15 +270,15 @@ class WebCommunicatorImpl implements WebCommunicator {
     Response response;
     String url = bookingsURL + "/${bookingID}/";
 
-    Map<String,dynamic> data = {};
-    if (activated != null){
+    Map<String, dynamic> data = {};
+    if (activated != null) {
       data["activated"] = activated;
     }
 
-    response = await dio.patch(url, data:data);
+    response = await dio.patch(url, data: data);
 
     if (response.statusCode != null && response.statusCode! < 400) {
-      return response.data;
+      return true;
     } else {
       ExceptionHandler().handle(
           "Could not update booking " +
@@ -311,21 +310,21 @@ class WebCommunicatorImpl implements WebCommunicator {
         DateTime? endTime;
         bool activated = false;
         try {
-          List<Map<String,dynamic>> currentBooking = await getCurrentBookings(
-            machineID: int.parse(machine["id"].toString()),
-            startTimeLessThan: DateHelper.currentTime(),
-            endTimeGreaterThan: DateHelper.currentTime()
-          );
-          if (currentBooking.isNotEmpty){
+          List<Map<String, dynamic>> currentBooking = await getCurrentBookings(
+              machineID: int.parse(machine["id"].toString()),
+              startTimeLessThan: DateHelper.currentTime(),
+              endTimeGreaterThan: DateHelper.currentTime());
+          if (currentBooking.isNotEmpty) {
             // It is necessary to remove 2 hours from the time, since there will automatically be added
             // 2 hours when the machine model is made
             // It is completely stupid, and should be remade, but honestly i'm tired
-            startTime = DateTime.parse(currentBooking[0]["start_time"]).add(Duration(hours: -2));
-            endTime = DateTime.parse(currentBooking[0]["end_time"]).add(Duration(hours: -2));
+            startTime = DateTime.parse(currentBooking[0]["start_time"])
+                .add(Duration(hours: -2));
+            endTime = DateTime.parse(currentBooking[0]["end_time"])
+                .add(Duration(hours: -2));
             activated = currentBooking[0]["activated"] == true;
           }
-        } 
-        catch (e){
+        } catch (e) {
           print("Throws error: " + e.toString());
         }
 
@@ -363,12 +362,9 @@ class WebCommunicatorImpl implements WebCommunicator {
     ActiveUser user = ActiveUser();
     String userResource = usersURL + "/${user.id}/";
 
-    try{
-      response = await dio.post(logsURL + "/", data: {
-        "content": content,
-        "user": userResource,
-        "source": "APP"
-      });
+    try {
+      response = await dio.post(logsURL + "/",
+          data: {"content": content, "user": userResource, "source": "APP"});
       if (response.statusCode == 201) {
         return true;
       } else {
@@ -383,14 +379,16 @@ class WebCommunicatorImpl implements WebCommunicator {
             crash: false);
         return false;
       }
-    }
-    catch (e){
-      print("Could not send message to logs: " + content + " because of: " + e.toString());
+    } catch (e) {
+      print("Could not send message to logs: " +
+          content +
+          " because of: " +
+          e.toString());
       return false;
     }
   }
 
-  String _convertToNonNaiveTime(DateTime time){
+  String _convertToNonNaiveTime(DateTime time) {
     // The backend is timezone sensitive, and needs it in the following specified format
     return DateFormat("yyyy-MM-dd'T'HH:mm:ss").format(time) + "Z";
   }
