@@ -43,36 +43,29 @@ class _SaveTimeButtonState extends State<SaveTimeButton> {
       child: Center(
         child: InkWell(
           onTap: () async {
+            calendar.sortAddedTimeSlots();
             if (calendar.addedTimeSlots.isNotEmpty) {
               var valid = calendar.isBookedTimeValid();
 
               if (valid) {
-                print("VALID BOOKING! Posting to the backend");
                 setState(() {
                   _isBookingTimeSlot = true;
                 });
                 ActiveUser user = ActiveUser();
-                String machineResource = sl<WebCommunicator>().machinesURL.replaceAll("Jakobs-MacBook-Pro.local", "localhost") +
-                    "/${widget.machineType.toString()}/";
-                String serviceResource = sl<WebCommunicator>().servicesURL.replaceAll("Jakobs-MacBook-Pro.local", "localhost") +
-                    "/${widget.machineType.toString()}/";
-                String accountResource = sl<WebCommunicator>().usersURL.replaceAll("Jakobs-MacBook-Pro.local", "localhost") +
-                    "/${user.activeAccount!.id.toString()}/";
-                if (kDebugMode) {
-                  machineResource =
-                      "http://localhost:8000/api/1/machines/${widget.machineType.toString()}/";
-                  serviceResource =
-                      "http://localhost:8000/api/1/services/${widget.machineType.toString()}/";
-                  accountResource ="http://localhost:8000/api/1/accounts/${user.activeAccount!.id.toString()}/";
+                String machineResource = sl<WebCommunicator>().machinesURL+"/${widget.machineType.toString()}/";
+                String serviceResource = sl<WebCommunicator>().servicesURL+"/${widget.machineType.toString()}/";
+                String accountResource = sl<WebCommunicator>().accountsURL+"/${user.activeAccount!.id.toString()}/";
+                if (kDebugMode){
+                  machineResource = "http://localhost:8000/api/1/machines/${widget.machineType.toString()}/";
+                  serviceResource = "http://localhost:8000/api/1/services/${widget.machineType.toString()}/";
+                  accountResource = "http://localhost:8000/api/1/accounts/${user.activeAccount!.id.toString()}/";
                 }
-                print("SAVE_TIME_BUTTON 69");
-                print(accountResource);
-                var result = await sl<PostBookingUsecase>().call(
-                    PostBookingParams(
-                        startTime: calendar.getLeastTimeSlot()!,
-                        machineResource: machineResource,
-                        serviceResource: serviceResource,
-                        accountResource: accountResource));
+                
+                var result = await sl<PostBookingUsecase>().call(PostBookingParams(
+                    startTime: calendar.getLeastTimeSlot()!,
+                    machineResource: machineResource,
+                    serviceResource: serviceResource,
+                    accountResource: accountResource));
                 await sl<UpdateAccountUseCase>().call(NoParams());
                 await _simulateDelay();
                 if (result != null) {
@@ -99,8 +92,6 @@ class _SaveTimeButtonState extends State<SaveTimeButton> {
                               "Ups! Det ser ud til, at du ikke har forbindelse til internettet"));
                 }
               } else {
-                // Show dialog to the user with propriate error message
-                print("INVALID BOOKING! Aborting");
                 ErrorHandler.errorHandlerView(
                     context: context,
                     prompt: BookingErrorPrompt(
@@ -108,7 +99,6 @@ class _SaveTimeButtonState extends State<SaveTimeButton> {
                             "Ugyldig booking! Enten har du ikke valgt 2.5 time eller også er tiderne ikke sammenhængende"));
               }
             } else {
-              print("INVALID BOOKING! Aborting");
               ErrorHandler.errorHandlerView(
                   context: context,
                   prompt: BookingErrorPrompt(

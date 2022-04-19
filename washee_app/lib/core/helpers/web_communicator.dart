@@ -42,7 +42,7 @@ abstract class WebCommunicator {
       required String serviceResource});
   Future<Map<String, dynamic>> getAccount(Account account);
   Future<bool> deleteBooking(bookingID);
-  Future<List<Map<String,dynamic>>> getMachines();
+  Future<List<Map<String, dynamic>>> getMachines();
   Future<bool> postLog(String content);
   Future<bool> updateBooking(String bookingID, {bool? activated});
 }
@@ -85,8 +85,7 @@ class WebCommunicatorImpl implements WebCommunicator {
   String get servicesURL => Environment().config.webApiHost + "/api/1/services";
 
   @override
-  String get logsURL =>
-      Environment().config.webApiHost + "/api/1/logs";
+  String get logsURL => Environment().config.webApiHost + "/api/1/logs";
 
   @override
   Future<Map<String, dynamic>> getCurrentLocation(int locationID) async {
@@ -123,10 +122,8 @@ class WebCommunicatorImpl implements WebCommunicator {
 
     String queryString = "";
 
-    if (activated != null){
-      queryString += "activated=" + 
-          activated.toString() + 
-          "&";
+    if (activated != null) {
+      queryString += "activated=" + activated.toString() + "&";
     }
 
     if (startTimeGreaterThan != null) {
@@ -172,10 +169,18 @@ class WebCommunicatorImpl implements WebCommunicator {
       for (var booking in response.data) {
         convertedData.add({
           "id": booking["id"],
-          "start_time": tz.TZDateTime.from(DateTime.parse(booking["start_time"]),danishTime).toString(),
-          "end_time": tz.TZDateTime.from(DateTime.parse(booking["end_time"]),danishTime).toString(),
-          "created": tz.TZDateTime.from(DateTime.parse(booking["created"]),danishTime).toString(),
-          "last_updated": tz.TZDateTime.from(DateTime.parse(booking["last_updated"]),danishTime).toString(),
+          "start_time": tz.TZDateTime.from(
+                  DateTime.parse(booking["start_time"]), danishTime)
+              .toString(),
+          "end_time": tz.TZDateTime.from(
+                  DateTime.parse(booking["end_time"]), danishTime)
+              .toString(),
+          "created":
+              tz.TZDateTime.from(DateTime.parse(booking["created"]), danishTime)
+                  .toString(),
+          "last_updated": tz.TZDateTime.from(
+                  DateTime.parse(booking["last_updated"]), danishTime)
+              .toString(),
           "activated": booking["activated"],
           "machine": booking["machine"],
           "service": booking["service"],
@@ -204,7 +209,7 @@ class WebCommunicatorImpl implements WebCommunicator {
       required String serviceResource}) async {
     Response response;
 
-    Map<String,dynamic> data = {
+    Map<String, dynamic> data = {
       "start_time": _convertToNonNaiveTime(startTime),
       "account": accountResource,
       "machine": machineResource,
@@ -237,12 +242,13 @@ class WebCommunicatorImpl implements WebCommunicator {
     response = await dio.get(url);
 
     if (response.statusCode == 200) {
-      response.data["account_id"] = response.data["id"]; //Stupid choice made early on the backend side, not sending proper values
+      response.data["account_id"] = response.data[
+          "id"]; //Stupid choice made early on the backend side, not sending proper values
       return response.data;
     } else {
       ExceptionHandler().handle(
           "Could not get account " +
-          account.id.toString() +
+              account.id.toString() +
               "Something went wrong with status code: " +
               response.statusCode.toString() +
               " with response:\n" +
@@ -284,15 +290,15 @@ class WebCommunicatorImpl implements WebCommunicator {
     Response response;
     String url = bookingsURL + "/${bookingID}/";
 
-    Map<String,dynamic> data = {};
-    if (activated != null){
+    Map<String, dynamic> data = {};
+    if (activated != null) {
       data["activated"] = activated;
     }
 
-    response = await dio.patch(url, data:data);
+    response = await dio.patch(url, data: data);
 
     if (response.statusCode != null && response.statusCode! < 400) {
-      return response.data;
+      return true;
     } else {
       ExceptionHandler().handle(
           "Could not update booking " +
@@ -324,18 +330,16 @@ class WebCommunicatorImpl implements WebCommunicator {
         DateTime? endTime;
         bool activated = false;
         try {
-          List<Map<String,dynamic>> currentBooking = await getCurrentBookings(
-            machineID: int.parse(machine["id"].toString()),
-            startTimeLessThan: DateHelper.currentTime(),
-            endTimeGreaterThan: DateHelper.currentTime()
-          );
-          if (currentBooking.isNotEmpty){
+          List<Map<String, dynamic>> currentBooking = await getCurrentBookings(
+              machineID: int.parse(machine["id"].toString()),
+              startTimeLessThan: DateHelper.currentTime(),
+              endTimeGreaterThan: DateHelper.currentTime());
+          if (currentBooking.isNotEmpty) {
             startTime = DateTime.parse(currentBooking[0]["start_time"]);
             endTime = DateTime.parse(currentBooking[0]["end_time"]);
             activated = currentBooking[0]["activated"] == true;
           }
-        } 
-        catch (e){
+        } catch (e) {
           print("Throws error: " + e.toString());
         }
 
@@ -373,12 +377,9 @@ class WebCommunicatorImpl implements WebCommunicator {
     ActiveUser user = ActiveUser();
     String userResource = usersURL + "/${user.id}/";
 
-    try{
-      response = await dio.post(logsURL + "/", data: {
-        "content": content,
-        "user": userResource,
-        "source": "APP"
-      });
+    try {
+      response = await dio.post(logsURL + "/",
+          data: {"content": content, "user": userResource, "source": "APP"});
       if (response.statusCode == 201) {
         return true;
       } else {
@@ -393,14 +394,16 @@ class WebCommunicatorImpl implements WebCommunicator {
             crash: false);
         return false;
       }
-    }
-    catch (e){
-      print("Could not send message to logs: " + content + " because of: " + e.toString());
+    } catch (e) {
+      print("Could not send message to logs: " +
+          content +
+          " because of: " +
+          e.toString());
       return false;
     }
   }
 
-  String _convertToNonNaiveTime(DateTime time){
+  String _convertToNonNaiveTime(DateTime time) {
     // The backend is timezone sensitive, and needs it in the following specified format
     var danishTime = tz.getLocation('Europe/Copenhagen');
     var now = tz.TZDateTime.from(time, danishTime);
