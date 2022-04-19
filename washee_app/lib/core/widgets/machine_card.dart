@@ -4,7 +4,6 @@ import 'package:washee/core/account/user.dart';
 import 'package:washee/core/washee_box/machine_model.dart';
 import 'package:washee/injection_container.dart';
 import 'package:washee/features/booking/domain/usecases/has_current_booking.dart';
-import 'package:washee/features/unlock/presentation/widgets/insufficient_funds_dialog.dart';
 import 'package:washee/features/unlock/presentation/widgets/please_login_dialog.dart';
 import '../../features/unlock/presentation/widgets/initiate_wash_dialog.dart';
 import 'package:washee/features/unlock/presentation/widgets/does_not_have_current_booking_dialog.dart';

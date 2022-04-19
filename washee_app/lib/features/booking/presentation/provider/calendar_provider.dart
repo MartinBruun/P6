@@ -333,4 +333,9 @@ class CalendarProvider extends ChangeNotifier {
 
     return openPossibleBookings;
   }
+
+  sortAddedTimeSlots() {
+    _addedTimeSlots.sort((a, b) => a.compareTo(b));
+    notifyListeners();
+  }
 }

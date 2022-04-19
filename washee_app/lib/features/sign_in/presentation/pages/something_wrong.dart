@@ -8,7 +8,7 @@ class SomethingWrong extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.transparent,
-      body: Center(child: DialogBoxOk("Noget gik galt")),
+      body: Center(child: DialogBoxOk(boxMessage: "Noget gik galt")),
     );
   }
 }

@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:intl/intl.dart';
 import 'package:washee/core/account/account.dart';
 import 'package:washee/core/account/user.dart';
@@ -163,10 +164,14 @@ class WebCommunicatorImpl implements WebCommunicator {
       bookingsFinalURL =
           bookingsFinalURL.substring(0, bookingsFinalURL.length - 1);
     }
+    
+    print("BOOKING URL:");
+    print(bookingsFinalURL);
 
     var danishTime = tz.getLocation('Europe/Copenhagen');
     response = await dio.get(bookingsFinalURL);
     if (response.statusCode == 200) {
+      print("GOT BOOKINGS!");
       print("DATA");
       print(response.data);
       List<Map<String, dynamic>> convertedData = [];
@@ -329,14 +334,14 @@ class WebCommunicatorImpl implements WebCommunicator {
         DateTime? startTime;
         DateTime? endTime;
         bool activated = false;
-        print("WEIRD CONVERSION!");
-        print(DateTime.parse(_convertToNonNaiveTime(DateHelper.currentTime())));
+        print("Non Native: " + DateHelper.currentTime().toString());
         try {
           List<Map<String,dynamic>> currentBooking = await getCurrentBookings(
             machineID: int.parse(machine["id"].toString()),
-            startTimeLessThan: DateTime.parse(_convertToNonNaiveTime(DateHelper.currentTime())),
-            endTimeGreaterThan: DateTime.parse(_convertToNonNaiveTime(DateHelper.currentTime()))
+            startTimeLessThan: DateHelper.currentTime(),
+            endTimeGreaterThan: DateHelper.currentTime()
           );
+          print("CURRENT BOOKINGS");
           print(currentBooking);
           if (currentBooking.isNotEmpty){
             // TODO: TIME
