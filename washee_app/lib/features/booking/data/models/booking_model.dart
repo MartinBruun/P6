@@ -1,4 +1,5 @@
 import 'package:washee/features/booking/data/models/booking_entity.dart';
+import 'package:timezone/timezone.dart' as tz;
 
 // ignore: must_be_immutable
 class BookingModel extends Booking {
@@ -49,16 +50,18 @@ class BookingModel extends Booking {
       };
 
   factory BookingModel.fromJson(Map<String, dynamic> json) {
-    return BookingModel(
-      startTime: DateTime.parse(json['start_time']),
-      endTime: DateTime.parse(json['end_time']),
-      lastUpdated: DateTime.parse(json['last_updated']),
+    var danishTime = tz.getLocation('Europe/Copenhagen');
+    BookingModel booking = BookingModel(
+      startTime: tz.TZDateTime.from(DateTime.parse(json['start_time']), danishTime),
+      endTime: tz.TZDateTime.from(DateTime.parse(json['end_time']), danishTime),
+      lastUpdated: tz.TZDateTime.from(DateTime.parse(json['last_updated']), danishTime),
       activated: json["activated"],
       machineResource: json['machine'],
       serviceResource: json['service'],
-      created: DateTime.parse(json['created']),
+      created: tz.TZDateTime.from(DateTime.parse(json['created']), danishTime),
       accountResource: json['account'],
       bookingID: int.parse(json['id'].toString()),
     );
+    return booking;
   }
 }

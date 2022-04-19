@@ -7,7 +7,6 @@ import 'package:washee/core/presentation/themes/themes.dart';
 import 'package:washee/injection_container.dart';
 
 import '../../features/unlock/domain/usecases/connect_box_wifi.dart';
-import '../../features/unlock/domain/usecases/disconnect_box_wifi.dart';
 import '../usecases/usecase.dart';
 
 class TestWifiPage extends StatefulWidget {
@@ -36,7 +35,6 @@ class _TestWifiPageState extends State<TestWifiPage> {
           ElevatedButton(
               onPressed: () async {
                 var result = await sl<ConnectBoxWifiUsecase>().call(NoParams());
-                print("RESULTAT: " + result.toString());
                 if (!result) {
                   ErrorHandler.errorHandlerView(
                       context: context,

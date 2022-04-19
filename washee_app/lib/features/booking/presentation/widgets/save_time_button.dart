@@ -1,10 +1,15 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:washee/core/account/user.dart';
 import 'package:washee/core/errors/booking_error_prompt.dart';
 import 'package:washee/core/errors/error_handler.dart';
+import 'package:washee/core/helpers/web_communicator.dart';
+import 'package:washee/core/usecases/usecase.dart';
 import 'package:washee/features/booking/presentation/provider/calendar_provider.dart';
 import 'package:washee/features/booking/presentation/widgets/booking_success_dialog.dart';
+import 'package:washee/features/sign_in/domain/usecases/update_account.dart';
 import 'package:washee/injection_container.dart';
 import 'package:washee/features/booking/domain/usecases/post_booking.dart';
 
@@ -41,23 +46,29 @@ class _SaveTimeButtonState extends State<SaveTimeButton> {
         child: InkWell(
           onTap: () async {
             calendar.sortAddedTimeSlots();
-            print(calendar.addedTimeSlots);
             if (calendar.addedTimeSlots.isNotEmpty) {
               var valid = calendar.isBookedTimeValid();
 
               if (valid) {
-                print("VALID BOOKING! Posting to the backend");
                 setState(() {
                   _isBookingTimeSlot = true;
                 });
+                ActiveUser user = ActiveUser();
+                String machineResource = sl<WebCommunicator>().machinesURL+"/${widget.machineType.toString()}/";
+                String serviceResource = sl<WebCommunicator>().servicesURL+"/${widget.machineType.toString()}/";
+                String accountResource = sl<WebCommunicator>().usersURL+"/${user.activeAccount!.id.toString()}/";
+                if (kDebugMode){
+                  machineResource = "http://localhost:8000/api/1/machines/${widget.machineType.toString()}/";
+                  serviceResource = "http://localhost:8000/api/1/services/${widget.machineType.toString()}/";
+                  accountResource = "http://localhost:8000/api/1/accounts/${user.activeAccount!.id.toString()}/";
+                }
+                
                 var result = await sl<PostBookingUsecase>().call(PostBookingParams(
                     startTime: calendar.getLeastTimeSlot()!,
-                    machineResource:
-                        "http://localhost:8000/api/1/machines/${widget.machineType}/",
-                    serviceResource:
-                        "http://locahost:8000/api/1/services/${widget.machineType}/",
-                    accountResource:
-                        "http://localhost:8000/api/1/accounts/1/"));
+                    machineResource: machineResource,
+                    serviceResource: serviceResource,
+                    accountResource: accountResource));
+                await sl<UpdateAccountUseCase>().call(NoParams());
                 await _simulateDelay();
                 if (result != null) {
                   calendar.clearTimeSlots();
@@ -82,8 +93,6 @@ class _SaveTimeButtonState extends State<SaveTimeButton> {
                               "Ups! Det ser ud til, at du ikke har forbindelse til internettet"));
                 }
               } else {
-                // Show dialog to the user with propriate error message
-                print("INVALID BOOKING! Aborting");
                 ErrorHandler.errorHandlerView(
                     context: context,
                     prompt: BookingErrorPrompt(
@@ -91,7 +100,6 @@ class _SaveTimeButtonState extends State<SaveTimeButton> {
                             "Ugyldig booking! Enten har du ikke valgt 2.5 time eller også er tiderne ikke sammenhængende"));
               }
             } else {
-              print("INVALID BOOKING! Aborting");
               ErrorHandler.errorHandlerView(
                   context: context,
                   prompt: BookingErrorPrompt(

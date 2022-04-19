@@ -132,9 +132,7 @@ class _SignInScreenState extends State<SignInScreen> {
                                     password: _passwordController.text));
 
                             if (result) {
-                              print("something went right!");
                               if (Platform.isAndroid) {
-                                print("Asking for wifi permissions");
                                 await sl<GetWifiPermissionUsecase>()
                                     .call(NoParams());
                               }
@@ -150,7 +148,6 @@ class _SignInScreenState extends State<SignInScreen> {
                                 ),
                               );
                             } else {
-                              print("something went wrong");
                               data.updateSignIn(false);
                               showDialog(
                                   context: context,

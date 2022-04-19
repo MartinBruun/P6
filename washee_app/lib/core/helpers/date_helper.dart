@@ -1,8 +1,11 @@
 import 'package:intl/intl.dart';
+import 'package:timezone/timezone.dart' as tz;
 
 class DateHelper {
   static DateTime currentTime(){
-    return DateTime.now().toUtc().add(Duration(hours:2));
+    var danishTime = tz.getLocation('Europe/Copenhagen');
+    var now = tz.TZDateTime.now(danishTime);
+    return now;
   }
 
   int _daysInMonth(DateTime date) {
