@@ -164,16 +164,10 @@ class WebCommunicatorImpl implements WebCommunicator {
       bookingsFinalURL =
           bookingsFinalURL.substring(0, bookingsFinalURL.length - 1);
     }
-    
-    print("BOOKING URL:");
-    print(bookingsFinalURL);
 
     var danishTime = tz.getLocation('Europe/Copenhagen');
     response = await dio.get(bookingsFinalURL);
     if (response.statusCode == 200) {
-      print("GOT BOOKINGS!");
-      print("DATA");
-      print(response.data);
       List<Map<String, dynamic>> convertedData = [];
       for (var booking in response.data) {
         convertedData.add({
@@ -188,8 +182,6 @@ class WebCommunicatorImpl implements WebCommunicator {
           "account": booking["account"],
         });
       }
-      print("CONVERTED DATA");
-      print(convertedData);
       return convertedData;
     } else {
       ExceptionHandler().handle(
@@ -218,9 +210,6 @@ class WebCommunicatorImpl implements WebCommunicator {
       "machine": machineResource,
       "service": serviceResource
     };
-
-    print("POSTING!");
-    print(data);
 
     response = await dio.post(bookingsURL + "/", data: data);
     if (response.statusCode == 201) {
@@ -334,15 +323,12 @@ class WebCommunicatorImpl implements WebCommunicator {
         DateTime? startTime;
         DateTime? endTime;
         bool activated = false;
-        print("Non Native: " + DateHelper.currentTime().toString());
         try {
           List<Map<String,dynamic>> currentBooking = await getCurrentBookings(
             machineID: int.parse(machine["id"].toString()),
             startTimeLessThan: DateHelper.currentTime(),
             endTimeGreaterThan: DateHelper.currentTime()
           );
-          print("CURRENT BOOKINGS");
-          print(currentBooking);
           if (currentBooking.isNotEmpty){
             // TODO: TIME
             // It is necessary to remove 2 hours from the time, since there will automatically be added
@@ -350,8 +336,6 @@ class WebCommunicatorImpl implements WebCommunicator {
             // It is completely stupid, and should be remade, but honestly i'm tired
             startTime = DateTime.parse(currentBooking[0]["start_time"]);
             endTime = DateTime.parse(currentBooking[0]["end_time"]);
-            print("CURRENT BOOKING START: " + startTime.toString());
-            print("CURRENT BOOKING END: " + endTime.toString());
             activated = currentBooking[0]["activated"] == true;
           }
         } 

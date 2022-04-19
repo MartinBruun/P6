@@ -126,7 +126,6 @@ class _StartWashState extends State<StartWash> {
                   message:
                       "Det ser ud til, at du ikke har forbindelse til WasheeBox"));
         } else {
-          print("From start_wash.dart: fetchedMachine went correctly!");
           await sl<DisconnectBoxWifiUsecase>().call(NoParams());
           Navigator.pushReplacement(
             context,

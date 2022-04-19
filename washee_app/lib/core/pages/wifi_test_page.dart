@@ -35,7 +35,6 @@ class _TestWifiPageState extends State<TestWifiPage> {
           ElevatedButton(
               onPressed: () async {
                 var result = await sl<ConnectBoxWifiUsecase>().call(NoParams());
-                print("RESULTAT: " + result.toString());
                 if (!result) {
                   ErrorHandler.errorHandlerView(
                       context: context,

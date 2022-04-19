@@ -46,12 +46,10 @@ class _SaveTimeButtonState extends State<SaveTimeButton> {
         child: InkWell(
           onTap: () async {
             calendar.sortAddedTimeSlots();
-            print(calendar.addedTimeSlots);
             if (calendar.addedTimeSlots.isNotEmpty) {
               var valid = calendar.isBookedTimeValid();
 
               if (valid) {
-                print("VALID BOOKING! Posting to the backend");
                 setState(() {
                   _isBookingTimeSlot = true;
                 });
@@ -95,8 +93,6 @@ class _SaveTimeButtonState extends State<SaveTimeButton> {
                               "Ups! Det ser ud til, at du ikke har forbindelse til internettet"));
                 }
               } else {
-                // Show dialog to the user with propriate error message
-                print("INVALID BOOKING! Aborting");
                 ErrorHandler.errorHandlerView(
                     context: context,
                     prompt: BookingErrorPrompt(
@@ -104,7 +100,6 @@ class _SaveTimeButtonState extends State<SaveTimeButton> {
                             "Ugyldig booking! Enten har du ikke valgt 2.5 time eller også er tiderne ikke sammenhængende"));
               }
             } else {
-              print("INVALID BOOKING! Aborting");
               ErrorHandler.errorHandlerView(
                   context: context,
                   prompt: BookingErrorPrompt(
