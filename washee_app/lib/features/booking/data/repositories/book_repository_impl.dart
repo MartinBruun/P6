@@ -14,10 +14,8 @@ class BookRepositoryImpl implements BookRepository {
   BookRepositoryImpl({required this.networkInfo, required this.remote});
 
   @override
-  Future<List<BookingModel>> getBookings({
-    int? accountID,
-    bool? activated
-  }) async {
+  Future<List<BookingModel>> getBookings(
+      {int? accountID, bool? activated}) async {
     return await remote.getBookings(accountID: accountID, activated: activated);
   }
 
@@ -38,42 +36,42 @@ class BookRepositoryImpl implements BookRepository {
   }
 
   @override
-  Future<bool> hasCurrentBooking({
-    required int accountID,
-    required int machineID
-  }) async {
-    if (await networkInfo.isConnected){
+  Future<bool> hasCurrentBooking(
+      {required int accountID, required int machineID}) async {
+    if (await networkInfo.isConnected) {
       List<BookingModel> validBooking = await remote.getBookings(
-        accountID: accountID,
-        machineID: machineID,
-        startTimeLessThan: DateTime.parse(_convertToNonNaiveTime(DateHelper.currentTime())),
-        endTimeGreaterThan: DateTime.parse(_convertToNonNaiveTime(DateHelper.currentTime()))
-      );
-      if (validBooking.isEmpty){
+          accountID: accountID,
+          machineID: machineID,
+          startTimeLessThan:
+              DateTime.parse(_convertToNonNaiveTime(DateHelper.currentTime())),
+          endTimeGreaterThan:
+              DateTime.parse(_convertToNonNaiveTime(DateHelper.currentTime())));
+      if (validBooking.isEmpty) {
         return false;
-      }
-      else{
+      } else {
         return true;
       }
     }
-    ExceptionHandler().handle("Not on network", log:true, show:true, crash:false);
+    ExceptionHandler()
+        .handle("Not on network", log: true, show: true, crash: false);
     throw new Exception("Not on network");
   }
 
   @override
   Future<bool> deleteBooking({required int bookingID}) async {
-    if (await networkInfo.isConnected){
+    if (await networkInfo.isConnected) {
       bool wasDeleted = await remote.deleteBooking(bookingID);
       return wasDeleted;
     }
-    ExceptionHandler().handle("Not on network", log:true, show:true, crash:false);
+    ExceptionHandler()
+        .handle("Not on network", log: true, show: true, crash: false);
     throw new Exception("Not on network");
   }
 
-    String _convertToNonNaiveTime(DateTime time){
-      // The backend is timezone sensitive, and needs it in the following specified format
-      var danishTime = tz.getLocation('Europe/Copenhagen');
-      var now = tz.TZDateTime.from(time, danishTime);
-      return now.toUtc().toString();
+  String _convertToNonNaiveTime(DateTime time) {
+    // The backend is timezone sensitive, and needs it in the following specified format
+    var danishTime = tz.getLocation('Europe/Copenhagen');
+    var now = tz.TZDateTime.from(time, danishTime);
+    return now.toUtc().toString();
   }
 }
