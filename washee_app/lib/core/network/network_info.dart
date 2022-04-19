@@ -75,7 +75,7 @@ class NetworkInfoImpl implements NetworkInfo {
           joinOnce: true,
           isHidden: false,
           security: NetworkSecurity.WPA);
-      WiFiForIoTPlugin.forceWifiUsage(true);
+      await WiFiForIoTPlugin.forceWifiUsage(true);
       print("Connected to BoxWifi from NetworkInfo");
       return result;
     } catch (e) {
@@ -93,7 +93,7 @@ class NetworkInfoImpl implements NetworkInfo {
   @override
   Future<bool> disconnectFromBoxWifi() async {
     try {
-      WiFiForIoTPlugin.forceWifiUsage(false);
+      await WiFiForIoTPlugin.forceWifiUsage(false);
       await WiFiForIoTPlugin.disconnect();
       return true;
     } catch (e) {
