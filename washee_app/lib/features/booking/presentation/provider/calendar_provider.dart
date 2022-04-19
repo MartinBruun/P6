@@ -224,10 +224,16 @@ class CalendarProvider extends ChangeNotifier {
   }
 
   removeTimeSlot(DateTime time) {
-    _addedTimeSlots.removeWhere((element) =>
+    try{
+      _addedTimeSlots.removeWhere((element) =>
         (element.day == time.day) &&
         (element.hour == time.hour) &&
         (element.minute == time.minute));
+    }
+    catch (e){
+      print("Could not remove with error: " + e.toString());
+    }
+    
     notifyListeners();
   }
 
