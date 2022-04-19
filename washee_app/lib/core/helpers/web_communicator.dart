@@ -330,10 +330,6 @@ class WebCommunicatorImpl implements WebCommunicator {
             endTimeGreaterThan: DateHelper.currentTime()
           );
           if (currentBooking.isNotEmpty){
-            // TODO: TIME
-            // It is necessary to remove 2 hours from the time, since there will automatically be added
-            // 2 hours when the machine model is made
-            // It is completely stupid, and should be remade, but honestly i'm tired
             startTime = DateTime.parse(currentBooking[0]["start_time"]);
             endTime = DateTime.parse(currentBooking[0]["end_time"]);
             activated = currentBooking[0]["activated"] == true;

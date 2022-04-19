@@ -3,7 +3,6 @@ import 'package:timezone/timezone.dart' as tz;
 
 class DateHelper {
   static DateTime currentTime(){
-    // TODO: TIME
     var danishTime = tz.getLocation('Europe/Copenhagen');
     var now = tz.TZDateTime.now(danishTime);
     return now;
