@@ -22,7 +22,7 @@ class ListOfBookingsView extends StatelessWidget {
       itemBuilder: (context, index) => Row(
         children: [
           BookingInfo(
-            bookingInfo: bookings[index].machineResource.contains("/api/1/machines/1/") ? "Vask" : "Tørring" +
+            bookingInfo: (bookings[index].machineResource.contains("/api/1/machines/1/") ? "Vask" : "Tørring") +
                 " " +
                 bookings[index].startTime!.year.toString() +
                 "/" +

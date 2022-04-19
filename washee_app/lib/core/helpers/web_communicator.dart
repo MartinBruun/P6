@@ -164,22 +164,27 @@ class WebCommunicatorImpl implements WebCommunicator {
           bookingsFinalURL.substring(0, bookingsFinalURL.length - 1);
     }
 
+    var danishTime = tz.getLocation('Europe/Copenhagen');
     response = await dio.get(bookingsFinalURL);
     if (response.statusCode == 200) {
+      print("DATA");
+      print(response.data);
       List<Map<String, dynamic>> convertedData = [];
       for (var booking in response.data) {
         convertedData.add({
           "id": booking["id"],
-          "start_time": booking["start_time"],
-          "end_time": booking["end_time"],
-          "created": booking["created"],
-          "last_updated": booking["last_updated"],
+          "start_time": tz.TZDateTime.from(DateTime.parse(booking["start_time"]),danishTime).toString(),
+          "end_time": tz.TZDateTime.from(DateTime.parse(booking["end_time"]),danishTime).toString(),
+          "created": tz.TZDateTime.from(DateTime.parse(booking["created"]),danishTime).toString(),
+          "last_updated": tz.TZDateTime.from(DateTime.parse(booking["last_updated"]),danishTime).toString(),
           "activated": booking["activated"],
           "machine": booking["machine"],
           "service": booking["service"],
           "account": booking["account"],
         });
       }
+      print("CONVERTED DATA");
+      print(convertedData);
       return convertedData;
     } else {
       ExceptionHandler().handle(
@@ -208,7 +213,8 @@ class WebCommunicatorImpl implements WebCommunicator {
       "machine": machineResource,
       "service": serviceResource
     };
-    print("POSTING");
+
+    print("POSTING!");
     print(data);
 
     response = await dio.post(bookingsURL + "/", data: data);
@@ -323,11 +329,13 @@ class WebCommunicatorImpl implements WebCommunicator {
         DateTime? startTime;
         DateTime? endTime;
         bool activated = false;
+        print("WEIRD CONVERSION!");
+        print(DateTime.parse(_convertToNonNaiveTime(DateHelper.currentTime())));
         try {
           List<Map<String,dynamic>> currentBooking = await getCurrentBookings(
             machineID: int.parse(machine["id"].toString()),
-            startTimeLessThan: DateHelper.currentTime(),
-            endTimeGreaterThan: DateHelper.currentTime()
+            startTimeLessThan: DateTime.parse(_convertToNonNaiveTime(DateHelper.currentTime())),
+            endTimeGreaterThan: DateTime.parse(_convertToNonNaiveTime(DateHelper.currentTime()))
           );
           print(currentBooking);
           if (currentBooking.isNotEmpty){
@@ -410,7 +418,7 @@ class WebCommunicatorImpl implements WebCommunicator {
   String _convertToNonNaiveTime(DateTime time){
     // The backend is timezone sensitive, and needs it in the following specified format
     var danishTime = tz.getLocation('Europe/Copenhagen');
-    var now = tz.TZDateTime.now(danishTime);
-    return now.toString();
+    var now = tz.TZDateTime.from(time, danishTime);
+    return now.toUtc().toString();
   }
 }

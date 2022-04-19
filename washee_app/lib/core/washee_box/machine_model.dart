@@ -52,10 +52,10 @@ class MachineModel extends Machine {
       machineType: json['machineType'],
       activated: json["activated"] == true ? json["activated"] : false,
       startTime: json['startTime'] != null
-          ? DateTime.parse(json["startTime"].toString().replaceAll(" ", "T"))
+          ? DateTime.parse(json["startTime"].toString())
           : null,
       endTime:
-          json['endTime'] != null ? DateTime.parse(json["endTime"].toString().replaceAll(" ", "T")) : null,
+          json['endTime'] != null ? DateTime.parse(json["endTime"].toString()) : null,
     );
     // TODO: TIME
     print("FROM JSON MODEL: " + machine.toString());

@@ -18,7 +18,6 @@ class SignInRepositoryImpl implements SignInRepository {
   Future<Account> getAccount(Account account) async{
     Map<String,dynamic> accountJson = await communicator.getAccount(account);
     // TODO: TIME
-    print("ACCOUNT" + accountJson.toString());
     return Account.fromJson(accountJson);
   }
 }
