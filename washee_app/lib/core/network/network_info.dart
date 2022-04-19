@@ -94,7 +94,7 @@ class NetworkInfoImpl implements NetworkInfo {
   Future<bool> disconnectFromBoxWifi() async {
     try {
       WiFiForIoTPlugin.forceWifiUsage(false);
-      WiFiForIoTPlugin.disconnect();
+      await WiFiForIoTPlugin.disconnect();
       return true;
     } catch (e) {
       ExceptionHandler().handle(
