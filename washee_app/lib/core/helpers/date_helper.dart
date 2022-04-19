@@ -1,5 +1,5 @@
 import 'package:intl/intl.dart';
-import 'package:timezone/browser.dart' as tz;
+import 'package:timezone/timezone.dart' as tz;
 
 class DateHelper {
   static DateTime currentTime(){

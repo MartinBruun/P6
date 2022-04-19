@@ -7,7 +7,7 @@ import 'package:washee/core/errors/exception_handler.dart';
 import 'package:washee/core/helpers/authorizer.dart';
 import 'package:washee/core/helpers/date_helper.dart';
 
-import 'package:timezone/browser.dart' as tz;
+import 'package:timezone/timezone.dart' as tz;
 
 abstract class WebCommunicator {
   // ALL ID and Resource should be changed to their corresponding Model instead!
