@@ -8,7 +8,9 @@ class IncorrectInput extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.transparent,
-      body: Center(child: DialogBoxOk("Ugyldig email eller kodeord indtastet")),
+      body: Center(
+          child:
+              DialogBoxOk(boxMessage: "Ugyldig email eller kodeord indtastet")),
     );
   }
 }

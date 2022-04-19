@@ -325,4 +325,9 @@ class CalendarProvider extends ChangeNotifier {
 
     return 0;
   }
+
+  sortAddedTimeSlots() {
+    _addedTimeSlots.sort((a, b) => a.compareTo(b));
+    notifyListeners();
+  }
 }
