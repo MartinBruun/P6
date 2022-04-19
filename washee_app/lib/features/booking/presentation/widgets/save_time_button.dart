@@ -56,7 +56,7 @@ class _SaveTimeButtonState extends State<SaveTimeButton> {
                 ActiveUser user = ActiveUser();
                 String machineResource = sl<WebCommunicator>().machinesURL+"/${widget.machineType.toString()}/";
                 String serviceResource = sl<WebCommunicator>().servicesURL+"/${widget.machineType.toString()}/";
-                String accountResource = sl<WebCommunicator>().usersURL+"/${user.activeAccount!.id.toString()}/";
+                String accountResource = sl<WebCommunicator>().accountsURL+"/${user.activeAccount!.id.toString()}/";
                 if (kDebugMode){
                   machineResource = "http://localhost:8000/api/1/machines/${widget.machineType.toString()}/";
                   serviceResource = "http://localhost:8000/api/1/services/${widget.machineType.toString()}/";
