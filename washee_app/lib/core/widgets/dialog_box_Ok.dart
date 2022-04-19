@@ -7,8 +7,9 @@ import 'package:washee/core/widgets/ok_button.dart';
 
 class DialogBoxOk extends StatelessWidget {
   final String boxMessage;
+  final Function? navigate;
 
-  DialogBoxOk(this.boxMessage);
+  DialogBoxOk({required this.boxMessage, this.navigate});
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +35,7 @@ class DialogBoxOk extends StatelessWidget {
             ),
           ),
           Center(
-            child: OkButton(),
+            child: OkButton(navigate),
           )
         ],
       ),
