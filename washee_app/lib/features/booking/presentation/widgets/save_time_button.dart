@@ -63,15 +63,7 @@ class _SaveTimeButtonState extends State<SaveTimeButton> {
                   setState(() {
                     _isBookingTimeSlot = false;
                   });
-
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => HomeScreen(
-                        page: PageNumber.CalendarScreen,
-                      ),
-                    ),
-                  );
+                  Navigator.of(context).popUntil((route) => route.isFirst);
                   showDialog(
                       context: context,
                       builder: (BuildContext context) {
