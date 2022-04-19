@@ -57,9 +57,7 @@ class YesButton extends StatelessWidget {
     unlockProvider.isUnlocking = true;
 
     try {
-      var result = kDebugMode
-          ? true
-          : await sl<ConnectBoxWifiUsecase>().call(NoParams());
+      bool result = await sl<ConnectBoxWifiUsecase>().call(NoParams());
 
       if (result) {
         fetchedMachine =
@@ -73,8 +71,6 @@ class YesButton extends StatelessWidget {
                       "Det ser ud til, at du ikke har forbindelse til WasheeBox"));
         } else {
           print("From start_wash.dart: fetchedMachine went correctly!");
-
-          await sl<DisconnectBoxWifiUsecase>().call(NoParams());
 
           global.updateMachine(fetchedMachine!);
 
