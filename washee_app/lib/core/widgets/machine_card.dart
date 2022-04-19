@@ -88,7 +88,7 @@ class MachineCard extends StatelessWidget {
                         width: 250.w,
                         child: ElevatedButton(
                           child: Text(
-                            "Book nu",
+                            "Book Først",
                             style: textStyle.copyWith(
                                 fontSize: textSize_30,
                                 fontWeight: FontWeight.w500),

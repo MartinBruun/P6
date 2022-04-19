@@ -4,8 +4,11 @@ import 'package:washee/core/account/user.dart';
 import 'package:washee/core/presentation/themes/colors.dart';
 import 'package:washee/core/presentation/themes/dimens.dart';
 import 'package:washee/core/presentation/themes/themes.dart';
+import 'package:washee/core/usecases/usecase.dart';
+import 'package:washee/features/sign_in/domain/usecases/update_account.dart';
 import 'package:washee/features/user_info/presentation/widgets/user_text.dart';
 import '../../../booking/presentation/widgets/my_bookings_list.dart';
+import 'package:washee/injection_container.dart';
 
 class UserInfo extends StatefulWidget {
   @override

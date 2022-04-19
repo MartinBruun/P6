@@ -18,9 +18,9 @@ class Account extends Equatable {
 
   factory Account.fromJson(Map<String, dynamic> json) {
     return Account(
-      id: json['account_id'],
+      id: int.parse(json['account_id'].toString()),
       name: json['name'],
-      balance: json['balance'],
+      balance: double.parse(json['balance'].toString()),
     );
   }
 }

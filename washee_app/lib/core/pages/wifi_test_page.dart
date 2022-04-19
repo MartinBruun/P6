@@ -7,7 +7,6 @@ import 'package:washee/core/presentation/themes/themes.dart';
 import 'package:washee/injection_container.dart';
 
 import '../../features/unlock/domain/usecases/connect_box_wifi.dart';
-import '../../features/unlock/domain/usecases/disconnect_box_wifi.dart';
 import '../usecases/usecase.dart';
 
 class TestWifiPage extends StatefulWidget {

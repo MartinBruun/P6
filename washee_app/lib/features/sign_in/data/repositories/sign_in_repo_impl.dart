@@ -17,6 +17,7 @@ class SignInRepositoryImpl implements SignInRepository {
   @override
   Future<Account> getAccount(Account account) async{
     Map<String,dynamic> accountJson = await communicator.getAccount(account);
+    print(accountJson);
     return Account.fromJson(accountJson);
   }
 }
