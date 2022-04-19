@@ -67,7 +67,7 @@ flutter:
   assets:
     - assets/images/
     - assets/data/machine_list.json
-    - assets/tzdb-2022a.tar.lz
+    - assets/2021a.tzf
     - .env.dev
     - .env.prod
 

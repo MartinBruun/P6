@@ -21,7 +21,7 @@ void main() async {
   await setupEnvironment();
   WidgetsFlutterBinding.ensureInitialized();
   ic.initAll();
-  ByteData tzf = await rootBundle.load('assets/tzdb-2022a.tar.lz');
+  ByteData tzf = await rootBundle.load('assets/2021a.tzf');
   initializeDatabase(tzf.buffer.asUint8List());
 
   print("From main.dart: webApiHost = ${Environment().config.webApiHost}");
