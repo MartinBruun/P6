@@ -9,6 +9,7 @@ import 'package:washee/core/pages/pages_enum.dart';
 import 'package:washee/core/presentation/themes/colors.dart';
 import 'package:washee/core/presentation/themes/dimens.dart';
 import 'package:washee/core/presentation/themes/themes.dart';
+import 'package:washee/core/providers/global_provider.dart';
 import 'package:washee/core/usecases/usecase.dart';
 import 'package:washee/core/washee_box/machine_model.dart';
 import 'package:washee/features/unlock/domain/usecases/connect_box_wifi.dart';
@@ -51,6 +52,7 @@ class YesButton extends StatelessWidget {
 
   Future<void> _unlockMachine(BuildContext context) async {
     var unlockProvider = Provider.of<UnlockProvider>(context, listen: false);
+    var global = Provider.of<GlobalProvider>(context, listen: false);
 
     unlockProvider.isUnlocking = true;
 
@@ -62,7 +64,6 @@ class YesButton extends StatelessWidget {
       if (result) {
         fetchedMachine =
             await sl<UnlockUseCase>().call(UnlockParams(machine: this.machine));
-        await sl<DisconnectBoxWifiUsecase>().call(NoParams());
         if (fetchedMachine == null) {
           unlockProvider.isUnlocking = false;
           ErrorHandler.errorHandlerView(
@@ -72,7 +73,11 @@ class YesButton extends StatelessWidget {
                       "Det ser ud til, at du ikke har forbindelse til WasheeBox"));
         } else {
           print("From start_wash.dart: fetchedMachine went correctly!");
+
           await sl<DisconnectBoxWifiUsecase>().call(NoParams());
+
+          global.updateMachine(fetchedMachine!);
+
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
