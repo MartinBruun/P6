@@ -21,6 +21,9 @@ class UnlockUseCase implements UseCase<MachineModel?, UnlockParams> {
       duration = params.machine.endTime!.difference(DateHelper.currentTime());
     }
 
+    // TODO: NEVER EVER MERGE THIS!
+    duration = Duration(seconds: 10);
+
     MachineModel? machine = await repository.unlock(params.machine, duration);
 
     // Bad practice, should be severely reorganized, when we have a proper understanding of the domain structure

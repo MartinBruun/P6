@@ -53,7 +53,7 @@ class Booking(models.Model):
         return "Booking made by " + self.account.name + " at " + str(self.created)
     
     def save(self, *args, **kwargs):
-        self.end_time = self.start_time + timedelta(seconds=self.service.duration_in_sec)
+        self.end_time = self.start_time + timedelta(seconds=10)
         overlapping_bookings = Booking.objects.filter(machine=self.machine).exclude(id=self.id).exclude(active=False).exclude(
             Q(start_time__lte=self.start_time, end_time__lte=self.start_time) |
             Q(start_time__gte=self.end_time, end_time__gte=self.end_time)
