@@ -22,7 +22,7 @@ the washee-box is 10.10.80.1
 eth0 gets a dynamic DHCP address
 
 When flask has been started it is availlable on <eth0 IP>:8001, or wifi 10.10.80.1:8001, or washeebox.local:8001
-the availlable endpoints can be seen in washee-box-entry.py
+the availlable endpoints can be seen in washee_box_entry.py
 
 To use the washee-box as standalone accesspoint, is not advised for now, it floods the eth0 with DHCP.
 
@@ -36,12 +36,12 @@ python3 -m venv venv
 ## to check that the folder is owned by the washee-user (pi)
 stat venv
 ## pip install -r requirements.txt
-### (touch washee-box-entry.py)
+### (touch washee_box_entry.py)
 ### (opret flask route file kommandoer)
 flask starts automatically (because of a command saved in etc/rc.local)
 else run 
 sudo /home/pi/code/P6/washee_box/start-box.sh  (it it will not run you need to ```sudo chmod +x '/home/pi/code/P6/washee_box/start-box.sh'```)
-## (export FLASK_APP=washee-box-entry.py)
+## (export FLASK_APP=washee_box_entry.py)
 ## (flask run --host=0.0.0.0 --port=8001)
 ## (sudo shutdown)
 
@@ -187,7 +187,7 @@ rsn_pairwise=CCMP
 ## to check that the folder is owned by the washee-user (pi)
 stat venv
 ## pip install -r requirements.txt
-## touch washee-box-entry.py
+## touch washee_box_entry.py
 ## opret flask route file kommandoer
 ## update etc/rc.local
         #!/bin/sh -e
@@ -216,7 +216,7 @@ stat venv
         activate () {
             cd $home/home/pi/code/P6/washee_box
             . venv/bin/activate
-            export FLASK_APP=washee-box-entry.py
+            export FLASK_APP=washee_box_entry.py
             flask run --host=0.0.0.0
         }
         activate &
@@ -226,7 +226,7 @@ stat venv
         exit 0
 ## make etc/rc.local executable
     sudo chmod +x etc/rc.local
-## export FLASK_APP=washee-box-entry.py
+## export FLASK_APP=washee_box_entry.py
 ## flask run --host=0.0.0.0
 ## sudo shutdown
 

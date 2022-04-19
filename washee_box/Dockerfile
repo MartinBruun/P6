@@ -22,7 +22,7 @@ RUN pip install -r requirements.txt
 
 
 # Flask environment variables
-ENV FLASK_APP=washee-box-entry.py
+ENV FLASK_APP=washee_box_entry.py
 ENV FLASK_DEBUG=${BOX_DEBUG}
 
 # copy entrypoint.sh

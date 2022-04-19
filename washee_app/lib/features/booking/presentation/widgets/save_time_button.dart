@@ -13,8 +13,6 @@ import 'package:washee/features/sign_in/domain/usecases/update_account.dart';
 import 'package:washee/injection_container.dart';
 import 'package:washee/features/booking/domain/usecases/post_booking.dart';
 
-import '../../../../core/pages/home_screen.dart';
-import '../../../../core/pages/pages_enum.dart';
 import '../../../../core/presentation/themes/colors.dart';
 import '../../../../core/presentation/themes/dimens.dart';
 
@@ -76,6 +74,7 @@ class _SaveTimeButtonState extends State<SaveTimeButton> {
                   setState(() {
                     _isBookingTimeSlot = false;
                   });
+
                   Navigator.of(context).popUntil((route) => route.isFirst);
                   showDialog(
                       context: context,

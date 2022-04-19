@@ -1,5 +1,5 @@
 import json
-import pytz # Make pytz work properly, then remove this comment (only made so the pr can be made)
+import pytz
 from time import sleep
 from datetime import datetime
 from hardware.raspberryLED import RaspberryLED

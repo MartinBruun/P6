@@ -1,28 +1,28 @@
 {
   "hostname": "washeebox",
 
-  "MAX_WASHINGTIME_IN_SEC": 20,
+  "MAX_WASHINGTIME_IN_SEC": 9901,
 
   "machines": [
     {
-        "serviceType": "washing_service",
-        "machineType": "AKG Vaskemaskine",
-        "machineID": "1",
-        "name": "Vaskemaskinen",
-        "startTime": "null",
-        "endTime": "null",
-        "pin_a": 14,
-        "pin_b": 15
+      "serviceType": "washing_service",
+      "machineType": "AKG Vaskemaskine",
+      "machineID": "1",
+      "name": "Vaskemaskinen",
+      "startTime": "null",
+      "endTime": "null",
+      "pin_a": 14,
+      "pin_b": 15
     },
     {
-        "serviceType": "drying_service",
-        "machineType": "Electrolux Tørretumbler",
-        "machineID": "2",
-        "name": "Tørretumbleren",
-        "startTime": "null",
-        "endTime": "null",
-        "pin_a": 3,
-        "pin_b": 4
+      "serviceType": "drying_service",
+      "machineType": "Electrolux Tørretumbler",
+      "machineID": "2",
+      "name": "Tørretumbleren",
+      "startTime": "null",
+      "endTime": "null",
+      "pin_a": 3,
+      "pin_b": 4
     }
   ],
 
@@ -30,42 +30,42 @@
     {
       "id": "2",
       "username": "Martin Bruun Michaelsen",
-      "password": "password" 
+      "password": "password"
     },
     {
-        "id": "3",
-        "username": "Emil Bruun Michaelsen",
-        "password": "password" 
+      "id": "3",
+      "username": "Emil Bruun Michaelsen",
+      "password": "password"
     },
     {
-        "id": "5",
-        "username": "Sarah Aagaard Lind",
-        "password": "password" 
+      "id": "5",
+      "username": "Sarah Aagaard Lind",
+      "password": "password"
     },
     {
-        "id": "6",
-        "username": "Julie Aagaard Lind",
-        "password": "password" 
+      "id": "6",
+      "username": "Julie Aagaard Lind",
+      "password": "password"
     },
     {
-        "id": "7",
-        "username": "Frederik Friis Lind",
-        "password": "password" 
+      "id": "7",
+      "username": "Frederik Friis Lind",
+      "password": "password"
     },
     {
-        "id": "8",
-        "username": "Frida Petersen",
-        "password": "password" 
+      "id": "8",
+      "username": "Frida Petersen",
+      "password": "password"
     },
     {
-        "id": "9",
-        "username": "Malene Clausen",
-        "password": "password" 
+      "id": "9",
+      "username": "Malene Clausen",
+      "password": "password"
     },
     {
-        "id": "10",
-        "username": "Andreas Jørgensen",
-        "password": "password" 
+      "id": "10",
+      "username": "Andreas Jørgensen",
+      "password": "password"
     }
   ]
 }
