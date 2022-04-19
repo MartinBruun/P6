@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:washee/core/account/user.dart';
 import 'package:washee/core/helpers/date_helper.dart';
 import 'package:washee/core/presentation/themes/colors.dart';
 import 'package:washee/core/presentation/themes/dimens.dart';
@@ -8,6 +9,7 @@ import 'package:washee/core/presentation/themes/themes.dart';
 import 'package:washee/features/booking/data/models/booking_model.dart';
 import 'package:washee/features/booking/presentation/provider/calendar_provider.dart';
 import 'package:washee/features/booking/presentation/widgets/choose_machine_view.dart';
+import 'package:washee/features/unlock/presentation/widgets/insufficient_funds_dialog.dart';
 import '../../data/models/booking_model.dart';
 
 class DayCard extends StatefulWidget {
@@ -126,16 +128,26 @@ class _DayCardState extends State<DayCard> {
           ),
         ),
         onPressed: () async {
-          await showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return ChooseMachineView(
-                washesForDay: _washBookingsForCurrentDay,
-                dryingsForDay: _dryBookingsForCurrentDay,
-                currentDate: widget.currentDate,
-              );
-            },
-          );
+          ActiveUser user = ActiveUser();
+          if (user.activeAccount!.balance > 0) {
+            await showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return ChooseMachineView(
+                  washesForDay: _washBookingsForCurrentDay,
+                  dryingsForDay: _dryBookingsForCurrentDay,
+                  currentDate: widget.currentDate,
+                );
+              },
+            );
+          } else {
+            await showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return InsufficentFundsDialog();
+              },
+            );
+          }
         },
       ),
     );

@@ -13,8 +13,11 @@ class BookRepositoryImpl implements BookRepository {
   BookRepositoryImpl({required this.networkInfo, required this.remote});
 
   @override
-  Future<List<BookingModel>> getBookings() async {
-    return await remote.getBookings();
+  Future<List<BookingModel>> getBookings({
+    int? accountID,
+    bool? activated
+  }) async {
+    return await remote.getBookings(accountID: accountID, activated: activated);
   }
 
   @override

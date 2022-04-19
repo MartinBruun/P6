@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:washee/core/account/user.dart';
 import 'package:washee/features/booking/presentation/provider/booking_provider.dart';
 
 import '../../../../core/usecases/usecase.dart';
@@ -15,6 +16,7 @@ class MyAccountBookingList extends StatefulWidget {
 
 class _MyAccountBookingListState extends State<MyAccountBookingList> {
   bool _startList = false;
+  ActiveUser user = ActiveUser();
 
   @override
   void initState() {
@@ -29,7 +31,7 @@ class _MyAccountBookingListState extends State<MyAccountBookingList> {
     var booking = Provider.of<BookingProvider>(context, listen: true);
     return _startList || booking.isRefreshing
         ? FutureBuilder(
-            future: sl<GetBookingsUseCase>().call(NoParams()),
+            future: sl<GetBookingsUseCase>().call(GetBookingsParams(accountID: user.activeAccount!.id, activated:false)),
             builder: (context, snapshot) {
               switch (snapshot.connectionState) {
                 case ConnectionState.active:

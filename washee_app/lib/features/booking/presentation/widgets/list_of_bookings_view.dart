@@ -22,7 +22,19 @@ class ListOfBookingsView extends StatelessWidget {
       itemBuilder: (context, index) => Row(
         children: [
           BookingInfo(
-            bookingInfo: bookings[index].startTime.toString(),
+            bookingInfo: bookings[index].startTime!.year.toString() +
+                "/" +
+                bookings[index].startTime!.month.toString() +
+                "/" +
+                bookings[index].startTime!.day.toString() + 
+                " " +
+                bookings[index].startTime!.hour.toString().padLeft(2,"0") +
+                ":" +
+                bookings[index].startTime!.minute.toString().padLeft(2,"0") +
+                "-" +
+                bookings[index].endTime!.hour.toString().padLeft(2,"0") +
+                ":" +
+                bookings[index].endTime!.minute.toString().padLeft(2,"0")
           ),
           Spacer(),
           Padding(

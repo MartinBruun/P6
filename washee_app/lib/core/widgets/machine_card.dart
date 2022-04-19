@@ -115,31 +115,22 @@ class MachineCard extends StatelessWidget {
 
   void _cardPressed(BuildContext context, MachineModel machine) async {
     if (user.loggedIn && user.activeAccount != null) {
-      if (user.activeAccount!.balance > 0) {
-        if (true ==
-            await sl<HasCurrentBookingUseCase>().call(HasCurrentBookingParams(
-                accountID: user.id!,
-                machineID: int.parse(machine.machineID)))) {
-          showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return InitiateWashDialog(machine: machine);
-            },
-          );
-        } else {
-          showDialog(
-              context: context,
-              builder: (BuildContext context) {
-                return DoesNotHaveCurrentBookingDialog();
-              });
-        }
-      } else {
+      if (true ==
+          await sl<HasCurrentBookingUseCase>().call(HasCurrentBookingParams(
+              accountID: user.id!,
+              machineID: int.parse(machine.machineID)))) {
         showDialog(
           context: context,
           builder: (BuildContext context) {
-            return InsufficentFundsDialog();
+            return InitiateWashDialog(machine: machine);
           },
         );
+      } else {
+        showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return DoesNotHaveCurrentBookingDialog();
+            });
       }
     } else {
       showDialog(

@@ -24,7 +24,8 @@ abstract class WebCommunicator {
   // Data Methods
   Future<Map<String, dynamic>> getCurrentLocation(int locationID);
   Future<List<Map<String, dynamic>>> getCurrentBookings(
-      {DateTime? startTimeGreaterThan,
+      {bool? activated,
+      DateTime? startTimeGreaterThan,
       DateTime? startTimeLessThan,
       DateTime? endTimeGreaterThan,
       DateTime? endTimeLessThan,
@@ -107,7 +108,8 @@ class WebCommunicatorImpl implements WebCommunicator {
 
   @override
   Future<List<Map<String, dynamic>>> getCurrentBookings(
-      {DateTime? startTimeGreaterThan,
+      {bool? activated,
+      DateTime? startTimeGreaterThan,
       DateTime? startTimeLessThan,
       DateTime? endTimeGreaterThan,
       DateTime? endTimeLessThan,
@@ -117,6 +119,12 @@ class WebCommunicatorImpl implements WebCommunicator {
     Response response;
 
     String queryString = "";
+
+    if (activated != null){
+      queryString += "activated=" + 
+          activated.toString() + 
+          "&";
+    }
 
     if (startTimeGreaterThan != null) {
       queryString += "start_time__gte=" +
@@ -319,6 +327,7 @@ class WebCommunicatorImpl implements WebCommunicator {
             startTimeLessThan: DateHelper.currentTime(),
             endTimeGreaterThan: DateHelper.currentTime()
           );
+          print(currentBooking);
           if (currentBooking.isNotEmpty){
             // It is necessary to remove 2 hours from the time, since there will automatically be added
             // 2 hours when the machine model is made
