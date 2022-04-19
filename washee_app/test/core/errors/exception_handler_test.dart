@@ -50,7 +50,7 @@ void main() {
         throw new Exception("Example Exception");
       }
       catch(e){
-        err = eh.handle(e, show:true);
+        err = eh.handle(e.toString(), show:true);
       }
 
       // assert
@@ -69,7 +69,7 @@ void main() {
       }
       catch(e){
         // assert
-        expect(() => eh.handle(e, crash:true), throwsA(isA<Exception>()));
+        expect(() => eh.handle(e.toString(), crash:true), throwsA(isA<Exception>()));
       }
     },
   );
@@ -85,7 +85,7 @@ void main() {
       }
       catch(e){
         // assert
-        expect(() => eh.handle(e), throwsA(isA<Exception>()));
+        expect(() => eh.handle(e.toString()), throwsA(isA<Exception>()));
       }
     },
   );
@@ -108,7 +108,7 @@ void main() {
 
       // assert
       var logString = File(eh.logLocation).readAsStringSync();
-      var now = DateTime.now();
+      var now = DateHelper.currentTime();
       var nowWithoutSeconds = DateTime(now.year, now.month, now.day, now.hour, now.minute).toString().substring(0,16);
       expect(logString.contains(nowWithoutSeconds), true);
       eh.resetLog();

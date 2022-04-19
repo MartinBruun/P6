@@ -3,14 +3,16 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:washee/core/pages/home_screen.dart';
 import 'package:washee/core/pages/pages_enum.dart';
 import 'package:washee/core/washee_box/machine_model.dart';
-import 'package:washee/features/unlock/presentation/pages/wash_screen.dart';
 
 import '../../../../core/errors/error_handler.dart';
 import '../../../../core/errors/http_error_prompt.dart';
 import '../../../../core/presentation/themes/colors.dart';
 import '../../../../core/presentation/themes/dimens.dart';
 import '../../../../core/presentation/themes/themes.dart';
+import '../../../../core/usecases/usecase.dart';
 import '../../../../injection_container.dart';
+import '../../domain/usecases/connect_box_wifi.dart';
+import '../../domain/usecases/disconnect_box_wifi.dart';
 import '../../domain/usecases/unlock.dart';
 
 // ignore: must_be_immutable
@@ -84,13 +86,13 @@ class _StartWashState extends State<StartWash> {
         Navigator.pop(context);
       },
       child: Text(
-              'Ok',
-              style: textStyle.copyWith(
-                fontSize: textSize_32,
-                fontWeight: FontWeight.w600,
-                color: Colors.white,
-              ),
-            ),
+        'Ok',
+        style: textStyle.copyWith(
+          fontSize: textSize_32,
+          fontWeight: FontWeight.w600,
+          color: Colors.white,
+        ),
+      ),
       style: ElevatedButton.styleFrom(
           fixedSize: Size(254.w, 84.h),
           primary: AppColors.deepGreen,
@@ -99,63 +101,65 @@ class _StartWashState extends State<StartWash> {
     );
   }
 
-  // Future<void> _pressed(BuildContext context) async {
-  //   setState(() {
-  //     _isUnlockingMachine = true;
-  //   });
-  //   try {
-  //     fetchedMachine = await sl<UnlockUseCase>().call(UnlockParams(
-  //         machine: widget.currentMachine,
-  //         duration: Duration(hours: 2, minutes: 30)));
-  //     if (fetchedMachine == null) {
-  //       setState(() {
-  //         _isUnlockingMachine = false;
-  //       });
-  //       ErrorHandler.errorHandlerView(
-  //           context: context,
-  //           prompt: HTTPErrorPrompt(
-  //               message:
-  //                   "Det ser ud til, at du ikke har forbindelse til WasheeBox"));
-  //     } else {
-  //       print("From start_wash.dart: fetchedMachine went correctly!");
-  //     }
-  //   } catch (e) {
-  //     setState(() {
-  //       _isUnlockingMachine = false;
-  //     });
-  //     print(e.toString());
-  //     await showDialog(
-  //       context: context,
-  //       builder: (BuildContext context) {
-  //         return HTTPErrorPrompt(
-  //             message:
-  //                 "Noget gik galt da vi forsøgte at låse maskinen op! Prøv venligst igen");
-  //       },
-  //     );
-  //   }
-  //   setState(() {
-  //     _isUnlockingMachine = false;
-  //   });
-  //   // var provider =
-  //   //     Provider.of<GlobalProvider>(context, listen: false);
-  //   // var machineToStart = provider.machines.where(
-  //   //     (element) =>
-  //   //         element.name.toLowerCase() ==
-  //   //         fetchedMachine!.name.toLowerCase());
-  //   // provider.machines.removeWhere((element) =>
-  //   //     element.name.toLowerCase() ==
-  //   //     fetchedMachine!.name.toLowerCase());
-  //   // machineToStart.startTime = DateTime.now();
-  //   // machineToStart.endTime = machineToStart.startTime!
-  //   //     .add(Duration(hours: 7, minutes: 30));
-  //   // provider.machines.add(machineToStart);
-  //   Navigator.pushReplacement(
-  //     context,
-  //     MaterialPageRoute(
-  //       builder: (context) => HomeScreen(
-  //         page: PageNumber.WashScreen,
-  //       ),
-  //     ),
-  //   );
-  // }
+  Future<void> _pressed(BuildContext context) async {
+    setState(() {
+      _isUnlockingMachine = true;
+    });
+    try {
+      var result = await sl<ConnectBoxWifiUsecase>().call(NoParams());
+
+      if (result) {
+        fetchedMachine = await sl<UnlockUseCase>()
+            .call(UnlockParams(machine: widget.currentMachine));
+        await sl<DisconnectBoxWifiUsecase>().call(NoParams());
+        if (fetchedMachine == null) {
+          setState(() {
+            _isUnlockingMachine = false;
+          });
+          ErrorHandler.errorHandlerView(
+              context: context,
+              prompt: HTTPErrorPrompt(
+                  message:
+                      "Det ser ud til, at du ikke har forbindelse til WasheeBox"));
+        } else {
+          print("From start_wash.dart: fetchedMachine went correctly!");
+          await sl<DisconnectBoxWifiUsecase>().call(NoParams());
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => HomeScreen(
+                page: PageNumber.WashScreen,
+              ),
+            ),
+          );
+        }
+      } else {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return HTTPErrorPrompt(
+                message:
+                    "Det ser ud til, at du ikke har forbindelse til WasheeBox. Forbind til boxen og prøv igen!");
+          },
+        );
+      }
+    } catch (e) {
+      await sl<DisconnectBoxWifiUsecase>().call(NoParams());
+      setState(() {
+        _isUnlockingMachine = false;
+      });
+      print(e.toString());
+      await showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return HTTPErrorPrompt(
+              message:
+                  "Noget gik galt da vi forsøgte at låse maskinen op! Prøv venligst igen");
+        },
+      );
+    }
+    setState(() {
+      _isUnlockingMachine = false;
+    });
+  }
 }

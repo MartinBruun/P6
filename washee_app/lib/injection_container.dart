@@ -9,6 +9,7 @@ import 'package:washee/core/helpers/web_communicator.dart';
 import 'package:washee/core/helpers/box_communicator.dart';
 import 'package:washee/features/booking/data/datasources/book_remote.dart';
 import 'package:washee/features/booking/data/repositories/book_repository_impl.dart';
+import 'package:washee/features/booking/domain/usecases/delete_booking.dart';
 import 'package:washee/features/booking/domain/usecases/has_current_booking.dart';
 import 'package:washee/features/booking/domain/usecases/post_booking.dart';
 import 'package:washee/features/get_machines/data/repositories/get_machines_repo_impl.dart';
@@ -63,6 +64,7 @@ void initBooking() {
   sl.registerLazySingleton(() => PostBookingUsecase(repository: sl()));
   sl.registerLazySingleton(() => GetBookingsUseCase(repository: sl()));
   sl.registerLazySingleton(() => HasCurrentBookingUseCase(repository: sl()));
+  sl.registerLazySingleton(() => DeleteBookingUseCase(repository: sl()));
 
   // Repositories
   sl.registerLazySingleton<BookRepository>(
@@ -76,14 +78,14 @@ void initBooking() {
 }
 
 void initUnlock() {
+  String os = Platform.operatingSystem;
   // Usecases
   sl.registerLazySingleton(() => UnlockUseCase(repository: sl()));
   if (Platform.isAndroid) {
     sl.registerLazySingleton(() => GetWifiPermissionUsecase(repository: sl()));
   }
-    sl.registerLazySingleton(() => ConnectBoxWifiUsecase(repository: sl()));
-    sl.registerLazySingleton(() => DisconnectBoxWifiUsecase(repository: sl()));
-  
+  sl.registerLazySingleton(() => ConnectBoxWifiUsecase(repository: sl()));
+  sl.registerLazySingleton(() => DisconnectBoxWifiUsecase(repository: sl()));
 
   // Repositories
   sl.registerLazySingleton<UnlockRepository>(

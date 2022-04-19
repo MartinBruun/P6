@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:washee/core/helpers/date_helper.dart';
 import 'package:washee/core/washee_box/machine_model.dart';
 import 'package:washee/core/environments/environment.dart';
 
@@ -48,7 +49,8 @@ class BoxCommunicatorImpl implements BoxCommunicator {
   Future<Map<String, dynamic>> _unlock(
     MachineModel machine, Duration duration) async {
       Response response;
-      var startTime = DateTime.now();
+
+      var startTime = DateHelper.currentTime();
       machine.startTime = startTime;
       machine.endTime = startTime.add(duration);
       try {
