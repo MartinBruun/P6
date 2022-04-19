@@ -101,7 +101,7 @@ def unlockEndPoint():
         print(time)
 
         data["endTime"] = dateutil.parser.parse(time)
-        endTime = data["startTime"]
+        endTime = data["endTime"]
     else:
         print("NO ENDTIME")
         endTime = dateutil.parser.parse(datetime.now().toString())
@@ -112,8 +112,11 @@ def unlockEndPoint():
 
     # print(endTime.toString())
     # print(startTime.toString())
-    print("TIMEDELTA!!!!!!!!!")
+    print("TIME!!!!!!!!!")
+    print(startTime)
+    print(endTime)
     print((endTime - startTime).total_seconds())
+    print((endTime - startTime))
     print(duration)
 
     id = data["machineID"]
