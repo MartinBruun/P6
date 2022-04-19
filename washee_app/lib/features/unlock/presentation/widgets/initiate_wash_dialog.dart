@@ -7,7 +7,6 @@ import 'package:washee/core/pages/home_screen.dart';
 import 'package:washee/core/pages/pages_enum.dart';
 import 'package:washee/core/usecases/usecase.dart';
 import 'package:washee/core/washee_box/machine_model.dart';
-import 'package:washee/core/widgets/dialog_box_Ok.dart';
 import 'package:washee/features/sign_out/presentation/widgets/no_buttton.dart';
 import 'package:washee/features/unlock/domain/usecases/connect_box_wifi.dart';
 import 'package:washee/features/unlock/domain/usecases/disconnect_box_wifi.dart';
