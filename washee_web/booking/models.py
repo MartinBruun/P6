@@ -70,6 +70,8 @@ class Booking(models.Model):
             return super(Booking, self).save(*args,**kwargs)
         
     def delete(self):
+        if self.activated:
+            raise ValidationError("Can't delete activated bookings!")
         self.account.balance += self.service.price_in_dk
         self.account.save()
         self.active = False
