@@ -5,6 +5,7 @@ import 'package:washee/features/booking/domain/repositories/book_repository.dart
 
 import '../../../../core/network/network_info.dart';
 import '../datasources/book_remote.dart';
+import 'package:timezone/timezone.dart' as tz;
 
 class BookRepositoryImpl implements BookRepository {
   final NetworkInfo networkInfo;
@@ -13,8 +14,11 @@ class BookRepositoryImpl implements BookRepository {
   BookRepositoryImpl({required this.networkInfo, required this.remote});
 
   @override
-  Future<List<BookingModel>> getBookings() async {
-    return await remote.getBookings();
+  Future<List<BookingModel>> getBookings({
+    int? accountID,
+    bool? activated
+  }) async {
+    return await remote.getBookings(accountID: accountID, activated: activated);
   }
 
   @override
@@ -42,8 +46,8 @@ class BookRepositoryImpl implements BookRepository {
       List<BookingModel> validBooking = await remote.getBookings(
         accountID: accountID,
         machineID: machineID,
-        startTimeLessThan: DateHelper.currentTime(),
-        endTimeGreaterThan: DateHelper.currentTime()
+        startTimeLessThan: DateTime.parse(_convertToNonNaiveTime(DateHelper.currentTime())),
+        endTimeGreaterThan: DateTime.parse(_convertToNonNaiveTime(DateHelper.currentTime()))
       );
       if (validBooking.isEmpty){
         return false;
@@ -64,5 +68,12 @@ class BookRepositoryImpl implements BookRepository {
     }
     ExceptionHandler().handle("Not on network", log:true, show:true, crash:false);
     throw new Exception("Not on network");
+  }
+
+    String _convertToNonNaiveTime(DateTime time){
+      // The backend is timezone sensitive, and needs it in the following specified format
+      var danishTime = tz.getLocation('Europe/Copenhagen');
+      var now = tz.TZDateTime.from(time, danishTime);
+      return now.toUtc().toString();
   }
 }

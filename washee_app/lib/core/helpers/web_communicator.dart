@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:intl/intl.dart';
 import 'package:washee/core/account/account.dart';
 import 'package:washee/core/account/user.dart';
@@ -6,6 +7,8 @@ import 'package:washee/core/environments/environment.dart';
 import 'package:washee/core/errors/exception_handler.dart';
 import 'package:washee/core/helpers/authorizer.dart';
 import 'package:washee/core/helpers/date_helper.dart';
+
+import 'package:timezone/timezone.dart' as tz;
 
 abstract class WebCommunicator {
   // ALL ID and Resource should be changed to their corresponding Model instead!
@@ -24,7 +27,8 @@ abstract class WebCommunicator {
   // Data Methods
   Future<Map<String, dynamic>> getCurrentLocation(int locationID);
   Future<List<Map<String, dynamic>>> getCurrentBookings(
-      {DateTime? startTimeGreaterThan,
+      {bool? activated,
+      DateTime? startTimeGreaterThan,
       DateTime? startTimeLessThan,
       DateTime? endTimeGreaterThan,
       DateTime? endTimeLessThan,
@@ -107,7 +111,8 @@ class WebCommunicatorImpl implements WebCommunicator {
 
   @override
   Future<List<Map<String, dynamic>>> getCurrentBookings(
-      {DateTime? startTimeGreaterThan,
+      {bool? activated,
+      DateTime? startTimeGreaterThan,
       DateTime? startTimeLessThan,
       DateTime? endTimeGreaterThan,
       DateTime? endTimeLessThan,
@@ -117,6 +122,12 @@ class WebCommunicatorImpl implements WebCommunicator {
     Response response;
 
     String queryString = "";
+
+    if (activated != null){
+      queryString += "activated=" + 
+          activated.toString() + 
+          "&";
+    }
 
     if (startTimeGreaterThan != null) {
       queryString += "start_time__gte=" +
@@ -154,16 +165,17 @@ class WebCommunicatorImpl implements WebCommunicator {
           bookingsFinalURL.substring(0, bookingsFinalURL.length - 1);
     }
 
+    var danishTime = tz.getLocation('Europe/Copenhagen');
     response = await dio.get(bookingsFinalURL);
     if (response.statusCode == 200) {
       List<Map<String, dynamic>> convertedData = [];
       for (var booking in response.data) {
         convertedData.add({
           "id": booking["id"],
-          "start_time": booking["start_time"],
-          "end_time": booking["end_time"],
-          "created": booking["created"],
-          "last_updated": booking["last_updated"],
+          "start_time": tz.TZDateTime.from(DateTime.parse(booking["start_time"]),danishTime).toString(),
+          "end_time": tz.TZDateTime.from(DateTime.parse(booking["end_time"]),danishTime).toString(),
+          "created": tz.TZDateTime.from(DateTime.parse(booking["created"]),danishTime).toString(),
+          "last_updated": tz.TZDateTime.from(DateTime.parse(booking["last_updated"]),danishTime).toString(),
           "activated": booking["activated"],
           "machine": booking["machine"],
           "service": booking["service"],
@@ -225,6 +237,7 @@ class WebCommunicatorImpl implements WebCommunicator {
     response = await dio.get(url);
 
     if (response.statusCode == 200) {
+      response.data["account_id"] = response.data["id"]; //Stupid choice made early on the backend side, not sending proper values
       return response.data;
     } else {
       ExceptionHandler().handle(
@@ -317,11 +330,8 @@ class WebCommunicatorImpl implements WebCommunicator {
             endTimeGreaterThan: DateHelper.currentTime()
           );
           if (currentBooking.isNotEmpty){
-            // It is necessary to remove 2 hours from the time, since there will automatically be added
-            // 2 hours when the machine model is made
-            // It is completely stupid, and should be remade, but honestly i'm tired
-            startTime = DateTime.parse(currentBooking[0]["start_time"]).add(Duration(hours: -2));
-            endTime = DateTime.parse(currentBooking[0]["end_time"]).add(Duration(hours: -2));
+            startTime = DateTime.parse(currentBooking[0]["start_time"]);
+            endTime = DateTime.parse(currentBooking[0]["end_time"]);
             activated = currentBooking[0]["activated"] == true;
           }
         } 
@@ -392,6 +402,8 @@ class WebCommunicatorImpl implements WebCommunicator {
 
   String _convertToNonNaiveTime(DateTime time){
     // The backend is timezone sensitive, and needs it in the following specified format
-    return DateFormat("yyyy-MM-dd'T'HH:mm:ss").format(time) + "Z";
+    var danishTime = tz.getLocation('Europe/Copenhagen');
+    var now = tz.TZDateTime.from(time, danishTime);
+    return now.toUtc().toString();
   }
 }

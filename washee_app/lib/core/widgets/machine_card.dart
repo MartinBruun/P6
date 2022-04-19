@@ -4,7 +4,6 @@ import 'package:washee/core/account/user.dart';
 import 'package:washee/core/washee_box/machine_model.dart';
 import 'package:washee/injection_container.dart';
 import 'package:washee/features/booking/domain/usecases/has_current_booking.dart';
-import 'package:washee/features/unlock/presentation/widgets/insufficient_funds_dialog.dart';
 import 'package:washee/features/unlock/presentation/widgets/please_login_dialog.dart';
 import '../../features/unlock/presentation/widgets/initiate_wash_dialog.dart';
 import 'package:washee/features/unlock/presentation/widgets/does_not_have_current_booking_dialog.dart';
@@ -88,7 +87,7 @@ class MachineCard extends StatelessWidget {
                         width: 250.w,
                         child: ElevatedButton(
                           child: Text(
-                            "Book nu",
+                            "Book Først",
                             style: textStyle.copyWith(
                                 fontSize: textSize_30,
                                 fontWeight: FontWeight.w500),
@@ -115,31 +114,22 @@ class MachineCard extends StatelessWidget {
 
   void _cardPressed(BuildContext context, MachineModel machine) async {
     if (user.loggedIn && user.activeAccount != null) {
-      if (user.activeAccount!.balance > 0) {
-        if (true ==
-            await sl<HasCurrentBookingUseCase>().call(HasCurrentBookingParams(
-                accountID: user.id!,
-                machineID: int.parse(machine.machineID)))) {
-          showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return InitiateWashDialog(machine: machine);
-            },
-          );
-        } else {
-          showDialog(
-              context: context,
-              builder: (BuildContext context) {
-                return DoesNotHaveCurrentBookingDialog();
-              });
-        }
-      } else {
+      if (true ==
+          await sl<HasCurrentBookingUseCase>().call(HasCurrentBookingParams(
+              accountID: user.activeAccount!.id,
+              machineID: int.parse(machine.machineID)))) {
         showDialog(
           context: context,
           builder: (BuildContext context) {
-            return InsufficentFundsDialog();
+            return InitiateWashDialog(machine: machine);
           },
         );
+      } else {
+        showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return DoesNotHaveCurrentBookingDialog();
+            });
       }
     } else {
       showDialog(

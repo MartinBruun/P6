@@ -51,6 +51,7 @@ dependencies:
   intl: ^0.17.0
   flutter_dotenv: ^5.0.2
   flutter_secure_storage: ^5.0.2
+  timezone: ^0.8.0
   
 dev_dependencies:
   flutter_test:
@@ -66,6 +67,7 @@ flutter:
   assets:
     - assets/images/
     - assets/data/machine_list.json
+    - assets/2021a.tzf
     - .env.dev
     - .env.prod
 

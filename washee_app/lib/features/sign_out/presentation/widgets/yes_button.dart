@@ -31,7 +31,6 @@ class YesButton extends StatelessWidget {
             LogOutUseCase().call(LogoutParams(
               user: ActiveUser(),
             ));
-            print("logged out");
             Navigator.of(context).pop();
           },
         ));

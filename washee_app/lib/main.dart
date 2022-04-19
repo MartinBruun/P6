@@ -1,8 +1,10 @@
+import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:timezone/timezone.dart';
 import 'package:washee/core/environments/environment.dart';
 import 'package:washee/core/helpers/authorizer.dart';
 import 'package:washee/core/pages/home_screen.dart';
@@ -19,6 +21,8 @@ void main() async {
   await setupEnvironment();
   WidgetsFlutterBinding.ensureInitialized();
   ic.initAll();
+  ByteData tzf = await rootBundle.load('assets/2021a.tzf');
+  initializeDatabase(tzf.buffer.asUint8List());
 
   print("From main.dart: webApiHost = ${Environment().config.webApiHost}");
   print("From main.dart: boxApiHost = ${Environment().config.boxApiHost}");

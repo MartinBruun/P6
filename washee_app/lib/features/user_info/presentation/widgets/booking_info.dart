@@ -15,7 +15,7 @@ class BookingInfo extends StatelessWidget {
       child: Column(
         children: [
           Text(
-            bookingInfo.substring(0, 19),
+            bookingInfo,
             style: textStyle.copyWith(
               fontSize: textSize_40,
               fontWeight: FontWeight.w500,

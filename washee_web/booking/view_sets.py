@@ -27,9 +27,9 @@ class BookingViewSet(viewsets.ModelViewSet):
             queryset = queryset.filter(account=account_id)
         service_id = self.request.query_params.get('service_id')
         if service_id is not None:
-            queryset = queryset.filter(account=service_id)
+            queryset = queryset.filter(service=service_id)
         machine_id = self.request.query_params.get('machine_id')
         if machine_id is not None:
-            queryset = queryset.filter(account=machine_id)
+            queryset = queryset.filter(machine=machine_id)
         
         return queryset

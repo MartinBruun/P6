@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:washee/core/helpers/date_helper.dart';
 import 'package:washee/core/washee_box/machine_entity.dart';
 import 'package:washee/core/washee_box/machine_model.dart';
 
@@ -16,7 +15,7 @@ void main() {
           machineID: "test1",
           name: "testName",
           machineType: "laundryMachine",
-          startTime: DateHelper.currentTime(),
+          startTime: DateTime(2022,03,07,8,00,00),
           endTime: DateTime(2022, 03, 07, 10, 15, 00));
 
       // assert
@@ -38,8 +37,6 @@ void main() {
 
       // act
       final result = MachineModel.fromJson(jsonMap);
-      result.startTime = result.startTime!.add(Duration(hours: -2)); // Documentation of bad code! Made because of CEST time zone!
-      result.endTime = result.endTime!.add(Duration(hours: -2)); // Documentation of bad code! Made because of CEST time zone!
 
       // assert
       expect(result, tMachineModel);

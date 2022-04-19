@@ -4,6 +4,7 @@ import 'package:washee/features/booking/data/models/booking_model.dart';
 
 abstract class BookRemote {
   Future<List<BookingModel>> getBookings({
+    bool? activated,
     DateTime? startTimeGreaterThan,
     DateTime? startTimeLessThan,
     DateTime? endTimeGreaterThan,
@@ -31,6 +32,7 @@ class BookRemoteImpl implements BookRemote {
 
   @override
   Future<List<BookingModel>> getBookings({
+    bool? activated,
     DateTime? startTimeGreaterThan,
     DateTime? startTimeLessThan,
     DateTime? endTimeGreaterThan,
@@ -41,6 +43,7 @@ class BookRemoteImpl implements BookRemote {
   }) async {
     if (await networkInfo.isConnected) {
       var data = await communicator.getCurrentBookings(
+        activated: activated,
         startTimeGreaterThan: startTimeGreaterThan,
         startTimeLessThan: startTimeLessThan,
         endTimeGreaterThan: endTimeGreaterThan,
