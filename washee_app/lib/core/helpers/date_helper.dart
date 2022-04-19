@@ -2,7 +2,7 @@ import 'package:intl/intl.dart';
 
 class DateHelper {
   static DateTime currentTime(){
-    return DateTime.now().toUtc().add(Duration(hours:2));
+    return DateTime.now();
   }
 
   int _daysInMonth(DateTime date) {
