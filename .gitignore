@@ -301,7 +301,7 @@ nordpool.json
 # These files have all the variables for sensitive information in mobile app
 washee_app/.env.dev
 washee_app/.env.prod
-washee_app/.env.prod_real
+washee_app/.env.prod.real
 washee_app/.env1.prod
 
 # Hide the certbot used to verify https connection
