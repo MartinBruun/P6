@@ -1,4 +1,5 @@
-from datetime import datetime
+from datetime import datetime, timedelta
+
 import json
 import os
 import pytz
@@ -34,6 +35,7 @@ running = True
 #     "machineType" : "laundryMachine",
 #     "startTime" : "2022-02-27T13:27:00",
 #     "endTime" : "2022-03-27T13:27:00"
+# 2022-04-19 15: 51: 36.552750+0200
 # adds pin:xx in the code
 # }
 
@@ -53,7 +55,7 @@ def menuEndPoint():
             machine["name"] + " connected to pins " + \
             str(machine["pin_a"]) + "," + str(machine["pin_b"]) + "</a></p>"
 
-    return "<p><a href='/factoryreset'>Factory reset!</a></p>" + "<p><a href='/getMachinesInfo'>get installed machines!</a></p>" +    "<p><a href='/getlog'>get log file</a></p>" + "<p> booking kalender</p> \n <p>tænd strøm til maskine:" + machine_name_on_string + "</p>"+"<p>sluk strøm til maskine:" + machine_name_off_string + "</p>" + "<p><a href='/resetpins'> reset pins</a></p>" + "<p><a href='/allon'> turn on all pins</a></p>" 
+    return "<p><a href='/factoryreset'>Factory reset!</a></p>" + "<p><a href='/getMachinesInfo'>get installed machines!</a></p>" + "<p><a href='/getlog'>get log file</a></p>" + "<p> booking kalender</p> \n <p>tænd strøm til maskine:" + machine_name_on_string + "</p>"+"<p>sluk strøm til maskine:" + machine_name_off_string + "</p>" + "<p><a href='/resetpins'> reset pins</a></p>" + "<p><a href='/allon'> turn on all pins</a></p>"
 
 
 @app.route('/getMachinesInfo')
@@ -69,6 +71,7 @@ def unlockEndPoint():
     # if not data:
     #     return json.dumps("The url was called with no arguments")
     # machine = json.loads(data)
+    print(data)
     user = "user??"
     if "user" in data:
         user = data["user"]
@@ -80,16 +83,28 @@ def unlockEndPoint():
     name = data["name"]
     machineType = data["machineType"]
     if "startTime" in data:
-        data["startTime"] = dateutil.parser.parse(data["startTime"])
+        time = data["startTime"].split(".")[0]
+        data["startTime"] = dateutil.parser.parse(time)
+        startTime = data["startTime"]
+    else:
+        startTime = dateutil.parser.parse(datetime.now().toString())
 
     if "endTime" in data:
-        data["endTime"] = dateutil.parser.parse(data["endTime"])
+        time = data["endTime"].split(".")[0]
+        data["endTime"] = dateutil.parser.parse(time)
+        endTime = data["startTime"]
+    else:
+        endTime = dateutil.parser.parse(datetime.now().toString())
+    print("TIMEDELTA!!!!!!!!!")
+    print(type(timedelta(endTime, startTime)))
+    print(str(timedelta(endTime, startTime)))
 
-    startTime = data["startTime"]
-    endTime = data["endTime"]
+    duration = 10  # min(controller.getWashTimeLimit(), int(
+    # (endTime - startTime)))
 
-    duration = min(controller.getWashTimeLimit(), int(
-        (endTime-datetime.now(pytz.timezone('Europe/Copenhagen'))).total_seconds()))
+    print(endTime.toString())
+    print(startTime.toString())
+    print(duration.toString())
 
     id = data["machineID"]
     pin = controller.getPin(id)
@@ -112,11 +127,11 @@ def unlockEndPoint():
     machine["startTime"] = str(now)
     machine["endTime"] = str(now + timedelta(seconds=duration))
     return machine
-    # else :
-    #     return "<a href='/'> Machine cold not be unlocked </a>"
+# else :
+#     return "<a href='/'> Machine cold not be unlocked </a>"
 
 
-@app.route('/lock', methods=['GET', 'POST'])
+@ app.route('/lock', methods=['GET', 'POST'])
 def lockEndPoint():
 
     machineJson = request.get_json()
@@ -131,25 +146,25 @@ def lockEndPoint():
     return "<a href='/'> Machine id has been locked </a>"
 
 
-@app.route('/getlog', methods=['GET', 'POST'])
+@ app.route('/getlog', methods=['GET', 'POST'])
 def getLogEndPoint():
 
     return "<H1><a href='/'>all reset relay test performed </a></H1>" + controller.getLogFile()
 
 
-@app.route('/allon', methods=['GET', 'POST'])
+@ app.route('/allon', methods=['GET', 'POST'])
 def allPinsOnEndPoint():
     raspberry.allOn()
     return "<a href='/'> all on relay test performed </a>"
 
 
-@app.route('/resetpins', methods=['GET', 'POST'])
+@ app.route('/resetpins', methods=['GET', 'POST'])
 def resetEndPoint():
     raspberry.resetAllPins()
     return "<a href='/'>all reset relay test performed </a>"
 
 
-@app.route('/factoryreset', methods=['GET', 'POST'])
+@ app.route('/factoryreset', methods=['GET', 'POST'])
 def reset():
     controller.reset_factory_setup()
     return"<a href='/'>factory reset performed </a>"
