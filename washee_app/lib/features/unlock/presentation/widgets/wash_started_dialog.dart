@@ -8,7 +8,7 @@ class WashStartedDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.transparent,
-      body: Center(child: DialogBoxOk("Din maskine er nu låst op")),
+      body: Center(child: DialogBoxOk(boxMessage: "Din maskine er nu låst op")),
     );
   }
 }
