@@ -38,6 +38,8 @@ class _SaveTimeButtonState extends State<SaveTimeButton> {
       child: Center(
         child: InkWell(
           onTap: () async {
+            calendar.sortAddedTimeSlots();
+            print(calendar.addedTimeSlots);
             if (calendar.addedTimeSlots.isNotEmpty) {
               var valid = calendar.isBookedTimeValid();
 
