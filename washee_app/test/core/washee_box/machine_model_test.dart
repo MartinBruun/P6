@@ -38,8 +38,8 @@ void main() {
 
       // act
       final result = MachineModel.fromJson(jsonMap);
-      result.startTime = result.startTime!.add(Duration(hours: -2)); // Documentation of bad code! Made because of CEST time zone!
-      result.endTime = result.endTime!.add(Duration(hours: -2)); // Documentation of bad code! Made because of CEST time zone!
+      result.startTime = result.startTime; // TODO: TIME Documentation of bad code! Made because of CEST time zone!
+      result.endTime = result.endTime; // TODO: TIME Documentation of bad code! Made because of CEST time zone!
 
       // assert
       expect(result, tMachineModel);

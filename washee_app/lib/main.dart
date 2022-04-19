@@ -14,11 +14,13 @@ import 'package:washee/features/unlock/presentation/provider/unlock_provider.dar
 import 'injection_container.dart' as ic;
 import 'core/presentation/themes/themes.dart';
 import 'package:washee/injection_container.dart';
+import 'package:timezone/data/latest.dart' as tz;
 
 void main() async {
   await setupEnvironment();
   WidgetsFlutterBinding.ensureInitialized();
   ic.initAll();
+  tz.initializeTimeZones();
 
   print("From main.dart: webApiHost = ${Environment().config.webApiHost}");
   print("From main.dart: boxApiHost = ${Environment().config.boxApiHost}");

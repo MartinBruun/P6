@@ -7,6 +7,8 @@ import 'package:washee/core/errors/exception_handler.dart';
 import 'package:washee/core/helpers/authorizer.dart';
 import 'package:washee/core/helpers/date_helper.dart';
 
+import 'package:timezone/browser.dart' as tz;
+
 abstract class WebCommunicator {
   // ALL ID and Resource should be changed to their corresponding Model instead!
   // Models should then also have their resource AND id saved (or have the resource as a getter for convenience)
@@ -329,11 +331,14 @@ class WebCommunicatorImpl implements WebCommunicator {
           );
           print(currentBooking);
           if (currentBooking.isNotEmpty){
+            // TODO: TIME
             // It is necessary to remove 2 hours from the time, since there will automatically be added
             // 2 hours when the machine model is made
             // It is completely stupid, and should be remade, but honestly i'm tired
-            startTime = DateTime.parse(currentBooking[0]["start_time"]).add(Duration(hours: -2));
-            endTime = DateTime.parse(currentBooking[0]["end_time"]).add(Duration(hours: -2));
+            startTime = DateTime.parse(currentBooking[0]["start_time"]);
+            endTime = DateTime.parse(currentBooking[0]["end_time"]);
+            print("CURRENT BOOKING START: " + startTime.toString());
+            print("CURRENT BOOKING END: " + endTime.toString());
             activated = currentBooking[0]["activated"] == true;
           }
         } 
@@ -404,6 +409,8 @@ class WebCommunicatorImpl implements WebCommunicator {
 
   String _convertToNonNaiveTime(DateTime time){
     // The backend is timezone sensitive, and needs it in the following specified format
-    return DateFormat("yyyy-MM-dd'T'HH:mm:ss").format(time) + "Z";
+    var danishTime = tz.getLocation('Europe/Copenhagen');
+    var now = tz.TZDateTime.now(danishTime);
+    return now.toString();
   }
 }

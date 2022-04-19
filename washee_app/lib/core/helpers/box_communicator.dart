@@ -53,6 +53,8 @@ class BoxCommunicatorImpl implements BoxCommunicator {
       var startTime = DateHelper.currentTime();
       machine.startTime = startTime;
       machine.endTime = startTime.add(duration);
+      print("UNLOCK START: " + machine.startTime.toString());
+      print("UNLOCK END: " + machine.endTime.toString());
       try {
         response = await dio.post(unlockURL, data: machine.toJson());
         if (response.statusCode == 200) {

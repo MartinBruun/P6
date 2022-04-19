@@ -45,17 +45,20 @@ class MachineModel extends Machine {
       };
 
   factory MachineModel.fromJson(Map<String, dynamic> json) {
+    print("FROM JSON JSON: " + json.toString());
     MachineModel machine = MachineModel(
       machineID: json['machineID'].toString(),
       name: json['name'],
       machineType: json['machineType'],
       activated: json["activated"] == true ? json["activated"] : false,
       startTime: json['startTime'] != null
-          ? DateTime.parse(json["startTime"].toString().replaceAll(" ", "T")).toUtc().add(Duration(hours: 2))
+          ? DateTime.parse(json["startTime"].toString().replaceAll(" ", "T"))
           : null,
       endTime:
-          json['endTime'] != null ? DateTime.parse(json["endTime"].toString().replaceAll(" ", "T")).toUtc().add(Duration(hours: 2)) : null,
+          json['endTime'] != null ? DateTime.parse(json["endTime"].toString().replaceAll(" ", "T")) : null,
     );
+    // TODO: TIME
+    print("FROM JSON MODEL: " + machine.toString());
     return machine;
   }
 
