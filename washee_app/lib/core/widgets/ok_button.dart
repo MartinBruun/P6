@@ -4,17 +4,16 @@ import 'package:washee/core/presentation/themes/colors.dart';
 import 'package:washee/core/presentation/themes/dimens.dart';
 import 'package:washee/core/presentation/themes/themes.dart';
 
-
 class OkButton extends StatelessWidget {
-  const OkButton({ Key? key }) : super(key: key);
+  final Function? navigate;
+
+  OkButton(this.navigate);
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
-        fixedSize: Size(254.w, 84.h),
-        primary: AppColors.deepGreen
-      ),
+          fixedSize: Size(254.w, 84.h), primary: AppColors.deepGreen),
       child: Text(
         'Ok',
         style: textStyle.copyWith(
@@ -24,7 +23,11 @@ class OkButton extends StatelessWidget {
         ),
       ),
       onPressed: () {
-        Navigator.of(context).pop();
+        if (navigate != null) {
+          navigate!();
+        } else {
+          Navigator.of(context).pop();
+        }
       },
     );
   }
