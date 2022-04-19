@@ -117,10 +117,6 @@ class _InitiateWashDialogState extends State<InitiateWashDialog> {
           ),
           onPressed: () async {
             _unlockMachine(context);
-
-            // setState(() {
-            //   _machineStarted = true;
-            // });
           },
         ));
   }
