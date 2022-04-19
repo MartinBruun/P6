@@ -116,7 +116,7 @@ class MachineCard extends StatelessWidget {
     if (user.loggedIn && user.activeAccount != null) {
       if (true ==
           await sl<HasCurrentBookingUseCase>().call(HasCurrentBookingParams(
-              accountID: user.id!,
+              accountID: user.activeAccount!.id,
               machineID: int.parse(machine.machineID)))) {
         showDialog(
           context: context,
