@@ -71,6 +71,7 @@ def unlockEndPoint():
     # if not data:
     #     return json.dumps("The url was called with no arguments")
     # machine = json.loads(data)
+    print("UNLOCKING")
     print(data)
     user = "user??"
     if "user" in data:
@@ -84,27 +85,36 @@ def unlockEndPoint():
     machineType = data["machineType"]
     if "startTime" in data:
         time = data["startTime"].split(".")[0]
+        time = time.replace(' ', 'T')
+        print(time)
+
         data["startTime"] = dateutil.parser.parse(time)
         startTime = data["startTime"]
     else:
+        print("NO STARTTIME")
+
         startTime = dateutil.parser.parse(datetime.now().toString())
 
     if "endTime" in data:
         time = data["endTime"].split(".")[0]
+        time = time.replace(' ', 'T')
+        print(time)
+
         data["endTime"] = dateutil.parser.parse(time)
         endTime = data["startTime"]
     else:
+        print("NO ENDTIME")
         endTime = dateutil.parser.parse(datetime.now().toString())
+
+    duration = int((endTime - startTime).total_seconds())
+    # min(controller.getWashTimeLimit(), int(
+    #     (endTime - startTime).total_seconds()))
+
+    # print(endTime.toString())
+    # print(startTime.toString())
     print("TIMEDELTA!!!!!!!!!")
-    print(type(timedelta(endTime, startTime)))
-    print(str(timedelta(endTime, startTime)))
-
-    duration = 10  # min(controller.getWashTimeLimit(), int(
-    # (endTime - startTime)))
-
-    print(endTime.toString())
-    print(startTime.toString())
-    print(duration.toString())
+    print((endTime - startTime).total_seconds())
+    print(duration)
 
     id = data["machineID"]
     pin = controller.getPin(id)
