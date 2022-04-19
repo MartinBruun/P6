@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:washee/core/account/user.dart';
 import 'package:washee/core/helpers/date_helper.dart';
+import 'package:washee/core/helpers/machine_enum.dart';
 import 'package:washee/core/presentation/themes/colors.dart';
 import 'package:washee/core/presentation/themes/dimens.dart';
 import 'package:washee/core/presentation/themes/themes.dart';
@@ -56,8 +57,8 @@ class _DayCardState extends State<DayCard> {
   void initState() {
     var calendar = Provider.of<CalendarProvider>(context, listen: false);
     _isToday = helper.isToday(widget.currentDate);
-    _washBookingsForCurrentDay = calendar.getBookingsForDay(widget.currentDate, 1);
-    _dryBookingsForCurrentDay = calendar.getBookingsForDay(widget.currentDate, 2);
+    _washBookingsForCurrentDay = calendar.getBookingsForDay(widget.currentDate, MachineType.WashingMachine);
+    _dryBookingsForCurrentDay = calendar.getBookingsForDay(widget.currentDate, MachineType.Dryer);
     _washNumberOfPossibleBookings = calendar.getNumberOfPossibleBookings(
         _washBookingsForCurrentDay, widget.currentDate);
     _dryNumberOfPossibleBookings = calendar.getNumberOfPossibleBookings(
