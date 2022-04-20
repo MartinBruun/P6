@@ -6,9 +6,9 @@ import 'package:washee/core/presentation/themes/dimens.dart';
 import 'package:washee/features/booking/presentation/provider/calendar_provider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:washee/injection_container.dart';
-import '../../../../core/presentation/themes/colors.dart';
-import '../../../../core/presentation/themes/themes.dart';
-import '../../data/models/booking_model.dart';
+import '../../../../../core/presentation/themes/colors.dart';
+import '../../../../../core/presentation/themes/themes.dart';
+import '../../models/booking_model.dart';
 import '../widgets/calendar_view.dart';
 
 class CalendarScreen extends StatefulWidget {
@@ -20,9 +20,12 @@ class CalendarScreen extends StatefulWidget {
 
 class _CalendarScreenState extends State<CalendarScreen> {
   final List<DateTime> months = [
-    new DateTime(DateHelper.currentTime().year, DateHelper.currentTime().month, 1),
-    new DateTime(DateHelper.currentTime().year, DateHelper.currentTime().month + 1, 1),
-    new DateTime(DateHelper.currentTime().year, DateHelper.currentTime().month + 2, 1)
+    new DateTime(
+        DateHelper.currentTime().year, DateHelper.currentTime().month, 1),
+    new DateTime(
+        DateHelper.currentTime().year, DateHelper.currentTime().month + 1, 1),
+    new DateTime(
+        DateHelper.currentTime().year, DateHelper.currentTime().month + 2, 1)
   ];
 
   bool _isLoadingDaysAndBookings = false;
@@ -35,10 +38,10 @@ class _CalendarScreenState extends State<CalendarScreen> {
       _isLoadingDaysAndBookings = true;
     });
     _getBookings()
-      .then((dynamic) => _setUpCalendar())
-      .then((dynamic) => setState(() {
-        _isLoadingDaysAndBookings = false;
-        }));
+        .then((dynamic) => _setUpCalendar())
+        .then((dynamic) => setState(() {
+              _isLoadingDaysAndBookings = false;
+            }));
   }
 
   _setUpCalendar() {

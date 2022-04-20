@@ -13,17 +13,17 @@ class BookingModel extends Booking {
   final String accountResource;
   bool? activated;
 
-  BookingModel({
-    this.bookingID,
-    required this.startTime,
-    this.endTime,
-    this.created,
-    this.lastUpdated,
-    this.activated,
-    required this.machineResource,
-    required this.serviceResource,
-    required this.accountResource
-    }): super(
+  BookingModel(
+      {this.bookingID,
+      required this.startTime,
+      this.endTime,
+      this.created,
+      this.lastUpdated,
+      this.activated,
+      required this.machineResource,
+      required this.serviceResource,
+      required this.accountResource})
+      : super(
             bookingID: bookingID,
             startTime: startTime,
             endTime: endTime,
@@ -34,8 +34,16 @@ class BookingModel extends Booking {
             accountResource: accountResource);
 
   @override
-  List<Object?> get props =>
-      [startTime, endTime, created, lastUpdated, bookingID, accountResource, machineResource, serviceResource];
+  List<Object?> get props => [
+        startTime,
+        endTime,
+        created,
+        lastUpdated,
+        bookingID,
+        accountResource,
+        machineResource,
+        serviceResource
+      ];
 
   Map<String, dynamic> toJson() => {
         'id': bookingID,
@@ -52,9 +60,11 @@ class BookingModel extends Booking {
   factory BookingModel.fromJson(Map<String, dynamic> json) {
     var danishTime = tz.getLocation('Europe/Copenhagen');
     BookingModel booking = BookingModel(
-      startTime: tz.TZDateTime.from(DateTime.parse(json['start_time']), danishTime),
+      startTime:
+          tz.TZDateTime.from(DateTime.parse(json['start_time']), danishTime),
       endTime: tz.TZDateTime.from(DateTime.parse(json['end_time']), danishTime),
-      lastUpdated: tz.TZDateTime.from(DateTime.parse(json['last_updated']), danishTime),
+      lastUpdated:
+          tz.TZDateTime.from(DateTime.parse(json['last_updated']), danishTime),
       activated: json["activated"],
       machineResource: json['machine'],
       serviceResource: json['service'],

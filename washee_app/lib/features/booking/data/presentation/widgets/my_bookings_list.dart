@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:washee/core/account/user.dart';
-import 'package:washee/features/booking/presentation/provider/booking_provider.dart';
-
-import '../../../../core/usecases/usecase.dart';
-import '../../../../injection_container.dart';
-import '../../data/models/booking_model.dart';
-import '../../domain/usecases/get_bookings.dart';
+import '../../../../../injection_container.dart';
+import '../../../domain/usecases/get_bookings.dart';
+import '../../models/booking_model.dart';
+import '../provider/booking_provider.dart';
 import 'list_of_bookings_view.dart';
 
 class MyAccountBookingList extends StatefulWidget {
@@ -31,7 +29,8 @@ class _MyAccountBookingListState extends State<MyAccountBookingList> {
     var booking = Provider.of<BookingProvider>(context, listen: true);
     return _startList || booking.isRefreshing
         ? FutureBuilder(
-            future: sl<GetBookingsUseCase>().call(GetBookingsParams(accountID: user.activeAccount!.id, activated:false)),
+            future: sl<GetBookingsUseCase>().call(GetBookingsParams(
+                accountID: user.activeAccount!.id, activated: false)),
             builder: (context, snapshot) {
               switch (snapshot.connectionState) {
                 case ConnectionState.active:

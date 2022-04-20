@@ -4,17 +4,20 @@ import 'package:washee/core/helpers/machine_enum.dart';
 import 'package:washee/core/presentation/themes/dimens.dart';
 import 'package:washee/core/presentation/themes/themes.dart';
 import 'package:washee/core/widgets/dialog_exit.dart';
-import 'package:washee/features/booking/presentation/widgets/machine_type_button.dart';
 
-import '../../../../core/presentation/themes/colors.dart';
-import '../../data/models/booking_model.dart';
+import '../../../../../core/presentation/themes/colors.dart';
+import '../../models/booking_model.dart';
+import 'machine_type_button.dart';
 
 class ChooseMachineView extends StatefulWidget {
   final List<BookingModel> washesForDay;
   final List<BookingModel> dryingsForDay;
   final DateTime currentDate;
 
-  ChooseMachineView({required this.washesForDay, required this.dryingsForDay,  required this.currentDate});
+  ChooseMachineView(
+      {required this.washesForDay,
+      required this.dryingsForDay,
+      required this.currentDate});
   @override
   State<ChooseMachineView> createState() => _ChooseMachineViewState();
 }

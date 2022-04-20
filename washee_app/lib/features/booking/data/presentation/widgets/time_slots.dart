@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:washee/features/booking/presentation/provider/calendar_provider.dart';
-import 'package:washee/features/booking/presentation/widgets/time_slot_item.dart';
 
-import '../../data/models/booking_model.dart';
+import '../../models/booking_model.dart';
+import 'time_slot_item.dart';
 
 class TimeSlots extends StatefulWidget {
   final List<BookingModel>? bookings;

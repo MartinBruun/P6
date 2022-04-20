@@ -4,7 +4,6 @@ import 'package:washee/core/helpers/web_communicator.dart';
 import 'package:washee/core/washee_box/machine_model.dart';
 import 'package:washee/features/booking/data/models/booking_model.dart';
 import 'package:washee/core/errors/exception_handler.dart';
-import '../../data/models/booking_model.dart';
 import 'package:washee/injection_container.dart';
 
 class CalendarProvider extends ChangeNotifier {

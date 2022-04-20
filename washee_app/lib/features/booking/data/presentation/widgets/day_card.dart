@@ -9,10 +9,10 @@ import 'package:washee/core/presentation/themes/dimens.dart';
 import 'package:washee/core/presentation/themes/themes.dart';
 import 'package:washee/features/booking/data/models/booking_model.dart';
 import 'package:washee/features/booking/presentation/provider/calendar_provider.dart';
-import 'package:washee/features/booking/presentation/widgets/choose_machine_view.dart';
-import 'package:washee/features/booking/presentation/widgets/outdated_date_dialog.dart';
 import 'package:washee/features/unlock/presentation/widgets/insufficient_funds_dialog.dart';
-import '../../data/models/booking_model.dart';
+
+import 'choose_machine_view.dart';
+import 'outdated_date_dialog.dart';
 
 class DayCard extends StatefulWidget {
   final int greenScore;

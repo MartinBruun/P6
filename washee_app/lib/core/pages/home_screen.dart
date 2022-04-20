@@ -4,7 +4,8 @@ import 'package:washee/core/pages/pages_enum.dart';
 import 'package:washee/core/pages/washee_screen.dart';
 import 'package:washee/features/sign_in/presentation/pages/sign_in_screen.dart';
 import 'package:washee/features/unlock/presentation/pages/wash_screen.dart';
-import 'package:washee/features/booking/presentation/pages/calendar_screen.dart';
+
+import '../../features/booking/data/presentation/pages/calendar_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   static const routeName = "/home-screen";
@@ -18,8 +19,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  List<Widget> _pages = [
-  ];
+  List<Widget> _pages = [];
 
   int _selectedPageIndex = 0;
 

@@ -5,9 +5,9 @@ import 'package:washee/core/errors/booking_error_prompt.dart';
 import 'package:washee/core/errors/error_handler.dart';
 import 'package:washee/features/booking/presentation/provider/calendar_provider.dart';
 
-import '../../../../core/presentation/themes/colors.dart';
-import '../../../../core/presentation/themes/dimens.dart';
-import '../../../../core/presentation/themes/themes.dart';
+import '../../../../../core/presentation/themes/colors.dart';
+import '../../../../../core/presentation/themes/dimens.dart';
+import '../../../../../core/presentation/themes/themes.dart';
 
 class TimeSlotItem extends StatefulWidget {
   final DateTime time;

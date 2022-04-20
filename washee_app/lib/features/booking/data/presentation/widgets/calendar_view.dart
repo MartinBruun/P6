@@ -2,11 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:washee/core/helpers/date_helper.dart';
-import 'package:washee/features/booking/presentation/widgets/day_card.dart';
-
-import '../../../../core/presentation/themes/dimens.dart';
-import '../../../../core/presentation/themes/themes.dart';
+import '../../../../../core/presentation/themes/dimens.dart';
+import '../../../../../core/presentation/themes/themes.dart';
 import '../provider/calendar_provider.dart';
+import 'day_card.dart';
 
 class CalendarView extends StatefulWidget {
   CalendarView({

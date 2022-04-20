@@ -9,7 +9,7 @@ import 'package:washee/core/environments/environment.dart';
 import 'package:washee/core/helpers/authorizer.dart';
 import 'package:washee/core/pages/home_screen.dart';
 import 'package:washee/core/providers/global_provider.dart';
-import 'package:washee/features/booking/presentation/provider/booking_provider.dart';
+import 'package:washee/features/booking/data/presentation/provider/booking_provider.dart';
 import 'package:washee/features/booking/presentation/provider/calendar_provider.dart';
 import 'package:washee/features/sign_in/presentation/provider/sign_in_provider.dart';
 import 'package:washee/features/unlock/presentation/provider/unlock_provider.dart';

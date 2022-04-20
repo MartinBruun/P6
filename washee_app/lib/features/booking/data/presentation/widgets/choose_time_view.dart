@@ -5,12 +5,12 @@ import 'package:washee/core/helpers/machine_enum.dart';
 import 'package:washee/core/presentation/themes/dimens.dart';
 import 'package:washee/core/presentation/themes/themes.dart';
 import 'package:washee/features/booking/data/models/booking_model.dart';
+import 'package:washee/features/booking/data/presentation/widgets/save_time_button.dart';
 import 'package:washee/features/booking/presentation/provider/calendar_provider.dart';
-import 'package:washee/features/booking/presentation/widgets/save_time_button.dart';
-import 'package:washee/features/booking/presentation/widgets/time_slots.dart';
 
-import '../../../../core/presentation/themes/colors.dart';
-import '../../../../core/widgets/cancel_button.dart';
+import '../../../../../core/presentation/themes/colors.dart';
+import '../../../../../core/widgets/cancel_button.dart';
+import 'time_slots.dart';
 
 class ChooseTimeView extends StatefulWidget {
   final List<BookingModel>? bookingsForDate;

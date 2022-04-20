@@ -8,13 +8,13 @@ import 'package:washee/core/errors/error_handler.dart';
 import 'package:washee/core/helpers/web_communicator.dart';
 import 'package:washee/core/usecases/usecase.dart';
 import 'package:washee/features/booking/presentation/provider/calendar_provider.dart';
-import 'package:washee/features/booking/presentation/widgets/booking_success_dialog.dart';
 import 'package:washee/features/sign_in/domain/usecases/update_account.dart';
 import 'package:washee/injection_container.dart';
 import 'package:washee/features/booking/domain/usecases/post_booking.dart';
 
-import '../../../../core/presentation/themes/colors.dart';
-import '../../../../core/presentation/themes/dimens.dart';
+import '../../../../../core/presentation/themes/colors.dart';
+import '../../../../../core/presentation/themes/dimens.dart';
+import 'booking_success_dialog.dart';
 
 class SaveTimeButton extends StatefulWidget {
   final int machineType;
@@ -52,20 +52,27 @@ class _SaveTimeButtonState extends State<SaveTimeButton> {
                   _isBookingTimeSlot = true;
                 });
                 ActiveUser user = ActiveUser();
-                String machineResource = sl<WebCommunicator>().machinesURL+"/${widget.machineType.toString()}/";
-                String serviceResource = sl<WebCommunicator>().servicesURL+"/${widget.machineType.toString()}/";
-                String accountResource = sl<WebCommunicator>().accountsURL+"/${user.activeAccount!.id.toString()}/";
-                if (kDebugMode){
-                  machineResource = "http://localhost:8000/api/1/machines/${widget.machineType.toString()}/";
-                  serviceResource = "http://localhost:8000/api/1/services/${widget.machineType.toString()}/";
-                  accountResource = "http://localhost:8000/api/1/accounts/${user.activeAccount!.id.toString()}/";
+                String machineResource = sl<WebCommunicator>().machinesURL +
+                    "/${widget.machineType.toString()}/";
+                String serviceResource = sl<WebCommunicator>().servicesURL +
+                    "/${widget.machineType.toString()}/";
+                String accountResource = sl<WebCommunicator>().accountsURL +
+                    "/${user.activeAccount!.id.toString()}/";
+                if (kDebugMode) {
+                  machineResource =
+                      "http://localhost:8000/api/1/machines/${widget.machineType.toString()}/";
+                  serviceResource =
+                      "http://localhost:8000/api/1/services/${widget.machineType.toString()}/";
+                  accountResource =
+                      "http://localhost:8000/api/1/accounts/${user.activeAccount!.id.toString()}/";
                 }
-                
-                var result = await sl<PostBookingUsecase>().call(PostBookingParams(
-                    startTime: calendar.getLeastTimeSlot()!,
-                    machineResource: machineResource,
-                    serviceResource: serviceResource,
-                    accountResource: accountResource));
+
+                var result = await sl<PostBookingUsecase>().call(
+                    PostBookingParams(
+                        startTime: calendar.getLeastTimeSlot()!,
+                        machineResource: machineResource,
+                        serviceResource: serviceResource,
+                        accountResource: accountResource));
                 await sl<UpdateAccountUseCase>().call(NoParams());
                 await _simulateDelay();
                 if (result != null) {
