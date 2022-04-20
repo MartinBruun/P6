@@ -17,9 +17,13 @@ class UnlockProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  set isUnlocking(bool value) {
-    _isUnlocking = value;
+  startUnlocking() {
+    _isUnlocking = true;
     notifyListeners();
+  }
+
+  stopUnlocking() {
+    _isUnlocking = false;
   }
 
   set isDoneUnlocking(bool value) {
