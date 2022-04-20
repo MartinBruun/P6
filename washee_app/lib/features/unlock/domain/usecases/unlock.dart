@@ -22,7 +22,7 @@ class UnlockUseCase implements UseCase<MachineModel?, UnlockParams> {
     }
 
     MachineModel? machine =
-        await repository.unlock(params.machine, Duration(seconds: 10));
+        await repository.unlock(params.machine, duration);
 
     if (machine != null){
       // Bad practice, should be severely reorganized, when we have a proper understanding of the domain structure
