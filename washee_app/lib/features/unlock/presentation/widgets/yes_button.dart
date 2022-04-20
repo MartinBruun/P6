@@ -74,8 +74,6 @@ class YesButton extends StatelessWidget {
         } else {
           print("From start_wash.dart: fetchedMachine went correctly!");
 
-          await sl<DisconnectBoxWifiUsecase>().call(NoParams());
-
           global.updateMachine(fetchedMachine!);
 
           Navigator.pushReplacement(

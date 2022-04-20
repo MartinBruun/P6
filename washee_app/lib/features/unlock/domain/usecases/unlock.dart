@@ -20,8 +20,8 @@ class UnlockUseCase implements UseCase<MachineModel?, UnlockParams> {
     if(params.machine.endTime != null){
       duration = params.machine.endTime!.difference(DateHelper.currentTime());
     }
-
-    MachineModel? machine = await repository.unlock(params.machine, duration);
+    
+    MachineModel? machine = await repository.unlock(params.machine, Duration(seconds: 10));
 
     // Bad practice, should be severely reorganized, when we have a proper understanding of the domain structure
     // There is no strict seperation of Machine and Booking, giving these problems
