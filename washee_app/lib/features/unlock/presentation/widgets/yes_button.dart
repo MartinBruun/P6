@@ -15,6 +15,7 @@ import 'package:washee/core/washee_box/machine_model.dart';
 import 'package:washee/features/unlock/domain/usecases/connect_box_wifi.dart';
 import 'package:washee/features/unlock/domain/usecases/disconnect_box_wifi.dart';
 import 'package:washee/features/unlock/domain/usecases/unlock.dart';
+import 'package:washee/features/unlock/presentation/provider/unlock_provider.dart';
 import 'package:washee/features/unlock/presentation/widgets/wash_started_dialog.dart';
 import 'package:washee/injection_container.dart';
 
@@ -30,44 +31,37 @@ class YesButton extends StatefulWidget {
 
 class _YesButtonState extends State<YesButton> {
   late MachineModel? fetchedMachine;
-  bool _isUnlocking = false;
 
   @override
   Widget build(BuildContext context) {
+    var unlock = Provider.of<UnlockProvider>(context, listen: false);
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 30.w),
-      child: !_isUnlocking
-          ? ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                  fixedSize: Size(254.w, 84.h),
-                  primary: AppColors.deepGreen,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20.h))),
-              child: Text(
-                'Ja',
-                style: textStyle.copyWith(
-                  fontSize: textSize_32,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.black,
-                ),
-              ),
-              onPressed: () async {
-                setState(() {
-                  _isUnlocking = true;
-                });
-                _unlockMachine(context);
-              },
-            )
-          : Center(
-              child: CircularProgressIndicator(
-                color: Colors.white,
-              ),
-            ),
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+            fixedSize: Size(254.w, 84.h),
+            primary: AppColors.deepGreen,
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20.h))),
+        child: Text(
+          'Ja',
+          style: textStyle.copyWith(
+            fontSize: textSize_32,
+            fontWeight: FontWeight.w600,
+            color: Colors.black,
+          ),
+        ),
+        onPressed: () async {
+          unlock.startUnlocking();
+          _unlockMachine(context);
+        },
+      ),
     );
   }
 
   Future<void> _unlockMachine(BuildContext context) async {
     var global = Provider.of<GlobalProvider>(context, listen: false);
+    var unlock = Provider.of<UnlockProvider>(context, listen: false);
 
     try {
       var result = kDebugMode
@@ -78,9 +72,7 @@ class _YesButtonState extends State<YesButton> {
         fetchedMachine = await sl<UnlockUseCase>()
             .call(UnlockParams(machine: this.widget.machine));
         if (fetchedMachine == null) {
-          setState(() {
-            _isUnlocking = false;
-          });
+          unlock.stopUnlocking();
           await ErrorHandler.errorHandlerView(
               context: context,
               prompt: HTTPErrorPrompt(
@@ -90,9 +82,7 @@ class _YesButtonState extends State<YesButton> {
           print("From start_wash.dart: fetchedMachine went correctly!");
 
           await sl<DisconnectBoxWifiUsecase>().call(NoParams());
-          setState(() {
-            _isUnlocking = false;
-          });
+          unlock.stopUnlocking();
           global.updateMachine(fetchedMachine!);
 
           Navigator.pushReplacement(
@@ -112,9 +102,7 @@ class _YesButtonState extends State<YesButton> {
         }
       } else {
         await sl<DisconnectBoxWifiUsecase>().call(NoParams());
-        setState(() {
-          _isUnlocking = false;
-        });
+        unlock.stopUnlocking();
         showDialog(
           context: context,
           builder: (BuildContext context) {
@@ -126,9 +114,7 @@ class _YesButtonState extends State<YesButton> {
       }
     } catch (e) {
       await sl<DisconnectBoxWifiUsecase>().call(NoParams());
-      setState(() {
-        _isUnlocking = false;
-      });
+      unlock.stopUnlocking();
       print(e.toString());
       await showDialog(
         context: context,

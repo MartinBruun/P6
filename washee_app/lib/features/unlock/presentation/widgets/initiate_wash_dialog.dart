@@ -39,6 +39,7 @@ class _InitiateWashDialogState extends State<InitiateWashDialog> {
   }
 
   Widget _dialogBox(BuildContext context) {
+    var unlock = Provider.of<UnlockProvider>(context, listen: true);
     return Container(
       decoration: BoxDecoration(
         color: AppColors.dialogLightGray,
@@ -69,15 +70,32 @@ class _InitiateWashDialogState extends State<InitiateWashDialog> {
               ),
             ),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              YesButton(
-                machine: widget.machine,
-              ),
-              NoButton(),
-            ],
-          ),
+          unlock.isUnlocking
+              ? Row(
+                  children: [
+                    Column(
+                      children: [
+                        Text(
+                          "Låser op...",
+                          style: textStyle.copyWith(
+                              fontSize: textSize_20, color: Colors.white),
+                        ),
+                        CircularProgressIndicator(
+                          color: Colors.white,
+                        ),
+                      ],
+                    )
+                  ],
+                )
+              : Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    YesButton(
+                      machine: widget.machine,
+                    ),
+                    NoButton(),
+                  ],
+                ),
         ],
       ),
     );
