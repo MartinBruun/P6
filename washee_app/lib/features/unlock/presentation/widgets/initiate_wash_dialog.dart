@@ -11,9 +11,8 @@ import '../../../../core/presentation/themes/dimens.dart';
 import '../../../../core/presentation/themes/themes.dart';
 import '../../../../core/widgets/common_used_widgets.dart';
 
-// ignore: must_be_immutable
 class InitiateWashDialog extends StatefulWidget {
-  MachineModel machine;
+  final MachineModel machine;
   InitiateWashDialog({required this.machine});
 
   @override
@@ -23,26 +22,12 @@ class InitiateWashDialog extends StatefulWidget {
 class _InitiateWashDialogState extends State<InitiateWashDialog> {
   late MachineModel? fetchedMachine;
 
-  bool _isUnlockingMachine = false;
-  bool _startBooking = false;
-  @override
-  void initState() {
-    setState(() {
-      _startBooking = true;
-    });
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
-    var unlockProvider = Provider.of<UnlockProvider>(context, listen: true);
-
-    return _startBooking || unlockProvider.isUnlocking
-        ? Scaffold(
-            backgroundColor: Colors.transparent,
-            body: Center(child: _dialogBox(context)),
-          )
-        : SizedBox.shrink();
+    return Scaffold(
+      backgroundColor: Colors.transparent,
+      body: Center(child: _dialogBox(context)),
+    );
   }
 
   String _displayName() {
@@ -87,11 +72,9 @@ class _InitiateWashDialogState extends State<InitiateWashDialog> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              _isUnlockingMachine
-                  ? CircularProgressIndicator()
-                  : YesButton(
-                      machine: widget.machine,
-                    ),
+              YesButton(
+                machine: widget.machine,
+              ),
               NoButton(),
             ],
           ),

@@ -15,7 +15,6 @@ import 'package:washee/core/washee_box/machine_model.dart';
 import 'package:washee/features/unlock/domain/usecases/connect_box_wifi.dart';
 import 'package:washee/features/unlock/domain/usecases/disconnect_box_wifi.dart';
 import 'package:washee/features/unlock/domain/usecases/unlock.dart';
-import 'package:washee/features/unlock/presentation/provider/unlock_provider.dart';
 import 'package:washee/features/unlock/presentation/widgets/wash_started_dialog.dart';
 import 'package:washee/injection_container.dart';
 
@@ -31,13 +30,13 @@ class YesButton extends StatefulWidget {
 
 class _YesButtonState extends State<YesButton> {
   late MachineModel? fetchedMachine;
+  bool _isUnlocking = false;
 
   @override
   Widget build(BuildContext context) {
-    var unlockProvider = Provider.of<UnlockProvider>(context, listen: true);
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 30.w),
-      child: unlockProvider.isUnlocking
+      child: !_isUnlocking
           ? ElevatedButton(
               style: ElevatedButton.styleFrom(
                   fixedSize: Size(254.w, 84.h),
@@ -53,7 +52,9 @@ class _YesButtonState extends State<YesButton> {
                 ),
               ),
               onPressed: () async {
-                unlockProvider.startUnlocking();
+                setState(() {
+                  _isUnlocking = true;
+                });
                 _unlockMachine(context);
               },
             )
@@ -66,7 +67,6 @@ class _YesButtonState extends State<YesButton> {
   }
 
   Future<void> _unlockMachine(BuildContext context) async {
-    var unlockProvider = Provider.of<UnlockProvider>(context, listen: false);
     var global = Provider.of<GlobalProvider>(context, listen: false);
 
     try {
@@ -78,17 +78,21 @@ class _YesButtonState extends State<YesButton> {
         fetchedMachine = await sl<UnlockUseCase>()
             .call(UnlockParams(machine: this.widget.machine));
         if (fetchedMachine == null) {
-          unlockProvider.stopUnlocking();
-          ErrorHandler.errorHandlerView(
+          setState(() {
+            _isUnlocking = false;
+          });
+          await ErrorHandler.errorHandlerView(
               context: context,
               prompt: HTTPErrorPrompt(
                   message:
-                      "Det ser ud til, at du ikke har forbindelse til WasheeBox"));
+                      "Det lykkedes ikke at låse maskinen op. Du har muligvis ikke forbindelse til boksen"));
         } else {
           print("From start_wash.dart: fetchedMachine went correctly!");
-          unlockProvider.stopUnlocking();
-          await sl<DisconnectBoxWifiUsecase>().call(NoParams());
 
+          await sl<DisconnectBoxWifiUsecase>().call(NoParams());
+          setState(() {
+            _isUnlocking = false;
+          });
           global.updateMachine(fetchedMachine!);
 
           Navigator.pushReplacement(
@@ -108,7 +112,9 @@ class _YesButtonState extends State<YesButton> {
         }
       } else {
         await sl<DisconnectBoxWifiUsecase>().call(NoParams());
-        unlockProvider.stopUnlocking();
+        setState(() {
+          _isUnlocking = false;
+        });
         showDialog(
           context: context,
           builder: (BuildContext context) {
@@ -120,7 +126,9 @@ class _YesButtonState extends State<YesButton> {
       }
     } catch (e) {
       await sl<DisconnectBoxWifiUsecase>().call(NoParams());
-      unlockProvider.stopUnlocking();
+      setState(() {
+        _isUnlocking = false;
+      });
       print(e.toString());
       await showDialog(
         context: context,
