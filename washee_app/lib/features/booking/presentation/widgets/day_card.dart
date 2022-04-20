@@ -84,8 +84,8 @@ class _DayCardState extends State<DayCard> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                "Tider: " +
-                    "${(_washNumberOfPossibleBookings + _dryNumberOfPossibleBookings)}",
+                "V: " +
+                    "$_washNumberOfPossibleBookings - T: $_dryNumberOfPossibleBookings",
                 style: textStyle.copyWith(
                     fontSize: textSize_20,
                     fontWeight: FontWeight.bold,
