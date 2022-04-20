@@ -17,21 +17,27 @@ class UnlockUseCase implements UseCase<MachineModel?, UnlockParams> {
   @override
   Future<MachineModel?> call(UnlockParams params) async {
     Duration duration = Duration(hours: 2, minutes: 30);
-    if(params.machine.endTime != null){
+    if (params.machine.endTime != null) {
       duration = params.machine.endTime!.difference(DateHelper.currentTime());
     }
-    
-    MachineModel? machine = await repository.unlock(params.machine, Duration(seconds: 10));
+
+    MachineModel? machine =
+        await repository.unlock(params.machine, Duration(seconds: 10));
+
+    await sl<DisconnectBoxWifiUsecase>().call(NoParams());
+
+    await Future.delayed(Duration(seconds: 1));
 
     // Bad practice, should be severely reorganized, when we have a proper understanding of the domain structure
     // There is no strict seperation of Machine and Booking, giving these problems
-    List<Map<String,dynamic>> currentBooking = await sl<WebCommunicator>().getCurrentBookings(
+    List<Map<String, dynamic>> currentBooking = await sl<WebCommunicator>()
+        .getCurrentBookings(
             machineID: int.parse(params.machine.machineID.toString()),
             startTimeLessThan: DateHelper.currentTime(),
-            endTimeGreaterThan: DateHelper.currentTime()
-          );
-    sl<WebCommunicator>().updateBooking(currentBooking[0]["id"].toString(), activated: true);
-    
+            endTimeGreaterThan: DateHelper.currentTime());
+    await sl<WebCommunicator>()
+        .updateBooking(currentBooking[0]["id"].toString(), activated: true);
+
     return machine;
   }
 }
