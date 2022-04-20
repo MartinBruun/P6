@@ -55,13 +55,13 @@ class MachineCard extends StatelessWidget {
                   ? machine.activated
                       ? WashTimerOnCard(activeMachine: machine)
                       : Padding(
-                          padding: EdgeInsets.only(right: 38.w),
+                          padding: EdgeInsets.only(right: 30.w),
                           child: Container(
                             height: 90.h,
-                            width: 350.w,
+                            width: 250.w,
                             child: ElevatedButton(
                               child: Text(
-                                "Aktiver maskinen!",
+                                "Aktiver",
                                 style: textStyle.copyWith(
                                     fontSize: textSize_30,
                                     fontWeight: FontWeight.w500),
@@ -70,7 +70,7 @@ class MachineCard extends StatelessWidget {
                                 _cardPressed(context, machine);
                               },
                               style: ElevatedButton.styleFrom(
-                                primary: AppColors.main,
+                                primary: AppColors.deepGreen,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(20.h),
                                 ),
@@ -86,9 +86,9 @@ class MachineCard extends StatelessWidget {
                         width: 250.w,
                         child: ElevatedButton(
                           child: Text(
-                            "Book Først",
+                            "Book",
                             style: textStyle.copyWith(
-                                fontSize: textSize_35,
+                                fontSize: textSize_30,
                                 fontWeight: FontWeight.w500),
                           ),
                           onPressed: () async {

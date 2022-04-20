@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:washee/core/pages/home_screen.dart';
+import 'package:washee/core/pages/pages_enum.dart';
 import 'package:washee/core/presentation/themes/colors.dart';
 import 'package:washee/core/presentation/themes/dimens.dart';
 import 'package:washee/core/presentation/themes/themes.dart';
@@ -52,7 +54,12 @@ class _DoesNotHaveCurrentBookingDialogState
   Widget _okButton(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.of(context).pop();
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+                builder: (context) => HomeScreen(
+                      page: PageNumber.CalendarScreen,
+                    )));
       },
       child: Container(
         height: 84.h,
