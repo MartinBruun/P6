@@ -45,7 +45,7 @@ class MachineCard extends StatelessWidget {
                 child: Text(
                   machine.name,
                   style: textStyle.copyWith(
-                    fontSize: textSize_30,
+                    fontSize: textSize_35,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
@@ -88,7 +88,7 @@ class MachineCard extends StatelessWidget {
                           child: Text(
                             "Book Først",
                             style: textStyle.copyWith(
-                                fontSize: textSize_30,
+                                fontSize: textSize_35,
                                 fontWeight: FontWeight.w500),
                           ),
                           onPressed: () async {

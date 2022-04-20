@@ -25,7 +25,7 @@ services:
       - 65432:5432
   box:
     build: ./washee_box
-    command: python washee-box-entry.py
+    command: python washee_box_entry.py
     volumes:
       - ./washee_box/:/usr/src/washee_box/
     env_file:

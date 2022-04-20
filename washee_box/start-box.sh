@@ -24,7 +24,7 @@ echo $PWD
 activate () {
 	cd $home/home/pi/code/P6/washee_box
 	. venv/bin/activate
-	export FLASK_APP=washee-box-entry.py
+	export FLASK_APP=washee_box_entry.py
 	flask run --host=0.0.0.0 --port=8001
 }
 activate &

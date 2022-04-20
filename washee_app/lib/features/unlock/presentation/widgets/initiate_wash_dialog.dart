@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 import 'package:washee/core/washee_box/machine_model.dart';
+import 'package:washee/features/unlock/presentation/provider/unlock_provider.dart';
+import 'package:washee/features/unlock/presentation/widgets/no_button.dart';
+import 'package:washee/features/unlock/presentation/widgets/yes_button.dart';
 
 import '../../../../core/presentation/themes/colors.dart';
 import '../../../../core/presentation/themes/dimens.dart';
 import '../../../../core/presentation/themes/themes.dart';
 import '../../../../core/widgets/common_used_widgets.dart';
-import 'unlock_successfull.dart';
 
 // ignore: must_be_immutable
 class InitiateWashDialog extends StatefulWidget {
@@ -18,22 +21,28 @@ class InitiateWashDialog extends StatefulWidget {
 }
 
 class _InitiateWashDialogState extends State<InitiateWashDialog> {
+  late MachineModel? fetchedMachine;
+
+  bool _isUnlockingMachine = false;
+  bool _startBooking = false;
   @override
   void initState() {
+    setState(() {
+      _startBooking = true;
+    });
     super.initState();
   }
 
-  bool _machineReady = false;
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.transparent,
-      body: Center(
-          child: _machineReady
-              ? UnlockSuccessfull(machine: widget.machine)
-              : _dialogBox(context)),
-    );
+    var unlockProvider = Provider.of<UnlockProvider>(context, listen: true);
+
+    return _startBooking || unlockProvider.isUnlocking
+        ? Scaffold(
+            backgroundColor: Colors.transparent,
+            body: Center(child: _dialogBox(context)),
+          )
+        : SizedBox.shrink();
   }
 
   String _displayName() {
@@ -66,7 +75,7 @@ class _InitiateWashDialogState extends State<InitiateWashDialog> {
               width: 760.w,
               height: 170.h,
               child: Text(
-                "Betalingen er trukket fra din konto. Vil du igangsætte din ${_displayName()}?",
+                "Vil du igangsætte din ${_displayName()}?",
                 style: textStyle.copyWith(
                   fontSize: textSize_32,
                   fontWeight: FontWeight.w500,
@@ -78,60 +87,16 @@ class _InitiateWashDialogState extends State<InitiateWashDialog> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              _yesButton(context),
-              _noButton(context),
+              _isUnlockingMachine
+                  ? CircularProgressIndicator()
+                  : YesButton(
+                      machine: widget.machine,
+                    ),
+              NoButton(),
             ],
           ),
         ],
       ),
     );
-  }
-
-  Widget _noButton(BuildContext context) {
-    return Padding(
-        padding: EdgeInsets.symmetric(horizontal: 30.w),
-        child: ElevatedButton(
-          style: ElevatedButton.styleFrom(
-              fixedSize: Size(254.w, 84.h),
-              primary: Colors.white,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20.h))),
-          child: Text(
-            'Nej',
-            style: textStyle.copyWith(
-              fontSize: textSize_32,
-              fontWeight: FontWeight.w600,
-              color: Colors.black,
-            ),
-          ),
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-        ));
-  }
-
-  Widget _yesButton(BuildContext context) {
-    return Padding(
-        padding: EdgeInsets.symmetric(horizontal: 30.w),
-        child: ElevatedButton(
-          style: ElevatedButton.styleFrom(
-              fixedSize: Size(254.w, 84.h),
-              primary: AppColors.deepGreen,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20.h))),
-          child: Text(
-            'Ja',
-            style: textStyle.copyWith(
-              fontSize: textSize_32,
-              fontWeight: FontWeight.w600,
-              color: Colors.black,
-            ),
-          ),
-          onPressed: () async {
-            setState(() {
-              _machineReady = true;
-            });
-          },
-        ));
   }
 }

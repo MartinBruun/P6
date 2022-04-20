@@ -13,8 +13,6 @@ import 'package:washee/features/sign_in/domain/usecases/update_account.dart';
 import 'package:washee/injection_container.dart';
 import 'package:washee/features/booking/domain/usecases/post_booking.dart';
 
-import '../../../../core/pages/home_screen.dart';
-import '../../../../core/pages/pages_enum.dart';
 import '../../../../core/presentation/themes/colors.dart';
 import '../../../../core/presentation/themes/dimens.dart';
 
@@ -56,7 +54,7 @@ class _SaveTimeButtonState extends State<SaveTimeButton> {
                 ActiveUser user = ActiveUser();
                 String machineResource = sl<WebCommunicator>().machinesURL+"/${widget.machineType.toString()}/";
                 String serviceResource = sl<WebCommunicator>().servicesURL+"/${widget.machineType.toString()}/";
-                String accountResource = sl<WebCommunicator>().usersURL+"/${user.activeAccount!.id.toString()}/";
+                String accountResource = sl<WebCommunicator>().accountsURL+"/${user.activeAccount!.id.toString()}/";
                 if (kDebugMode){
                   machineResource = "http://localhost:8000/api/1/machines/${widget.machineType.toString()}/";
                   serviceResource = "http://localhost:8000/api/1/services/${widget.machineType.toString()}/";
@@ -76,6 +74,7 @@ class _SaveTimeButtonState extends State<SaveTimeButton> {
                   setState(() {
                     _isBookingTimeSlot = false;
                   });
+
                   Navigator.of(context).popUntil((route) => route.isFirst);
                   showDialog(
                       context: context,

@@ -14,5 +14,5 @@ jobs:
       - name: Build, run, test and tear down
         run: |
           docker-compose up -d --build box
-          docker-compose exec -T box pytest
+          docker-compose exec -T box python3 -m pytest
           docker-compose down -v
