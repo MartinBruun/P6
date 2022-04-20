@@ -24,8 +24,6 @@ class UnlockUseCase implements UseCase<MachineModel?, UnlockParams> {
     MachineModel? machine =
         await repository.unlock(params.machine, Duration(seconds: 10));
 
-    await sl<DisconnectBoxWifiUsecase>().call(NoParams());
-
     
 
     // Bad practice, should be severely reorganized, when we have a proper understanding of the domain structure

@@ -57,9 +57,7 @@ class YesButton extends StatelessWidget {
     unlockProvider.isUnlocking = true;
 
     try {
-      var result = kDebugMode
-          ? true
-          : await sl<ConnectBoxWifiUsecase>().call(NoParams());
+      var result = await sl<ConnectBoxWifiUsecase>().call(NoParams());
 
       if (result) {
         fetchedMachine =
@@ -102,7 +100,6 @@ class YesButton extends StatelessWidget {
         );
       }
     } catch (e) {
-      await sl<DisconnectBoxWifiUsecase>().call(NoParams());
       unlockProvider.isUnlocking = false;
       print(e.toString());
       await showDialog(

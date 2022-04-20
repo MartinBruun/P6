@@ -1,6 +1,9 @@
 import 'package:washee/core/network/network_info.dart';
+import 'package:washee/core/usecases/usecase.dart';
 import 'package:washee/core/washee_box/machine_model.dart';
 import 'package:washee/features/unlock/domain/repositories/unlock_repository.dart';
+import 'package:washee/features/unlock/domain/usecases/disconnect_box_wifi.dart';
+import 'package:washee/injection_container.dart';
 
 import '../datasources/unlock_remote.dart';
 
@@ -13,6 +16,7 @@ class UnlockRepositoryImpl implements UnlockRepository {
   Future<MachineModel?> unlock(MachineModel machine, Duration duration) async {
     if (await networkInfo.isConnected) {
       var data = await remote.unlock(machine, duration);
+      await sl<DisconnectBoxWifiUsecase>().call(NoParams());
       MachineModel updatedMachine = _constructMachineFromResponse(data);
       return updatedMachine;
     } else {

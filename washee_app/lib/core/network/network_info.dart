@@ -73,9 +73,9 @@ class NetworkInfoImpl implements NetworkInfo {
   @override
   Future<bool> disconnectFromBoxWifi() async {
     try {
-      await WiFiForIoTPlugin.forceWifiUsage(false);
+      bool stoppedWifi = await WiFiForIoTPlugin.forceWifiUsage(false);
       await WiFiForIoTPlugin.disconnect();
-      return true;
+      return stoppedWifi;
     } catch (e) {
       ExceptionHandler().handle(
           "Could not disconnect from wifi at NetworkInfo with error: " +
