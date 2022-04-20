@@ -20,9 +20,10 @@ import 'package:washee/injection_container.dart';
 
 // ignore: must_be_immutable
 class YesButton extends StatefulWidget {
-  YesButton({required this.machine});
+  YesButton({required this.machine, required this.key});
 
   MachineModel machine;
+  final GlobalKey<ScaffoldState> key;
 
   @override
   State<YesButton> createState() => _YesButtonState();
@@ -76,7 +77,7 @@ class _YesButtonState extends State<YesButton> {
           print("Fetched Machine er null: " + fetchedMachine.toString());
           unlock.stopUnlocking();
           await ErrorHandler.errorHandlerView(
-              context: context,
+              context: widget.key.currentState!.context,
               prompt: HTTPErrorPrompt(
                   message:
                       "Det lykkedes ikke at låse maskinen op. Du har muligvis ikke forbindelse til boksen"));
@@ -89,15 +90,15 @@ class _YesButtonState extends State<YesButton> {
           global.updateMachine(fetchedMachine!);
 
           Navigator.pushReplacement(
-            context,
+            widget.key.currentState!.context,
             MaterialPageRoute(
-              builder: (context) => HomeScreen(
+              builder: (BuildContext context) => HomeScreen(
                 page: PageNumber.WashScreen,
               ),
             ),
           );
           showDialog(
-            context: context,
+            context: widget.key.currentState!.context,
             builder: (BuildContext context) {
               return WashStartedDialog();
             },
@@ -107,7 +108,7 @@ class _YesButtonState extends State<YesButton> {
         print("Result er false");
         unlock.stopUnlocking();
         showDialog(
-          context: context,
+          context: widget.key.currentState!.context,
           builder: (BuildContext context) {
             return HTTPErrorPrompt(
                 message:
@@ -119,7 +120,7 @@ class _YesButtonState extends State<YesButton> {
       unlock.stopUnlocking();
       print(e.toString());
       await showDialog(
-        context: context,
+        context: widget.key.currentState!.context,
         builder: (BuildContext context) {
           return HTTPErrorPrompt(
               message:

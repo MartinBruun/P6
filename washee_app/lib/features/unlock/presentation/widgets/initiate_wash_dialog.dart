@@ -21,10 +21,11 @@ class InitiateWashDialog extends StatefulWidget {
 
 class _InitiateWashDialogState extends State<InitiateWashDialog> {
   late MachineModel? fetchedMachine;
-
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key : _scaffoldKey,
       backgroundColor: Colors.transparent,
       body: Center(child: _dialogBox(context)),
     );
@@ -96,6 +97,7 @@ class _InitiateWashDialogState extends State<InitiateWashDialog> {
                   children: [
                     YesButton(
                       machine: widget.machine,
+                      key: _scaffoldKey,
                     ),
                     NoButton(),
                   ],
