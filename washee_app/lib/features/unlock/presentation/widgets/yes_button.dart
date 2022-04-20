@@ -20,34 +20,48 @@ import 'package:washee/features/unlock/presentation/widgets/wash_started_dialog.
 import 'package:washee/injection_container.dart';
 
 // ignore: must_be_immutable
-class YesButton extends StatelessWidget {
+class YesButton extends StatefulWidget {
   YesButton({required this.machine});
 
-  late MachineModel? fetchedMachine;
   MachineModel machine;
 
   @override
+  State<YesButton> createState() => _YesButtonState();
+}
+
+class _YesButtonState extends State<YesButton> {
+  late MachineModel? fetchedMachine;
+
+  @override
   Widget build(BuildContext context) {
+    var unlockProvider = Provider.of<UnlockProvider>(context, listen: true);
     return Padding(
-        padding: EdgeInsets.symmetric(horizontal: 30.w),
-        child: ElevatedButton(
-          style: ElevatedButton.styleFrom(
-              fixedSize: Size(254.w, 84.h),
-              primary: AppColors.deepGreen,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20.h))),
-          child: Text(
-            'Ja',
-            style: textStyle.copyWith(
-              fontSize: textSize_32,
-              fontWeight: FontWeight.w600,
-              color: Colors.black,
+      padding: EdgeInsets.symmetric(horizontal: 30.w),
+      child: unlockProvider.isUnlocking
+          ? ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                  fixedSize: Size(254.w, 84.h),
+                  primary: AppColors.deepGreen,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20.h))),
+              child: Text(
+                'Ja',
+                style: textStyle.copyWith(
+                  fontSize: textSize_32,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.black,
+                ),
+              ),
+              onPressed: () async {
+                _unlockMachine(context);
+              },
+            )
+          : Center(
+              child: CircularProgressIndicator(
+                color: Colors.white,
+              ),
             ),
-          ),
-          onPressed: () async {
-            _unlockMachine(context);
-          },
-        ));
+    );
   }
 
   Future<void> _unlockMachine(BuildContext context) async {
@@ -62,8 +76,8 @@ class YesButton extends StatelessWidget {
           : await sl<ConnectBoxWifiUsecase>().call(NoParams());
 
       if (result) {
-        fetchedMachine =
-            await sl<UnlockUseCase>().call(UnlockParams(machine: this.machine));
+        fetchedMachine = await sl<UnlockUseCase>()
+            .call(UnlockParams(machine: this.widget.machine));
         if (fetchedMachine == null) {
           unlockProvider.isUnlocking = false;
           ErrorHandler.errorHandlerView(
@@ -73,7 +87,7 @@ class YesButton extends StatelessWidget {
                       "Det ser ud til, at du ikke har forbindelse til WasheeBox"));
         } else {
           print("From start_wash.dart: fetchedMachine went correctly!");
-
+          unlockProvider.isUnlocking = false;
           await sl<DisconnectBoxWifiUsecase>().call(NoParams());
 
           global.updateMachine(fetchedMachine!);
