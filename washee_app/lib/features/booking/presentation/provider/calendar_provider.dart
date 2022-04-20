@@ -211,7 +211,7 @@ class CalendarProvider extends ChangeNotifier {
     var startTime = DateTime(2022, currentDate.month, currentDate.day, 06, 0);
     List<DateTime> _slots = [];
     _slots.add(startTime);
-    for (int i = 0; i < 34; i++) {
+    for (int i = 0; i < 40; i++) {
       startTime = startTime.add(Duration(minutes: 30));
       _slots.add(startTime);
     }
