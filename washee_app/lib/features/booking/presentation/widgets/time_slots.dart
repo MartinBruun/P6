@@ -24,6 +24,7 @@ class _TimeSlotsState extends State<TimeSlots> {
       addAutomaticKeepAlives: true,
       itemBuilder: ((context, index) => Center(
               child: TimeSlotItem(
+            isOutdated: calendar.isSlotOutdated(widget.slots[index]),
             isAvailable:
                 calendar.isSlotAvailable(widget.bookings!, widget.slots[index]),
             time: widget.slots[index],

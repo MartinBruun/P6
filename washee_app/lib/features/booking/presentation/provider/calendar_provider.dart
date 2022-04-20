@@ -197,10 +197,10 @@ class CalendarProvider extends ChangeNotifier {
   }
 
   List<BookingModel> getBookingsForDay(DateTime date, int machineID) {
-    var validBookings =
-        _bookings.where((element) => 
+    var validBookings = _bookings.where((element) =>
         element.startTime!.day == date.day &&
-        element.machineResource == sl<WebCommunicator>().machinesURL + "/${machineID.toString()}/");
+        element.machineResource ==
+            sl<WebCommunicator>().machinesURL + "/${machineID.toString()}/");
     if (validBookings.isNotEmpty) {
       return validBookings.toList();
     }
@@ -311,20 +311,51 @@ class CalendarProvider extends ChangeNotifier {
     return overlaps > 0 ? false : true;
   }
 
+  bool isSlotOutdated(DateTime currentSlot) {
+    if (_isSameMonth(currentSlot) &&
+        (currentSlot.day > DateHelper.currentTime().day)) {
+      return false;
+    } else if (_isMonthLater(currentSlot)) {
+      return false;
+    }
+
+    if (currentSlot.day == DateHelper.currentTime().day) {
+      if ((currentSlot.hour < DateHelper.currentTime().hour)) {
+        return true;
+      }
+      return false;
+    }
+    return true;
+  }
+
+  bool _isSameMonth(DateTime currentSlot) {
+    if (currentSlot.month == DateHelper.currentTime().month) {
+      return true;
+    }
+    return false;
+  }
+
+  bool _isMonthLater(DateTime currentSlot) {
+    if (currentSlot.month > DateHelper.currentTime().month) {
+      return true;
+    }
+    return false;
+  }
+
   int getNumberOfPossibleBookings(
       List<BookingModel> bookingsForDate, DateTime currentDate) {
     var slots = getTimeSlots(currentDate);
     var openPossibleBookings = 0;
 
     int slotCounter = 0;
-    for (var slot in slots){
-      for(var booking in bookingsForDate){
+    for (var slot in slots) {
+      for (var booking in bookingsForDate) {
         if (booking.startTime!.hour == slot.hour &&
             booking.startTime!.minute == slot.minute) {
           slotCounter = -5;
         }
       }
-      if(slotCounter == 6){
+      if (slotCounter == 6) {
         openPossibleBookings += 1;
         slotCounter = 0;
       }
