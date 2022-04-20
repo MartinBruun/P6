@@ -53,6 +53,7 @@ class _YesButtonState extends State<YesButton> {
                 ),
               ),
               onPressed: () async {
+                unlockProvider.startUnlocking();
                 _unlockMachine(context);
               },
             )
@@ -68,8 +69,6 @@ class _YesButtonState extends State<YesButton> {
     var unlockProvider = Provider.of<UnlockProvider>(context, listen: false);
     var global = Provider.of<GlobalProvider>(context, listen: false);
 
-    unlockProvider.isUnlocking = true;
-
     try {
       var result = await sl<ConnectBoxWifiUsecase>().call(NoParams());
 
@@ -77,7 +76,7 @@ class _YesButtonState extends State<YesButton> {
         fetchedMachine = await sl<UnlockUseCase>()
             .call(UnlockParams(machine: this.widget.machine));
         if (fetchedMachine == null) {
-          unlockProvider.isUnlocking = false;
+          unlockProvider.stopUnlocking();
           ErrorHandler.errorHandlerView(
               context: context,
               prompt: HTTPErrorPrompt(
@@ -85,7 +84,7 @@ class _YesButtonState extends State<YesButton> {
                       "Det ser ud til, at du ikke har forbindelse til WasheeBox"));
         } else {
           print("From start_wash.dart: fetchedMachine went correctly!");
-          unlockProvider.isUnlocking = false;
+          unlockProvider.stopUnlocking();
 
           global.updateMachine(fetchedMachine!);
 
@@ -105,6 +104,7 @@ class _YesButtonState extends State<YesButton> {
           );
         }
       } else {
+        unlockProvider.stopUnlocking();
         showDialog(
           context: context,
           builder: (BuildContext context) {
@@ -115,7 +115,7 @@ class _YesButtonState extends State<YesButton> {
         );
       }
     } catch (e) {
-      unlockProvider.isUnlocking = false;
+      unlockProvider.stopUnlocking();
       print(e.toString());
       await showDialog(
         context: context,
@@ -126,6 +126,5 @@ class _YesButtonState extends State<YesButton> {
         },
       );
     }
-    unlockProvider.isUnlocking = false;
   }
 }
