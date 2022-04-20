@@ -45,6 +45,17 @@ from django.http import HttpResponse
 def homePageView(request):
     return HttpResponse("Hello, World!")
 
+import os
+def downloadWashee(request):
+    washee_web_path = os.getcwd()
+    path_to_apk = washee_web_path + "/washee_web/app-release.apk"
+    with open(path_to_apk, "br") as fh:
+        response = HttpResponse(fh, headers={
+            "Content-Type": "application/vnd.android.package-archive",
+            "Content-Disposition" : "attachment; filename={}".format(os.path.basename(path_to_apk))
+        })
+        return response
+
 urlpatterns = [
     path('washee-admin/', admin.site.urls),
     path('api-auth/', include('rest_framework.urls', namespace="rest_framework")),
@@ -52,6 +63,7 @@ urlpatterns = [
     path('upload/', image_upload, name="upload"),
     path('api/1/', include(router.urls), name="api"),
     #path('admin/', include('admin_honeypot.urls', namespace='admin_honeypot')), # Not working, see explanation in settings under INSTALLED_APPS
+    path('download/', downloadWashee, name="download"),
     path("", homePageView, name="home")
 ]
 
