@@ -13,6 +13,7 @@ class UnlockRepositoryImpl implements UnlockRepository {
   Future<MachineModel?> unlock(MachineModel machine, Duration duration) async {
     if (await networkInfo.isConnected) {
       var data = await remote.unlock(machine, duration);
+      await networkInfo.disconnectFromBoxWifi();
       MachineModel updatedMachine = _constructMachineFromResponse(data);
       return updatedMachine;
     } else {

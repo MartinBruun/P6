@@ -13,7 +13,6 @@ import 'package:washee/core/providers/global_provider.dart';
 import 'package:washee/core/usecases/usecase.dart';
 import 'package:washee/core/washee_box/machine_model.dart';
 import 'package:washee/features/unlock/domain/usecases/connect_box_wifi.dart';
-import 'package:washee/features/unlock/domain/usecases/disconnect_box_wifi.dart';
 import 'package:washee/features/unlock/domain/usecases/unlock.dart';
 import 'package:washee/features/unlock/presentation/provider/unlock_provider.dart';
 import 'package:washee/features/unlock/presentation/widgets/wash_started_dialog.dart';
@@ -85,7 +84,6 @@ class _YesButtonState extends State<YesButton> {
           print("Fetched Machine er ikke-null: " + fetchedMachine.toString());
           print("From start_wash.dart: fetchedMachine went correctly!");
           print("Disconnecting from box");
-          await sl<DisconnectBoxWifiUsecase>().call(NoParams());
           unlock.stopUnlocking();
           print("Opdaterer maskinen");
           global.updateMachine(fetchedMachine!);
@@ -107,7 +105,6 @@ class _YesButtonState extends State<YesButton> {
         }
       } else {
         print("Result er false");
-        await sl<DisconnectBoxWifiUsecase>().call(NoParams());
         unlock.stopUnlocking();
         showDialog(
           context: context,
@@ -119,7 +116,6 @@ class _YesButtonState extends State<YesButton> {
         );
       }
     } catch (e) {
-      await sl<DisconnectBoxWifiUsecase>().call(NoParams());
       unlock.stopUnlocking();
       print(e.toString());
       await showDialog(
