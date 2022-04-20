@@ -58,19 +58,19 @@ class MachineCard extends StatelessWidget {
                           padding: EdgeInsets.only(right: 38.w),
                           child: Container(
                             height: 90.h,
-                            width: 390.w,
+                            width: 350.w,
                             child: ElevatedButton(
                               child: Text(
-                                "Aktiver maskinen",
+                                "Aktiver maskinen!",
                                 style: textStyle.copyWith(
-                                    fontSize: textSize_35,
+                                    fontSize: textSize_30,
                                     fontWeight: FontWeight.w500),
                               ),
                               onPressed: () async {
                                 _cardPressed(context, machine);
                               },
                               style: ElevatedButton.styleFrom(
-                                primary: AppColors.deepGreen,
+                                primary: AppColors.main,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(20.h),
                                 ),

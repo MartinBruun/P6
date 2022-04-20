@@ -45,7 +45,7 @@ class _CalendarViewState extends State<CalendarView> {
                 ),
               ),
               Container(
-                height: 800.h,
+                height: 750.h,
                 child: GridView.builder(
                   shrinkWrap: true,
                   primary: false,

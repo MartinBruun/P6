@@ -10,6 +10,7 @@ import 'package:washee/core/presentation/themes/themes.dart';
 import 'package:washee/features/booking/data/models/booking_model.dart';
 import 'package:washee/features/booking/presentation/provider/calendar_provider.dart';
 import 'package:washee/features/booking/presentation/widgets/choose_machine_view.dart';
+import 'package:washee/features/booking/presentation/widgets/outdated_date_dialog.dart';
 import 'package:washee/features/unlock/presentation/widgets/insufficient_funds_dialog.dart';
 import '../../data/models/booking_model.dart';
 
@@ -19,12 +20,11 @@ class DayCard extends StatefulWidget {
   final String dayName;
   final DateTime currentDate;
 
-  DayCard({
-    required this.greenScore,
-    required this.dayNumber,
-    required this.dayName,
-    required this.currentDate
-  });
+  DayCard(
+      {required this.greenScore,
+      required this.dayNumber,
+      required this.dayName,
+      required this.currentDate});
 
   @override
   State<DayCard> createState() => _DayCardState();
@@ -57,8 +57,10 @@ class _DayCardState extends State<DayCard> {
   void initState() {
     var calendar = Provider.of<CalendarProvider>(context, listen: false);
     _isToday = helper.isToday(widget.currentDate);
-    _washBookingsForCurrentDay = calendar.getBookingsForDay(widget.currentDate, MachineType.WashingMachine);
-    _dryBookingsForCurrentDay = calendar.getBookingsForDay(widget.currentDate, MachineType.Dryer);
+    _washBookingsForCurrentDay = calendar.getBookingsForDay(
+        widget.currentDate, MachineType.WashingMachine);
+    _dryBookingsForCurrentDay =
+        calendar.getBookingsForDay(widget.currentDate, MachineType.Dryer);
     _washNumberOfPossibleBookings = calendar.getNumberOfPossibleBookings(
         _washBookingsForCurrentDay, widget.currentDate);
     _dryNumberOfPossibleBookings = calendar.getNumberOfPossibleBookings(
@@ -81,33 +83,26 @@ class _DayCardState extends State<DayCard> {
           builder: (context, data, _) => Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Container(
-                child: Center(
-                  child: Text(
-                    "VM: " + _washNumberOfPossibleBookings.toString() + " / TT: " + _dryNumberOfPossibleBookings.toString(),
-                    style: textStyle.copyWith(
-                        fontSize: textSize_15,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white),
-                    textAlign: TextAlign.justify,
-                    softWrap: false,
-                    overflow: TextOverflow.visible,
-                  ),
-                ),
+              Text(
+                "Tider: " +
+                    "${(_washNumberOfPossibleBookings + _dryNumberOfPossibleBookings)}",
+                style: textStyle.copyWith(
+                    fontSize: textSize_20,
+                    fontWeight: FontWeight.bold,
+                    color: _isToday ? Colors.blue : Colors.white),
+                textAlign: TextAlign.justify,
+                softWrap: false,
+                overflow: TextOverflow.visible,
               ),
-              Container(
-                width: 50.h,
-                height: 50.h,
-                decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: _isToday ? Colors.blue : Colors.transparent),
+              Padding(
+                padding: EdgeInsets.only(bottom: 10.h, top: 10.h),
                 child: Center(
                   child: Text(
                     '${widget.dayNumber.toString()}',
                     style: textStyle.copyWith(
-                        fontSize: textSize_25,
+                        fontSize: textSize_28,
                         fontWeight: FontWeight.bold,
-                        color: Colors.white),
+                        color: _isToday ? Colors.blue : Colors.white),
                     textAlign: TextAlign.justify,
                     softWrap: false,
                     overflow: TextOverflow.visible,
@@ -117,9 +112,9 @@ class _DayCardState extends State<DayCard> {
               Text(
                 helper.translateDayName(widget.dayName),
                 style: textStyle.copyWith(
-                  fontSize: textSize_18,
+                  fontSize: textSize_20,
                   fontWeight: FontWeight.w700,
-                  color: Colors.white,
+                  color: _isToday ? Colors.blue : Colors.white,
                 ),
                 textAlign: TextAlign.justify,
                 softWrap: false,
@@ -130,7 +125,15 @@ class _DayCardState extends State<DayCard> {
         ),
         onPressed: () async {
           ActiveUser user = ActiveUser();
-          if (user.activeAccount!.balance > 0) {
+          if ((widget.currentDate.month == DateHelper.currentTime().month) &&
+              (widget.currentDate.day < DateHelper.currentTime().day)) {
+            await showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return OutDatedDateDialog();
+              },
+            );
+          } else if (user.activeAccount!.balance > 0) {
             await showDialog(
               context: context,
               builder: (BuildContext context) {
