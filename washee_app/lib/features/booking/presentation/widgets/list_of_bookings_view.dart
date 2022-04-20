@@ -6,6 +6,7 @@ import 'package:washee/core/presentation/themes/themes.dart';
 import 'package:washee/core/usecases/usecase.dart';
 import 'package:washee/features/booking/domain/usecases/delete_booking.dart';
 import 'package:washee/features/booking/presentation/provider/booking_provider.dart';
+import 'package:washee/features/booking/presentation/provider/calendar_provider.dart';
 import 'package:washee/features/sign_in/domain/usecases/update_account.dart';
 import 'package:washee/features/user_info/presentation/widgets/booking_info.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -78,15 +79,25 @@ class ListOfBookingsView extends StatelessWidget {
                     padding: EdgeInsets.only(bottom: 20.h),
                     child: ElevatedButton(
                       onPressed: () async {
-                        await sl<DeleteBookingUseCase>().call(
+                        bool wasDeleted = await sl<DeleteBookingUseCase>().call(
                             DeleteBookingParams(
                                 bookingID: bookings[index].bookingID!));
                         await sl<UpdateAccountUseCase>().call(NoParams());
+                        if (wasDeleted){
+                          var deletedStartTime = bookings[index].startTime!;
+                          var calendar = Provider.of<CalendarProvider>(context, listen: false);
+                          calendar.removeTimeSlot(deletedStartTime);
+                          calendar.removeTimeSlot(deletedStartTime.add(Duration(minutes: 30)));
+                          calendar.removeTimeSlot(deletedStartTime.add(Duration(minutes: 60)));
+                          calendar.removeTimeSlot(deletedStartTime.add(Duration(minutes: 90)));
+                          calendar.removeTimeSlot(deletedStartTime.add(Duration(minutes: 120)));
+                          calendar.removeTimeSlot(deletedStartTime.add(Duration(minutes: 150)));
 
-                        var booking = Provider.of<BookingProvider>(context,
-                            listen: false);
+                          var booking = Provider.of<BookingProvider>(context,
+                              listen: false);
 
-                        booking.refreshBookings();
+                          booking.refreshBookings();
+                        }
                       },
                       child: Text(
                         "slet",
