@@ -12,8 +12,12 @@ import '../../../../core/presentation/themes/themes.dart';
 class TimeSlotItem extends StatefulWidget {
   final DateTime time;
   final bool isAvailable;
+  final bool isOutdated;
 
-  TimeSlotItem({required this.time, required this.isAvailable});
+  TimeSlotItem(
+      {required this.time,
+      required this.isAvailable,
+      required this.isOutdated});
 
   @override
   State<TimeSlotItem> createState() => _TimeSlotItemState();
@@ -39,6 +43,16 @@ class _TimeSlotItemState extends State<TimeSlotItem>
 
   bool _selected = false;
 
+  String _determineAvailabilityOrOutdated() {
+    if (widget.isAvailable && widget.isOutdated) {
+      return _formatHoursAndMinutes(widget.time) + "       udløbet";
+    } else if (widget.isAvailable && !widget.isOutdated) {
+      return _formatHoursAndMinutes(widget.time);
+    } else {
+      return _formatHoursAndMinutes(widget.time) + "       optaget";
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -60,49 +74,20 @@ class _TimeSlotItemState extends State<TimeSlotItem>
               child: InkWell(
                 onTap: () {},
                 child: Text(
-                  widget.isAvailable
-                      ? _formatHoursAndMinutes(widget.time)
-                      : _formatHoursAndMinutes(widget.time) + "       optaget",
+                  _determineAvailabilityOrOutdated(),
                   style: textStyle.copyWith(
                     fontWeight: FontWeight.w600,
                     fontSize: textSize_32,
-                    color: !widget.isAvailable ? AppColors.red : Colors.white,
+                    color: !widget.isAvailable
+                        ? AppColors.red
+                        : widget.isOutdated
+                            ? AppColors.backupGrey
+                            : Colors.white,
                   ),
                 ),
               ),
             ),
-            IconButton(
-                onPressed: () async {
-                  if (!widget.isAvailable) {
-                    ErrorHandler.errorHandlerView(
-                        context: context,
-                        prompt: BookingErrorPrompt(
-                            message: "Tidspunktet er optaget!"));
-                  } else {
-                    if (_selected == false) {
-                      calendar.addTimeSlot(widget.time);
-                    } else {
-                      calendar.removeTimeSlot(widget.time);
-                    }
-                    setState(() {
-                      _selected = !_selected;
-                    });
-                  }
-                },
-                icon: widget.isAvailable
-                    ? Icon(
-                        _selected
-                            ? Icons.check_box
-                            : Icons.check_box_outline_blank,
-                        color: _selected
-                            ? AppColors.activeTrackGreen
-                            : Colors.white,
-                        size: iconSize_44,
-                      )
-                    : Icon(
-                        Icons.not_interested_outlined,
-                        color: AppColors.red,
-                      )),
+            _determineAvailableOrOutdated(context, calendar),
           ],
         ),
       ),
@@ -111,4 +96,43 @@ class _TimeSlotItemState extends State<TimeSlotItem>
 
   @override
   bool get wantKeepAlive => true;
+
+  Widget _determineAvailableOrOutdated(
+      BuildContext context, CalendarProvider calendar) {
+    if (widget.isAvailable && widget.isOutdated) {
+      return SizedBox.shrink();
+    } else {
+      return IconButton(
+          onPressed: () async {
+            if (!widget.isAvailable) {
+              ErrorHandler.errorHandlerView(
+                  context: context,
+                  prompt:
+                      BookingErrorPrompt(message: "Tidspunktet er optaget!"));
+            } else if (widget.isOutdated) {
+              ErrorHandler.errorHandlerView(
+                  context: context,
+                  prompt:
+                      BookingErrorPrompt(message: "Tidspunktet er udløbet!"));
+            } else if (_selected == false) {
+              calendar.addTimeSlot(widget.time);
+            } else {
+              calendar.removeTimeSlot(widget.time);
+            }
+            setState(() {
+              _selected = !_selected;
+            });
+          },
+          icon: widget.isAvailable
+              ? Icon(
+                  _selected ? Icons.check_box : Icons.check_box_outline_blank,
+                  color: _selected ? AppColors.activeTrackGreen : Colors.white,
+                  size: iconSize_44,
+                )
+              : Icon(
+                  Icons.not_interested_outlined,
+                  color: AppColors.red,
+                ));
+    }
+  }
 }
