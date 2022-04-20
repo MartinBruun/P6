@@ -26,7 +26,7 @@ class UnlockUseCase implements UseCase<MachineModel?, UnlockParams> {
 
     await sl<DisconnectBoxWifiUsecase>().call(NoParams());
 
-    await Future.delayed(Duration(seconds: 1));
+    
 
     // Bad practice, should be severely reorganized, when we have a proper understanding of the domain structure
     // There is no strict seperation of Machine and Booking, giving these problems
