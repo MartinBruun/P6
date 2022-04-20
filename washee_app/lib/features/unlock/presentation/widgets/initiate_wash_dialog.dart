@@ -72,16 +72,20 @@ class _InitiateWashDialogState extends State<InitiateWashDialog> {
           ),
           unlock.isUnlocking
               ? Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Column(
                       children: [
                         Text(
                           "Låser op...",
                           style: textStyle.copyWith(
-                              fontSize: textSize_20, color: Colors.white),
+                              fontSize: textSize_28, color: Colors.white),
                         ),
-                        CircularProgressIndicator(
-                          color: Colors.white,
+                        Padding(
+                          padding: EdgeInsets.only(top: 20.h),
+                          child: CircularProgressIndicator(
+                            color: Colors.white,
+                          ),
                         ),
                       ],
                     )

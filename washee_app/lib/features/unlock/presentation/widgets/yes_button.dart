@@ -53,7 +53,7 @@ class _YesButtonState extends State<YesButton> {
         ),
         onPressed: () async {
           unlock.startUnlocking();
-          _unlockMachine(context);
+          await _unlockMachine(context);
         },
       ),
     );
@@ -62,7 +62,8 @@ class _YesButtonState extends State<YesButton> {
   Future<void> _unlockMachine(BuildContext context) async {
     var global = Provider.of<GlobalProvider>(context, listen: false);
     var unlock = Provider.of<UnlockProvider>(context, listen: false);
-
+    // await Future.delayed(Duration(seconds: 5));
+    // unlock.stopUnlocking();
     try {
       var result = kDebugMode
           ? true
