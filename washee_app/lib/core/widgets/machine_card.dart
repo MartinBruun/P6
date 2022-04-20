@@ -52,34 +52,33 @@ class MachineCard extends StatelessWidget {
               ),
               Spacer(),
               !machine.isAvailable
-                  ? 
-                    machine.activated
-                    ? WashTimerOnCard(activeMachine: machine)
-                    : Padding(
-                      padding: EdgeInsets.only(right: 38.w),
-                      child: Container(
-                        height: 90.h,
-                        width: 250.w,
-                        child: ElevatedButton(
-                          child: Text(
-                            "Aktiver maskinen!",
-                            style: textStyle.copyWith(
-                                fontSize: textSize_30,
-                                fontWeight: FontWeight.w500),
-                          ),
-                          onPressed: () async {
-                            _cardPressed(context, machine);
-                          },
-                          style: ElevatedButton.styleFrom(
-                            primary: AppColors.main,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20.h),
+                  ? machine.activated
+                      ? WashTimerOnCard(activeMachine: machine)
+                      : Padding(
+                          padding: EdgeInsets.only(right: 38.w),
+                          child: Container(
+                            height: 90.h,
+                            width: 350.w,
+                            child: ElevatedButton(
+                              child: Text(
+                                "Aktiver maskinen!",
+                                style: textStyle.copyWith(
+                                    fontSize: textSize_30,
+                                    fontWeight: FontWeight.w500),
+                              ),
+                              onPressed: () async {
+                                _cardPressed(context, machine);
+                              },
+                              style: ElevatedButton.styleFrom(
+                                primary: AppColors.main,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20.h),
+                                ),
+                                elevation: 2,
+                              ),
                             ),
-                            elevation: 2,
                           ),
-                        ),
-                      ),
-                    )
+                        )
                   : Padding(
                       padding: EdgeInsets.only(right: 38.w),
                       child: Container(
