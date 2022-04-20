@@ -68,11 +68,13 @@ class _YesButtonState extends State<YesButton> {
       var result = kDebugMode
           ? true
           : await sl<ConnectBoxWifiUsecase>().call(NoParams());
-
+      print("Result er: " + result.toString());
       if (result) {
         fetchedMachine = await sl<UnlockUseCase>()
             .call(UnlockParams(machine: this.widget.machine));
+
         if (fetchedMachine == null) {
+          print("Fetched Machine er null: " + fetchedMachine.toString());
           unlock.stopUnlocking();
           await ErrorHandler.errorHandlerView(
               context: context,
@@ -80,10 +82,12 @@ class _YesButtonState extends State<YesButton> {
                   message:
                       "Det lykkedes ikke at låse maskinen op. Du har muligvis ikke forbindelse til boksen"));
         } else {
+          print("Fetched Machine er ikke-null: " + fetchedMachine.toString());
           print("From start_wash.dart: fetchedMachine went correctly!");
-
+          print("Disconnecting from box");
           await sl<DisconnectBoxWifiUsecase>().call(NoParams());
           unlock.stopUnlocking();
+          print("Opdaterer maskinen");
           global.updateMachine(fetchedMachine!);
 
           Navigator.pushReplacement(
@@ -102,6 +106,7 @@ class _YesButtonState extends State<YesButton> {
           );
         }
       } else {
+        print("Result er false");
         await sl<DisconnectBoxWifiUsecase>().call(NoParams());
         unlock.stopUnlocking();
         showDialog(
