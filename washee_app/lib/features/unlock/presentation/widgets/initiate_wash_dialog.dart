@@ -11,9 +11,8 @@ import '../../../../core/presentation/themes/dimens.dart';
 import '../../../../core/presentation/themes/themes.dart';
 import '../../../../core/widgets/common_used_widgets.dart';
 
-// ignore: must_be_immutable
 class InitiateWashDialog extends StatefulWidget {
-  MachineModel machine;
+  final MachineModel machine;
   InitiateWashDialog({required this.machine});
 
   @override
@@ -23,26 +22,12 @@ class InitiateWashDialog extends StatefulWidget {
 class _InitiateWashDialogState extends State<InitiateWashDialog> {
   late MachineModel? fetchedMachine;
 
-  bool _isUnlockingMachine = false;
-  bool _startBooking = false;
-  @override
-  void initState() {
-    setState(() {
-      _startBooking = true;
-    });
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
-    var unlockProvider = Provider.of<UnlockProvider>(context, listen: true);
-
-    return _startBooking || unlockProvider.isUnlocking
-        ? Scaffold(
-            backgroundColor: Colors.transparent,
-            body: Center(child: _dialogBox(context)),
-          )
-        : SizedBox.shrink();
+    return Scaffold(
+      backgroundColor: Colors.transparent,
+      body: Center(child: _dialogBox(context)),
+    );
   }
 
   String _displayName() {
@@ -54,6 +39,7 @@ class _InitiateWashDialogState extends State<InitiateWashDialog> {
   }
 
   Widget _dialogBox(BuildContext context) {
+    var unlock = Provider.of<UnlockProvider>(context, listen: true);
     return Container(
       decoration: BoxDecoration(
         color: AppColors.dialogLightGray,
@@ -84,17 +70,36 @@ class _InitiateWashDialogState extends State<InitiateWashDialog> {
               ),
             ),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              _isUnlockingMachine
-                  ? CircularProgressIndicator()
-                  : YesButton(
+          unlock.isUnlocking
+              ? Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Column(
+                      children: [
+                        Text(
+                          "Låser op...",
+                          style: textStyle.copyWith(
+                              fontSize: textSize_28, color: Colors.white),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(top: 20.h),
+                          child: CircularProgressIndicator(
+                            color: Colors.white,
+                          ),
+                        ),
+                      ],
+                    )
+                  ],
+                )
+              : Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    YesButton(
                       machine: widget.machine,
                     ),
-              NoButton(),
-            ],
-          ),
+                    NoButton(),
+                  ],
+                ),
         ],
       ),
     );
