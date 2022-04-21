@@ -24,6 +24,7 @@ class UnlockProvider extends ChangeNotifier {
 
   stopUnlocking() {
     _isUnlocking = false;
+    notifyListeners();
   }
 
   set isDoneUnlocking(bool value) {

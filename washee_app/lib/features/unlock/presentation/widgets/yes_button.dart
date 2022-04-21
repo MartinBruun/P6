@@ -22,7 +22,6 @@ import 'package:washee/injection_container.dart';
 // ignore: must_be_immutable
 class YesButton extends StatefulWidget {
   YesButton({required this.machine});
-
   MachineModel machine;
 
   @override
@@ -31,64 +30,60 @@ class YesButton extends StatefulWidget {
 
 class _YesButtonState extends State<YesButton> {
   late MachineModel? fetchedMachine;
-
   @override
   Widget build(BuildContext context) {
-    var unlockProvider = Provider.of<UnlockProvider>(context, listen: true);
+    var unlock = Provider.of<UnlockProvider>(context, listen: false);
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 30.w),
-      child: unlockProvider.isUnlocking
-          ? ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                  fixedSize: Size(254.w, 84.h),
-                  primary: AppColors.deepGreen,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20.h))),
-              child: Text(
-                'Ja',
-                style: textStyle.copyWith(
-                  fontSize: textSize_32,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.black,
-                ),
-              ),
-              onPressed: () async {
-                unlockProvider.startUnlocking();
-                _unlockMachine(context);
-              },
-            )
-          : Center(
-              child: CircularProgressIndicator(
-                color: Colors.white,
-              ),
-            ),
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+            fixedSize: Size(254.w, 84.h),
+            primary: AppColors.deepGreen,
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20.h))),
+        child: Text(
+          'Ja',
+          style: textStyle.copyWith(
+            fontSize: textSize_32,
+            fontWeight: FontWeight.w600,
+            color: Colors.black,
+          ),
+        ),
+        onPressed: () async {
+          unlock.startUnlocking();
+          await _unlockMachine(context);
+        },
+      ),
     );
   }
 
   Future<void> _unlockMachine(BuildContext context) async {
-    var unlockProvider = Provider.of<UnlockProvider>(context, listen: false);
     var global = Provider.of<GlobalProvider>(context, listen: false);
-
+    var unlock = Provider.of<UnlockProvider>(context, listen: false);
+    // await Future.delayed(Duration(seconds: 5));
+    // unlock.stopUnlocking();
     try {
       var result = kDebugMode
           ? true
           : await sl<ConnectBoxWifiUsecase>().call(NoParams());
-
+      print("Result er: " + result.toString());
       if (result) {
         fetchedMachine = await sl<UnlockUseCase>()
             .call(UnlockParams(machine: this.widget.machine));
+
         if (fetchedMachine == null) {
-          unlockProvider.stopUnlocking();
-          ErrorHandler.errorHandlerView(
+          print("Fetched Machine er null: " + fetchedMachine.toString());
+          unlock.stopUnlocking();
+          await ErrorHandler.errorHandlerView(
               context: context,
               prompt: HTTPErrorPrompt(
                   message:
-                      "Det ser ud til, at du ikke har forbindelse til WasheeBox"));
+                      "Det lykkedes ikke at låse maskinen op. Du har muligvis ikke forbindelse til boksen"));
         } else {
+          print("Fetched Machine er ikke-null: " + fetchedMachine.toString());
           print("From start_wash.dart: fetchedMachine went correctly!");
-          unlockProvider.stopUnlocking();
-          await sl<DisconnectBoxWifiUsecase>().call(NoParams());
-
+          unlock.stopUnlocking();
+          print("Opdaterer maskinen");
           global.updateMachine(fetchedMachine!);
 
           Navigator.pushReplacement(
@@ -107,8 +102,8 @@ class _YesButtonState extends State<YesButton> {
           );
         }
       } else {
-        await sl<DisconnectBoxWifiUsecase>().call(NoParams());
-        unlockProvider.stopUnlocking();
+        print("Result er false");
+        unlock.stopUnlocking();
         showDialog(
           context: context,
           builder: (BuildContext context) {
@@ -119,8 +114,7 @@ class _YesButtonState extends State<YesButton> {
         );
       }
     } catch (e) {
-      await sl<DisconnectBoxWifiUsecase>().call(NoParams());
-      unlockProvider.stopUnlocking();
+      unlock.stopUnlocking();
       print(e.toString());
       await showDialog(
         context: context,
