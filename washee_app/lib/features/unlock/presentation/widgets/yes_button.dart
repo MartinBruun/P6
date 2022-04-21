@@ -22,7 +22,6 @@ import 'package:washee/injection_container.dart';
 // ignore: must_be_immutable
 class YesButton extends StatefulWidget {
   YesButton({required this.machine});
-
   MachineModel machine;
 
   @override
@@ -31,7 +30,6 @@ class YesButton extends StatefulWidget {
 
 class _YesButtonState extends State<YesButton> {
   late MachineModel? fetchedMachine;
-
   @override
   Widget build(BuildContext context) {
     var unlock = Provider.of<UnlockProvider>(context, listen: false);

@@ -50,6 +50,7 @@ class NetworkInfoImpl implements NetworkInfo {
 
   @override
   Future<bool> connectToBoxWifi() async {
+    // return true;
     try {
       bool result = await WiFiForIoTPlugin.connect(boxDomainName,
           password: boxDomainPassword,
@@ -72,6 +73,7 @@ class NetworkInfoImpl implements NetworkInfo {
 
   @override
   Future<bool> disconnectFromBoxWifi() async {
+    // return true;
     try {
       await WiFiForIoTPlugin.forceWifiUsage(false);
       await WiFiForIoTPlugin.disconnect();
