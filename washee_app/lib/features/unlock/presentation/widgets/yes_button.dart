@@ -82,8 +82,6 @@ class _YesButtonState extends State<YesButton> {
         } else {
           print("Fetched Machine er ikke-null: " + fetchedMachine.toString());
           print("From start_wash.dart: fetchedMachine went correctly!");
-          print("Disconnecting from box");
-          await sl<DisconnectBoxWifiUsecase>().call(NoParams());
           unlock.stopUnlocking();
           print("Opdaterer maskinen");
           global.updateMachine(fetchedMachine!);
@@ -105,7 +103,6 @@ class _YesButtonState extends State<YesButton> {
         }
       } else {
         print("Result er false");
-        await sl<DisconnectBoxWifiUsecase>().call(NoParams());
         unlock.stopUnlocking();
         showDialog(
           context: context,
@@ -117,7 +114,6 @@ class _YesButtonState extends State<YesButton> {
         );
       }
     } catch (e) {
-      await sl<DisconnectBoxWifiUsecase>().call(NoParams());
       unlock.stopUnlocking();
       print(e.toString());
       await showDialog(
