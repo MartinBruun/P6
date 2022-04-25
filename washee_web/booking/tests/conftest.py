@@ -24,6 +24,7 @@ def create_booking_func():
         location_name="Test Location",
         machine_name="Test Machine",
         booking_start_time=datetime.now(),
+        booking_active=True,
         save=False
     ):
         user = User.objects.create_user( # Should be remade as a fixture controlled in accounts
@@ -61,6 +62,7 @@ def create_booking_func():
         machine.save()
         booking = Booking(
             start_time=booking_start_time,
+            active=booking_active,
             account=account, 
             service=service,
             machine=machine

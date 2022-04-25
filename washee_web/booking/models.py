@@ -65,13 +65,14 @@ class Booking(models.Model):
                 validation_error += ' <' + str(booking.start_time) + ' to ' + str(booking.end_time) +'>'
             raise ValidationError(validation_error)
         else:
-            self.account.balance -= self.service.price_in_dk
-            self.account.save()
+            if self.pk is None:
+                self.account.balance -= self.service.price_in_dk
+                self.account.save()
             return super(Booking, self).save(*args,**kwargs)
         
     def delete(self):
-        if self.activated:
-            raise ValidationError("Can't delete activated bookings!")
+        if self.activated or not self.active:
+            raise ValidationError("Can't delete inactive or activated bookings!")
         self.account.balance += self.service.price_in_dk
         self.account.save()
         self.active = False
