@@ -43,7 +43,7 @@ def test_updating_a_booking_should_not_change_the_balance(create_booking_func):
     
 
 @pytest.mark.django_db
-def test_deleting_an_inactive_booking_should_have_no_effect(create_booking_func):
+def test_deleting_an_inactive_booking_should_be_an_error(create_booking_func):
     balance = 30
     booking = create_booking_func(account_balance=balance)
     
