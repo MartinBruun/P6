@@ -5,6 +5,8 @@ from datetime import datetime
 from booking.models import Booking
 from account.models import User
 from location.models import Service, MachineModel, Machine, Location
+from electricity.models import ElectricityBlock
+from security.models import Log
 
 """
     This file contains all fixtures for creating models used in the app.
@@ -183,3 +185,55 @@ def second_booking(second_account, second_service, second_machine):
     )
     
     return booking
+
+
+@pytest.fixture
+@pytest.mark.django_db
+def first_electricity_block():
+    electricity_block = ElectricityBlock(
+        start_time = datetime.now(pytz.UTC),
+        end_time = datetime.now(pytz.UTC),
+        price = 10,
+        zone=ElectricityBlock.ZoneChoices.WEST_DK
+    )
+    
+    return electricity_block
+
+
+@pytest.fixture
+@pytest.mark.django_db
+def second_electricity_block():
+    electricity_block = ElectricityBlock(
+        start_time = datetime.now(pytz.UTC),
+        end_time = datetime.now(pytz.UTC),
+        price = 10,
+        zone=ElectricityBlock.ZoneChoices.EAST_DK
+    )
+    
+    return electricity_block
+
+
+@pytest.fixture
+@pytest.mark.django_db
+def first_log(first_user):
+    first_user.save()
+    log = Log(
+        content="Test Log 1",
+        source=Log.SourceChoices.MANUAL,
+        user=first_user
+    )
+    
+    return log
+
+
+@pytest.fixture
+@pytest.mark.django_db
+def second_log(second_user):
+    second_user.save()
+    log = Log(
+        content="Test Log 2",
+        source=Log.SourceChoices.APP,
+        user=second_user
+    )
+    
+    return log

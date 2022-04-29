@@ -3,10 +3,9 @@ import pytest
 from booking.models import Booking
 from account.models import User, Account
 from location.models import Location, MachineModel, Service, Machine
+from security.models import Log
+from electricity.models import ElectricityBlock
 
-import pytest
-
-from account.models import User, Account
 
 @pytest.mark.django_db
 def test_first_user_has_functioning_default_values(first_user):
@@ -117,3 +116,33 @@ def test_second_booking_has_functioning_default_values(second_booking, second_ac
     assert second_booking.account.id == second_account.id
     assert second_booking.service.id == second_service.id
     assert second_booking.machine.id == second_machine.id
+    
+    
+@pytest.mark.django_db
+def test_first_electricity_block_has_functioning_default_values(first_electricity_block):
+    first_electricity_block.save()
+    
+    assert type(first_electricity_block) is ElectricityBlock
+    
+    
+@pytest.mark.django_db
+def test_second_electricity_block_has_functioning_default_values(second_electricity_block):
+    second_electricity_block.save()
+    
+    assert type(second_electricity_block) is ElectricityBlock
+    
+    
+@pytest.mark.django_db
+def test_first_log_has_functioning_default_values(first_log, first_user):
+    first_log.save()
+    
+    assert type(first_log) is Log
+    assert first_log.user.id == first_user.id
+    
+    
+@pytest.mark.django_db
+def test_second_log_has_functioning_default_values(second_log, second_user):
+    second_log.save()
+    
+    assert type(second_log) is Log
+    assert second_log.user.id == second_user.id
