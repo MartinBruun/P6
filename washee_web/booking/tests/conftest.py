@@ -2,8 +2,6 @@ import pytest
 import pytz
 from datetime import datetime
 
-import random
-
 from booking.models import Booking
 from account.models import User
 from location.models import Service, MachineModel, Machine, Location
@@ -18,74 +16,103 @@ from location.models import Service, MachineModel, Machine, Location
 
 @pytest.fixture
 @pytest.mark.django_db
-def create_booking_func():
+def first_booking():
     """
-        Creates a booking.
+        Creates the first booking used in any test.
+        Values with a 1, 2 or similar appended, are values that need to be unique
     """
-    def _create_booking(
-        user_username="Test User",
-        user_email="test@test.com",
-        user_password="password",
-        account_name="Test Account", 
-        account_balance=100, 
-        machine_model_name="Test Machine Model",
-        service_price=10, 
-        service_duration=5,
-        location_name="Test Location",
-        machine_id=None,
-        machine_name="Test Machine",
-        booking_start_time=datetime.now(pytz.UTC),
-        booking_active=True,
-        booking_activated=False,
-    ):
-        user_email = str(random.randint(0, 99999999)) + user_email
-        user_username = str(random.randint(0, 99999999)) + user_username
-        user = User.objects.create_user( # Should be remade as a fixture controlled in accounts
-            user_email,
-            password=user_password
-        )
-        user.username = user_username
-        user.save()
-        account = user.accounts.create( # Should be remade as a fixture controlled in accounts
-            name=account_name,
-            balance=account_balance,
-        )
-        account.save()
-        machine_model = MachineModel( # Should be remade as a fixture controlled in locations
-            name=machine_model_name
-        )
-        machine_model.save()
-        service = Service( # Should be remade as a fixture controlled in locations
-            price_in_dk=service_price, 
-            duration_in_sec=service_duration,
-            machine_model=machine_model
-        )
-        service.save()
-        location = Location( # Should be remade as a fixture controlled in locations
-            name=location_name,
-            owner=user
-        )
-        location.save()
-        machine = None
-        if machine_id is None:
-            machine = Machine( # Should be remade as a fixture controlled in locations
-                name=machine_name,
-                location=location,
-                model=machine_model,
-                owner=user
-            )
-            machine.save()
-        else:
-            machine = Machine.objects.get(id=machine_id)
-        booking = Booking(
-            start_time=booking_start_time,
-            active=booking_active,
-            activated=booking_activated,
-            account=account, 
-            service=service,
-            machine=machine
-        )
-        
-        return booking
+    user = User.objects.create_user( # Should be remade as a fixture controlled in accounts
+        "test1@test.com",
+        password="password"
+    )
+    user.username = "Test User 1"
+    user.save()
+    account = user.accounts.create( # Should be remade as a fixture controlled in accounts
+        name="Test Account 1",
+        balance=100,
+    )
+    account.save()
+    machine_model = MachineModel( # Should be remade as a fixture controlled in locations
+        name="Machine Model 1"
+    )
+    machine_model.save()
+    service = Service( # Should be remade as a fixture controlled in locations
+        price_in_dk=10, 
+        duration_in_sec=100,
+        machine_model=machine_model
+    )
+    service.save()
+    location = Location( # Should be remade as a fixture controlled in locations
+        name="Test Location 1",
+        owner=user
+    )
+    location.save()
+    machine = Machine( # Should be remade as a fixture controlled in locations
+        name="Test Machine 1",
+        location=location,
+        model=machine_model,
+        owner=user
+    )
+    machine.save()
+    booking = Booking(
+        start_time=datetime.now(pytz.UTC),
+        active=True,
+        activated=False,
+        account=account, 
+        service=service,
+        machine=machine
+    )
     
-    return _create_booking
+    return booking
+
+
+@pytest.fixture
+@pytest.mark.django_db
+def second_booking():
+    """
+        Creates the second booking used in any test.
+        Values with a 1, 2 or similar appended, are values that need to be unique
+    """
+    user = User.objects.create_user( # Should be remade as a fixture controlled in accounts
+        "test2@test.com",
+        password="password"
+    )
+    user.username = "Test User 2"
+    user.save()
+    account = user.accounts.create( # Should be remade as a fixture controlled in accounts
+        name="Test Account 2",
+        balance=100,
+    )
+    account.save()
+    machine_model = MachineModel( # Should be remade as a fixture controlled in locations
+        name="Machine Model 2"
+    )
+    machine_model.save()
+    service = Service( # Should be remade as a fixture controlled in locations
+        price_in_dk=10, 
+        duration_in_sec=100,
+        machine_model=machine_model
+    )
+    service.save()
+    location = Location( # Should be remade as a fixture controlled in locations
+        name="Test Location 2",
+        owner=user
+    )
+    location.save()
+    machine = Machine( # Should be remade as a fixture controlled in locations
+        name="Test Machine 2",
+        location=location,
+        model=machine_model,
+        owner=user
+    )
+    machine.save()
+    booking = Booking(
+        start_time=datetime.now(pytz.UTC),
+        active=True,
+        activated=False,
+        account=account, 
+        service=service,
+        machine=machine
+    )
+    
+    return booking
