@@ -59,6 +59,7 @@ dev_dependencies:
   test: ^1.17.10
   mockito: ^5.0.14 
   build_runner: ^2.1.1
+  mocktail: '^0.2.0'
 
 flutter:
 

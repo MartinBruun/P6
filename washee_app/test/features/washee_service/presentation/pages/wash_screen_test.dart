@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:provider/provider.dart';
+import 'package:washee/core/usecases/usecase.dart';
+import 'package:washee/core/washee_box/machine_model.dart';
+import 'package:washee/core/widgets/machine_card.dart';
+import 'package:washee/features/get_machines/domain/usecases/get_machines.dart';
+import 'package:washee/features/unlock/presentation/pages/wash_screen.dart';
 import 'package:washee/injection_container.dart' as ic;
 import 'package:washee/core/account/user.dart';
-import 'package:washee/core/pages/home_screen.dart';
-import 'package:washee/core/pages/pages_enum.dart';
 import 'package:washee/core/presentation/themes/themes.dart';
 import 'package:washee/core/providers/global_provider.dart';
 import 'package:washee/features/booking/presentation/provider/booking_provider.dart';
@@ -13,7 +17,38 @@ import 'package:washee/features/booking/presentation/provider/calendar_provider.
 import 'package:washee/features/sign_in/presentation/provider/sign_in_provider.dart';
 import 'package:washee/features/unlock/presentation/provider/unlock_provider.dart';
 
+class MockGetMachinesUseCase extends Mock implements GetMachinesUseCase {}
+
+late List<MachineModel> mockMachines;
+setUp() {
+  ic.initAll();
+  ActiveUser user = ActiveUser();
+  user.initUser(1, "email", "username", [
+    {'account_id': 1, 'name': "some_name", 'balance': 20.0}
+  ]);
+  mockMachines = [
+    MachineModel(machineID: "machineID1", name: "name1", machineType: "Wash"),
+    MachineModel(machineID: "machineID2", name: "name2", machineType: "Wash"),
+    MachineModel(machineID: "machineID3", name: "name3", machineType: "Dry")
+  ];
+}
+
+arrangeMachineModelsReturnAfter3Seconds(MockGetMachinesUseCase usecase) {
+  when(() => usecase.call(NoParams())).thenAnswer((_) async {
+    await Future.delayed(const Duration(seconds: 3));
+    return mockMachines;
+  });
+}
+
+arrangeMachineModelsReturned(MockGetMachinesUseCase usecase) {
+  when(() => usecase.call(NoParams())).thenAnswer((_) async {
+    return mockMachines;
+  });
+}
+
 void main() {
+  MockGetMachinesUseCase usecase = MockGetMachinesUseCase();
+  setUp();
   Widget createWidgetUnderTest() {
     return MultiProvider(
       providers: [
@@ -29,26 +64,65 @@ void main() {
           title: "Washee App",
           debugShowCheckedModeBanner: true,
           theme: getMainTheme(),
-          home: HomeScreen(
-            page: PageNumber.WashScreen,
-          ),
+          home: WashScreen(),
           routes: {},
         ),
       ),
     );
   }
 
-  setUp() {
-    ic.initAll();
-  }
+  group("Static widget", () {
+    testWidgets("Maskiner text is displayed on WashScreen",
+        (WidgetTester tester) async {
+      await tester.pumpWidget(createWidgetUnderTest());
+      expect(find.text("Maskiner"), findsOneWidget);
+    });
+  });
 
-  testWidgets("Maskiner text is displayed", (WidgetTester tester) async {
-    setUp();
-    ActiveUser user = ActiveUser();
-    user.initUser(1, "email", "username", [
-      {'account_id': 1, 'name': "some_name", 'balance': 20.0}
-    ]);
-    await tester.pumpWidget(createWidgetUnderTest());
-    expect(find.text("Maskiner"), findsOneWidget);
+  group("Dynamic widgets", () {
+    testWidgets(
+        "CircularProgressIndicator is displayed on WashScreen when fetching from backend",
+        (WidgetTester tester) async {
+      arrangeMachineModelsReturnAfter3Seconds(usecase);
+      await tester.pumpWidget(createWidgetUnderTest());
+
+      await tester.pump(const Duration(milliseconds: 500));
+      expect(find.byKey(Key('machines-progress-indicator')), findsOneWidget);
+    });
+
+    testWidgets("Refresh text is displayed on WashScreen after backend fetch",
+        (WidgetTester tester) async {
+      tester.runAsync(() async {
+        await arrangeMachineModelsReturned(usecase);
+        await tester.pumpWidget(createWidgetUnderTest());
+        await tester.pumpAndSettle();
+        expect(find.byKey(Key('refresh-text')), findsOneWidget);
+      });
+    });
+
+    testWidgets(
+        "Refresh IconButton is displayed on WashScreen after backend fetch",
+        (WidgetTester tester) async {
+      tester.runAsync(() async {
+        await arrangeMachineModelsReturned(usecase);
+        await tester.pumpWidget(createWidgetUnderTest());
+
+        await tester.pumpAndSettle();
+        expect(find.byKey(Key('refresh-iconbutton')), findsOneWidget);
+      });
+    });
+
+    testWidgets("Machines are displayed after successfull backend fetch",
+        (WidgetTester tester) async {
+      tester.runAsync(() async {
+        await arrangeMachineModelsReturned(usecase);
+        await tester.pumpWidget(createWidgetUnderTest());
+
+        await tester.pumpAndSettle();
+        for (final machine in mockMachines) {
+          expect(find.byType(MachineCard), findsOneWidget);
+        }
+      });
+    });
   });
 }

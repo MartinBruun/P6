@@ -27,9 +27,11 @@ class _RefreshMachinesState extends State<RefreshMachines> {
                 fontSize: textSize_36,
                 fontWeight: FontWeight.w300,
               ),
+              key: Key('refresh-text'),
             ),
           ),
           IconButton(
+              key: Key('refresh-iconbutton'),
               padding: EdgeInsets.only(right: 75.w, bottom: 45.h),
               icon: Icon(
                 Icons.refresh,

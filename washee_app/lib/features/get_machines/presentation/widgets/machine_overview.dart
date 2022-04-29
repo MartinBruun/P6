@@ -37,6 +37,7 @@ class _MachineOverviewState extends State<MachineOverview> {
                 case ConnectionState.waiting:
                   return Center(
                     child: CircularProgressIndicator(
+                      key: Key('machines-progress-indicator'),
                       color: Colors.white,
                     ),
                   );
@@ -83,6 +84,7 @@ class ListOfMachines extends StatelessWidget {
     var global = Provider.of<GlobalProvider>(context, listen: true);
     return Expanded(
       child: ListView.builder(
+        key: Key('list-of-machines'),
         itemBuilder: (context, index) => Padding(
           padding: EdgeInsets.all(10.h),
           child: MachineCard(
