@@ -20,6 +20,8 @@ import 'package:washee/features/unlock/presentation/provider/unlock_provider.dar
 class MockGetMachinesUseCase extends Mock implements GetMachinesUseCase {}
 
 late List<MachineModel> mockMachines;
+
+// This function sets up the prerequisites needed for the tests to run.
 setUp() {
   ic.initAll();
   ActiveUser user = ActiveUser();
@@ -33,6 +35,7 @@ setUp() {
   ];
 }
 
+// Mocking a response from the usecase
 arrangeMachineModelsReturnAfter3Seconds(MockGetMachinesUseCase usecase) {
   when(() => usecase.call(NoParams())).thenAnswer((_) async {
     await Future.delayed(const Duration(seconds: 3));
@@ -49,6 +52,8 @@ arrangeMachineModelsReturned(MockGetMachinesUseCase usecase) {
 void main() {
   MockGetMachinesUseCase usecase = MockGetMachinesUseCase();
   setUp();
+
+  // Returns the widget we want to test - in this case the WashScreen
   Widget createWidgetUnderTest() {
     return MultiProvider(
       providers: [
@@ -83,10 +88,16 @@ void main() {
     testWidgets(
         "CircularProgressIndicator is displayed on WashScreen when fetching from backend",
         (WidgetTester tester) async {
+      // arrange
       arrangeMachineModelsReturnAfter3Seconds(usecase);
       await tester.pumpWidget(createWidgetUnderTest());
 
+      // act
+      // We "pump" a frame on the stack every 500 miliseconds
+      // This is needed to capture the progress indicator spinning
       await tester.pump(const Duration(milliseconds: 500));
+
+      // assert
       expect(find.byKey(Key('machines-progress-indicator')), findsOneWidget);
     });
 
@@ -95,7 +106,10 @@ void main() {
       tester.runAsync(() async {
         await arrangeMachineModelsReturned(usecase);
         await tester.pumpWidget(createWidgetUnderTest());
+
+        // this pumps every frame to the stack and waits for them all to finish
         await tester.pumpAndSettle();
+
         expect(find.byKey(Key('refresh-text')), findsOneWidget);
       });
     });
