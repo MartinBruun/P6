@@ -76,7 +76,7 @@ void main() {
     );
   }
 
-  group("Static widget", () {
+  group("Static widgets: ", () {
     testWidgets("Maskiner text is displayed on WashScreen",
         (WidgetTester tester) async {
       await tester.pumpWidget(createWidgetUnderTest());
@@ -84,7 +84,7 @@ void main() {
     });
   });
 
-  group("Dynamic widgets", () {
+  group("Dynamic widgets: ", () {
     testWidgets(
         "CircularProgressIndicator is displayed on WashScreen when fetching from backend",
         (WidgetTester tester) async {
