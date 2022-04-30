@@ -5,15 +5,14 @@ import 'package:washee/core/washee_box/machine_model.dart';
 import 'package:washee/features/get_machines/domain/repositories/get_machines_repository.dart';
 import 'package:washee/features/get_machines/domain/usecases/get_machines.dart';
 
-class MockGetMachinesUseCaseRepo extends Mock implements GetMachinesRepository {
-}
+class MockGetMachinesRepo extends Mock implements GetMachinesRepository {}
 
 void main() {
   late GetMachinesUseCase usecase;
-  late MockGetMachinesUseCaseRepo mockRepo;
+  late MockGetMachinesRepo mockRepo;
 
   setUp() {
-    mockRepo = MockGetMachinesUseCaseRepo();
+    mockRepo = MockGetMachinesRepo();
     usecase = GetMachinesUseCase(repository: mockRepo);
   }
 
