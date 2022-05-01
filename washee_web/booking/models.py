@@ -56,9 +56,9 @@ class Booking(models.Model):
             if self.activated:
                 pre_fix = "(activated)"
             elif self.end_time >= datetime.now(pytz.UTC):
-                pre_fix = "(skipped)"
-            else:
                 pre_fix = "(active)"
+            else:
+                pre_fix = "(skipped)"
         else:
             pre_fix = "(deleted)"
                 

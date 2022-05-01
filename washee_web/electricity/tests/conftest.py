@@ -1,5 +1,7 @@
 import pytest
 
+# Model Fixtures are created in the conftest.py at root.
+
 @pytest.fixture
 def mock_ftp():
     class Mock_FTP:
