@@ -13,6 +13,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+    - name: Run linter before running tests
+      uses: py-actions/flake8@v2
     - name: Build, run, test and tear down
       working-directory: ./washee_web
       run: |
