@@ -1,136 +1,60 @@
 import 'dart:core';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/mockito.dart';
-import 'package:washee/core/account/account.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:washee/core/account/user.dart';
-import 'package:washee/features/booking/data/models/booking_entity.dart';
 import 'package:washee/features/booking/data/models/booking_model.dart';
 import 'package:washee/features/booking/domain/repositories/book_repository.dart';
 import 'package:washee/features/booking/domain/usecases/post_booking.dart';
-import 'package:washee/injection_container.dart';
-
-// List<DateTime> mockTimeSlots = [
-//   DateTime(2022, 01, 01, 2, 0),
-//   DateTime(2022, 01, 01, 2, 30),
-//   DateTime(2022, 01, 01, 3, 0),
-//   DateTime(2022, 01, 01, 3, 30),
-//   DateTime(2022, 01, 01, 4, 0),
-//   DateTime(2022, 01, 01, 4, 30),
-// ];
-
-// DateTime? getLeastTimeSlot() {
-//   return mockTimeSlots
-//       .reduce((current, next) => current.compareTo(next) > 0 ? next : current);
-// }
-
-// ActiveUser user = ActiveUser();
-// String machineResource = sl<WebCommunicator>().machinesURL+"/${widget.machineType.toString()}/";
-// String serviceResource = sl<WebCommunicator>().servicesURL+"/${widget.machineType.toString()}/";
-// String accountResource = sl<WebCommunicator>().accountsURL+"/${user.activeAccount!.id.toString()}/";
-// if (kDebugMode){
-//   machineResource = "http://localhost:8000/api/1/machines/${widget.machineType.toString()}/";
-//   serviceResource = "http://localhost:8000/api/1/services/${widget.machineType.toString()}/";
-//   accountResource = "http://localhost:8000/api/1/accounts/${user.activeAccount!.id.toString()}/";
-// }
-
-// var result = await sl<PostBookingUsecase>().call(PostBookingParams(
-//                     startTime: calendar.getLeastTimeSlot()!,
-//                     machineResource: machineResource,
-//                     serviceResource: serviceResource,
-//                     accountResource: accountResource));
-//                 await sl<UpdateAccountUseCase>().call(NoParams());
-//                 await _simulateDelay();
-//                 if (result != null) {
-//                   calendar.clearTimeSlots();
 
 class MockBookRepository extends Mock implements BookRepository {}
 
 void main() {
-  late PostBookingUsecase sut_usecase;
+  late PostBookingUsecase usecase;
   late MockBookRepository mockRepo;
-  late Booking booking;
+  late BookingModel tBooking;
 
-  setUp(() {
+  setUp() {
     mockRepo = MockBookRepository();
-    sut_usecase = PostBookingUsecase(repository: mockRepo);
-    // create a user
+    usecase = PostBookingUsecase(repository: mockRepo);
     var user = ActiveUser();
     user.initUser(1, "test@test.test", "test", [
       {'account_id': 1, 'name': "test_account", 'balance': 20.0}
     ]);
-    // create a booking
-    // booking = Booking()
-    var booking1_start_time = DateTime(2022, 01, 01, 2, 0);
-    booking = Booking(
+    tBooking = BookingModel(
         bookingID: 12,
-        startTime: booking1_start_time,
-        machineResource: "https://mocked_machineResource/1",
-        serviceResource: "https://mocked_serviceResource/1",
-        accountResource: "https://mocked_accountResource/1");
-  });
+        startTime: DateTime(2022, 01, 01, 2, 0),
+        machineResource: "test",
+        serviceResource: "test",
+        accountResource: "test");
+  }
 
   test(
       """should verify that a call has been made to the repository BookRepository""",
       () async {
     // arrange
-    BookingModel? mockBookingModel = booking as BookingModel?;
-    BookingModel? mockBook () => mockBookingModel;
-
+    setUp();
     PostBookingParams params = PostBookingParams(
-        startTime: booking.startTime!,
-        machineResource: booking.machineResource,
-        accountResource: booking.accountResource,
-        serviceResource: booking.serviceResource);
+        startTime: tBooking.startTime!,
+        machineResource: tBooking.machineResource,
+        accountResource: tBooking.accountResource,
+        serviceResource: tBooking.serviceResource);
 
     when(() => mockRepo.postBooking(
-            startTime: booking.startTime!,
-            machineResource: booking.machineResource,
-            serviceResource: booking.serviceResource,
-            accountResource: booking.accountResource))
-        .thenAnswer((_) async => mockBook);
+            startTime: tBooking.startTime!,
+            machineResource: tBooking.machineResource,
+            serviceResource: tBooking.serviceResource,
+            accountResource: tBooking.accountResource))
+        .thenAnswer((_) async => tBooking);
     // act
-    final result = await sut_usecase.call(params);
+    final result = await usecase.call(params);
 
     // assert
-    expect(result, mockBookingModel);
+    expect(result, tBooking);
     verify(() => mockRepo.postBooking(
-        startTime: booking.startTime!,
-        machineResource: booking.machineResource,
-        serviceResource: booking.serviceResource,
-        accountResource: booking.accountResource)).called(1);
+        startTime: tBooking.startTime!,
+        machineResource: tBooking.machineResource,
+        serviceResource: tBooking.serviceResource,
+        accountResource: tBooking.accountResource)).called(1);
   });
-  // late
-  // test(
-  //   'should post a valid booking to dio endpoint',
-  //   () async {
-  //     // arrange
-  //     // create a user
-  //     var user = ActiveUser();
-  //     user.initUser(1, "test@test.test", "test", [
-  //       {'account_id': 1, 'name': "test_account", 'balance': 20.0}
-  //     ]);
-  //     // create a booking
-  //     // booking = Booking()
-  //     var booking1_start_time = DateTime(2022, 01, 01, 2, 0);
-  //     var booking = Booking(
-  //         bookingID: 12,
-  //         startTime: booking1_start_time,
-  //         machineResource: "https://mocked_machineResource/1",
-  //         serviceResource: "https://mocked_serviceResource/1",
-  //         accountResource: "https://mocked_accountResource/1");
-
-  //     // // act
-  //     // post booking
-  //     final result = await sl<PostBookingUsecase>().call(PostBookingParams(
-  //         startTime: booking.startTime!,
-  //         machineResource: booking.machineResource,
-  //         serviceResource: booking.serviceResource,
-  //         accountResource: booking.accountResource));
-
-  //     // // assert
-  //     //assert that the booking is posted to dio correct endpoint, with token
-  //     expect(result, "risengrød");
-  //   },
-  // );
 }
