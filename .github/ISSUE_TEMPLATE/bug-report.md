@@ -2,7 +2,7 @@
 name: Bug report
 about: Create a report to help us improve
 title: '(app/box/web/int) BUG'
-labels: '0: Suggestion, Need grooming, Bug'
+labels: '0: Suggestion, Need PR, Bug'
 ---
 
 Please fill in (app/box/web/int) as specified below, and write the title in BUG

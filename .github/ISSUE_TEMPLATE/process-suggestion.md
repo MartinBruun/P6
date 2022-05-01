@@ -2,7 +2,7 @@
 name: Process Suggestion
 about: Suggest changes to how we work
 title: '(CI/coop/problem) PROCESS'
-labels: '0: Suggestion, Process'
+labels: '0: Suggestion, Process,  WIP'
 ---
 
 Please fill in (CI/coop/issue) what it is this issue is about.

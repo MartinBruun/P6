@@ -2,7 +2,7 @@
 name: Project Writing
 about: Needs for project writing
 title: '(chapter 01/02/03/.../09) Project'
-labels: '0: Suggestion, Project'
+labels: '0: Suggestion, Project, WIP'
 ---
 
 Please fill in what chapter it relates to in (chapter 01/02/03/.../09)

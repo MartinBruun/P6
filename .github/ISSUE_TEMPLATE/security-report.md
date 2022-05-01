@@ -2,7 +2,7 @@
 name: Security report
 about: Create a report to help us improve
 title: '(breach) Dont Create This Issue'
-labels: '1: Highest Priority, Need grooming, Security'
+labels: '1: Highest Priority, Need PR, Security'
 assignees: MartinBruun
 ---
 

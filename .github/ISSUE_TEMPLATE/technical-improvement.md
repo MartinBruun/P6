@@ -2,7 +2,7 @@
 name: Technical Improvement
 about: An enhancement to the code, purely technical
 title: '(app/box/web/int) IMPROVEMENT'
-labels: '0: Suggestion, Improvement, Need grooming'
+labels: '0: Suggestion, Improvement, Need PR'
 ---
 
 Please fill in (app/box/web/int) as specified below, and write the title in BUG

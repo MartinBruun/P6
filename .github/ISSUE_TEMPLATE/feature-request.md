@@ -2,7 +2,7 @@
 name: Feature Request
 about: Suggest an idea for this project
 title: '(app/box/web/int) FEATURE'
-labels: '0: Suggestion, Need grooming, Feature'
+labels: '0: Suggestion, Need PR, Feature'
 ---
 
 Please fill in (app/box/web/int) as specified below, and write the title in FEATURE
