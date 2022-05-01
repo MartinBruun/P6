@@ -1,5 +1,6 @@
 from django.db import models
-from datetime import timedelta
+import pytz
+from datetime import datetime, timedelta
 from django.db.models import Q
 from rest_framework.exceptions import ValidationError
 
@@ -50,7 +51,18 @@ class Booking(models.Model):
     objects = BookingManager()
     
     def __str__(self):
-        return "Booking made by " + self.account.name + " at " + str(self.created)
+        pre_fix = ""
+        if self.active:
+            if self.activated:
+                pre_fix = "(activated)"
+            elif self.end_time >= datetime.now(pytz.UTC):
+                pre_fix = "(skipped)"
+            else:
+                pre_fix = "(active)"
+        else:
+            pre_fix = "(deleted)"
+                
+        return pre_fix + " Booking from " + str(self.start_time) + " to " + str(self.end_time) + " made by " + str(self.account.name)
     
     def save(self, *args, **kwargs):
         self.end_time = self.start_time + timedelta(seconds=self.service.duration_in_sec)
