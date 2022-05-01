@@ -17,7 +17,7 @@ void main() {
   }
 
   test(
-    'should verify a call has been made to the repository',
+    'should verify a call has been made to the repository from the usecase',
     () async {
       // arrange
       List<MachineModel> mockMachines = [

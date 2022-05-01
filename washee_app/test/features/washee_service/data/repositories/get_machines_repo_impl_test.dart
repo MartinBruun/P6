@@ -11,7 +11,7 @@ class MockWebCommunicator extends Mock implements WebCommunicator {}
 class MockNetworkInfo extends Mock implements NetworkInfo {}
 
 void main() {
-  late GetMachinesRepositoryImpl repositoryImpl;
+  late GetMachinesRepositoryImpl getMachinesRepositoryImpl;
   late MockNetworkInfo mockNetworkInfo;
   late MockWebCommunicator mockCommunicator;
   late var mockMachines;
@@ -19,10 +19,10 @@ void main() {
   setUp() {
     mockCommunicator = MockWebCommunicator();
     mockNetworkInfo = MockNetworkInfo();
-    repositoryImpl = GetMachinesRepositoryImpl(
+    getMachinesRepositoryImpl = GetMachinesRepositoryImpl(
         communicator: mockCommunicator, networkInfo: mockNetworkInfo);
 
-    mockMachines = listOfMockMachines();
+    mockMachines = listOfTestMachines();
   }
 
   test(
@@ -33,7 +33,7 @@ void main() {
       when(() => mockNetworkInfo.isConnected).thenAnswer((_) async => false);
 
       // act
-      final result = await repositoryImpl.getMachines();
+      final result = await getMachinesRepositoryImpl.getMachines();
 
       // assert
       expect(result, new List.empty());
@@ -42,7 +42,7 @@ void main() {
   );
 
   test(
-    'should call the WebCommunicator and return a list of machine models',
+    'should call the WebCommunicator and return a list of machine models on a valid internet connection',
     () async {
       // arrange
       setUp();
@@ -51,7 +51,7 @@ void main() {
           .thenAnswer((_) async => mockMachines);
 
       // act
-      final result = await repositoryImpl.getMachines();
+      final result = await getMachinesRepositoryImpl.getMachines();
 
       // assert
       expect(result.length, 4);
