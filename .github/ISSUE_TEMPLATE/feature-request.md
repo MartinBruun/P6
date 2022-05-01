@@ -1,10 +1,8 @@
 ---
 name: Feature Request
 about: Suggest an idea for this project
-title: '0: [FEATURE]'
-labels: '0: Suggestion, Feature, Need documentation, Need grooming'
-assignees: MartinBruun
-
+title: '(app/box/web/int) FEATURE'
+labels: '0: Suggestion, Need grooming, Feature'
 ---
 
 **Who wants it?**

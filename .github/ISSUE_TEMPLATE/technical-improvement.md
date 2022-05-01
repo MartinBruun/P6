@@ -1,10 +1,8 @@
 ---
 name: Technical Improvement
 about: An enhancement to the code, purely technical
-title: '0: [IMPROVEMENT]'
-labels: '0: Suggestion, Improvement, Need documentation, Need grooming'
-assignees: MartinBruun
-
+title: '(app/box/web/int) IMPROVEMENT'
+labels: '0: Suggestion, Improvement, Need grooming'
 ---
 
 **What should be improved upon and why?**
