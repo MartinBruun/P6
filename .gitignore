@@ -312,7 +312,7 @@ washee_box/data_collection/
 washee_box/data_setup_files/allowed_users.json
 washee_box/data_setup_files/machine_list.json
 washee_box/data_setup_files/max_washing_time.json
-washee_web/washee_web/exception_log.txt
+washee_web/security/exception_log.txt
 
 # Ignore the generated file made by secure storage
 washee_app/lib/generated_plugin_registrant.dart
