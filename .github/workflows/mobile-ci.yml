@@ -34,6 +34,7 @@ jobs:
         echo "BOX_HAS_INTERNET=true" >> .env.dev
         echo "Necessary production environment to satisfy flutter assets" > .env.prod
         flutter pub get
+        flutter analyze 
         flutter test
         flutter build apk --debug 
 
