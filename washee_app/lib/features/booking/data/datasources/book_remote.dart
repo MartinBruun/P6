@@ -11,7 +11,7 @@ abstract class BookRemote {
       int? machineID,
       int? accountID,
       int? serviceID});
-  
+
   Future<Map<String, dynamic>> postBooking(
       {required DateTime startTime,
       required String machineResource,
@@ -52,26 +52,27 @@ class BookRemoteImpl implements BookRemote {
         "I would argue this should not return an empty list. No response from database is not the same as there are no bookings on the database!");
   }
 
-
-
   Future<Map<String, dynamic>> postBooking(
       {required DateTime startTime,
       required String machineResource,
       required String serviceResource,
       required String accountResource}) async {
-    var data = await communicator.postBooking(
-        startTime: startTime,
-        machineResource: machineResource,
-        serviceResource: serviceResource,
-        accountResource: accountResource);
-    if (data.isEmpty) {
-      throw new Exception(
-          "Wont make sense to return an 'empty' booking model, what is that?");
-    } else {
-      return data;
+    if (await networkInfo.isConnected) {
+      var data = await communicator.postBooking(
+          startTime: startTime,
+          machineResource: machineResource,
+          serviceResource: serviceResource,
+          accountResource: accountResource);
+      if (data.isEmpty) {
+        throw new Exception(
+            "Wont make sense to return an 'empty' booking model, what is that?");
+      } else {
+        return data;
+      }
     }
+    throw new Exception(
+        "Not connected to a network when trying to call bookRemote.postBooking");
   }
-
 
   @override
   Future<bool> deleteBooking(bookingID) async {

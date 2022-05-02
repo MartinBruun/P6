@@ -84,5 +84,4 @@ class BookRepositoryImpl implements BookRepository {
     return BookingModel.fromJson(bookingAsJson);
   }
 
- 
 }

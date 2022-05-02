@@ -48,8 +48,6 @@ main() {
       "activated": false,
     };
     // when((() => constructBooking([mockReturnedBookings])))
-
-    
   });
 
   test(
@@ -107,7 +105,7 @@ main() {
       "id": "12",
       "activated": false
     };
-    
+
     when(() => mockNetworkInfo.isConnected).thenAnswer((_) async => false);
     when(() => mockWebCommnicator.postBooking(
             startTime: mockBookingModel!.startTime!,
@@ -116,14 +114,21 @@ main() {
             serviceResource: mockBookingModel!.serviceResource))
         .thenAnswer((_) async => mockReturnedBookings);
     //act
-    var result = sut_bookRemoteImpl.postBooking(
-        startTime: mockBookingModel!.startTime!,
-        accountResource: mockBookingModel!.accountResource,
-        machineResource: mockBookingModel!.machineResource,
-        serviceResource: mockBookingModel!.serviceResource);
+    // var result = sut_bookRemoteImpl.postBooking(
+    //     startTime: mockBookingModel!.startTime!,
+    //     accountResource: mockBookingModel!.accountResource,
+    //     machineResource: mockBookingModel!.machineResource,
+    //     serviceResource: mockBookingModel!.serviceResource);
 
     //assert
-    expect(result, null);
+    expect(
+        sut_bookRemoteImpl.postBooking(
+            startTime: mockBookingModel!.startTime!,
+            accountResource: mockBookingModel!.accountResource,
+            machineResource: mockBookingModel!.machineResource,
+            serviceResource: mockBookingModel!.serviceResource),
+        throwsA(isA<Exception>()));
+        
     verifyNever(() => mockWebCommnicator.postBooking(
         startTime: mockBookingModel!.startTime!,
         accountResource: mockBookingModel!.accountResource,
