@@ -65,3 +65,7 @@ void main() {
     },
   );
 }
+
+// The UnlockRepository should call remote.unlockBoxAndUpdateBookings
+// The unlock repository makes sure to call this remote endpoint
+// It should receive a Json which gets serialized into a List of BookingModels
