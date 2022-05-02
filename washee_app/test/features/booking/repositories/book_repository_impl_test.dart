@@ -6,6 +6,7 @@ import 'package:washee/core/helpers/date_helper.dart';
 import 'package:washee/core/network/network_info.dart';
 import 'package:washee/features/booking/data/datasources/book_remote.dart';
 import 'package:washee/features/booking/data/models/booking_model.dart';
+import 'package:washee/features/booking/data/models/booking_model_helper.dart';
 import 'package:washee/features/booking/data/repositories/book_repository_impl.dart';
 import 'package:timezone/timezone.dart' as tz;
 
@@ -17,13 +18,13 @@ class MockDateHelper extends Mock implements DateHelper {}
 
 class FakeLocation extends Mock implements tz.Location {}
 
-class MockBookingModel extends Mock implements BookingModel {}
+class MockBookingModel extends Mock implements BookingModelHelper {}
 
 void main() {
   late BookRepositoryImpl sut_bookRepositoryImpl;
   late MockNetworkInfo mockNetworkInfo;
   late MockBookRemote mockRemote;
-  late MockBookingModel mockBookingModel;
+  late MockBookingModel mockBookingHelper;
   late MockDateHelper mockDateHelper;
   late BookingModel mockBookingModelResult;
   late Map<String, dynamic> mockBookingJson;
@@ -33,10 +34,10 @@ void main() {
     registerFallbackValue(FakeLocation());
     mockRemote = MockBookRemote();
     mockNetworkInfo = MockNetworkInfo();
-    mockBookingModel = MockBookingModel();
+    mockBookingHelper = MockBookingModel();
     mockDateHelper = MockDateHelper();
     sut_bookRepositoryImpl =
-        BookRepositoryImpl(networkInfo: mockNetworkInfo, remote: mockRemote);
+        BookRepositoryImpl(networkInfo: mockNetworkInfo, remote: mockRemote,bookingModelHelper: mockBookingHelper );
     currentTime = DateTime.now();
     var booking1_start_time = DateTime(2022, 01, 01, 2, 0);
     var booking1_end_time =
@@ -63,13 +64,14 @@ void main() {
       'should verify that remote.postBooking() is called 1 times when isConnected is true',
       () async {
     //arrange
+    when((() => mockBookingHelper.usingJson(mockBookingJson))).thenReturn(mockBookingModelResult);
 
-    when(() => mockDateHelper.convertToNonNaiveTime(currentTime))
-        .thenReturn(currentTime.toString());
-    when(() => mockDateHelper.currentTime()).thenReturn(currentTime);
-    when(() => mockDateHelper.from(any(), any())).thenReturn(currentTime);
-    when(() => mockDateHelper.getLocation('Europe/Copenhagen'))
-        .thenReturn(FakeLocation());
+    // when(() => mockDateHelper.convertToNonNaiveTime(currentTime))
+    //     .thenReturn(currentTime.toString());
+    // when(() => mockDateHelper.currentTime()).thenReturn(currentTime);
+    // when(() => mockDateHelper.from(any(), any())).thenReturn(currentTime);
+    // when(() => mockDateHelper.getLocation('Europe/Copenhagen'))
+    //     .thenReturn(FakeLocation());
 
     when(() => mockNetworkInfo.isConnected).thenAnswer((_) async => true);
     when(() => mockRemote.postBooking(
@@ -78,7 +80,8 @@ void main() {
             serviceResource: mockBookingJson["serviceResource"],
             accountResource: mockBookingJson["accountResource"]))
         .thenAnswer((_) async => mockBookingJson);
-    when(() => mockBookingModel.fromJson(mockBookingJson))
+    // when(() => mockBookingModel.usingJson(mockBookingJson))
+    //     .thenReturn(mockBookingModelResult);
 
     //act
     final result = await sut_bookRepositoryImpl.postBooking(
@@ -87,6 +90,7 @@ void main() {
         serviceResource: mockBookingJson["serviceResource"],
         accountResource: mockBookingJson["accountResource"]);
     // assert
+    verify(() => mockDateHelper.getLocation('Europe/Copenhagen')).called(1);
     //simple test
     expect(result, mockBookingModelResult);
     //informational test
