@@ -62,8 +62,8 @@ class MachineModel extends Machine {
   bool get isAvailable {
     if (startTime == null || endTime == null) {
       return true;
-    } else if (DateHelper.currentTime().isBefore(endTime!) &&
-        DateHelper.currentTime().isAfter(startTime!)) {
+    } else if (DateHelper().currentTime().isBefore(endTime!) &&
+        DateHelper().currentTime().isAfter(startTime!)) {
       return false;
     }
     return true;

@@ -125,8 +125,8 @@ class _DayCardState extends State<DayCard> {
         ),
         onPressed: () async {
           ActiveUser user = ActiveUser();
-          if ((widget.currentDate.month == DateHelper.currentTime().month) &&
-              (widget.currentDate.day < DateHelper.currentTime().day)) {
+          if ((widget.currentDate.month == DateHelper().currentTime().month) &&
+              (widget.currentDate.day < DateHelper().currentTime().day)) {
             await showDialog(
               context: context,
               builder: (BuildContext context) {

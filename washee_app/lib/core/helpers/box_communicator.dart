@@ -50,7 +50,7 @@ class BoxCommunicatorImpl implements BoxCommunicator {
     MachineModel machine, Duration duration) async {
       Response response;
 
-      var startTime = DateHelper.currentTime();
+      var startTime = DateHelper().currentTime();
       machine.startTime = startTime;
       machine.endTime = startTime.add(duration);
       try {

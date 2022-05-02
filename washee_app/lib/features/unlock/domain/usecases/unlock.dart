@@ -18,7 +18,7 @@ class UnlockUseCase implements UseCase<MachineModel?, UnlockParams> {
   Future<MachineModel?> call(UnlockParams params) async {
     Duration duration = Duration(hours: 2, minutes: 30);
     if(params.machine.endTime != null){
-      duration = params.machine.endTime!.difference(DateHelper.currentTime());
+      duration = params.machine.endTime!.difference(DateHelper().currentTime());
     }
 
     MachineModel? machine = await repository.unlock(params.machine, duration);
@@ -31,8 +31,8 @@ class UnlockUseCase implements UseCase<MachineModel?, UnlockParams> {
       Future.delayed(Duration(seconds: 3), () async {
         List<Map<String,dynamic>> currentBooking = await sl<WebCommunicator>().getCurrentBookings(
             machineID: int.parse(params.machine.machineID.toString()),
-            startTimeLessThan: DateHelper.currentTime(),
-            endTimeGreaterThan: DateHelper.currentTime()
+            startTimeLessThan: DateHelper().currentTime(),
+            endTimeGreaterThan: DateHelper().currentTime()
           );
         sl<WebCommunicator>().updateBooking(currentBooking[0]["id"].toString(), activated: true);
       });

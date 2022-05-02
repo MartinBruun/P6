@@ -1,5 +1,5 @@
+import 'package:washee/core/helpers/date_helper.dart';
 import 'package:washee/features/booking/data/models/booking_entity.dart';
-import 'package:timezone/timezone.dart' as tz;
 
 // ignore: must_be_immutable
 class BookingModel extends Booking {
@@ -32,6 +32,7 @@ class BookingModel extends Booking {
             machineResource: machineResource,
             serviceResource: serviceResource,
             accountResource: accountResource);
+  
 
   @override
   List<Object?> get props =>
@@ -49,16 +50,33 @@ class BookingModel extends Booking {
         'account': accountResource
       };
 
-  factory BookingModel.fromJson(Map<String, dynamic> json) {
-    var danishTime = tz.getLocation('Europe/Copenhagen');
+  static BookingModel usingJson(Map<String, dynamic> json){
+    var danishTime = DateHelper().getLocation('Europe/Copenhagen');
     BookingModel booking = BookingModel(
-      startTime: tz.TZDateTime.from(DateTime.parse(json['start_time']), danishTime),
-      endTime: tz.TZDateTime.from(DateTime.parse(json['end_time']), danishTime),
-      lastUpdated: tz.TZDateTime.from(DateTime.parse(json['last_updated']), danishTime),
+      startTime: DateHelper().from(DateTime.parse(json['start_time']), danishTime),
+      endTime: DateHelper().from(DateTime.parse(json['end_time']), danishTime),
+      lastUpdated: DateHelper().from(DateTime.parse(json['last_updated']), danishTime),
       activated: json["activated"],
       machineResource: json['machine'],
       serviceResource: json['service'],
-      created: tz.TZDateTime.from(DateTime.parse(json['created']), danishTime),
+      created: DateHelper().from(DateTime.parse(json['created']), danishTime),
+      accountResource: json['account'],
+      bookingID: int.parse(json['id'].toString()),
+    );
+    return booking;
+
+  }
+
+  factory BookingModel.fromJson(Map<String, dynamic> json) {
+    var danishTime = DateHelper().getLocation('Europe/Copenhagen');
+    BookingModel booking = BookingModel(
+      startTime: DateHelper().from(DateTime.parse(json['start_time']), danishTime),
+      endTime: DateHelper().from(DateTime.parse(json['end_time']), danishTime),
+      lastUpdated: DateHelper().from(DateTime.parse(json['last_updated']), danishTime),
+      activated: json["activated"],
+      machineResource: json['machine'],
+      serviceResource: json['service'],
+      created: DateHelper().from(DateTime.parse(json['created']), danishTime),
       accountResource: json['account'],
       bookingID: int.parse(json['id'].toString()),
     );

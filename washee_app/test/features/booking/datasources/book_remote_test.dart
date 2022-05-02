@@ -76,7 +76,7 @@ main() {
             serviceResource: mockBookingModel!.serviceResource))
         .thenAnswer((_) async => mockReturnedBookings);
     //act
-    var result = sut_bookRemoteImpl.postBooking(
+    var result = await sut_bookRemoteImpl.postBooking(
         startTime: mockBookingModel!.startTime!,
         accountResource: mockBookingModel!.accountResource,
         machineResource: mockBookingModel!.machineResource,
@@ -95,7 +95,7 @@ main() {
       'should verify that comunicator.postBooking is never called when isConnected is false',
       () async {
     //arrange
-    Future<Map<String, dynamic>> mockReturnedBookings = {
+    Map<String, dynamic> mockReturnedBookings = {
       "start_time": mockBookingModel!.startTime!,
       "end_time":
           mockBookingModel!.startTime!.add(Duration(hours: 2, minutes: 30)),
@@ -106,8 +106,8 @@ main() {
       "account": "https://mocked_accountResource/1",
       "id": "12",
       "activated": false
-    } as Future<Map<String, dynamic>>;
-
+    };
+    
     when(() => mockNetworkInfo.isConnected).thenAnswer((_) async => false);
     when(() => mockWebCommnicator.postBooking(
             startTime: mockBookingModel!.startTime!,

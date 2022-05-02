@@ -313,14 +313,14 @@ class CalendarProvider extends ChangeNotifier {
 
   bool isSlotOutdated(DateTime currentSlot) {
     if (_isSameMonth(currentSlot) &&
-        (currentSlot.day > DateHelper.currentTime().day)) {
+        (currentSlot.day > DateHelper().currentTime().day)) {
       return false;
     } else if (_isMonthLater(currentSlot)) {
       return false;
     }
 
-    if (currentSlot.day == DateHelper.currentTime().day) {
-      if ((currentSlot.hour < DateHelper.currentTime().hour)) {
+    if (currentSlot.day == DateHelper().currentTime().day) {
+      if ((currentSlot.hour < DateHelper().currentTime().hour)) {
         return true;
       }
       return false;
@@ -329,14 +329,14 @@ class CalendarProvider extends ChangeNotifier {
   }
 
   bool _isSameMonth(DateTime currentSlot) {
-    if (currentSlot.month == DateHelper.currentTime().month) {
+    if (currentSlot.month == DateHelper().currentTime().month) {
       return true;
     }
     return false;
   }
 
   bool _isMonthLater(DateTime currentSlot) {
-    if (currentSlot.month > DateHelper.currentTime().month) {
+    if (currentSlot.month > DateHelper().currentTime().month) {
       return true;
     }
     return false;
