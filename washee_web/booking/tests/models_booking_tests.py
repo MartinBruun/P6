@@ -1,5 +1,5 @@
 import pytest
-from datetime import datetime
+from datetime import datetime, timedelta
 import pytz
 
 from rest_framework.exceptions import ValidationError
@@ -99,4 +99,35 @@ def test_overlapping_active_bookings_on_same_machine_gets_thrown_an_error(
     with pytest.raises(ValidationError):
         second_booking.save()
     
-    assert len(Booking.objects.all()) == 1, description
+    
+@pytest.mark.django_db
+def test_booking_should_be_named_deleted_when_inactive(first_booking):
+    first_booking.active = False
+    
+    assert "(deleted)" in str(first_booking)
+    
+    
+@pytest.mark.django_db
+def test_booking_should_be_named_active_when_active_and_not_activated_when_end_time_havent_been_passed_yet(first_booking):
+    first_booking.active = True
+    first_booking.activated = False
+    first_booking.end_time = datetime.now(pytz.UTC) + timedelta(days=1)
+    
+    assert "(active)" in str(first_booking)
+    
+    
+@pytest.mark.django_db
+def test_booking_should_be_named_skipped_when_active_and_not_activated_when_end_time_have_been_passed(first_booking):
+    first_booking.active = True
+    first_booking.activated = False
+    first_booking.end_time = datetime.now(pytz.UTC) - timedelta(days=1)
+    
+    assert "(skipped)" in str(first_booking)
+    
+    
+@pytest.mark.django_db
+def test_booking_should_be_named_activated_when_active_and_has_been_activated(first_booking):
+    first_booking.active = True
+    first_booking.activated = True
+    
+    assert "(activated)" in str(first_booking)
