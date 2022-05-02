@@ -8,11 +8,13 @@ class ElectricityBlock(models.Model):
     """
         Represents the electricity in a network inside some given timeframe
     """
+    GREY_COLOUR_SCORE = -1
     # Fields
     id = models.AutoField(primary_key=True)
     start_time = models.DateTimeField(editable=True)
     end_time = models.DateTimeField(editable=False)
     price = models.DecimalField(max_digits=19, decimal_places=4, default=0)
+    green_score = models.IntegerField(default=GREY_COLOUR_SCORE)
     
     created = models.DateTimeField(auto_now_add=True, editable=False)
     last_updated = models.DateTimeField(auto_now=True, editable=False)
