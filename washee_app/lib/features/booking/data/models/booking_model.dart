@@ -50,22 +50,22 @@ class BookingModel extends Booking {
         'account': accountResource
       };
 
-  static BookingModel usingJson(Map<String, dynamic> json){
-    var danishTime = DateHelper().getLocation('Europe/Copenhagen');
-    BookingModel booking = BookingModel(
-      startTime: DateHelper().from(DateTime.parse(json['start_time']), danishTime),
-      endTime: DateHelper().from(DateTime.parse(json['end_time']), danishTime),
-      lastUpdated: DateHelper().from(DateTime.parse(json['last_updated']), danishTime),
-      activated: json["activated"],
-      machineResource: json['machine'],
-      serviceResource: json['service'],
-      created: DateHelper().from(DateTime.parse(json['created']), danishTime),
-      accountResource: json['account'],
-      bookingID: int.parse(json['id'].toString()),
-    );
-    return booking;
+//  BookingModel usingJson(Map<String, dynamic> json){
+//     var danishTime = DateHelper().getLocation('Europe/Copenhagen');
+//     BookingModel booking = BookingModel(
+//       startTime: DateHelper().from(DateTime.parse(json['start_time']), danishTime),
+//       endTime: DateHelper().from(DateTime.parse(json['end_time']), danishTime),
+//       lastUpdated: DateHelper().from(DateTime.parse(json['last_updated']), danishTime),
+//       activated: json["activated"],
+//       machineResource: json['machine'],
+//       serviceResource: json['service'],
+//       created: DateHelper().from(DateTime.parse(json['created']), danishTime),
+//       accountResource: json['account'],
+//       bookingID: int.parse(json['id'].toString()),
+//     );
+//     return booking;
 
-  }
+  // }
 
   factory BookingModel.fromJson(Map<String, dynamic> json) {
     var danishTime = DateHelper().getLocation('Europe/Copenhagen');

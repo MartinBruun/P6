@@ -1,7 +1,6 @@
 import 'package:washee/core/errors/exception_handler.dart';
 import 'package:washee/core/helpers/date_helper.dart';
 import 'package:washee/features/booking/data/models/booking_model.dart';
-import 'package:washee/features/booking/data/models/booking_model_helper.dart';
 import 'package:washee/features/booking/domain/repositories/book_repository.dart';
 
 import '../../../../core/network/network_info.dart';
@@ -10,9 +9,8 @@ import '../datasources/book_remote.dart';
 class BookRepositoryImpl implements BookRepository {
   final NetworkInfo networkInfo;
   final BookRemote remote;
-  BookingModelHelper bookingModelHelper;
 
-  BookRepositoryImpl({required this.networkInfo, required this.remote, required this.bookingModelHelper});
+  BookRepositoryImpl({required this.networkInfo, required this.remote});
 
   @override
   Future<List<BookingModel>> getBookings(
@@ -35,8 +33,7 @@ class BookRepositoryImpl implements BookRepository {
           machineResource: machineResource,
           serviceResource: serviceResource,
           accountResource: accountResource);
-      var postetBookingModel = constructBooking(postetBookingJson);
-      return postetBookingModel;
+      return constructBooking(postetBookingJson);
     }
     return null;
   }
@@ -48,10 +45,10 @@ class BookRepositoryImpl implements BookRepository {
       List<Map<String, dynamic>> validBooking = await remote.getBookings(
           accountID: accountID,
           machineID: machineID,
-          startTimeLessThan: DateTime.parse(
-              DateHelper().convertToNonNaiveTime(DateHelper().currentTime())),
-          endTimeGreaterThan: DateTime.parse(
-              DateHelper().convertToNonNaiveTime(DateHelper().currentTime())));
+          startTimeLessThan:
+              DateTime.parse(DateHelper().convertToNonNaiveTime(DateHelper().currentTime())),
+          endTimeGreaterThan:
+              DateTime.parse(DateHelper().convertToNonNaiveTime(DateHelper().currentTime())));
       if (validBooking.isEmpty) {
         return false;
       } else {
@@ -84,6 +81,8 @@ class BookRepositoryImpl implements BookRepository {
   }
 
   BookingModel constructBooking(Map<String, dynamic> bookingAsJson) {
-    return bookingModelHelper.usingJson(bookingAsJson);
+    return BookingModel.fromJson(bookingAsJson);
   }
+
+ 
 }
