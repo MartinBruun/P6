@@ -2,8 +2,6 @@ import 'dart:core';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:washee/core/account/user.dart';
-import 'package:washee/features/booking/data/models/booking_entity.dart';
 import 'package:washee/features/booking/data/models/booking_model.dart';
 import 'package:washee/features/booking/domain/repositories/book_repository.dart';
 import 'package:washee/features/booking/domain/usecases/post_booking.dart';
