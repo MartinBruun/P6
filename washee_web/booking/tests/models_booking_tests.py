@@ -1,11 +1,6 @@
 import pytest
-<<<<<<< HEAD
-import pytz
 from datetime import datetime, timedelta
-=======
-from datetime import datetime
 import pytz
->>>>>>> 87324dc79e545a74839ddf445dcb433d9fc2dc8e
 
 from rest_framework.exceptions import ValidationError
 from booking.models import Booking
