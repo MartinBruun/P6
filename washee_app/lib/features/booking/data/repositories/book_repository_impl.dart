@@ -34,7 +34,7 @@ class BookRepositoryImpl implements BookRepository {
     }
     return null;
   }
-
+  
   @override
   Future<bool> hasCurrentBooking(
       {required int accountID, required int machineID}) async {
