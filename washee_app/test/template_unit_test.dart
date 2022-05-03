@@ -19,7 +19,7 @@ void main() {
       """
         When ThingToTest is using methodUnderTest with X,
         it should return/do Y,
-        given ThingToMock is assumed to work correctly/throw failure Z.
+        given ThingToMock is assumed to properly have done Z/thrown SomeFailure due to Z.
       """,
       () async {
     // arrange

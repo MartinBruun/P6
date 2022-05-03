@@ -38,7 +38,8 @@ void main() {
       """
         When UnlockUseCase is called with a list of valid, non-activated bookings,
         it should return a list of the same bookings being activated,
-        given the repository is assumed to work.
+        given the UnlockRepository is assumed to returning the same activated bookings, 
+        and the DateHelper is assumed to having correctly handled the times.
       """,
       () async {
     // arrange

@@ -26,7 +26,8 @@ void main() {
       """
         When UnlockRepository is unlocking a valid list of bookings,
         it should return the same list of bookings being activated,
-        given the UnlockRemote is assumed to work correctly.
+        given the UnlockRemote is assumed to returning the same activated bookings, 
+        and the DateHelper is assumed to having correctly handling the times.
       """,
       () async {
     // arrange
