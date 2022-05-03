@@ -1,71 +1,76 @@
+import 'dart:core';
+
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/annotations.dart';
-import 'package:mockito/mockito.dart';
-import 'package:washee/core/network/network_info.dart';
-import 'package:washee/core/washee_box/machine_model.dart';
+import 'package:mocktail/mocktail.dart';
+import 'package:washee/core/helpers/date_helper.dart';
+import 'package:washee/features/booking/data/models/booking_model.dart';
 import 'package:washee/features/unlock/data/datasources/unlock_remote.dart';
 import 'package:washee/features/unlock/data/repositories/unlock_repo_impl.dart';
 
-import 'unlock_repo_impl_test.mocks.dart';
+class MockUnlockRemote extends Mock implements UnlockRemoteImpl {}
 
-@GenerateMocks([], customMocks: [
-  MockSpec<NetworkInfo>(as: #MockNetworkInfo, returnNullOnMissingStub: true),
-  MockSpec<UnlockRemote>(as: #MockRemote, returnNullOnMissingStub: true)
-])
+class MockDateHelper extends Mock implements DateHelper {}
+
 void main() {
-  var mockRemote = MockRemote();
-  var mockNetworkInfo = MockNetworkInfo();
-  var repository =
-      UnlockRepositoryImpl(remote: mockRemote, networkInfo: mockNetworkInfo);
+  late UnlockRepositoryImpl unlockRepository;
+  late UnlockRemoteImpl mockUnlockRemote;
+  late MockDateHelper mockDateHelper;
+  late BookingModel fakeBooking;
 
-  group("Internet connection", () {
-    test(
-      'should verify that there is an internet connection',
-      () async {
-        // arrange
-        when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
-        // act
-        await mockNetworkInfo.isConnected;
-
-        // assert
-        verify(mockNetworkInfo.isConnected);
-      },
-    );
-
-    test(
-      'should verify that there is no internet connection',
-      () async {
-        // arrange
-        when(mockNetworkInfo.isConnected).thenAnswer((_) async => false);
-
-        // act
-        await mockNetworkInfo.isConnected;
-
-        // assert
-        verify(mockNetworkInfo.isConnected);
-      },
-    );
-  });
-
+  setUp() {
+    mockUnlockRemote = MockUnlockRemote();
+    mockDateHelper = MockDateHelper();
+    unlockRepository = UnlockRepositoryImpl(remote: mockUnlockRemote, dateHelper: mockDateHelper);
+  }
   test(
-    'should return null when unlocking fails due to no active network connection',
-    () async {
-      // arrange
-      MachineModel tMachine =
-          MachineModel(machineID: "123", name: "Test", machineType: "laundry");
-      Duration tduration = Duration(hours: 2, minutes: 30);
-      when(mockNetworkInfo.isConnected).thenAnswer((_) async => false);
+      """
+        When UnlockRepository is unlocking a valid list of bookings,
+        it should return the same list of bookings being activated,
+        given the UnlockRemote is assumed to work correctly.
+      """,
+      () async {
+    // arrange
+    setUp();
 
-      // act
-      var result = await repository.unlock(tMachine, tduration);
+    // arrange (dependencies)
+    MockDateHelper mockBookingModelDateHelper = MockDateHelper();
+    when(() => mockBookingModelDateHelper.convertToNonNaiveTime(DateTime(2022,2,2,12,0,0)))
+      .thenAnswer((_) => "2022-02-02T12:00:00Z");
+    fakeBooking = BookingModel(
+        dateHelper: mockBookingModelDateHelper,
+        bookingID: 12,
+        startTime: DateTime(2022,2,2,12,0,0),
+        machineResource: "http://test.com/machines/12",
+        serviceResource: "http://test.com/services/12",
+        accountResource: "http://test.com/accouts/12");
+    List<BookingModel> listOfBookingInput = [fakeBooking];
 
-      // assert
-      verifyNever(mockRemote.unlock(tMachine, tduration));
-      expect(result, null);
-    },
-  );
+    List<Map<String,dynamic>> expectedBookingJsonFromRemote = [
+      {
+        'id': 12,
+        'start_time': "2022-02-02T12:00:00T",
+        'end_time': "2022-02-02T12:00:00T",
+        'created': "2022-02-02T12:00:00T",
+        'last_updated': "2022-02-02T12:00:00T",
+        'activated': "true",
+        'machine': "http://test.com/machines/12",
+        'service': "http://test.com/services/12",
+        'account': "http://test.com/accounts/12"
+      }
+    ];
+    when(() => mockUnlockRemote.unlock(listOfBookingInput))
+        .thenAnswer((_) async => expectedBookingJsonFromRemote);
+
+    // act
+    final result = await unlockRepository.unlock(listOfBookingInput);
+
+    // assert
+    expect(result.length, 1);
+    expect(result[0] is BookingModel, true);
+    expect(result[0].bookingID, 12);
+    expect(result[0]["activated"], true);
+
+    // assert (dependencies)
+    verify(() => mockUnlockRemote.unlock(listOfBookingInput)).called(1);
+  });
 }
-
-// The UnlockRepository should call remote.unlockBoxAndUpdateBookings
-// The unlock repository makes sure to call this remote endpoint
-// It should receive a Json which gets serialized into a List of BookingModels

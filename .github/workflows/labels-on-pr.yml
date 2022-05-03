@@ -2,6 +2,7 @@ name: Add Labels on Pull Requests
 
 on:
   pull_request:
+    types: [opened]
 
 env:
   BASE_BRANCH: ${{ github.base_ref }}

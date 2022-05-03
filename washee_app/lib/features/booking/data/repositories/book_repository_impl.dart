@@ -43,9 +43,9 @@ class BookRepositoryImpl implements BookRepository {
           accountID: accountID,
           machineID: machineID,
           startTimeLessThan:
-              DateTime.parse(_convertToNonNaiveTime(DateHelper.currentTime())),
+              DateTime.parse(_convertToNonNaiveTime(DateHelper().currentTime())),
           endTimeGreaterThan:
-              DateTime.parse(_convertToNonNaiveTime(DateHelper.currentTime())));
+              DateTime.parse(_convertToNonNaiveTime(DateHelper().currentTime())));
       if (validBooking.isEmpty) {
         return false;
       } else {

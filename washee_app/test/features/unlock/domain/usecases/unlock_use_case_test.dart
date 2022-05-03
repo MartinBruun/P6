@@ -1,16 +1,67 @@
+import 'dart:core';
 
+import 'package:flutter_test/flutter_test.dart';
+import 'package:mocktail/mocktail.dart';
+import 'package:washee/core/helpers/date_helper.dart';
+import 'package:washee/features/booking/data/models/booking_model.dart';
+import 'package:washee/features/unlock/data/repositories/unlock_repo_impl.dart';
+import 'package:washee/features/unlock/domain/usecases/unlock.dart';
 
-// Change the Usecase to instead take in a Booking as a parameter.
-// Also change it so booking har MachineModel and AccountModel etc. as its attributes
-// Each Model should then have a .resource attribute, specifying its rest resource point.
+class MockUnlockRepoImpl extends Mock implements UnlockRepositoryImpl {}
 
-// The Usecase should live up to this:
-// A Usecase takes in a List of BookingModels and gets back a List of booking models
-// (This simplifies, since then time and machine is bound to one model instead)
-// It needs to be a list, so it is possible to activate multiple bookings in a row
+class MockDateHelper extends Mock implements DateHelper {}
 
-// The usecase should only make some simple validation that each of the bookings are indeed in
-// correct order, before sending it to the repository, and getting the same bookings back
-// (except now they are activated of course)
+void main() {
+  late UnlockUseCase unlockUseCase;
+  late MockUnlockRepoImpl mockUnlockRepo;
+  late MockDateHelper mockDateHelper;
+  late BookingModel fakeBooking;
 
-// Plenty of possibilities in testing when each of these steps might go wrong.
+  setUp() {
+    mockUnlockRepo = MockUnlockRepoImpl();
+    unlockUseCase = UnlockUseCase(repository: mockUnlockRepo);
+
+    DateTime initStartTime = DateTime(2022, 01, 01, 2, 0);
+    mockDateHelper = MockDateHelper();
+    when(() => mockDateHelper.convertToNonNaiveTime(initStartTime))
+      .thenAnswer((_) => "2022-01-01T01:02:00Z");
+    fakeBooking = BookingModel(
+        dateHelper: mockDateHelper,
+        bookingID: 12,
+        startTime: initStartTime,
+        machineResource: "http://test.com/machines/12",
+        serviceResource: "http://test.com/services/12",
+        accountResource: "http://test.com/accouts/12");
+  }
+
+  test(
+      """
+        When UnlockUseCase is called with a list of valid, non-activated bookings,
+        it should return a list of the same bookings being activated,
+        given the repository is assumed to work.
+      """,
+      () async {
+    // arrange
+    setUp();
+    List<BookingModel> bookingsToUnlock = [fakeBooking];
+    UnlockParams params = UnlockParams(bookingsToUnlock);
+
+    // arrange (dependencies)
+    BookingModel fakeActivatedBooking = fakeBooking;
+    fakeActivatedBooking.activated = true;
+    when(() => mockUnlockRepo.unlock(bookingsToUnlock)
+        .thenAnswer((_) async =>  fakeBooking));
+    
+    // act
+    final result = await unlockUseCase.call(params);
+
+    // assert
+    expect(result.length, 1);
+    expect(result[0].startTime, fakeBooking.startTime);
+    expect(result[0].bookingID, fakeBooking.bookingID);
+    expect(result[0].activated, true);
+
+    // assert (dependencies)
+    verify(() => mockUnlockRepo.unlock(bookingsToUnlock)).called(1);
+  });
+}

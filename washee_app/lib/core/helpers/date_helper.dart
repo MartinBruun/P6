@@ -2,10 +2,17 @@ import 'package:intl/intl.dart';
 import 'package:timezone/timezone.dart' as tz;
 
 class DateHelper {
-  static DateTime currentTime(){
+  DateTime currentTime(){
     var danishTime = tz.getLocation('Europe/Copenhagen');
     var now = tz.TZDateTime.now(danishTime);
     return now;
+  }
+
+  String convertToNonNaiveTime(DateTime time) {
+    // The backend is timezone sensitive, and needs it in the following specified format
+    var danishTime = tz.getLocation('Europe/Copenhagen');
+    var now = tz.TZDateTime.from(time, danishTime);
+    return now.toUtc().toString();
   }
 
   int _daysInMonth(DateTime date) {
@@ -26,7 +33,7 @@ class DateHelper {
   }
 
   bool isToday(DateTime aDate) {
-    DateTime now = DateHelper.currentTime();
+    DateTime now = DateHelper().currentTime();
     return DateTime(now.year, now.month, now.day)
         .isAtSameMomentAs(DateTime(aDate.year, aDate.month, aDate.day));
   }

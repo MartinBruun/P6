@@ -108,7 +108,7 @@ void main() {
 
       // assert
       var logString = File(eh.logLocation).readAsStringSync();
-      var now = DateHelper.currentTime();
+      var now = DateHelper().currentTime();
       var nowWithoutSeconds = DateTime(now.year, now.month, now.day, now.hour, now.minute).toString().substring(0,16);
       expect(logString.contains(nowWithoutSeconds), true);
       eh.resetLog();
