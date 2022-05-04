@@ -29,7 +29,7 @@ void main() {
         dateHelper: mockDateHelper,
         bookingID: 12,
         startTime: initStartTime,
-        machineResource: "http://test.com/machines/12",
+        machine: "http://test.com/machines/12",
         serviceResource: "http://test.com/services/12",
         accountResource: "http://test.com/accouts/12");
   }
