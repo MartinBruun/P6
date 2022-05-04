@@ -90,11 +90,10 @@ void main() {
 
     // assert (dependencies)
     verifyInOrder([
-      () => mockNetworkInfo.isConnected,
-      () => mockWebCommunicator.updateBooking(listOfBookingInput[0].resource, activated:true),
-      () => mockNetworkInfo.connectToBoxWifi(),
-      () => mockBoxCommunicator.lockOrUnlock("unlock", fakeBooking.machine, Duration(hours: 2, minutes: 30)),
-      () => mockNetworkInfo.disconnectFromBoxWifi(),
+      () async => await mockWebCommunicator.updateBooking(listOfBookingInput[0].resource, activated:true),
+      () async => await mockNetworkInfo.connectToBoxWifi(),
+      () async => await mockBoxCommunicator.lockOrUnlock("unlock", fakeBooking.machine, Duration(hours: 2, minutes: 30)),
+      () async => await mockNetworkInfo.disconnectFromBoxWifi(),
     ]);
   });
 }

@@ -3,22 +3,27 @@ import 'dart:core';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:washee/core/helpers/date_helper.dart';
+import 'package:washee/core/network/network_info.dart';
 import 'package:washee/features/booking/data/models/booking_model.dart';
 import 'package:washee/features/unlock/data/datasources/unlock_remote.dart';
 import 'package:washee/features/unlock/data/repositories/unlock_repo_impl.dart';
 
 class MockUnlockRemote extends Mock implements UnlockRemoteImpl {}
 
+class MockNetworkInfo extends Mock implements NetworkInfo {}
+
 class MockDateHelper extends Mock implements DateHelper {}
 
 void main() {
   late UnlockRepositoryImpl unlockRepository;
   late UnlockRemoteImpl mockUnlockRemote;
+  late MockNetworkInfo mockNetworkInfo;
   late MockDateHelper mockDateHelper;
   late BookingModel fakeBooking;
 
   setUp() {
     mockUnlockRemote = MockUnlockRemote();
+    mockNetworkInfo = MockNetworkInfo();
     mockDateHelper = MockDateHelper();
     unlockRepository = UnlockRepositoryImpl(remote: mockUnlockRemote, dateHelper: mockDateHelper);
   }
@@ -61,6 +66,7 @@ void main() {
     ];
     when(() => mockUnlockRemote.unlock(listOfBookingInput))
         .thenAnswer((_) async => expectedBookingJsonFromRemote);
+    when(() => mockNetworkInfo.isConnected).thenAnswer((_) async => true);
 
     // act
     final result = await unlockRepository.unlock(listOfBookingInput);
@@ -72,6 +78,9 @@ void main() {
     expect(result[0]["activated"], true);
 
     // assert (dependencies)
-    verify(() => mockUnlockRemote.unlock(listOfBookingInput)).called(1);
+    verifyInOrder([
+      () async => await mockNetworkInfo.isConnected,
+      () async => await mockUnlockRemote.unlock(listOfBookingInput))
+    ]);
   });
 }
