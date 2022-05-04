@@ -53,6 +53,45 @@ class _TimeSlotItemState extends State<TimeSlotItem>
     }
   }
 
+  String _determineGreenScoreMessage() {
+    return "";
+  }
+
+  int _getGreenScore(int hour, int minutes) {
+    var calendar = Provider.of<CalendarProvider>(context, listen: false);
+    return calendar.greenScoreDataMap
+        .where((element) => element.hour == hour && element.minute == minutes)
+        .first
+        .greenScore;
+  }
+
+  Color _determineGreenScoreColor(int hour, int minutes) {
+    switch (_getGreenScore(hour, minutes)) {
+      case 0:
+        return Colors.red;
+      case 1:
+        return Colors.red;
+      case 2:
+        return Colors.red;
+      case 3:
+        return Colors.red;
+      case 4:
+        return Colors.orange;
+      case 5:
+        return Colors.orange;
+      case 6:
+        return Colors.orange;
+      case 7:
+        return Colors.green;
+      case 8:
+        return Colors.green;
+      case 9:
+        return Colors.green;
+      default:
+        return AppColors.sportItemGray;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -63,7 +102,8 @@ class _TimeSlotItemState extends State<TimeSlotItem>
         width: 770.w,
         height: 80.h,
         decoration: BoxDecoration(
-          color: _selected ? AppColors.deepGreen : AppColors.sportItemGray,
+          color:
+              _determineGreenScoreColor(widget.time.hour, widget.time.minute),
           borderRadius: BorderRadius.circular(20.w),
         ),
         child: Row(

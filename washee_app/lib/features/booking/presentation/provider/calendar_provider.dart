@@ -1,3 +1,4 @@
+import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:washee/core/helpers/date_helper.dart';
 import 'package:washee/core/helpers/web_communicator.dart';
@@ -369,4 +370,51 @@ class CalendarProvider extends ChangeNotifier {
     _addedTimeSlots.sort((a, b) => a.compareTo(b));
     notifyListeners();
   }
+
+  // ------ GREEN SCORE DATA ------- //
+  List<GreenScore> greenScoreDataMap = [
+    GreenScore(06, 00, 9),
+    GreenScore(06, 30, 9),
+    GreenScore(07, 00, 9),
+    GreenScore(07, 30, 8),
+    GreenScore(08, 00, 8),
+    GreenScore(08, 30, 7),
+    GreenScore(09, 00, 7),
+    GreenScore(09, 30, 2),
+    GreenScore(10, 00, 2),
+    GreenScore(10, 30, 3),
+    GreenScore(11, 00, 3),
+    GreenScore(11, 30, 3),
+    GreenScore(12, 00, 3),
+    GreenScore(12, 30, 4),
+    GreenScore(13, 00, 4),
+    GreenScore(13, 30, 4),
+    GreenScore(14, 00, 4),
+    GreenScore(14, 30, 4),
+    GreenScore(15, 00, 5),
+    GreenScore(15, 30, 5),
+    GreenScore(16, 00, 1),
+    GreenScore(16, 30, 1),
+    GreenScore(17, 00, 1),
+    GreenScore(17, 30, 1),
+    GreenScore(18, 00, 1),
+    GreenScore(18, 30, 1),
+    GreenScore(19, 00, 2),
+    GreenScore(19, 30, 2),
+    GreenScore(20, 00, 2),
+    GreenScore(20, 30, 8),
+    GreenScore(21, 00, 8),
+    GreenScore(21, 30, 9),
+    GreenScore(22, 00, 9),
+    GreenScore(22, 30, 9),
+    GreenScore(23, 00, 9),
+  ];
+}
+
+class GreenScore<T1, T2, T3> {
+  final T1 hour;
+  final T2 minute;
+  final T3 greenScore;
+
+  GreenScore(this.hour, this.minute, this.greenScore);
 }

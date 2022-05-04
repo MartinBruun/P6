@@ -20,9 +20,12 @@ class CalendarScreen extends StatefulWidget {
 
 class _CalendarScreenState extends State<CalendarScreen> {
   final List<DateTime> months = [
-    new DateTime(DateHelper().currentTime().year, DateHelper().currentTime().month, 1),
-    new DateTime(DateHelper().currentTime().year, DateHelper().currentTime().month + 1, 1),
-    new DateTime(DateHelper().currentTime().year, DateHelper().currentTime().month + 2, 1)
+    new DateTime(
+        DateHelper().currentTime().year, DateHelper().currentTime().month, 1),
+    new DateTime(DateHelper().currentTime().year,
+        DateHelper().currentTime().month + 1, 1),
+    new DateTime(DateHelper().currentTime().year,
+        DateHelper().currentTime().month + 2, 1)
   ];
 
   bool _isLoadingDaysAndBookings = false;
@@ -35,10 +38,10 @@ class _CalendarScreenState extends State<CalendarScreen> {
       _isLoadingDaysAndBookings = true;
     });
     _getBookings()
-      .then((dynamic) => _setUpCalendar())
-      .then((dynamic) => setState(() {
-        _isLoadingDaysAndBookings = false;
-        }));
+        .then((dynamic) => _setUpCalendar())
+        .then((dynamic) => setState(() {
+              _isLoadingDaysAndBookings = false;
+            }));
   }
 
   _setUpCalendar() {
