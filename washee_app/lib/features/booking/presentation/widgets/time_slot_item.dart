@@ -63,7 +63,7 @@ class _TimeSlotItemState extends State<TimeSlotItem>
     } else if (greenScore > 2 && greenScore <= 5) {
       return " - Ikke-optimalt tidspunkt!";
     } else if (greenScore > 5 && greenScore <= 9) {
-      return " - No polar bears are harmed!";
+      return " - Ingen isbjørne er i fare!";
     } else {
       return "";
     }
