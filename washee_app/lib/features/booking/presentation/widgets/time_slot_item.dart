@@ -13,11 +13,13 @@ class TimeSlotItem extends StatefulWidget {
   final DateTime time;
   final bool isAvailable;
   final bool isOutdated;
+  final int greenScore;
 
   TimeSlotItem(
       {required this.time,
       required this.isAvailable,
-      required this.isOutdated});
+      required this.isOutdated,
+      this.greenScore = -1});
 
   @override
   State<TimeSlotItem> createState() => _TimeSlotItemState();
@@ -57,16 +59,17 @@ class _TimeSlotItemState extends State<TimeSlotItem>
     return "";
   }
 
-  int _getGreenScore(int hour, int minutes) {
-    var calendar = Provider.of<CalendarProvider>(context, listen: false);
-    return calendar.greenScoreDataMap
-        .where((element) => element.hour == hour && element.minute == minutes)
-        .first
-        .greenScore;
-  }
+  // int _getGreenScore(int hour, int minutes) {
+  //   return GreenScoreDataBase.greenScoreDataList
+  //       .where((element) => element.hour == hour && element.minute == minutes)
+  //       .first
+  //       .greenScore;
+  // }
 
-  Color _determineGreenScoreColor(int hour, int minutes) {
-    switch (_getGreenScore(hour, minutes)) {
+  Color _determineGreenScoreColor(int greenScore) {
+    switch (greenScore) {
+      case -1:
+        return AppColors.sportItemGray;
       case 0:
         return Colors.red;
       case 1:
@@ -102,8 +105,7 @@ class _TimeSlotItemState extends State<TimeSlotItem>
         width: 770.w,
         height: 80.h,
         decoration: BoxDecoration(
-          color:
-              _determineGreenScoreColor(widget.time.hour, widget.time.minute),
+          color: _determineGreenScoreColor(widget.greenScore),
           borderRadius: BorderRadius.circular(20.w),
         ),
         child: Row(

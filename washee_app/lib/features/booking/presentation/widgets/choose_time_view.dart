@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:washee/core/helpers/green_score_database.dart';
 import 'package:washee/core/helpers/machine_enum.dart';
 import 'package:washee/core/presentation/themes/dimens.dart';
 import 'package:washee/core/presentation/themes/themes.dart';
@@ -29,6 +30,7 @@ class ChooseTimeView extends StatefulWidget {
 class _ChooseTimeViewState extends State<ChooseTimeView> {
   bool _loadingTimeSlots = false;
   List<DateTime> _slots = [];
+
   @override
   void initState() {
     super.initState();
@@ -43,6 +45,13 @@ class _ChooseTimeViewState extends State<ChooseTimeView> {
         _loadingTimeSlots = false;
       });
     });
+  }
+
+  List<GreenScore>? _getGreenScoresForDay() {
+    if (GreenScoreDataBase.greenScoreDataList[widget.currentDate.day] != null) {
+      return GreenScoreDataBase.greenScoreDataList[widget.currentDate.day];
+    }
+    return [];
   }
 
   @override
@@ -91,6 +100,7 @@ class _ChooseTimeViewState extends State<ChooseTimeView> {
                         : TimeSlots(
                             slots: _slots,
                             bookings: widget.bookingsForDate!,
+                            greenScoresForDay: _getGreenScoresForDay()!,
                           ),
                   ),
                   Padding(

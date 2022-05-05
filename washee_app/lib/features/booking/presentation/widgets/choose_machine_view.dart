@@ -14,7 +14,10 @@ class ChooseMachineView extends StatefulWidget {
   final List<BookingModel> dryingsForDay;
   final DateTime currentDate;
 
-  ChooseMachineView({required this.washesForDay, required this.dryingsForDay,  required this.currentDate});
+  ChooseMachineView(
+      {required this.washesForDay,
+      required this.dryingsForDay,
+      required this.currentDate});
   @override
   State<ChooseMachineView> createState() => _ChooseMachineViewState();
 }

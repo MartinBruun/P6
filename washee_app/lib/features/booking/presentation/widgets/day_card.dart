@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:washee/core/account/user.dart';
 import 'package:washee/core/helpers/date_helper.dart';
+import 'package:washee/core/helpers/green_score_database.dart';
 import 'package:washee/core/helpers/machine_enum.dart';
 import 'package:washee/core/presentation/themes/colors.dart';
 import 'package:washee/core/presentation/themes/dimens.dart';
@@ -15,14 +16,12 @@ import 'package:washee/features/unlock/presentation/widgets/insufficient_funds_d
 import '../../data/models/booking_model.dart';
 
 class DayCard extends StatefulWidget {
-  final int greenScore;
   final int dayNumber;
   final String dayName;
   final DateTime currentDate;
 
   DayCard(
-      {required this.greenScore,
-      required this.dayNumber,
+      {required this.dayNumber,
       required this.dayName,
       required this.currentDate});
 
@@ -31,21 +30,6 @@ class DayCard extends StatefulWidget {
 }
 
 class _DayCardState extends State<DayCard> {
-  Color greenScoreColor({bool lighten = false}) {
-    if (widget.greenScore == 0) {
-      return lighten ? Colors.transparent : Colors.transparent;
-    } else if (widget.greenScore == -1) {
-      return lighten ? Colors.white38 : AppColors.borderMiddleGray;
-    } else if (widget.greenScore > -1 && widget.greenScore < 3) {
-      return lighten ? Colors.lightBlue : Colors.red;
-    } else if (widget.greenScore >= 3 && widget.greenScore < 5) {
-      return lighten ? Colors.lightBlue : Color.fromARGB(255, 200, 218, 40);
-    } else if (widget.greenScore >= 5) {
-      return lighten ? Colors.lightBlue : Colors.green;
-    }
-    return lighten ? Colors.white24 : Colors.black;
-  }
-
   List<BookingModel> _washBookingsForCurrentDay = [];
   List<BookingModel> _dryBookingsForCurrentDay = [];
   int _washNumberOfPossibleBookings = 0;
@@ -77,7 +61,7 @@ class _DayCardState extends State<DayCard> {
       padding: EdgeInsets.all(1.w),
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-          primary: greenScoreColor(),
+          primary: AppColors.sportItemGray,
         ),
         child: Consumer<CalendarProvider>(
           builder: (context, data, _) => Column(
