@@ -29,7 +29,7 @@ class _TimeSlotItemState extends State<TimeSlotItem>
     with AutomaticKeepAliveClientMixin {
   String _formatHoursAndMinutes(DateTime time) {
     String formatted = "";
-    if (time.hour < 9) {
+    if (time.hour <= 9) {
       formatted += "0" + time.hour.toString();
     } else {
       formatted += time.hour.toString();
@@ -45,26 +45,29 @@ class _TimeSlotItemState extends State<TimeSlotItem>
 
   bool _selected = false;
 
-  String _determineAvailabilityOrOutdated() {
+  String _getItemText() {
     if (widget.isAvailable && widget.isOutdated) {
       return _formatHoursAndMinutes(widget.time) + "       udløbet";
     } else if (widget.isAvailable && !widget.isOutdated) {
-      return _formatHoursAndMinutes(widget.time);
+      return _formatHoursAndMinutes(widget.time) +
+          " " +
+          _determineGreenScoreMessage(widget.greenScore);
     } else {
       return _formatHoursAndMinutes(widget.time) + "       optaget";
     }
   }
 
-  String _determineGreenScoreMessage() {
-    return "";
+  String _determineGreenScoreMessage(int greenScore) {
+    if (greenScore >= 0 && greenScore <= 2) {
+      return " - Miljø-skadeligt tidspunkt!";
+    } else if (greenScore > 2 && greenScore <= 5) {
+      return " - Ikke-optimalt tidspunkt!";
+    } else if (greenScore > 5 && greenScore <= 9) {
+      return " - No polar bears are harmed!";
+    } else {
+      return "";
+    }
   }
-
-  // int _getGreenScore(int hour, int minutes) {
-  //   return GreenScoreDataBase.greenScoreDataList
-  //       .where((element) => element.hour == hour && element.minute == minutes)
-  //       .first
-  //       .greenScore;
-  // }
 
   Color _determineGreenScoreColor(int greenScore) {
     switch (greenScore) {
@@ -77,13 +80,13 @@ class _TimeSlotItemState extends State<TimeSlotItem>
       case 2:
         return Colors.red;
       case 3:
-        return Colors.red;
+        return Colors.orange;
       case 4:
         return Colors.orange;
       case 5:
         return Colors.orange;
       case 6:
-        return Colors.orange;
+        return Colors.green;
       case 7:
         return Colors.green;
       case 8:
@@ -116,10 +119,10 @@ class _TimeSlotItemState extends State<TimeSlotItem>
               child: InkWell(
                 onTap: () {},
                 child: Text(
-                  _determineAvailabilityOrOutdated(),
+                  _getItemText(),
                   style: textStyle.copyWith(
                     fontWeight: FontWeight.w600,
-                    fontSize: textSize_32,
+                    fontSize: textSize_28,
                     color: !widget.isAvailable
                         ? AppColors.red
                         : widget.isOutdated
