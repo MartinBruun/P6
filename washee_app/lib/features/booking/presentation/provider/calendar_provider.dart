@@ -402,22 +402,60 @@ class CalendarProvider extends ChangeNotifier {
     }
   }
 
-  int getGreenScoreAverage(DateTime currentDate) {
-    if (GreenScoreDataBase.greenScoreDataList[currentDate.day] != null) {
-      List<GreenScore> scores =
-          GreenScoreDataBase.greenScoreDataList[currentDate.day]!;
+  int getGreenScoreAverage(List<BookingModel> bookings, DateTime currentDate) {
+    int bestGreenScore = -1;
+    bool isWithinInterval =
+        currentDate.day >= 6 && currentDate.day <= 19 ? true : false;
+    if (isWithinInterval) {
+      bestGreenScore = _calcBestSelectableGreenScore(bookings, currentDate);
+    }
+    print("Returning the avg value of: " + bestGreenScore.toString());
+    return isWithinInterval ? bestGreenScore ~/ 6 : -1;
+  }
 
-      if (scores.isNotEmpty) {
-        num sum = 0;
-        for (var score in scores) {
-          sum += score.greenScore;
+  int _calcBestSelectableGreenScore(
+      List<BookingModel> bookings, DateTime currentDate) {
+    int bestScore = -1;
+    int greenScoreDayLength =
+        GreenScoreDataBase.greenScoreDataList[currentDate.day]!.length;
+    List<GreenScore> greenScoresForDay =
+        GreenScoreDataBase.greenScoreDataList[currentDate.day]!;
+
+    for (GreenScore slot in greenScoresForDay) {
+      for (var booking in bookings) {
+        if (booking.startTime!.hour == slot.hour &&
+            booking.startTime!.minute == slot.minute) {
+          slot.vacant = false;
+        }
+      }
+    }
+
+    int sum = 0;
+    for (int index = 0; index < greenScoreDayLength; index++) {
+      var allowedInBestScore = true;
+
+      if (index + 5 < greenScoreDayLength) {
+        for (int j in Iterable.generate(6)) {
+          int subIndex = index + j;
+
+          // If we encounter a booked slot we set the sum back to zero
+          if (greenScoresForDay[subIndex].vacant == false) {
+            allowedInBestScore = false;
+            sum = 0;
+          } else if (allowedInBestScore) {
+            sum += greenScoresForDay[subIndex].greenScore;
+          }
         }
 
-        double avg = sum / scores.length;
-        return avg.toInt();
+        if (allowedInBestScore) {
+          if (bestScore < sum) {
+            bestScore = sum;
+          }
+        }
+        allowedInBestScore = true;
       }
-      return -1;
     }
-    return -1;
+
+    return bestScore;
   }
 }
