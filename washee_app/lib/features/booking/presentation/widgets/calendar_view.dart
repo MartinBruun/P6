@@ -35,6 +35,8 @@ class _CalendarViewState extends State<CalendarView> {
 
   @override
   Widget build(BuildContext context) {
+    print("Washbookings");
+    print(_washBookingsForCurrentDay);
     return Consumer<CalendarProvider>(
       builder: (context, data, _) {
         return Padding(

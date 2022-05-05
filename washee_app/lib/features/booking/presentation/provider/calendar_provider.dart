@@ -356,6 +356,7 @@ class CalendarProvider extends ChangeNotifier {
         if (booking.startTime!.hour == slot.hour &&
             booking.startTime!.minute == slot.minute) {
           slotCounter = -5;
+          print(booking);
         }
       }
       if (slotCounter == 6) {
@@ -422,12 +423,15 @@ class CalendarProvider extends ChangeNotifier {
         GreenScoreDataBase.greenScoreDataList[currentDate.day]!;
 
     for (GreenScore slot in greenScoresForDay) {
+      slot.vacant = true;
+
       for (var booking in bookings) {
         if (booking.startTime!.hour == slot.hour &&
             booking.startTime!.minute == slot.minute) {
           slot.vacant = false;
         }
       }
+      print(slot);
     }
 
     int sum = 0;
@@ -453,6 +457,7 @@ class CalendarProvider extends ChangeNotifier {
           }
         }
         allowedInBestScore = true;
+        sum = 0;
       }
     }
 
