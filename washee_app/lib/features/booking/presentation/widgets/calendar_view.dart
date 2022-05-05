@@ -63,8 +63,9 @@ class _CalendarViewState extends State<CalendarView> {
                             _dateHelper.monthName(widget.date.month)]![index]);
 
                     return DayCard(
-                      // data.getGreenScore(_currentDate,
-                      //     data.dateHelper.getDaysInMonth(_currentDate)),
+                      greenScoreAvg: widget.date.month == 5
+                          ? data.getGreenScoreAverage(_currentDate)
+                          : -1,
                       dayNumber: index + 1,
                       dayName: _dayName,
                       currentDate: _currentDate,

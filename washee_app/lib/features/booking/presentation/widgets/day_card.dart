@@ -3,9 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:washee/core/account/user.dart';
 import 'package:washee/core/helpers/date_helper.dart';
-import 'package:washee/core/helpers/green_score_database.dart';
 import 'package:washee/core/helpers/machine_enum.dart';
-import 'package:washee/core/presentation/themes/colors.dart';
 import 'package:washee/core/presentation/themes/dimens.dart';
 import 'package:washee/core/presentation/themes/themes.dart';
 import 'package:washee/features/booking/data/models/booking_model.dart';
@@ -19,11 +17,13 @@ class DayCard extends StatefulWidget {
   final int dayNumber;
   final String dayName;
   final DateTime currentDate;
+  final int greenScoreAvg;
 
   DayCard(
       {required this.dayNumber,
       required this.dayName,
-      required this.currentDate});
+      required this.currentDate,
+      this.greenScoreAvg = -1});
 
   @override
   State<DayCard> createState() => _DayCardState();
@@ -54,6 +54,7 @@ class _DayCardState extends State<DayCard> {
 
   @override
   Widget build(BuildContext context) {
+    var calendar = Provider.of<CalendarProvider>(context, listen: false);
     return Container(
       color: Colors.black12,
       width: 0.13.sw,
@@ -61,7 +62,7 @@ class _DayCardState extends State<DayCard> {
       padding: EdgeInsets.all(1.w),
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-          primary: AppColors.sportItemGray,
+          primary: calendar.determineGreenScoreColor(widget.greenScoreAvg),
         ),
         child: Consumer<CalendarProvider>(
           builder: (context, data, _) => Column(

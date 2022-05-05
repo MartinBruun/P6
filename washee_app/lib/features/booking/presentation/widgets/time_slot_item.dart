@@ -69,35 +69,6 @@ class _TimeSlotItemState extends State<TimeSlotItem>
     }
   }
 
-  Color _determineGreenScoreColor(int greenScore) {
-    switch (greenScore) {
-      case -1:
-        return AppColors.sportItemGray;
-      case 0:
-        return Colors.red;
-      case 1:
-        return Colors.red;
-      case 2:
-        return Colors.red;
-      case 3:
-        return Colors.orange;
-      case 4:
-        return Colors.orange;
-      case 5:
-        return Colors.orange;
-      case 6:
-        return Colors.green;
-      case 7:
-        return Colors.green;
-      case 8:
-        return Colors.green;
-      case 9:
-        return Colors.green;
-      default:
-        return AppColors.sportItemGray;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -108,7 +79,7 @@ class _TimeSlotItemState extends State<TimeSlotItem>
         width: 770.w,
         height: 80.h,
         decoration: BoxDecoration(
-          color: _determineGreenScoreColor(widget.greenScore),
+          color: calendar.determineGreenScoreColor(widget.greenScore),
           borderRadius: BorderRadius.circular(20.w),
         ),
         child: Row(

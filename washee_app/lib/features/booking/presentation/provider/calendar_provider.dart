@@ -1,10 +1,12 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:washee/core/helpers/date_helper.dart';
+import 'package:washee/core/helpers/green_score_database.dart';
 import 'package:washee/core/helpers/web_communicator.dart';
 import 'package:washee/core/washee_box/machine_model.dart';
 import 'package:washee/features/booking/data/models/booking_model.dart';
 import 'package:washee/core/errors/exception_handler.dart';
+import '../../../../core/presentation/themes/colors.dart';
 import '../../data/models/booking_model.dart';
 import 'package:washee/injection_container.dart';
 
@@ -369,5 +371,53 @@ class CalendarProvider extends ChangeNotifier {
   sortAddedTimeSlots() {
     _addedTimeSlots.sort((a, b) => a.compareTo(b));
     notifyListeners();
+  }
+
+  Color determineGreenScoreColor(int greenScore) {
+    switch (greenScore) {
+      case -1:
+        return AppColors.sportItemGray;
+      case 0:
+        return Colors.red;
+      case 1:
+        return Colors.red;
+      case 2:
+        return Colors.red;
+      case 3:
+        return Colors.orange;
+      case 4:
+        return Colors.orange;
+      case 5:
+        return Colors.orange;
+      case 6:
+        return Colors.green;
+      case 7:
+        return Colors.green;
+      case 8:
+        return Colors.green;
+      case 9:
+        return Colors.green;
+      default:
+        return AppColors.sportItemGray;
+    }
+  }
+
+  int getGreenScoreAverage(DateTime currentDate) {
+    if (GreenScoreDataBase.greenScoreDataList[currentDate.day] != null) {
+      List<GreenScore> scores =
+          GreenScoreDataBase.greenScoreDataList[currentDate.day]!;
+
+      if (scores.isNotEmpty) {
+        num sum = 0;
+        for (var score in scores) {
+          sum += score.greenScore;
+        }
+
+        double avg = sum / scores.length;
+        return avg.toInt();
+      }
+      return -1;
+    }
+    return -1;
   }
 }
