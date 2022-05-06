@@ -411,7 +411,7 @@ class CalendarProvider extends ChangeNotifier {
       bestGreenScore = _calcBestSelectableGreenScore(bookings, currentDate);
     }
     print("Returning the avg value of: " + bestGreenScore.toString());
-    return isWithinInterval ? bestGreenScore ~/ 6 : -1;
+    return (isWithinInterval && (bestGreenScore >= 0)) ? bestGreenScore ~/ 6 : -1;  //TODO: se her ~/betyder divider og returner en int
   }
 
   int _calcBestSelectableGreenScore(
@@ -421,43 +421,50 @@ class CalendarProvider extends ChangeNotifier {
         GreenScoreDataBase.greenScoreDataList[currentDate.day]!.length;
     List<GreenScore> greenScoresForDay =
         GreenScoreDataBase.greenScoreDataList[currentDate.day]!;
+    var timeSlots = getTimeSlots(currentDate);
 
-    for (GreenScore slot in greenScoresForDay) {
-      slot.vacant = true;
+    for (int index = 0; index < greenScoresForDay.length; index++) {
+      var slot = greenScoresForDay[index];
 
       for (var booking in bookings) {
         if (booking.startTime!.hour == slot.hour &&
             booking.startTime!.minute == slot.minute) {
-          slot.vacant = false;
+          greenScoresForDay[index].vacant = false;
+          if (index + 5 < greenScoreDayLength) {
+            for (int _ in Iterable.generate(5)) {
+              index++;
+              greenScoresForDay[index].vacant = false;
+            }
+          }
         }
       }
-      print(slot);
     }
 
     int sum = 0;
     for (int index = 0; index < greenScoreDayLength; index++) {
       var allowedInBestScore = true;
+      if (!isSlotOutdated(timeSlots[index])) {
+        if (index + 5 < greenScoreDayLength) {
+          for (int j in Iterable.generate(5)) {
+            int subIndex = index + j;
 
-      if (index + 5 < greenScoreDayLength) {
-        for (int j in Iterable.generate(6)) {
-          int subIndex = index + j;
-
-          // If we encounter a booked slot we set the sum back to zero
-          if (greenScoresForDay[subIndex].vacant == false) {
-            allowedInBestScore = false;
-            sum = 0;
-          } else if (allowedInBestScore) {
-            sum += greenScoresForDay[subIndex].greenScore;
+            // If we encounter a booked slot we set the sum back to zero
+            if (greenScoresForDay[subIndex].vacant == false) {
+              allowedInBestScore = false;
+              sum = 0;
+            } else if (allowedInBestScore) {
+              sum += greenScoresForDay[subIndex].greenScore;
+            }
           }
-        }
 
-        if (allowedInBestScore) {
-          if (bestScore < sum) {
-            bestScore = sum;
+          if (allowedInBestScore) {
+            if (bestScore < sum) {
+              bestScore = sum;
+            }
           }
+          allowedInBestScore = true;
+          sum = 0;
         }
-        allowedInBestScore = true;
-        sum = 0;
       }
     }
 
