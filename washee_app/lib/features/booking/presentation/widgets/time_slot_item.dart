@@ -59,11 +59,11 @@ class _TimeSlotItemState extends State<TimeSlotItem>
 
   String _determineGreenScoreMessage(int greenScore) {
     if (greenScore >= 0 && greenScore <= 2) {
-      return " - Miljø-skadeligt tidspunkt!";
+      return " - ikke miljø-venlig!";
     } else if (greenScore > 2 && greenScore <= 5) {
-      return " - Ikke-optimalt tidspunkt!";
+      return " - mindre miljø-venlig!";
     } else if (greenScore > 5 && greenScore <= 9) {
-      return " - Ingen isbjørne er i fare!";
+      return " - meget miljø-venlig!";
     } else {
       return "";
     }
