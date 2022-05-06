@@ -268,7 +268,7 @@ void main() {
     expect(result, -1);
   });
 
-var greenScoreList5 = [
+  var greenScoreList5 = [
     GreenScore(hour: 06, minute: 00, greenScore: 8, vacant: true),
     GreenScore(hour: 06, minute: 30, greenScore: 8, vacant: true),
     GreenScore(hour: 07, minute: 00, greenScore: 8, vacant: true),
@@ -306,7 +306,7 @@ var greenScoreList5 = [
     GreenScore(hour: 23, minute: 00, greenScore: 8, vacant: true),
   ];
   test(
-      'testing that the best availlable greenscore is -1 returned when no consecutive 6slots are availlable.',
+      'testing that the best availlable greenscore is 24 returned when 6slots yellow slots are availlable.',
       () {
     List<DateTime> _slots = [];
     var startTime = DateTime(2022, 5, 1, 06, 0);
