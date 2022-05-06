@@ -411,53 +411,67 @@ class CalendarProvider extends ChangeNotifier {
       bestGreenScore = _calcBestSelectableGreenScore(bookings, currentDate);
     }
     print("Returning the avg value of: " + bestGreenScore.toString());
-    return (isWithinInterval && (bestGreenScore >= 0)) ? bestGreenScore ~/ 6 : -1;  //TODO: se her ~/betyder divider og returner en int
+    return (isWithinInterval && (bestGreenScore >= 0))
+        ? bestGreenScore ~/ 6
+        : -1; //TODO: se her ~/betyder divider og returner en int
   }
 
   int _calcBestSelectableGreenScore(
       List<BookingModel> bookings, DateTime currentDate) {
-    int bestScore = -1;
-    int greenScoreDayLength =
-        GreenScoreDataBase.greenScoreDataList[currentDate.day]!.length;
     List<GreenScore> greenScoresForDay =
         GreenScoreDataBase.greenScoreDataList[currentDate.day]!;
     var timeSlots = getTimeSlots(currentDate);
 
-    for (int index = 0; index < greenScoresForDay.length; index++) {
-      var slot = greenScoresForDay[index];
+    greenScoresForDay =
+        updateGreenScoreWithVacancy(bookings, greenScoresForDay,currentDate);
+
+    return calculateBestGreenScore(greenScoresForDay, timeSlots);
+  }
+
+  List<GreenScore> updateGreenScoreWithVacancy(
+      List<BookingModel> bookings, List<GreenScore> greenscoresList,DateTime currentDate) {
+    int greenScoreDayLength = greenscoresList.length;
+
+    for (int index = 0; index < greenscoresList.length; index++) {
+      var slot = greenscoresList[index];
+      var slotDate = DateTime(currentDate.year, currentDate.month,currentDate.day, slot.hour, slot.minute, 0);
 
       for (var booking in bookings) {
-        if (booking.startTime!.hour == slot.hour &&
-            booking.startTime!.minute == slot.minute) {
-          greenScoresForDay[index].vacant = false;
-          if (index + 5 < greenScoreDayLength) {
-            for (int _ in Iterable.generate(5)) {
-              index++;
-              greenScoresForDay[index].vacant = false;
-            }
-          }
+        if (doesSlotOverlap(booking.startTime!,slotDate, booking.endTime!)) {
+          greenscoresList[index].vacant = false;
         }
       }
     }
 
+    return greenscoresList;
+  }
+
+  int calculateBestGreenScore(
+      List<GreenScore> greenScoresForDay, List<DateTime> timeSlots) {
+    int bestScore = -1;
     int sum = 0;
+    int greenScoreDayLength = greenScoresForDay.length;
     for (int index = 0; index < greenScoreDayLength; index++) {
       var allowedInBestScore = true;
       if (!isSlotOutdated(timeSlots[index])) {
         if (index + 5 < greenScoreDayLength) {
-          for (int j in Iterable.generate(5)) {
+          for (int j in Iterable.generate(6)) {
             int subIndex = index + j;
-
             // If we encounter a booked slot we set the sum back to zero
             if (greenScoresForDay[subIndex].vacant == false) {
               allowedInBestScore = false;
+              // print("found dis-allowed slot:" + subIndex.toString());
               sum = 0;
             } else if (allowedInBestScore) {
               sum += greenScoresForDay[subIndex].greenScore;
+              // print("found allowed slot:" + subIndex.toString());
+              // print("current sum:" + sum.toString());
             }
           }
 
           if (allowedInBestScore) {
+            // print("trying to set best score if");
+            // print(bestScore.toString()+"<"+sum.toString());
             if (bestScore < sum) {
               bestScore = sum;
             }
