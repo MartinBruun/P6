@@ -454,6 +454,7 @@ class CalendarProvider extends ChangeNotifier {
     for (int index = 0; index < greenScoreDayLength; index++) {
       var allowedInBestScore = true;
       if (!isSlotOutdated(timeSlots[index])) {
+        //calculate 6 consecutive slots
         if (index + 5 < greenScoreDayLength) {
           for (int j in Iterable.generate(6)) {
             int subIndex = index + j;
