@@ -4,10 +4,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:washee/core/helpers/date_helper.dart';
 import 'package:washee/features/booking/presentation/widgets/day_card.dart';
 
-import '../../../../core/helpers/machine_enum.dart';
 import '../../../../core/presentation/themes/dimens.dart';
 import '../../../../core/presentation/themes/themes.dart';
-import '../../data/models/booking_model.dart';
 import '../provider/calendar_provider.dart';
 
 class CalendarView extends StatefulWidget {
@@ -23,7 +21,6 @@ class CalendarView extends StatefulWidget {
 
 class _CalendarViewState extends State<CalendarView> {
   DateHelper _dateHelper = DateHelper();
-  List<BookingModel> _washBookingsForCurrentDay = [];
 
   @override
   void initState() {
@@ -32,8 +29,6 @@ class _CalendarViewState extends State<CalendarView> {
 
   @override
   Widget build(BuildContext context) {
-    print("Washbookings");
-    print(_washBookingsForCurrentDay);
     return Consumer<CalendarProvider>(
       builder: (context, data, _) {
         return Padding(
