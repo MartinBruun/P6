@@ -356,7 +356,7 @@ class CalendarProvider extends ChangeNotifier {
         if (booking.startTime!.hour == slot.hour &&
             booking.startTime!.minute == slot.minute) {
           slotCounter = -5;
-          print(booking);
+          // print(booking);
         }
       }
       if (slotCounter == 6) {
@@ -410,7 +410,7 @@ class CalendarProvider extends ChangeNotifier {
     if (isWithinInterval) {
       bestGreenScore = _calcBestSelectableGreenScore(bookings, currentDate);
     }
-    print("Returning the avg value of: " + bestGreenScore.toString());
+    // print("Returning the avg value of: " + bestGreenScore.toString());
     return (isWithinInterval && (bestGreenScore >= 0))
         ? bestGreenScore ~/ 6
         : -1; //TODO: se her ~/betyder divider og returner en int
