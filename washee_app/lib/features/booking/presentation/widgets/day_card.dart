@@ -17,13 +17,12 @@ class DayCard extends StatefulWidget {
   final int dayNumber;
   final String dayName;
   final DateTime currentDate;
-  final int greenScoreAvg;
 
-  DayCard(
-      {required this.dayNumber,
-      required this.dayName,
-      required this.currentDate,
-      this.greenScoreAvg = -1});
+  DayCard({
+    required this.dayNumber,
+    required this.dayName,
+    required this.currentDate,
+  });
 
   @override
   State<DayCard> createState() => _DayCardState();
@@ -36,6 +35,7 @@ class _DayCardState extends State<DayCard> {
   int _dryNumberOfPossibleBookings = 0;
   bool _isToday = false;
   DateHelper helper = DateHelper();
+  int _greenScoreAverage = -1;
 
   @override
   void initState() {
@@ -49,6 +49,11 @@ class _DayCardState extends State<DayCard> {
         _washBookingsForCurrentDay, widget.currentDate);
     _dryNumberOfPossibleBookings = calendar.getNumberOfPossibleBookings(
         _dryBookingsForCurrentDay, widget.currentDate);
+
+    _greenScoreAverage = widget.currentDate.month == 5
+        ? calendar.getGreenScoreAverage(
+            _washBookingsForCurrentDay, widget.currentDate)
+        : -1;
     super.initState();
   }
 
@@ -62,7 +67,7 @@ class _DayCardState extends State<DayCard> {
       padding: EdgeInsets.all(1.w),
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-          primary: calendar.determineGreenScoreColor(widget.greenScoreAvg),
+          primary: calendar.determineGreenScoreColor(_greenScoreAverage),
         ),
         child: Consumer<CalendarProvider>(
           builder: (context, data, _) => Column(

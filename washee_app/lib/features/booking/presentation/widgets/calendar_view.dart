@@ -28,9 +28,6 @@ class _CalendarViewState extends State<CalendarView> {
   @override
   void initState() {
     super.initState();
-    var calendar = Provider.of<CalendarProvider>(context, listen: false);
-    _washBookingsForCurrentDay =
-        calendar.getBookingsForDay(widget.date, MachineType.WashingMachine);
   }
 
   @override
@@ -71,10 +68,6 @@ class _CalendarViewState extends State<CalendarView> {
                             _dateHelper.monthName(widget.date.month)]![index]);
 
                     return DayCard(
-                      greenScoreAvg: widget.date.month == 5
-                          ? data.getGreenScoreAverage(
-                              _washBookingsForCurrentDay, _currentDate)
-                          : -1,
                       dayNumber: index + 1,
                       dayName: _dayName,
                       currentDate: _currentDate,
