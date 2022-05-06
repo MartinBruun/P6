@@ -406,7 +406,7 @@ class CalendarProvider extends ChangeNotifier {
   int getGreenScoreAverage(List<BookingModel> bookings, DateTime currentDate) {
     int bestGreenScore = -1;
     bool isWithinInterval =
-        currentDate.day >= 6 && currentDate.day <= 19 ? true : false;
+        currentDate.day >= 6 && currentDate.day <= 24 ? true : false;
     if (isWithinInterval) {
       bestGreenScore = _calcBestSelectableGreenScore(bookings, currentDate);
     }
