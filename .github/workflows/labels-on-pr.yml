@@ -2,17 +2,22 @@ name: Add Labels on Pull Requests
 
 on:
   pull_request:
-    types: [opened]
+    types: [opened, edited]
 
 env:
   BASE_BRANCH: ${{ github.base_ref }}
 
 jobs:
-  add-initial-labels:
+  add-initial-increment-label:
     runs-on: ubuntu-latest
     steps:
       - name: add default labels to pull request
         uses: actions-ecosystem/action-add-labels@v1
         with:
           github_token: ${{ github.token }}
-          labels: Increment, WIP
+          labels: Increment
+      - name: add default labels to pull request
+        uses: actions-ecosystem/action-add-labels@v1
+        with:
+          github_token: ${{ github.token }}
+          labels: Need Tests
