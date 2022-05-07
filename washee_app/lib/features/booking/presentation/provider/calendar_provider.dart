@@ -1,9 +1,12 @@
+import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:washee/core/helpers/date_helper.dart';
+import 'package:washee/core/helpers/green_score_database.dart';
 import 'package:washee/core/helpers/web_communicator.dart';
 import 'package:washee/core/washee_box/machine_model.dart';
 import 'package:washee/features/booking/data/models/booking_model.dart';
 import 'package:washee/core/errors/exception_handler.dart';
+import '../../../../core/presentation/themes/colors.dart';
 import '../../data/models/booking_model.dart';
 import 'package:washee/injection_container.dart';
 
@@ -313,14 +316,14 @@ class CalendarProvider extends ChangeNotifier {
 
   bool isSlotOutdated(DateTime currentSlot) {
     if (_isSameMonth(currentSlot) &&
-        (currentSlot.day > DateHelper.currentTime().day)) {
+        (currentSlot.day > DateHelper().currentTime().day)) {
       return false;
     } else if (_isMonthLater(currentSlot)) {
       return false;
     }
 
-    if (currentSlot.day == DateHelper.currentTime().day) {
-      if ((currentSlot.hour < DateHelper.currentTime().hour)) {
+    if (currentSlot.day == DateHelper().currentTime().day) {
+      if ((currentSlot.hour < DateHelper().currentTime().hour)) {
         return true;
       }
       return false;
@@ -329,14 +332,14 @@ class CalendarProvider extends ChangeNotifier {
   }
 
   bool _isSameMonth(DateTime currentSlot) {
-    if (currentSlot.month == DateHelper.currentTime().month) {
+    if (currentSlot.month == DateHelper().currentTime().month) {
       return true;
     }
     return false;
   }
 
   bool _isMonthLater(DateTime currentSlot) {
-    if (currentSlot.month > DateHelper.currentTime().month) {
+    if (currentSlot.month > DateHelper().currentTime().month) {
       return true;
     }
     return false;
@@ -353,6 +356,7 @@ class CalendarProvider extends ChangeNotifier {
         if (booking.startTime!.hour == slot.hour &&
             booking.startTime!.minute == slot.minute) {
           slotCounter = -5;
+          // print(booking);
         }
       }
       if (slotCounter == 6) {
@@ -368,5 +372,117 @@ class CalendarProvider extends ChangeNotifier {
   sortAddedTimeSlots() {
     _addedTimeSlots.sort((a, b) => a.compareTo(b));
     notifyListeners();
+  }
+
+  Color determineGreenScoreColor(int greenScore) {
+    switch (greenScore) {
+      case -1:
+        return AppColors.sportItemGray;
+      case 0:
+        return Colors.red;
+      case 1:
+        return Colors.red;
+      case 2:
+        return Colors.red;
+      case 3:
+        return Colors.orange;
+      case 4:
+        return Colors.orange;
+      case 5:
+        return Colors.orange;
+      case 6:
+        return Colors.green;
+      case 7:
+        return Colors.green;
+      case 8:
+        return Colors.green;
+      case 9:
+        return Colors.green;
+      default:
+        return AppColors.sportItemGray;
+    }
+  }
+
+  int getGreenScoreAverage(List<BookingModel> bookings, DateTime currentDate) {
+    int bestGreenScore = -1;
+    bool isWithinInterval =
+        currentDate.day >= 6 && currentDate.day <= 24 ? true : false;
+    if (isWithinInterval) {
+      bestGreenScore = _calcBestSelectableGreenScore(bookings, currentDate);
+    }
+    // print("Returning the avg value of: " + bestGreenScore.toString());
+    return (isWithinInterval && (bestGreenScore >= 0))
+        ? bestGreenScore ~/ 6
+        : -1; //TODO: se her ~/betyder divider og returner en int
+  }
+
+  int _calcBestSelectableGreenScore(
+      List<BookingModel> bookings, DateTime currentDate) {
+    List<GreenScore> greenScoresForDay =
+        GreenScoreDataBase.greenScoreDataList[currentDate.day]!;
+    var timeSlots = getTimeSlots(currentDate);
+
+    greenScoresForDay =
+        updateGreenScoreWithVacancy(bookings, greenScoresForDay,currentDate);
+
+    return calculateBestGreenScore(greenScoresForDay, timeSlots);
+  }
+
+  List<GreenScore> updateGreenScoreWithVacancy(
+      List<BookingModel> bookings, List<GreenScore> greenscoresList,DateTime currentDate) {
+    int greenScoreDayLength = greenscoresList.length;
+
+    for (int index = 0; index < greenscoresList.length; index++) {
+      var slot = greenscoresList[index];
+      var slotDate = DateTime(currentDate.year, currentDate.month,currentDate.day, slot.hour, slot.minute, 0);
+
+      for (var booking in bookings) {
+        if (doesSlotOverlap(booking.startTime!,slotDate, booking.endTime!)) {
+          greenscoresList[index].vacant = false;
+        }
+      }
+    }
+
+    return greenscoresList;
+  }
+
+  int calculateBestGreenScore(
+      List<GreenScore> greenScoresForDay, List<DateTime> timeSlots) {
+    int bestScore = -1;
+    int sum = 0;
+    int greenScoreDayLength = greenScoresForDay.length;
+    for (int index = 0; index < greenScoreDayLength; index++) {
+      var allowedInBestScore = true;
+      if (!isSlotOutdated(timeSlots[index])) {
+        //calculate 6 consecutive slots
+        if (index + 5 < greenScoreDayLength) {
+          for (int j in Iterable.generate(6)) {
+            int subIndex = index + j;
+            // If we encounter a booked slot we set the sum back to zero
+            if (greenScoresForDay[subIndex].vacant == false) {
+              allowedInBestScore = false;
+              // print("found dis-allowed slot:" + subIndex.toString());
+              sum = 0;
+            } else if (allowedInBestScore) {
+              sum += greenScoresForDay[subIndex].greenScore;
+              // print("found allowed slot:" + subIndex.toString());
+              // print("current sum:" + sum.toString());
+            }
+          }
+
+          if (allowedInBestScore) {
+            // print("trying to set best score if");
+            // print(bestScore.toString()+"<"+sum.toString());
+            if (bestScore < sum) {
+              bestScore = sum;
+            }
+          }
+          allowedInBestScore = true;
+          sum = 0;
+        }
+      }
+    }
+
+    return bestScore;
   }
 }

@@ -17,7 +17,7 @@ class ExceptionHandler{
   ExceptionHandler();
 
   void resetLog(){
-    File(logLocation).writeAsStringSync("ExceptionHandler reset log file at: " + DateHelper.currentTime().toString() + "\n", mode: FileMode.write);
+    File(logLocation).writeAsStringSync("ExceptionHandler reset log file at: " + DateHelper().currentTime().toString() + "\n", mode: FileMode.write);
   }
 
   String handle(String exception, {log=false, show=false, crash=false}) {

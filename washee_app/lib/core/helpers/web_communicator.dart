@@ -332,8 +332,8 @@ class WebCommunicatorImpl implements WebCommunicator {
         try {
           List<Map<String, dynamic>> currentBooking = await getCurrentBookings(
               machineID: int.parse(machine["id"].toString()),
-              startTimeLessThan: DateHelper.currentTime(),
-              endTimeGreaterThan: DateHelper.currentTime());
+              startTimeLessThan: DateHelper().currentTime(),
+              endTimeGreaterThan: DateHelper().currentTime());
           if (currentBooking.isNotEmpty) {
             startTime = DateTime.parse(currentBooking[0]["start_time"]);
             endTime = DateTime.parse(currentBooking[0]["end_time"]);

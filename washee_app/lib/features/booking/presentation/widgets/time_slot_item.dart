@@ -13,11 +13,13 @@ class TimeSlotItem extends StatefulWidget {
   final DateTime time;
   final bool isAvailable;
   final bool isOutdated;
+  final int greenScore;
 
   TimeSlotItem(
       {required this.time,
       required this.isAvailable,
-      required this.isOutdated});
+      required this.isOutdated,
+      this.greenScore = -1});
 
   @override
   State<TimeSlotItem> createState() => _TimeSlotItemState();
@@ -27,7 +29,7 @@ class _TimeSlotItemState extends State<TimeSlotItem>
     with AutomaticKeepAliveClientMixin {
   String _formatHoursAndMinutes(DateTime time) {
     String formatted = "";
-    if (time.hour < 9) {
+    if (time.hour <= 9) {
       formatted += "0" + time.hour.toString();
     } else {
       formatted += time.hour.toString();
@@ -43,13 +45,27 @@ class _TimeSlotItemState extends State<TimeSlotItem>
 
   bool _selected = false;
 
-  String _determineAvailabilityOrOutdated() {
+  String _getItemText() {
     if (widget.isAvailable && widget.isOutdated) {
       return _formatHoursAndMinutes(widget.time) + "       udløbet";
     } else if (widget.isAvailable && !widget.isOutdated) {
-      return _formatHoursAndMinutes(widget.time);
+      return _formatHoursAndMinutes(widget.time) +
+          " " +
+          _determineGreenScoreMessage(widget.greenScore);
     } else {
       return _formatHoursAndMinutes(widget.time) + "       optaget";
+    }
+  }
+
+  String _determineGreenScoreMessage(int greenScore) {
+    if (greenScore >= 0 && greenScore <= 2) {
+      return " - ikke miljø-venlig!";
+    } else if (greenScore > 2 && greenScore <= 5) {
+      return " - mindre miljø-venlig!";
+    } else if (greenScore > 5 && greenScore <= 9) {
+      return " - meget miljø-venlig!";
+    } else {
+      return "";
     }
   }
 
@@ -63,7 +79,7 @@ class _TimeSlotItemState extends State<TimeSlotItem>
         width: 770.w,
         height: 80.h,
         decoration: BoxDecoration(
-          color: _selected ? AppColors.deepGreen : AppColors.sportItemGray,
+          color: calendar.determineGreenScoreColor(widget.greenScore),
           borderRadius: BorderRadius.circular(20.w),
         ),
         child: Row(
@@ -74,10 +90,10 @@ class _TimeSlotItemState extends State<TimeSlotItem>
               child: InkWell(
                 onTap: () {},
                 child: Text(
-                  _determineAvailabilityOrOutdated(),
+                  _getItemText(),
                   style: textStyle.copyWith(
                     fontWeight: FontWeight.w600,
-                    fontSize: textSize_32,
+                    fontSize: textSize_28,
                     color: !widget.isAvailable
                         ? AppColors.red
                         : widget.isOutdated

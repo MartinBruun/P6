@@ -5,7 +5,6 @@ import 'package:washee/features/booking/domain/repositories/book_repository.dart
 
 import '../../../../core/network/network_info.dart';
 import '../datasources/book_remote.dart';
-import 'package:timezone/timezone.dart' as tz;
 
 class BookRepositoryImpl implements BookRepository {
   final NetworkInfo networkInfo;
@@ -16,7 +15,10 @@ class BookRepositoryImpl implements BookRepository {
   @override
   Future<List<BookingModel>> getBookings(
       {int? accountID, bool? activated}) async {
-    return await remote.getBookings(accountID: accountID, activated: activated);
+    List<Map<String, dynamic>> bookingsJson =
+        await remote.getBookings(accountID: accountID, activated: activated);
+    List<BookingModel> bookingModels = constructBookingList(bookingsJson);
+    return bookingModels;
   }
 
   @override
@@ -26,11 +28,12 @@ class BookRepositoryImpl implements BookRepository {
       required String serviceResource,
       required String accountResource}) async {
     if (await networkInfo.isConnected) {
-      return await remote.postBooking(
+      Map<String, dynamic> postetBookingJson = await remote.postBooking(
           startTime: startTime,
           machineResource: machineResource,
           serviceResource: serviceResource,
           accountResource: accountResource);
+      return constructBooking(postetBookingJson);
     }
     return null;
   }
@@ -39,13 +42,13 @@ class BookRepositoryImpl implements BookRepository {
   Future<bool> hasCurrentBooking(
       {required int accountID, required int machineID}) async {
     if (await networkInfo.isConnected) {
-      List<BookingModel> validBooking = await remote.getBookings(
+      List<Map<String, dynamic>> validBooking = await remote.getBookings(
           accountID: accountID,
           machineID: machineID,
           startTimeLessThan:
-              DateTime.parse(_convertToNonNaiveTime(DateHelper.currentTime())),
+              DateTime.parse(DateHelper().convertToNonNaiveTime(DateHelper().currentTime())),
           endTimeGreaterThan:
-              DateTime.parse(_convertToNonNaiveTime(DateHelper.currentTime())));
+              DateTime.parse(DateHelper().convertToNonNaiveTime(DateHelper().currentTime())));
       if (validBooking.isEmpty) {
         return false;
       } else {
@@ -68,10 +71,17 @@ class BookRepositoryImpl implements BookRepository {
     throw new Exception("Not on network");
   }
 
-  String _convertToNonNaiveTime(DateTime time) {
-    // The backend is timezone sensitive, and needs it in the following specified format
-    var danishTime = tz.getLocation('Europe/Copenhagen');
-    var now = tz.TZDateTime.from(time, danishTime);
-    return now.toUtc().toString();
+  List<BookingModel> constructBookingList(
+      List<Map<String, dynamic>> bookingsAsJson) {
+    List<BookingModel> _bookings = [];
+    for (var booking in bookingsAsJson) {
+      _bookings.add(constructBooking(booking));
+    }
+    return _bookings;
   }
+
+  BookingModel constructBooking(Map<String, dynamic> bookingAsJson) {
+    return BookingModel.fromJson(bookingAsJson);
+  }
+
 }
