@@ -168,6 +168,7 @@ class CalendarProvider extends ChangeNotifier {
 
   updateBookings(List<BookingModel> bookings) {
     if (bookings.isNotEmpty) {
+      _bookings.clear();
       for (var booking in bookings) {
         _bookings.add(booking);
       }
@@ -423,21 +424,22 @@ class CalendarProvider extends ChangeNotifier {
     var timeSlots = getTimeSlots(currentDate);
 
     greenScoresForDay =
-        updateGreenScoreWithVacancy(bookings, greenScoresForDay,currentDate);
+        updateGreenScoreWithVacancy(bookings, greenScoresForDay, currentDate);
 
     return calculateBestGreenScore(greenScoresForDay, timeSlots);
   }
 
-  List<GreenScore> updateGreenScoreWithVacancy(
-      List<BookingModel> bookings, List<GreenScore> greenscoresList,DateTime currentDate) {
+  List<GreenScore> updateGreenScoreWithVacancy(List<BookingModel> bookings,
+      List<GreenScore> greenscoresList, DateTime currentDate) {
     int greenScoreDayLength = greenscoresList.length;
 
     for (int index = 0; index < greenscoresList.length; index++) {
       var slot = greenscoresList[index];
-      var slotDate = DateTime(currentDate.year, currentDate.month,currentDate.day, slot.hour, slot.minute, 0);
+      var slotDate = DateTime(currentDate.year, currentDate.month,
+          currentDate.day, slot.hour, slot.minute, 0);
 
       for (var booking in bookings) {
-        if (doesSlotOverlap(booking.startTime!,slotDate, booking.endTime!)) {
+        if (doesSlotOverlap(booking.startTime!, slotDate, booking.endTime!)) {
           greenscoresList[index].vacant = false;
         }
       }
