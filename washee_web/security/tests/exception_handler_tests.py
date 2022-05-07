@@ -4,6 +4,8 @@ from datetime import datetime
 
 from security.exception_handler import ExceptionHandler
 
+# Model Fixtures are created in the conftest.py at root.
+
 def test_exception_handler_can_be_initialized():
     #Arrange
     #Act

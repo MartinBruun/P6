@@ -8,20 +8,11 @@ env:
   BASE_BRANCH: ${{ github.base_ref }}
 
 jobs:
-  add-initial-increment-label:
+  add-initial-labels:
     runs-on: ubuntu-latest
     steps:
       - name: add default labels to pull request
         uses: actions-ecosystem/action-add-labels@v1
         with:
           github_token: ${{ github.token }}
-          labels: Increment
-
-  add-initial-wip-label:
-    runs-on: ubuntu-latest
-    steps:
-      - name: add default labels to pull request
-        uses: actions-ecosystem/action-add-labels@v1
-        with:
-          github_token: ${{ github.token }}
-          labels: WIP
+          labels: Increment, WIP
