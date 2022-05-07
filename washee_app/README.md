@@ -1,21 +1,15 @@
-# washee_app
+# Washee App
 
-A new Flutter project.
+This Readme contains information of the purpose, architecture and important details of the app system.
 
-## Getting Started
+For understanding how the app is run in development, testing, staging or production, please see the outermost Readme file at root.
 
-This project is a starting point for a Flutter application.
+## Purpose
+The washee app is the system the end users will be in contact with using a user interface.
 
-A few resources to get you started if this is your first Flutter project:
+It will serve as the middle-man between any box and the backend.
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+## Architecture
+The architechture follows a Clean Architechture principle, which should be explained here.
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
-
-
-## Overview
-
-This is the documentation for the washee Flutter app as part of the Bachelor's Project of group SW6-02 at Aalborg University.
+## Details

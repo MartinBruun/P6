@@ -1,5 +1,28 @@
-# Washee-box
-## This box handles: 
+# Washee Box
+
+This Readme contains information of the purpose, architecture and important details of the box system.
+
+For understanding how the box is run in development, testing, staging or production, please see the outermost Readme file at root.
+
+## Purpose
+The box works as the physical controller of the washing and drying machines in a laundry room.
+It is assumed to have no internet connection, and will primarily be receiving commands and sending back data on the actual state in which the physical machines are running.
+
+In the current iteration, this means sending back information as to if the machines have power and getting commands turning on the machines given the specified time.
+
+## Architecture
+The architecture of the box follows some general principles.
+
+A centralized setup file describes the location the box is setup in. This makes it create a virtual representation of a location, thereby, each box is directly related to the Location model on the backend.
+
+The washee_box_entry defines the entry point layer, where it receives and responds messages over an http connection.
+
+The main_controller is the one handling the logic of the requests, and starting any necessary operations, giving its results back to the entry point.
+
+## Details
+Below here are the previous notes on how to setup the box environment. It needs cleaning and possible migration to a docker structure instead.
+
+### This box handles: 
 communication with the washingmachine locks.
 local temp storing of transactions
 logging errors
