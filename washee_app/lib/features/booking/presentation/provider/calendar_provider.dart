@@ -166,12 +166,11 @@ class CalendarProvider extends ChangeNotifier {
     }
   }
 
+//TODO: should be moved to some bookings provider, we ought only to have one store for bookings
   updateBookings(List<BookingModel> bookings) {
     if (bookings.isNotEmpty) {
       _bookings.clear();
-      for (var booking in bookings) {
-        _bookings.add(booking);
-      }
+      _bookings = bookings;
     }
   }
 
