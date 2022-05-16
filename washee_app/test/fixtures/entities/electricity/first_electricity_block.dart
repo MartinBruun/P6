@@ -1,5 +1,0 @@
-
-
-ElectricityBlockEntity firstElectricityBlock = WebElectricityBlockModel(
-  
-)

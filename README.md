@@ -8,6 +8,14 @@ It also serves as a way to increase awareness of environmental impact, by presen
 
 More information in how this project has been worked upon is presented in the (Wiki tab)[https://github.com/MartinBruun/P6/wiki], as well as an overview of the state of the project presented in (Projects)[https://github.com/MartinBruun/P6/projects/1]
 
+## Features
+The system consist of the following features, each handling a seperate part of the domain, and each having their own unique usecases:
+
+`account`: The system manages your account information, can handle transactions and validate users.
+`booking`: The system can create bookings which can be used to activate machines.
+`electricity`: The system calculates and present oppertune times to use electricity.
+`location`: The system works in physical locations, where you can redeem your bookings to activate them.
+
 ## How to run it
 This repository contains 3 apps, a backend server, a box interacting with the laundry machines and a mobile app communicating between them. It also contains a database running on the same host as the backend.
 Each folder relates to a seperate part of the project:

@@ -11,6 +11,9 @@ The washee web functions as the backend.
 The architecture follows a Django structure with a focus on serving the data over a REST API. This means:
 
 Each part of the domain that handles its own subset of models is organized into different apps.
+These apps mirror the "features" presented in the washee_app.
+(The difference is that "apps" subdivide with a focus on correctly presenting the models, whereas "features" subdivide with a focus on correctly presenting the behaviour.)
+
 Each app have the same kind of files with the following responsibilities:
 `admin.py`, handling what can be showed and manipulated on the admin interface.
 `apps.py`, handling the reference to this specific app as a whole.
@@ -23,5 +26,10 @@ Each app have the same kind of files with the following responsibilities:
 
 A special app, called `washee_web`, handles all outwards communication (`wsgi/asgi.py`), url management (`urls.py`) and setup of the application as a whole (`settings.py`).
 
+Likewise, the app `security` is not strictly part of the domain, but does convey the same architecture.
+Security handles all logging, emergency messages to the development team and similar setup of security related tasks. It is also here commonly used input validation and similar tainted data is handled.
+
 ## Details
 Normally, a Django application also have a view layer, that presents information in a user interface. However, this has been delegated to the washee app.
+
+The `upload` app is not a real app, but is rather something which should be removed when the functionality is added to the apps which need it.

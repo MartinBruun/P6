@@ -1,5 +1,5 @@
 
 
-BoxEntity firstBox = LocationBoxModel(
+BoxEntity firstBox = WebBoxModel(
   
 )
