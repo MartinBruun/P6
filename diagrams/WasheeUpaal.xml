@@ -1,0 +1,1429 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE nta PUBLIC '-//Uppaal Team//DTD Flat System 1.1//EN' 'http://www.it.uu.se/research/group/darts/uppaal/flat-1_2.dtd'>
+<nta>
+	<declaration>// Place global declarations here.
+clock globalTime;
+
+// ------ APP ------
+// -- connection --
+urgent chan 
+    connectToBox,
+    connectToWeb,
+    disconnect,
+    connectionError,
+    connectionSuccess;
+// -- usecaseses --
+urgent chan
+    unlockUsecase,
+    getMachinesUsecase,
+    postBookingUsecase,
+    signInUsecase,
+    getBookingsUsecase,
+    deleteBookingUsecase,
+    updateBookingUsecase,
+    updateAccountUsecase,
+    usecaseComplete,
+    usecaseError;
+
+// ------ BOX ------
+
+urgent chan boxThread [2];
+bool machineInUse [2];
+
+// -- requests for the box --
+urgent chan 
+    unlockRequest, 
+    lockRequest, 
+    getMachinesInfoRequest;
+
+// -- response from box --
+urgent chan 
+    boxResSuccess,
+    boxResFail;
+//urgent chan 
+//    unlockResponse, 
+//    lockResponse, 
+//    getMachinesInfoResponse; 
+
+// ------ MACHINE ------
+chan
+    turnOn [2],
+    turnOff[2];
+
+
+
+// ------ WEB ------
+// -- requests for web --
+urgent chan 
+    getCurrentBookingsRequest,
+    postBookingRequest,
+    getAccountRequest,
+    deleteBookingRequest,
+    getMachinesRequest,
+    postLogRequest,
+    updateBookingRequest,
+    signInRequest;
+
+// -- response from web --
+urgent chan 
+    webResSuccess,
+    webResFail;
+
+//urgent chan 
+//    getCurrentLocationResponse,
+//    getCurrentBookingsResponse,
+//    postBookingResponse,
+//    getAccountResponse,
+//    deleteBookingResponse,
+//    getMachinesResponse,
+//    postLogResponse,
+//    updateBookingResponse;
+
+// ------------------TEMPLATES--------------
+urgent chan
+    TEMPLATEUsecase,
+    TEMPLATERequest;</declaration>
+	<template>
+		<name x="5" y="5">Web</name>
+		<declaration>// Place local declarations here.</declaration>
+		<location id="id0" x="-34" y="153">
+			<name x="-8" y="145">ProcessingRequest</name>
+		</location>
+		<location id="id1" x="-510" y="153">
+			<name x="-561" y="136">Idle</name>
+		</location>
+		<init ref="id1"/>
+		<transition>
+			<source ref="id1"/>
+			<target ref="id0"/>
+			<label kind="synchronisation" x="-382" y="289">getMachinesRequest?</label>
+			<nail x="-510" y="306"/>
+			<nail x="-34" y="306"/>
+		</transition>
+		<transition>
+			<source ref="id1"/>
+			<target ref="id0"/>
+			<label kind="synchronisation" x="-382" y="272">getAccountRequest?</label>
+			<nail x="-510" y="289"/>
+			<nail x="-34" y="289"/>
+		</transition>
+		<transition>
+			<source ref="id1"/>
+			<target ref="id0"/>
+			<label kind="synchronisation" x="-382" y="255">updateBookingRequest?</label>
+			<nail x="-510" y="272"/>
+			<nail x="-34" y="272"/>
+		</transition>
+		<transition>
+			<source ref="id1"/>
+			<target ref="id0"/>
+			<label kind="synchronisation" x="-382" y="238">deleteBookingRequest?</label>
+			<nail x="-510" y="255"/>
+			<nail x="-34" y="255"/>
+		</transition>
+		<transition>
+			<source ref="id1"/>
+			<target ref="id0"/>
+			<label kind="synchronisation" x="-382" y="212">getCurrentBookingsRequest?</label>
+			<nail x="-510" y="237"/>
+			<nail x="-34" y="237"/>
+		</transition>
+		<transition>
+			<source ref="id1"/>
+			<target ref="id0"/>
+			<label kind="synchronisation" x="-382" y="187">postBookingRequest?</label>
+			<nail x="-510" y="213"/>
+			<nail x="-34" y="213"/>
+		</transition>
+		<transition>
+			<source ref="id0"/>
+			<target ref="id1"/>
+			<label kind="synchronisation" x="-323" y="59">webResFail!</label>
+			<nail x="-34" y="85"/>
+			<nail x="-510" y="85"/>
+		</transition>
+		<transition>
+			<source ref="id0"/>
+			<target ref="id1"/>
+			<label kind="synchronisation" x="-340" y="93">webResSuccess!</label>
+			<nail x="-34" y="119"/>
+			<nail x="-510" y="119"/>
+		</transition>
+		<transition>
+			<source ref="id1"/>
+			<target ref="id0"/>
+			<label kind="synchronisation" x="-382" y="161">signInRequest?</label>
+			<nail x="-510" y="187"/>
+			<nail x="-34" y="187"/>
+		</transition>
+	</template>
+	<template>
+		<name>App</name>
+		<declaration>bool loggedIn = false;
+
+// web request then reset
+
+// box connection
+// wifi connection</declaration>
+		<location id="id2" x="-1453" y="170">
+			<name x="-1513" y="127">Washee</name>
+			<label kind="invariant" x="-1513" y="144">loggedIn</label>
+		</location>
+		<location id="id3" x="-1453" y="59">
+			<name x="-1487" y="17">DisplayError</name>
+		</location>
+		<location id="id4" x="-1215" y="170">
+			<name x="-1190" y="161">processingUsecase</name>
+		</location>
+		<location id="id5" x="-1842" y="170">
+			<name x="-1920" y="144">LoggedOut</name>
+			<label kind="invariant" x="-1920" y="161">!loggedIn</label>
+		</location>
+		<location id="id6" x="-1674" y="170">
+			<name x="-1725" y="127">AttemptToLogIn</name>
+		</location>
+		<init ref="id5"/>
+		<transition>
+			<source ref="id2"/>
+			<target ref="id4"/>
+			<label kind="synchronisation" x="-1428" y="221">updateAccountUsecase!</label>
+			<nail x="-1436" y="238"/>
+			<nail x="-1232" y="238"/>
+		</transition>
+		<transition>
+			<source ref="id2"/>
+			<target ref="id4"/>
+			<label kind="synchronisation" x="-1427" y="204">updateBookingUsecase!</label>
+			<nail x="-1436" y="221"/>
+			<nail x="-1232" y="221"/>
+		</transition>
+		<transition>
+			<source ref="id2"/>
+			<target ref="id4"/>
+			<label kind="synchronisation" x="-1428" y="187">deleteBookingUsecase!</label>
+			<nail x="-1436" y="204"/>
+			<nail x="-1232" y="204"/>
+		</transition>
+		<transition>
+			<source ref="id2"/>
+			<target ref="id4"/>
+			<label kind="synchronisation" x="-1428" y="170">getBookingsUsecase!</label>
+			<nail x="-1436" y="187"/>
+			<nail x="-1232" y="187"/>
+		</transition>
+		<transition>
+			<source ref="id6"/>
+			<target ref="id2"/>
+			<label kind="synchronisation" x="-1649" y="170">usecaseComplete?</label>
+			<label kind="assignment" x="-1649" y="187">loggedIn = true</label>
+		</transition>
+		<transition>
+			<source ref="id6"/>
+			<target ref="id5"/>
+			<label kind="synchronisation" x="-1835" y="204">usecaseError?</label>
+			<label kind="assignment" x="-1835" y="221">loggedIn = false</label>
+			<nail x="-1674" y="204"/>
+			<nail x="-1844" y="204"/>
+		</transition>
+		<transition>
+			<source ref="id5"/>
+			<target ref="id6"/>
+			<label kind="synchronisation" x="-1824" y="153">signInUsecase!</label>
+		</transition>
+		<transition>
+			<source ref="id2"/>
+			<target ref="id4"/>
+			<label kind="synchronisation" x="-1428" y="153">postBookingUsecase!</label>
+			<nail x="-1429" y="170"/>
+			<nail x="-1242" y="170"/>
+		</transition>
+		<transition>
+			<source ref="id2"/>
+			<target ref="id4"/>
+			<label kind="synchronisation" x="-1428" y="119">getMachinesUsecase!</label>
+			<nail x="-1436" y="136"/>
+			<nail x="-1232" y="136"/>
+		</transition>
+		<transition>
+			<source ref="id4"/>
+			<target ref="id3"/>
+			<label kind="synchronisation" x="-1402" y="42">usecaseError?</label>
+			<nail x="-1215" y="59"/>
+		</transition>
+		<transition>
+			<source ref="id4"/>
+			<target ref="id2"/>
+			<label kind="synchronisation" x="-1419" y="85">usecaseComplete?</label>
+			<nail x="-1215" y="102"/>
+			<nail x="-1453" y="102"/>
+		</transition>
+		<transition>
+			<source ref="id2"/>
+			<target ref="id4"/>
+			<label kind="synchronisation" x="-1428" y="136">unlockUsecase!</label>
+			<nail x="-1428" y="153"/>
+			<nail x="-1241" y="153"/>
+		</transition>
+		<transition>
+			<source ref="id3"/>
+			<target ref="id2"/>
+			<nail x="-1452" y="128"/>
+		</transition>
+	</template>
+	<template>
+		<name>AppConnection</name>
+		<location id="id7" x="-59" y="76">
+			<name x="-42" y="51">NotConnected</name>
+		</location>
+		<location id="id8" x="94" y="-93">
+			<name x="-42" y="-102">ConnectedToWeb</name>
+		</location>
+		<location id="id9" x="-212" y="-93">
+			<name x="-195" y="-102">ConnectedToBox</name>
+		</location>
+		<location id="id10" x="289" y="-93">
+			<name x="297" y="-119">connectingToWeb</name>
+		</location>
+		<location id="id11" x="-391" y="-93">
+			<name x="-518" y="-119">connectingToBox</name>
+		</location>
+		<location id="id12" x="187" y="-136">
+		</location>
+		<location id="id13" x="-340" y="-136">
+		</location>
+		<init ref="id7"/>
+		<transition>
+			<source ref="id13"/>
+			<target ref="id9"/>
+			<label kind="synchronisation" x="-374" y="-127">connectionSuccess!</label>
+			<nail x="-246" y="-127"/>
+		</transition>
+		<transition>
+			<source ref="id9"/>
+			<target ref="id13"/>
+			<label kind="synchronisation" x="-314" y="-161">connectToBox?</label>
+			<nail x="-238" y="-136"/>
+		</transition>
+		<transition>
+			<source ref="id12"/>
+			<target ref="id8"/>
+			<label kind="synchronisation" x="136" y="-127">connectionSuccess!</label>
+			<nail x="136" y="-127"/>
+		</transition>
+		<transition>
+			<source ref="id8"/>
+			<target ref="id12"/>
+			<label kind="synchronisation" x="102" y="-170">connectToWeb?</label>
+			<nail x="119" y="-136"/>
+		</transition>
+		<transition>
+			<source ref="id7"/>
+			<target ref="id7"/>
+			<label kind="synchronisation" x="-170" y="85">disconnect?</label>
+			<nail x="-93" y="85"/>
+			<nail x="-85" y="102"/>
+			<nail x="-68" y="93"/>
+		</transition>
+		<transition>
+			<source ref="id8"/>
+			<target ref="id11"/>
+			<label kind="synchronisation" x="-8" y="-144">connectToBox?</label>
+			<nail x="93" y="-170"/>
+			<nail x="-391" y="-170"/>
+		</transition>
+		<transition>
+			<source ref="id11"/>
+			<target ref="id7"/>
+			<label kind="synchronisation" x="-399" y="110">connectionError!</label>
+			<nail x="-442" y="-93"/>
+			<nail x="-442" y="110"/>
+			<nail x="-59" y="110"/>
+		</transition>
+		<transition>
+			<source ref="id11"/>
+			<target ref="id9"/>
+			<label kind="synchronisation" x="-365" y="-93">connectionSuccess!</label>
+		</transition>
+		<transition>
+			<source ref="id7"/>
+			<target ref="id11"/>
+			<label kind="synchronisation" x="-357" y="76">connectToBox?</label>
+			<nail x="-391" y="76"/>
+		</transition>
+		<transition>
+			<source ref="id9"/>
+			<target ref="id10"/>
+			<label kind="synchronisation" x="-204" y="-144">connectToWeb?</label>
+			<nail x="-212" y="-178"/>
+			<nail x="289" y="-178"/>
+		</transition>
+		<transition>
+			<source ref="id10"/>
+			<target ref="id7"/>
+			<label kind="synchronisation" x="59" y="110">connectionError!</label>
+			<nail x="331" y="-93"/>
+			<nail x="331" y="110"/>
+			<nail x="-59" y="110"/>
+		</transition>
+		<transition>
+			<source ref="id10"/>
+			<target ref="id8"/>
+			<label kind="synchronisation" x="127" y="-93">connectionSuccess!</label>
+		</transition>
+		<transition>
+			<source ref="id7"/>
+			<target ref="id10"/>
+			<label kind="synchronisation" x="51" y="76">connectToWeb?</label>
+			<nail x="289" y="76"/>
+		</transition>
+		<transition>
+			<source ref="id8"/>
+			<target ref="id7"/>
+			<label kind="synchronisation" x="0" y="-17">disconnect?</label>
+			<nail x="93" y="-17"/>
+			<nail x="-59" y="-17"/>
+		</transition>
+		<transition>
+			<source ref="id9"/>
+			<target ref="id7"/>
+			<label kind="synchronisation" x="-178" y="-17">disconnect?</label>
+			<nail x="-212" y="-17"/>
+			<nail x="-59" y="-17"/>
+		</transition>
+	</template>
+	<template>
+		<name>SignInUsecase</name>
+		<location id="id14" x="154" y="8">
+		</location>
+		<location id="id15" x="-501" y="-51">
+		</location>
+		<location id="id16" x="-323" y="-51">
+		</location>
+		<location id="id17" x="43" y="-51">
+		</location>
+		<location id="id18" x="-357" y="-127">
+		</location>
+		<location id="id19" x="-476" y="-127">
+		</location>
+		<location id="id20" x="221" y="-51">
+		</location>
+		<location id="id21" x="-212" y="8">
+			<name x="-272" y="25">SignInComplete</name>
+		</location>
+		<location id="id22" x="-688" y="-51">
+			<name x="-731" y="-68">Idle</name>
+		</location>
+		<init ref="id22"/>
+		<transition>
+			<source ref="id21"/>
+			<target ref="id22"/>
+			<label kind="synchronisation" x="-611" y="-9">usecaseComplete!</label>
+			<nail x="-688" y="8"/>
+		</transition>
+		<transition>
+			<source ref="id22"/>
+			<target ref="id15"/>
+			<label kind="synchronisation" x="-663" y="-68">signInUsecase?</label>
+		</transition>
+		<transition>
+			<source ref="id19"/>
+			<target ref="id22"/>
+			<label kind="synchronisation" x="-612" y="-144">usecaseError!</label>
+			<nail x="-688" y="-127"/>
+		</transition>
+		<transition>
+			<source ref="id14"/>
+			<target ref="id21"/>
+			<label kind="synchronisation" x="27" y="-9">disconnect!</label>
+		</transition>
+		<transition>
+			<source ref="id20"/>
+			<target ref="id14"/>
+			<label kind="synchronisation" x="221" y="-34">webResSuccess?</label>
+			<nail x="221" y="8"/>
+		</transition>
+		<transition>
+			<source ref="id20"/>
+			<target ref="id18"/>
+			<label kind="synchronisation" x="221" y="-102">webResFail?</label>
+			<nail x="221" y="-127"/>
+		</transition>
+		<transition>
+			<source ref="id17"/>
+			<target ref="id20"/>
+			<label kind="synchronisation" x="61" y="-68">signInRequest!</label>
+		</transition>
+		<transition>
+			<source ref="id16"/>
+			<target ref="id18"/>
+			<label kind="synchronisation" x="-323" y="-102">connectionError?</label>
+			<nail x="-323" y="-127"/>
+		</transition>
+		<transition>
+			<source ref="id18"/>
+			<target ref="id19"/>
+			<label kind="synchronisation" x="-449" y="-144">disconnect!</label>
+		</transition>
+		<transition>
+			<source ref="id16"/>
+			<target ref="id17"/>
+			<label kind="synchronisation" x="-306" y="-68">connectionSuccess?</label>
+		</transition>
+		<transition>
+			<source ref="id15"/>
+			<target ref="id16"/>
+			<label kind="synchronisation" x="-483" y="-68">connectToWeb!</label>
+		</transition>
+	</template>
+	<template>
+		<name>UnlockUsecase</name>
+		<location id="id23" x="-1292" y="34">
+		</location>
+		<location id="id24" x="-1471" y="33">
+		</location>
+		<location id="id25" x="-1368" y="-42">
+			<name x="-1462" y="-68">ErrorOccured</name>
+		</location>
+		<location id="id26" x="-1139" y="34">
+		</location>
+		<location id="id27" x="-918" y="34">
+		</location>
+		<location id="id28" x="-773" y="34">
+			<name x="-824" y="0">PaymentComplete</name>
+		</location>
+		<location id="id29" x="-629" y="34">
+		</location>
+		<location id="id30" x="-467" y="34">
+		</location>
+		<location id="id31" x="-314" y="34">
+		</location>
+		<location id="id32" x="-586" y="85">
+		</location>
+		<location id="id33" x="-1623" y="-42">
+		</location>
+		<location id="id34" x="-1623" y="34">
+			<name x="-1666" y="25">Idle</name>
+		</location>
+		<location id="id35" x="-782" y="85">
+			<name x="-833" y="102">UnlockComplete</name>
+		</location>
+		<location id="id36" x="-629" y="-93">
+		</location>
+		<location id="id37" x="-774" y="-93">
+		</location>
+		<location id="id38" x="-943" y="-93">
+		</location>
+		<location id="id39" x="-1139" y="-93">
+		</location>
+		<location id="id40" x="-1316" y="-93">
+			<name x="-1360" y="-136">PaymentCancelled</name>
+		</location>
+		<init ref="id34"/>
+		<transition>
+			<source ref="id40"/>
+			<target ref="id25"/>
+			<nail x="-1368" y="-93"/>
+		</transition>
+		<transition>
+			<source ref="id39"/>
+			<target ref="id40"/>
+			<label kind="synchronisation" x="-1275" y="-110">webResSuccess?</label>
+		</transition>
+		<transition>
+			<source ref="id37"/>
+			<target ref="id36"/>
+			<label kind="synchronisation" x="-755" y="-161">connectionError?</label>
+			<nail x="-773" y="-144"/>
+			<nail x="-629" y="-144"/>
+		</transition>
+		<transition>
+			<source ref="id39"/>
+			<target ref="id38"/>
+			<label kind="synchronisation" x="-1122" y="-161">webResFail?</label>
+			<nail x="-1140" y="-144"/>
+			<nail x="-944" y="-144"/>
+		</transition>
+		<transition>
+			<source ref="id38"/>
+			<target ref="id39"/>
+			<label kind="synchronisation" x="-1113" y="-110">updateBookingRequest!</label>
+		</transition>
+		<transition>
+			<source ref="id37"/>
+			<target ref="id38"/>
+			<label kind="synchronisation" x="-925" y="-110">connectionSuccess?</label>
+		</transition>
+		<transition>
+			<source ref="id36"/>
+			<target ref="id37"/>
+			<label kind="synchronisation" x="-757" y="-110">connectToWeb!</label>
+		</transition>
+		<transition>
+			<source ref="id29"/>
+			<target ref="id36"/>
+			<label kind="synchronisation" x="-620" y="-34">connectionError?</label>
+		</transition>
+		<transition>
+			<source ref="id31"/>
+			<target ref="id36"/>
+			<label kind="synchronisation" x="-306" y="-50">boxResFail?</label>
+			<nail x="-314" y="-93"/>
+		</transition>
+		<transition>
+			<source ref="id32"/>
+			<target ref="id35"/>
+			<label kind="synchronisation" x="-688" y="85">disconnect!</label>
+		</transition>
+		<transition>
+			<source ref="id35"/>
+			<target ref="id34"/>
+			<label kind="synchronisation" x="-1266" y="93">usecaseComplete!</label>
+			<nail x="-1623" y="85"/>
+		</transition>
+		<transition>
+			<source ref="id33"/>
+			<target ref="id34"/>
+			<label kind="synchronisation" x="-1725" y="-25">usecaseError!</label>
+		</transition>
+		<transition>
+			<source ref="id34"/>
+			<target ref="id24"/>
+			<label kind="synchronisation" x="-1606" y="34">unlockUsecase?</label>
+		</transition>
+		<transition>
+			<source ref="id25"/>
+			<target ref="id33"/>
+			<label kind="synchronisation" x="-1581" y="-68">disconnect!</label>
+		</transition>
+		<transition>
+			<source ref="id31"/>
+			<target ref="id32"/>
+			<label kind="synchronisation" x="-306" y="51">boxResSuccess?</label>
+			<nail x="-314" y="85"/>
+		</transition>
+		<transition>
+			<source ref="id30"/>
+			<target ref="id31"/>
+			<label kind="synchronisation" x="-450" y="17">unlockRequest!</label>
+		</transition>
+		<transition>
+			<source ref="id29"/>
+			<target ref="id30"/>
+			<label kind="synchronisation" x="-611" y="17">connectionSuccess?</label>
+		</transition>
+		<transition>
+			<source ref="id28"/>
+			<target ref="id29"/>
+			<label kind="synchronisation" x="-756" y="17">connectToBox!</label>
+		</transition>
+		<transition>
+			<source ref="id27"/>
+			<target ref="id28"/>
+			<label kind="synchronisation" x="-901" y="17">webResSuccess?</label>
+		</transition>
+		<transition>
+			<source ref="id27"/>
+			<target ref="id25"/>
+			<label kind="synchronisation" x="-910" y="-17">webResFail?</label>
+			<nail x="-918" y="-42"/>
+		</transition>
+		<transition>
+			<source ref="id26"/>
+			<target ref="id27"/>
+			<label kind="synchronisation" x="-1121" y="17">getCurrentBookingsRequest!</label>
+		</transition>
+		<transition>
+			<source ref="id23"/>
+			<target ref="id26"/>
+			<label kind="synchronisation" x="-1284" y="8">connectionSuccess?</label>
+		</transition>
+		<transition>
+			<source ref="id23"/>
+			<target ref="id25"/>
+			<label kind="synchronisation" x="-1292" y="-25">connectionError?</label>
+			<nail x="-1292" y="-42"/>
+		</transition>
+		<transition>
+			<source ref="id24"/>
+			<target ref="id23"/>
+			<label kind="synchronisation" x="-1420" y="8">connectToWeb!</label>
+		</transition>
+	</template>
+	<template>
+		<name>GetMachinesUsecase</name>
+		<location id="id41" x="-1445" y="34">
+		</location>
+		<location id="id42" x="-1343" y="-34">
+		</location>
+		<location id="id43" x="-1292" y="34">
+		</location>
+		<location id="id44" x="-1130" y="34">
+		</location>
+		<location id="id45" x="-935" y="34">
+		</location>
+		<location id="id46" x="-935" y="102">
+		</location>
+		<location id="id47" x="-1649" y="34">
+			<name x="-1700" y="25">Idle</name>
+		</location>
+		<location id="id48" x="-1334" y="102">
+			<name x="-1394" y="110">GetMachinesComplete</name>
+		</location>
+		<location id="id49" x="-1479" y="-34">
+		</location>
+		<init ref="id47"/>
+		<transition>
+			<source ref="id49"/>
+			<target ref="id47"/>
+			<label kind="synchronisation" x="-1606" y="-51">usecaseError!</label>
+			<nail x="-1649" y="-34"/>
+		</transition>
+		<transition>
+			<source ref="id42"/>
+			<target ref="id49"/>
+			<label kind="synchronisation" x="-1436" y="-51">disconnect!</label>
+		</transition>
+		<transition>
+			<source ref="id46"/>
+			<target ref="id48"/>
+			<label kind="synchronisation" x="-1147" y="85">disconnect!</label>
+		</transition>
+		<transition>
+			<source ref="id48"/>
+			<target ref="id47"/>
+			<label kind="synchronisation" x="-1530" y="85">usecaseComplete!</label>
+			<nail x="-1649" y="102"/>
+		</transition>
+		<transition>
+			<source ref="id47"/>
+			<target ref="id41"/>
+			<label kind="synchronisation" x="-1632" y="17">getMachinesUsecase?</label>
+		</transition>
+		<transition>
+			<source ref="id45"/>
+			<target ref="id46"/>
+			<label kind="synchronisation" x="-926" y="51">webResSuccess?</label>
+		</transition>
+		<transition>
+			<source ref="id45"/>
+			<target ref="id42"/>
+			<label kind="synchronisation" x="-926" y="-17">webResFail?</label>
+			<nail x="-935" y="-34"/>
+		</transition>
+		<transition>
+			<source ref="id43"/>
+			<target ref="id42"/>
+			<label kind="synchronisation" x="-1283" y="-17">connectionError?</label>
+			<nail x="-1292" y="-34"/>
+		</transition>
+		<transition>
+			<source ref="id44"/>
+			<target ref="id45"/>
+			<label kind="synchronisation" x="-1112" y="17">getMachinesRequest!</label>
+		</transition>
+		<transition>
+			<source ref="id43"/>
+			<target ref="id44"/>
+			<label kind="synchronisation" x="-1274" y="17">connectionSuccess?</label>
+		</transition>
+		<transition>
+			<source ref="id41"/>
+			<target ref="id43"/>
+			<label kind="synchronisation" x="-1419" y="17">connectToWeb!</label>
+			<nail x="-1428" y="34"/>
+		</transition>
+	</template>
+	<template>
+		<name>PostBookingUsecase</name>
+		<location id="id50" x="-42" y="8">
+		</location>
+		<location id="id51" x="-501" y="-51">
+		</location>
+		<location id="id52" x="-323" y="-51">
+		</location>
+		<location id="id53" x="-153" y="-51">
+		</location>
+		<location id="id54" x="-357" y="-127">
+		</location>
+		<location id="id55" x="-476" y="-127">
+		</location>
+		<location id="id56" x="25" y="-51">
+		</location>
+		<location id="id57" x="-212" y="8">
+			<name x="-272" y="25">PostBookingComplete</name>
+		</location>
+		<location id="id58" x="-688" y="-51">
+			<name x="-731" y="-68">Idle</name>
+		</location>
+		<init ref="id58"/>
+		<transition>
+			<source ref="id57"/>
+			<target ref="id58"/>
+			<label kind="synchronisation" x="-611" y="-9">usecaseComplete!</label>
+			<nail x="-688" y="8"/>
+		</transition>
+		<transition>
+			<source ref="id58"/>
+			<target ref="id51"/>
+			<label kind="synchronisation" x="-663" y="-68">postBookingUsecase?</label>
+		</transition>
+		<transition>
+			<source ref="id55"/>
+			<target ref="id58"/>
+			<label kind="synchronisation" x="-612" y="-144">usecaseError!</label>
+			<nail x="-688" y="-127"/>
+		</transition>
+		<transition>
+			<source ref="id50"/>
+			<target ref="id57"/>
+			<label kind="synchronisation" x="-169" y="-9">disconnect!</label>
+		</transition>
+		<transition>
+			<source ref="id56"/>
+			<target ref="id50"/>
+			<label kind="synchronisation" x="25" y="-34">webResSuccess?</label>
+			<nail x="25" y="8"/>
+		</transition>
+		<transition>
+			<source ref="id56"/>
+			<target ref="id54"/>
+			<label kind="synchronisation" x="25" y="-102">webResFail?</label>
+			<nail x="25" y="-127"/>
+		</transition>
+		<transition>
+			<source ref="id53"/>
+			<target ref="id56"/>
+			<label kind="synchronisation" x="-135" y="-68">postBookingRequest!</label>
+		</transition>
+		<transition>
+			<source ref="id52"/>
+			<target ref="id54"/>
+			<label kind="synchronisation" x="-323" y="-102">connectionError?</label>
+			<nail x="-323" y="-127"/>
+		</transition>
+		<transition>
+			<source ref="id54"/>
+			<target ref="id55"/>
+			<label kind="synchronisation" x="-449" y="-144">disconnect!</label>
+		</transition>
+		<transition>
+			<source ref="id52"/>
+			<target ref="id53"/>
+			<label kind="synchronisation" x="-306" y="-68">connectionSuccess?</label>
+		</transition>
+		<transition>
+			<source ref="id51"/>
+			<target ref="id52"/>
+			<label kind="synchronisation" x="-483" y="-68">connectToWeb!</label>
+		</transition>
+	</template>
+	<template>
+		<name>GetBookingsUsecase</name>
+		<location id="id59" x="-42" y="8">
+		</location>
+		<location id="id60" x="-501" y="-51">
+		</location>
+		<location id="id61" x="-323" y="-51">
+		</location>
+		<location id="id62" x="-153" y="-51">
+		</location>
+		<location id="id63" x="-357" y="-127">
+		</location>
+		<location id="id64" x="-476" y="-127">
+		</location>
+		<location id="id65" x="76" y="-51">
+		</location>
+		<location id="id66" x="-212" y="8">
+			<name x="-272" y="25">GetBookingsComplete</name>
+		</location>
+		<location id="id67" x="-688" y="-51">
+			<name x="-731" y="-68">Idle</name>
+		</location>
+		<init ref="id67"/>
+		<transition>
+			<source ref="id66"/>
+			<target ref="id67"/>
+			<label kind="synchronisation" x="-611" y="-9">usecaseComplete!</label>
+			<nail x="-688" y="8"/>
+		</transition>
+		<transition>
+			<source ref="id67"/>
+			<target ref="id60"/>
+			<label kind="synchronisation" x="-663" y="-68">getBookingsUsecase?</label>
+		</transition>
+		<transition>
+			<source ref="id64"/>
+			<target ref="id67"/>
+			<label kind="synchronisation" x="-612" y="-144">usecaseError!</label>
+			<nail x="-688" y="-127"/>
+		</transition>
+		<transition>
+			<source ref="id59"/>
+			<target ref="id66"/>
+			<label kind="synchronisation" x="-169" y="-9">disconnect!</label>
+		</transition>
+		<transition>
+			<source ref="id65"/>
+			<target ref="id59"/>
+			<label kind="synchronisation" x="85" y="-34">webResSuccess?</label>
+			<nail x="76" y="8"/>
+		</transition>
+		<transition>
+			<source ref="id65"/>
+			<target ref="id63"/>
+			<label kind="synchronisation" x="85" y="-102">webResFail?</label>
+			<nail x="76" y="-127"/>
+		</transition>
+		<transition>
+			<source ref="id62"/>
+			<target ref="id65"/>
+			<label kind="synchronisation" x="-135" y="-68">getCurrentBookingsRequest!</label>
+		</transition>
+		<transition>
+			<source ref="id61"/>
+			<target ref="id63"/>
+			<label kind="synchronisation" x="-323" y="-102">connectionError?</label>
+			<nail x="-323" y="-127"/>
+		</transition>
+		<transition>
+			<source ref="id63"/>
+			<target ref="id64"/>
+			<label kind="synchronisation" x="-449" y="-144">disconnect!</label>
+		</transition>
+		<transition>
+			<source ref="id61"/>
+			<target ref="id62"/>
+			<label kind="synchronisation" x="-306" y="-68">connectionSuccess?</label>
+		</transition>
+		<transition>
+			<source ref="id60"/>
+			<target ref="id61"/>
+			<label kind="synchronisation" x="-483" y="-68">connectToWeb!</label>
+		</transition>
+	</template>
+	<template>
+		<name>DeleteBookingUsecase</name>
+		<location id="id68" x="-42" y="8">
+		</location>
+		<location id="id69" x="-501" y="-51">
+		</location>
+		<location id="id70" x="-323" y="-51">
+		</location>
+		<location id="id71" x="-153" y="-51">
+		</location>
+		<location id="id72" x="-357" y="-127">
+		</location>
+		<location id="id73" x="-476" y="-127">
+		</location>
+		<location id="id74" x="42" y="-51">
+		</location>
+		<location id="id75" x="-212" y="8">
+			<name x="-289" y="25">DeleteBookingComplete</name>
+		</location>
+		<location id="id76" x="-688" y="-51">
+			<name x="-731" y="-68">Idle</name>
+		</location>
+		<init ref="id76"/>
+		<transition>
+			<source ref="id75"/>
+			<target ref="id76"/>
+			<label kind="synchronisation" x="-611" y="-9">usecaseComplete!</label>
+			<nail x="-688" y="8"/>
+		</transition>
+		<transition>
+			<source ref="id76"/>
+			<target ref="id69"/>
+			<label kind="synchronisation" x="-663" y="-68">deleteBookingUsecase?</label>
+		</transition>
+		<transition>
+			<source ref="id73"/>
+			<target ref="id76"/>
+			<label kind="synchronisation" x="-612" y="-144">usecaseError!</label>
+			<nail x="-688" y="-127"/>
+		</transition>
+		<transition>
+			<source ref="id68"/>
+			<target ref="id75"/>
+			<label kind="synchronisation" x="-169" y="-9">disconnect!</label>
+		</transition>
+		<transition>
+			<source ref="id74"/>
+			<target ref="id68"/>
+			<label kind="synchronisation" x="42" y="-34">webResSuccess?</label>
+			<nail x="42" y="8"/>
+		</transition>
+		<transition>
+			<source ref="id74"/>
+			<target ref="id72"/>
+			<label kind="synchronisation" x="42" y="-102">webResFail?</label>
+			<nail x="42" y="-127"/>
+		</transition>
+		<transition>
+			<source ref="id71"/>
+			<target ref="id74"/>
+			<label kind="synchronisation" x="-135" y="-68">deleteBookingRequest!</label>
+		</transition>
+		<transition>
+			<source ref="id70"/>
+			<target ref="id72"/>
+			<label kind="synchronisation" x="-323" y="-102">connectionError?</label>
+			<nail x="-323" y="-127"/>
+		</transition>
+		<transition>
+			<source ref="id72"/>
+			<target ref="id73"/>
+			<label kind="synchronisation" x="-449" y="-144">disconnect!</label>
+		</transition>
+		<transition>
+			<source ref="id70"/>
+			<target ref="id71"/>
+			<label kind="synchronisation" x="-306" y="-68">connectionSuccess?</label>
+		</transition>
+		<transition>
+			<source ref="id69"/>
+			<target ref="id70"/>
+			<label kind="synchronisation" x="-483" y="-68">connectToWeb!</label>
+		</transition>
+	</template>
+	<template>
+		<name>UpdateBookingUsecase</name>
+		<location id="id77" x="-42" y="8">
+		</location>
+		<location id="id78" x="-493" y="-51">
+		</location>
+		<location id="id79" x="-323" y="-51">
+		</location>
+		<location id="id80" x="-153" y="-51">
+		</location>
+		<location id="id81" x="-357" y="-127">
+		</location>
+		<location id="id82" x="-476" y="-127">
+		</location>
+		<location id="id83" x="34" y="-51">
+		</location>
+		<location id="id84" x="-212" y="8">
+			<name x="-280" y="25">UpdateBookingComplete</name>
+		</location>
+		<location id="id85" x="-688" y="-51">
+			<name x="-731" y="-68">Idle</name>
+		</location>
+		<init ref="id85"/>
+		<transition>
+			<source ref="id84"/>
+			<target ref="id85"/>
+			<label kind="synchronisation" x="-611" y="-9">usecaseComplete!</label>
+			<nail x="-688" y="8"/>
+		</transition>
+		<transition>
+			<source ref="id85"/>
+			<target ref="id78"/>
+			<label kind="synchronisation" x="-671" y="-68">updateBookingUsecase?</label>
+		</transition>
+		<transition>
+			<source ref="id82"/>
+			<target ref="id85"/>
+			<label kind="synchronisation" x="-612" y="-144">usecaseError!</label>
+			<nail x="-688" y="-127"/>
+		</transition>
+		<transition>
+			<source ref="id77"/>
+			<target ref="id84"/>
+			<label kind="synchronisation" x="-169" y="-9">disconnect!</label>
+		</transition>
+		<transition>
+			<source ref="id83"/>
+			<target ref="id77"/>
+			<label kind="synchronisation" x="34" y="-34">webResSuccess?</label>
+			<nail x="34" y="8"/>
+		</transition>
+		<transition>
+			<source ref="id83"/>
+			<target ref="id81"/>
+			<label kind="synchronisation" x="34" y="-102">webResFail?</label>
+			<nail x="34" y="-127"/>
+		</transition>
+		<transition>
+			<source ref="id80"/>
+			<target ref="id83"/>
+			<label kind="synchronisation" x="-135" y="-68">updateBookingRequest!</label>
+		</transition>
+		<transition>
+			<source ref="id79"/>
+			<target ref="id81"/>
+			<label kind="synchronisation" x="-323" y="-102">connectionError?</label>
+			<nail x="-323" y="-127"/>
+		</transition>
+		<transition>
+			<source ref="id81"/>
+			<target ref="id82"/>
+			<label kind="synchronisation" x="-449" y="-144">disconnect!</label>
+		</transition>
+		<transition>
+			<source ref="id79"/>
+			<target ref="id80"/>
+			<label kind="synchronisation" x="-306" y="-68">connectionSuccess?</label>
+		</transition>
+		<transition>
+			<source ref="id78"/>
+			<target ref="id79"/>
+			<label kind="synchronisation" x="-476" y="-68">connectToWeb!</label>
+		</transition>
+	</template>
+	<template>
+		<name>UpdateAccountUsecase</name>
+		<location id="id86" x="-42" y="8">
+		</location>
+		<location id="id87" x="-493" y="-51">
+		</location>
+		<location id="id88" x="-323" y="-51">
+		</location>
+		<location id="id89" x="-153" y="-51">
+		</location>
+		<location id="id90" x="-357" y="-127">
+		</location>
+		<location id="id91" x="-476" y="-127">
+		</location>
+		<location id="id92" x="25" y="-51">
+		</location>
+		<location id="id93" x="-212" y="8">
+			<name x="-289" y="17">UpdateAccountComplete</name>
+		</location>
+		<location id="id94" x="-688" y="-51">
+			<name x="-731" y="-68">Idle</name>
+		</location>
+		<init ref="id94"/>
+		<transition>
+			<source ref="id93"/>
+			<target ref="id94"/>
+			<label kind="synchronisation" x="-611" y="-9">usecaseComplete!</label>
+			<nail x="-688" y="8"/>
+		</transition>
+		<transition>
+			<source ref="id94"/>
+			<target ref="id87"/>
+			<label kind="synchronisation" x="-671" y="-68">updateAccountUsecase?</label>
+		</transition>
+		<transition>
+			<source ref="id91"/>
+			<target ref="id94"/>
+			<label kind="synchronisation" x="-612" y="-144">usecaseError!</label>
+			<nail x="-688" y="-127"/>
+		</transition>
+		<transition>
+			<source ref="id86"/>
+			<target ref="id93"/>
+			<label kind="synchronisation" x="-169" y="-9">disconnect!</label>
+		</transition>
+		<transition>
+			<source ref="id92"/>
+			<target ref="id86"/>
+			<label kind="synchronisation" x="25" y="-34">webResSuccess?</label>
+			<nail x="25" y="8"/>
+		</transition>
+		<transition>
+			<source ref="id92"/>
+			<target ref="id90"/>
+			<label kind="synchronisation" x="25" y="-102">webResFail?</label>
+			<nail x="25" y="-127"/>
+		</transition>
+		<transition>
+			<source ref="id89"/>
+			<target ref="id92"/>
+			<label kind="synchronisation" x="-135" y="-68">getAccountRequest!</label>
+		</transition>
+		<transition>
+			<source ref="id88"/>
+			<target ref="id90"/>
+			<label kind="synchronisation" x="-323" y="-102">connectionError?</label>
+			<nail x="-323" y="-127"/>
+		</transition>
+		<transition>
+			<source ref="id90"/>
+			<target ref="id91"/>
+			<label kind="synchronisation" x="-449" y="-144">disconnect!</label>
+		</transition>
+		<transition>
+			<source ref="id88"/>
+			<target ref="id89"/>
+			<label kind="synchronisation" x="-306" y="-68">connectionSuccess?</label>
+		</transition>
+		<transition>
+			<source ref="id87"/>
+			<target ref="id88"/>
+			<label kind="synchronisation" x="-476" y="-68">connectToWeb!</label>
+		</transition>
+	</template>
+	<template>
+		<name>WebUsecaseTemplate</name>
+		<location id="id95" x="-42" y="8">
+		</location>
+		<location id="id96" x="-501" y="-51">
+		</location>
+		<location id="id97" x="-323" y="-51">
+		</location>
+		<location id="id98" x="-153" y="-51">
+		</location>
+		<location id="id99" x="-357" y="-127">
+		</location>
+		<location id="id100" x="-476" y="-127">
+		</location>
+		<location id="id101" x="25" y="-51">
+		</location>
+		<location id="id102" x="-212" y="8">
+			<name x="-272" y="25">TEMPLATEComplete</name>
+		</location>
+		<location id="id103" x="-688" y="-51">
+			<name x="-731" y="-68">Idle</name>
+		</location>
+		<init ref="id103"/>
+		<transition>
+			<source ref="id102"/>
+			<target ref="id103"/>
+			<label kind="synchronisation" x="-611" y="-9">usecaseComplete!</label>
+			<nail x="-688" y="8"/>
+		</transition>
+		<transition>
+			<source ref="id103"/>
+			<target ref="id96"/>
+			<label kind="synchronisation" x="-663" y="-68">TEMPLATEUsecase?</label>
+		</transition>
+		<transition>
+			<source ref="id100"/>
+			<target ref="id103"/>
+			<label kind="synchronisation" x="-612" y="-144">usecaseError!</label>
+			<nail x="-688" y="-127"/>
+		</transition>
+		<transition>
+			<source ref="id95"/>
+			<target ref="id102"/>
+			<label kind="synchronisation" x="-169" y="-9">disconnect!</label>
+		</transition>
+		<transition>
+			<source ref="id101"/>
+			<target ref="id95"/>
+			<label kind="synchronisation" x="25" y="-34">webResSuccess?</label>
+			<nail x="25" y="8"/>
+		</transition>
+		<transition>
+			<source ref="id101"/>
+			<target ref="id99"/>
+			<label kind="synchronisation" x="25" y="-102">webResFail?</label>
+			<nail x="25" y="-127"/>
+		</transition>
+		<transition>
+			<source ref="id98"/>
+			<target ref="id101"/>
+			<label kind="synchronisation" x="-135" y="-68">TEMPLATERequest!</label>
+		</transition>
+		<transition>
+			<source ref="id97"/>
+			<target ref="id99"/>
+			<label kind="synchronisation" x="-323" y="-102">connectionError?</label>
+			<nail x="-323" y="-127"/>
+		</transition>
+		<transition>
+			<source ref="id99"/>
+			<target ref="id100"/>
+			<label kind="synchronisation" x="-449" y="-144">disconnect!</label>
+		</transition>
+		<transition>
+			<source ref="id97"/>
+			<target ref="id98"/>
+			<label kind="synchronisation" x="-306" y="-68">connectionSuccess?</label>
+		</transition>
+		<transition>
+			<source ref="id96"/>
+			<target ref="id97"/>
+			<label kind="synchronisation" x="-483" y="-68">connectToWeb!</label>
+		</transition>
+	</template>
+	<template>
+		<name>Box</name>
+		<declaration>//clock boxTime;
+//int washTime = 10;
+</declaration>
+		<location id="id104" x="0" y="68">
+			<name x="-42" y="51">Idle</name>
+		</location>
+		<location id="id105" x="280" y="-34">
+		</location>
+		<location id="id106" x="280" y="68">
+		</location>
+		<init ref="id104"/>
+		<transition>
+			<source ref="id105"/>
+			<target ref="id104"/>
+			<label kind="guard" x="450" y="17">machineInUse[0] &amp;&amp; machineInUse[1]</label>
+			<label kind="synchronisation" x="450" y="34">boxResFail!</label>
+			<nail x="442" y="-34"/>
+			<nail x="442" y="102"/>
+			<nail x="0" y="102"/>
+		</transition>
+		<transition>
+			<source ref="id106"/>
+			<target ref="id104"/>
+			<label kind="synchronisation" x="86" y="51">boxResSuccess!</label>
+			<nail x="68" y="68"/>
+		</transition>
+		<transition>
+			<source ref="id105"/>
+			<target ref="id106"/>
+			<label kind="guard" x="153" y="-9">!machineInUse[1]</label>
+			<label kind="synchronisation" x="153" y="8">boxThread[1]!</label>
+			<nail x="263" y="8"/>
+		</transition>
+		<transition>
+			<source ref="id105"/>
+			<target ref="id106"/>
+			<label kind="guard" x="306" y="-9">!machineInUse[0]</label>
+			<label kind="synchronisation" x="306" y="8">boxThread[0]!</label>
+			<nail x="297" y="8"/>
+		</transition>
+		<transition>
+			<source ref="id104"/>
+			<target ref="id105"/>
+			<label kind="synchronisation" x="119" y="-51">unlockRequest?</label>
+			<nail x="0" y="-34"/>
+		</transition>
+	</template>
+	<template>
+		<name>BoxThread</name>
+		<parameter>const int[1,2] id</parameter>
+		<declaration>clock boxTime;
+int washTime = 10;</declaration>
+		<location id="id107" x="-247" y="51">
+			<name x="-272" y="60">Unlocked</name>
+		</location>
+		<location id="id108" x="-518" y="8">
+			<name x="-560" y="-9">Idle</name>
+		</location>
+		<location id="id109" x="-247" y="-42">
+		</location>
+		<init ref="id108"/>
+		<transition>
+			<source ref="id107"/>
+			<target ref="id108"/>
+			<label kind="synchronisation" x="-484" y="68">turnOff[id-1]!</label>
+			<label kind="assignment" x="-484" y="85">machineInUse[id-1] = false</label>
+			<nail x="-469" y="51"/>
+			<nail x="-518" y="51"/>
+		</transition>
+		<transition>
+			<source ref="id109"/>
+			<target ref="id107"/>
+			<label kind="synchronisation" x="-238" y="-8">turnOn[id-1]!</label>
+			<label kind="assignment" x="-238" y="8">boxTime = 0</label>
+		</transition>
+		<transition>
+			<source ref="id108"/>
+			<target ref="id109"/>
+			<label kind="synchronisation" x="-484" y="-102">boxThread[id - 1]?</label>
+			<label kind="assignment" x="-484" y="-85">machineInUse[id-1] = true</label>
+			<nail x="-518" y="-42"/>
+		</transition>
+	</template>
+	<template>
+		<name>Machine</name>
+		<parameter>const int[1,2] id</parameter>
+		<location id="id110" x="-433" y="-170">
+			<name x="-443" y="-204">Off</name>
+		</location>
+		<location id="id111" x="-297" y="-170">
+			<name x="-307" y="-204">On</name>
+		</location>
+		<init ref="id110"/>
+		<transition>
+			<source ref="id111"/>
+			<target ref="id110"/>
+			<label kind="synchronisation" x="-391" y="-246">turnOff[id-1]?</label>
+			<nail x="-365" y="-221"/>
+		</transition>
+		<transition>
+			<source ref="id110"/>
+			<target ref="id111"/>
+			<label kind="synchronisation" x="-391" y="-119">turnOn[id-1]?</label>
+			<nail x="-365" y="-119"/>
+		</transition>
+	</template>
+	<system>// Place template instantiations here.
+
+// List one or more processes to be composed into a system.
+system 
+    Web, 
+    App, 
+    Box, 
+    Machine, 
+    BoxThread, 
+    AppConnection, 
+    UnlockUsecase, 
+    GetMachinesUsecase, 
+    PostBookingUsecase, 
+    SignInUsecase, 
+    GetBookingsUsecase, 
+    DeleteBookingUsecase,
+    UpdateBookingUsecase,
+    UpdateAccountUsecase;
+    </system>
+	<queries>
+		<query>
+			<formula>E&lt;&gt; Machine(1).On &amp;&amp; Machine(2).On</formula>
+			<comment></comment>
+		</query>
+		<query>
+			<formula>A[]not deadlock</formula>
+			<comment></comment>
+		</query>
+		<query>
+			<formula>A[] (Web.ProcessingRequest &amp;&amp; AppConnection.ConnectedToWeb) || !Web.ProcessingRequest</formula>
+			<comment></comment>
+		</query>
+		<query>
+			<formula>A[](!Box.Idle &amp;&amp; AppConnection.ConnectedToBox) || Box.Idle</formula>
+			<comment></comment>
+		</query>
+		<query>
+			<formula>E&lt;&gt; GetMachinesUsecase.GetMachinesComplete</formula>
+			<comment></comment>
+		</query>
+		<query>
+			<formula>E&lt;&gt; PostBookingUsecase.PostBookingComplete</formula>
+			<comment></comment>
+		</query>
+		<query>
+			<formula>E&lt;&gt; SignInUsecase.SignInComplete</formula>
+			<comment></comment>
+		</query>
+		<query>
+			<formula>E&lt;&gt; GetBookingsUsecase.GetBookingsComplete</formula>
+			<comment></comment>
+		</query>
+		<query>
+			<formula>E&lt;&gt; DeleteBookingUsecase.DeleteBookingComplete</formula>
+			<comment></comment>
+		</query>
+		<query>
+			<formula>E&lt;&gt; UpdateBookingUsecase.UpdateBookingComplete</formula>
+			<comment></comment>
+		</query>
+		<query>
+			<formula>E&lt;&gt; UpdateAccountUsecase.UpdateAccountComplete</formula>
+			<comment></comment>
+		</query>
+		<query>
+			<formula>E&lt;&gt; UnlockUsecase.UnlockComplete</formula>
+			<comment></comment>
+		</query>
+		<query>
+			<formula>E&lt;&gt; UnlockUsecase.PaymentComplete imply UnlockUsecase.UnlockComplete</formula>
+			<comment></comment>
+		</query>
+		<query>
+			<formula>E&lt;&gt; UnlockUsecase.PaymentComplete imply UnlockUsecase.PaymentCancelled</formula>
+			<comment></comment>
+		</query>
+		<query>
+			<formula>A[] (UnlockUsecase.PaymentComplete imply UnlockUsecase.PaymentCancelled) || (UnlockUsecase.PaymentComplete imply UnlockUsecase.UnlockComplete)</formula>
+			<comment></comment>
+		</query>
+	</queries>
+</nta>
