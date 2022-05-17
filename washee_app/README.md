@@ -31,10 +31,10 @@ The callstack can be summarised as follows:
 In case of failures, a specific Failure exception will be thrown, which the next coming layer is expected to catch.
 A provider being updated through a UseCase should always at the bare minimum catch "all exceptions" in case of anything unforseen.
 
-Each functionality in `core/` must live up to these criteria:
-- The functionality is not part of the domain
-- The functionality contains no state
-- The functionality standardizes something which is expected to be used across more than one feature.
+The `core/` folder consists of these components that are shared between the features. It is important that any extension to the core folder does not have anything to do with the domain.
+- `apis/` handles standardisation with how external API's are accessed. Is called by a features datasource layer.
+- `standards/` handles general purpose standardisation functionality, such as time management, logging, environment setup, types of failures, etc.
+- `ui/` handles non-domain specific ui to create a more cohesive app feel, including reusable widgets, navigation, theming, etc.
 
 At root, there is a `main.dart` file that is the entrypoint to the app.
 There also is an `injection_container.dart`, which creates singletons of all usecases, repositories, remotes and core functionalities, and properly dependency inject them following the architechture specified.
