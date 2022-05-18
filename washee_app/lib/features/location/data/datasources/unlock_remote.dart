@@ -1,4 +1,4 @@
-import 'package:washee/core/apis/box_communicator/box_communicator.dart';
+import 'package:washee/core/externalities/box/box_communicator.dart';
 import 'package:washee/features/location/data/models/box_machine_model.dart';
 
 abstract class UnlockRemote {

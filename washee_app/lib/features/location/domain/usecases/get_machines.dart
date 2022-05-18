@@ -1,6 +1,6 @@
 import 'package:washee/core/standards/base_usecase/usecase.dart';
 
-import '../../../../core/washee_box/machine_model.dart';
+import 'package:washee/features/location/data/models/box_machine_model.dart';
 import '../repositories/get_machines_repository.dart';
 
 class GetMachinesUseCase implements UseCase<List<MachineModel>, NoParams> {

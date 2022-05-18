@@ -1,5 +1,3 @@
 
 
-AccountEntity firstAccount = WebAccountModel(
-  
-)
+// AccountEntity firstAccount = WebAccountModel()

@@ -5,16 +5,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:timezone/timezone.dart';
-import 'package:washee/core/environments/environment.dart';
-import 'package:washee/core/apis/web_communicator/authorizer.dart';
-import 'package:washee/core/pages/home_screen.dart';
-import 'package:washee/core/providers/global_provider.dart';
+import 'package:washee/core/standards/environments/environment.dart';
+import 'package:washee/core/externalities/web/authorizer.dart';
+import 'package:washee/core/ui/navigation/home_screen.dart';
+import 'package:washee/core/ui/global_providers/global_provider.dart';
 import 'package:washee/features/booking/presentation/provider/booking_provider.dart';
 import 'package:washee/features/booking/presentation/provider/calendar_provider.dart';
-import 'package:washee/features/sign_in/presentation/provider/sign_in_provider.dart';
-import 'package:washee/features/unlock/presentation/provider/unlock_provider.dart';
+import 'package:washee/features/account/presentation/provider/sign_in_provider.dart';
+import 'package:washee/features/location/presentation/provider/unlock_provider.dart';
 import 'injection_container.dart' as ic;
-import 'core/presentation/themes/themes.dart';
+import 'core/ui/themes/themes.dart';
 import 'package:washee/injection_container.dart';
 
 void main() async {

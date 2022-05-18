@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:washee/core/ui/themes/dimens.dart';
 import 'package:washee/core/ui/themes/themes.dart';
 
-import '../../../get_machines/presentation/widgets/machine_overview.dart';
+import '../../../location/presentation/widgets/machine_overview.dart';
 
 class WashScreen extends StatefulWidget {
   static const routeName = "/wash-screen";

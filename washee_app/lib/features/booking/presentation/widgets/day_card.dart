@@ -10,7 +10,7 @@ import 'package:washee/features/booking/data/models/booking_model.dart';
 import 'package:washee/features/booking/presentation/provider/calendar_provider.dart';
 import 'package:washee/features/booking/presentation/widgets/choose_machine_view.dart';
 import 'package:washee/features/booking/presentation/widgets/outdated_date_dialog.dart';
-import 'package:washee/features/booking/presentation/widgets/insufficient_funds_dialog.dart';
+import 'package:washee/features/location/presentation/widgets/insufficient_funds_dialog.dart';
 import '../../data/models/booking_model.dart';
 
 class DayCard extends StatefulWidget {

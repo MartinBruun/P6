@@ -1,26 +1,23 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:washee/features/location/data/models/box_machine_model.dart';
-import 'package:washee/features/unlock/presentation/provider/unlock_provider.dart';
-import 'package:washee/features/unlock/presentation/widgets/no_button.dart';
-import 'package:washee/features/unlock/presentation/widgets/wash_started_dialog.dart';
-import 'package:washee/features/unlock/presentation/widgets/yes_button.dart';
+import 'package:washee/features/location/presentation/provider/unlock_provider.dart';
+import 'package:washee/features/location/presentation/widgets/no_button.dart';
+import 'package:washee/features/location/presentation/widgets/wash_started_dialog.dart';
+import 'package:washee/features/location/presentation/widgets/http_error_prompt.dart';
 
-import '../../../../core/errors/error_handler.dart';
-import '../../../../core/errors/http_error_prompt.dart';
-import '../../../../core/pages/home_screen.dart';
+import '../../../../core/standards/logger/error_handler.dart';
+import '../../../../core/ui/navigation/home_screen.dart';
 import '../../../../core/ui/navigation/pages_enum.dart';
 import '../../../../core/ui/themes/colors.dart';
 import '../../../../core/ui/themes/dimens.dart';
 import '../../../../core/ui/themes/themes.dart';
-import '../../../../core/providers/global_provider.dart';
-import '../../../../core/usecases/usecase.dart';
-import '../../../../core/presentation/widgets/common_used_widgets.dart';
+import '../../../../core/ui/global_providers/global_provider.dart';
+import '../../../../core/standards/base_usecase/usecase.dart';
+import '../../../../core/ui/widgets/common_used_widgets.dart';
 import '../../../../injection_container.dart';
 import '../../domain/usecases/connect_box_wifi.dart';
-import '../../domain/usecases/disconnect_box_wifi.dart';
 import '../../domain/usecases/unlock.dart';
 
 class InitiateWashDialog extends StatefulWidget {

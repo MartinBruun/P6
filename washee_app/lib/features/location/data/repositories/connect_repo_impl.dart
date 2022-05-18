@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:washee/features/connect/domain/repositories/connect_repository.dart';
+import 'package:washee/features/location/domain/repositories/connect_repository.dart';
 
 import '../datasources/connect_remote.dart';
 

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:washee/core/pages/home_screen.dart';
+import 'package:washee/core/ui/navigation/home_screen.dart';
 import 'package:washee/core/ui/navigation/pages_enum.dart';
 import 'package:washee/core/ui/themes/colors.dart';
 import 'package:washee/core/ui/themes/dimens.dart';

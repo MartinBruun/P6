@@ -2,8 +2,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:washee/core/standards/base_usecase/usecase.dart';
 import 'package:washee/features/location/data/models/box_machine_model.dart';
-import 'package:washee/features/get_machines/domain/repositories/get_machines_repository.dart';
-import 'package:washee/features/get_machines/domain/usecases/get_machines.dart';
+import 'package:washee/features/location/domain/repositories/get_machines_repository.dart';
+import 'package:washee/features/location/domain/usecases/get_machines.dart';
 
 class MockGetMachinesRepo extends Mock implements GetMachinesRepository {}
 

@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 import 'package:washee/features/account/data/models/web_user.dart';
 import 'package:washee/features/booking/presentation/provider/booking_provider.dart';
 
-import '../../../../core/usecases/usecase.dart';
 import '../../../../injection_container.dart';
 import '../../data/models/booking_model.dart';
 import '../../domain/usecases/get_bookings.dart';

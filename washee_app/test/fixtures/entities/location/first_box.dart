@@ -1,5 +1,0 @@
-
-
-BoxEntity firstBox = WebBoxModel(
-  
-)

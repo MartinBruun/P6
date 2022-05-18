@@ -1,0 +1,7 @@
+/*
+
+ElectricityBlockEntity firstElectricityBlock = WebTimeSlotModel(
+  
+)
+
+*/

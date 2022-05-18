@@ -1,5 +1,0 @@
-
-
-TimeSlotEntity firstTimeslot = WebTimeSlotModel(
-  
-)

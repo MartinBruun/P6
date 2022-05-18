@@ -1,11 +1,8 @@
-import 'dart:convert';
-
 import 'package:flutter_test/flutter_test.dart';
-import 'package:washee/core/apis/box_communicator/box_communicator.dart';
+import 'package:washee/core/externalities/box/box_communicator.dart';
 import 'package:mockito/annotations.dart';
-import 'package:washee/features/get_machines/data/repositories/get_machines_repo_impl.dart';
+import 'package:washee/features/location/data/repositories/get_machines_repo_impl.dart';
 
-import '../../fixtures/fixture_reader.dart';
 import '../unlock/data/repositories/unlock_repo_impl_test.mocks.dart';
 import 'get_machines_test.mock_web.dart';
 

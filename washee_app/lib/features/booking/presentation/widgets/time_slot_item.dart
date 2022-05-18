@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-import 'package:washee/core/errors/booking_error_prompt.dart';
-import 'package:washee/core/errors/error_handler.dart';
+import 'package:washee/features/booking/presentation/widgets/booking_error_prompt.dart';
+import 'package:washee/core/standards/logger/error_handler.dart';
 import 'package:washee/features/booking/presentation/provider/calendar_provider.dart';
 
 import '../../../../core/ui/themes/colors.dart';

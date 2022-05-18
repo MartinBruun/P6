@@ -1,7 +1,7 @@
 import 'package:washee/core/externalities/web/web_communicator.dart';
 import 'package:washee/core/externalities/network/network_info.dart';
 import 'package:washee/features/location/data/models/box_machine_model.dart';
-import 'package:washee/features/get_machines/domain/repositories/get_machines_repository.dart';
+import 'package:washee/features/location/domain/repositories/get_machines_repository.dart';
 
 class GetMachinesRepositoryImpl implements GetMachinesRepository {
   WebCommunicator communicator;
