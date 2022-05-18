@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:washee/core/widgets/dialog_box_Ok.dart';
+import 'package:washee/core/ui/widgets/dialog_box_Ok.dart';
 
 class SomethingWrong extends StatelessWidget {
   const SomethingWrong({Key? key}) : super(key: key);

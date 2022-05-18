@@ -2,22 +2,22 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:washee/core/account/user.dart';
+import 'package:washee/features/account/data/models/web_user.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:washee/core/pages/pages_enum.dart';
-import 'package:washee/core/presentation/themes/colors.dart';
-import 'package:washee/core/presentation/themes/dimens.dart';
-import 'package:washee/core/presentation/themes/themes.dart';
-import 'package:washee/core/usecases/usecase.dart';
-import 'package:washee/features/sign_in/domain/usecases/sign_in.dart';
-import 'package:washee/features/sign_in/presentation/pages/wrong_input.dart';
-import 'package:washee/features/sign_in/presentation/provider/sign_in_provider.dart';
-import 'package:washee/features/sign_in/presentation/widgets/password_help_box.dart';
-import 'package:washee/features/sign_in/presentation/widgets/text_input.dart';
-import 'package:washee/features/unlock/domain/usecases/get_wifi_permission.dart';
+import 'package:washee/core/ui/navigation/pages_enum.dart';
+import 'package:washee/core/ui/themes/colors.dart';
+import 'package:washee/core/ui/themes/dimens.dart';
+import 'package:washee/core/ui/themes/themes.dart';
+import 'package:washee/core/standards/base_usecase/usecase.dart';
+import 'package:washee/features/account/domain/usecases/sign_in.dart';
+import 'package:washee/features/account/presentation/pages/wrong_input.dart';
+import 'package:washee/features/account/presentation/provider/sign_in_provider.dart';
+import 'package:washee/features/account/presentation/widgets/password_help_box.dart';
+import 'package:washee/features/account/presentation/widgets/text_input.dart';
+import 'package:washee/features/location/domain/usecases/get_wifi_permission.dart';
 import 'package:washee/injection_container.dart';
 
-import '../../../../core/pages/home_screen.dart';
+import 'package:washee/core/ui/navigation/home_screen.dart';
 
 class SignInScreen extends StatefulWidget {
   @override

@@ -1,10 +1,10 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:washee/core/network/network_info.dart';
-import 'package:washee/core/washee_box/machine_model.dart';
-import 'package:washee/features/unlock/data/datasources/unlock_remote.dart';
-import 'package:washee/features/unlock/data/repositories/unlock_repo_impl.dart';
+import 'package:washee/core/externalities/network/network_info.dart';
+import 'package:washee/features/location/data/models/box_machine_model.dart';
+import 'package:washee/features/location/data/datasources/unlock_remote.dart';
+import 'package:washee/features/location/data/repositories/unlock_repo_impl.dart';
 
 import 'unlock_repo_impl_test.mocks.dart';
 

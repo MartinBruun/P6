@@ -1,6 +1,6 @@
-import 'package:washee/core/account/user.dart';
-import 'package:washee/core/usecases/usecase.dart';
-import 'package:washee/core/account/account.dart';
+import 'package:washee/features/account/data/models/web_user.dart';
+import 'package:washee/core/standards/base_usecase/usecase.dart';
+import 'package:washee/features/account/data/models/web_account.dart';
 
 import '../repositories/sign_in_repository.dart';
 

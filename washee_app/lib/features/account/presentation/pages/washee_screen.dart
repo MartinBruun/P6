@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:washee/core/presentation/themes/dimens.dart';
-import 'package:washee/core/presentation/themes/themes.dart';
-import 'package:washee/features/sign_out/presentation/widgets/log_out_button.dart';
-import 'package:washee/features/user_info/presentation/widgets/user_info.dart';
+import 'package:washee/core/ui/themes/dimens.dart';
+import 'package:washee/core/ui/themes/themes.dart';
+import 'package:washee/features/account/presentation/widgets/log_out_button.dart';
+import 'package:washee/features/account/presentation/widgets/user_info.dart';
 
 class WasheeScreen extends StatelessWidget {
   static const routeName = "/washee-screen";

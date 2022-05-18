@@ -1,4 +1,4 @@
-import 'package:washee/core/usecases/usecase.dart';
+import 'package:washee/core/standards/base_usecase/usecase.dart';
 
 import '../../../../core/washee_box/machine_model.dart';
 import '../repositories/get_machines_repository.dart';

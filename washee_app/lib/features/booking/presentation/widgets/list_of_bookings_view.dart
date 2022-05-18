@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:washee/core/helpers/date_helper.dart';
-import 'package:washee/core/presentation/themes/dimens.dart';
-import 'package:washee/core/presentation/themes/themes.dart';
-import 'package:washee/core/usecases/usecase.dart';
+import 'package:washee/core/standards/time/date_helper.dart';
+import 'package:washee/core/ui/themes/dimens.dart';
+import 'package:washee/core/ui/themes/themes.dart';
+import 'package:washee/core/standards/base_usecase/usecase.dart';
 import 'package:washee/features/booking/domain/usecases/delete_booking.dart';
 import 'package:washee/features/booking/presentation/provider/booking_provider.dart';
 import 'package:washee/features/sign_in/domain/usecases/update_account.dart';

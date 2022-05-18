@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../presentation/themes/colors.dart';
-import '../presentation/themes/dimens.dart';
-import '../presentation/themes/themes.dart';
-import '../widgets/common_used_widgets.dart';
+import '../../../../core/ui/themes/colors.dart';
+import '../../../../core/ui/themes/dimens.dart';
+import '../../../../core/ui/themes/themes.dart';
+import '../../../../core/ui/widgets/common_used_widgets.dart';
 
 class HTTPErrorPrompt extends StatefulWidget {
   final String message;

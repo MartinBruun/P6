@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:washee/core/usecases/usecase.dart';
+import 'package:washee/core/standards/base_usecase/usecase.dart';
 
 import 'package:washee/features/booking/data/models/booking_model.dart';
 import '../repositories/book_repository.dart';

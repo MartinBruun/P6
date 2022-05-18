@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:washee/core/helpers/machine_enum.dart';
-import 'package:washee/core/presentation/themes/dimens.dart';
-import 'package:washee/core/presentation/themes/themes.dart';
-import 'package:washee/core/widgets/dialog_exit.dart';
+import 'package:washee/features/location/presentation/pages/machine_enum.dart';
+import 'package:washee/core/ui/themes/dimens.dart';
+import 'package:washee/core/ui/themes/themes.dart';
+import 'package:washee/core/ui/widgets/dialog_exit.dart';
 import 'package:washee/features/booking/presentation/widgets/machine_type_button.dart';
 
-import '../../../../core/presentation/themes/colors.dart';
+import '../../../../core/ui/themes/colors.dart';
 import '../../data/models/booking_model.dart';
 
 class ChooseMachineView extends StatefulWidget {

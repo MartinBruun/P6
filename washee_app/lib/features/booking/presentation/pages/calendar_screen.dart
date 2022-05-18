@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:washee/core/helpers/date_helper.dart';
-import 'package:washee/core/helpers/web_communicator.dart';
-import 'package:washee/core/presentation/themes/dimens.dart';
+import 'package:washee/core/standards/time/date_helper.dart';
+import 'package:washee/core/externalities/web/web_communicator.dart';
+import 'package:washee/core/ui/themes/dimens.dart';
 import 'package:washee/features/booking/presentation/provider/calendar_provider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:washee/injection_container.dart';
-import '../../../../core/presentation/themes/colors.dart';
-import '../../../../core/presentation/themes/themes.dart';
+import '../../../../core/ui/themes/colors.dart';
+import '../../../../core/ui/themes/themes.dart';
 import '../../data/models/booking_model.dart';
 import '../widgets/calendar_view.dart';
 

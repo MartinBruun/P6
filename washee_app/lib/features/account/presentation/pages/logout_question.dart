@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:washee/core/presentation/themes/colors.dart';
-import 'package:washee/core/presentation/themes/dimens.dart';
-import 'package:washee/core/presentation/themes/themes.dart';
-import 'package:washee/core/widgets/common_used_widgets.dart';
-import 'package:washee/features/sign_out/presentation/widgets/no_buttton.dart';
-import 'package:washee/features/sign_out/presentation/widgets/yes_button.dart';
+import 'package:washee/core/ui/themes/colors.dart';
+import 'package:washee/core/ui/themes/dimens.dart';
+import 'package:washee/core/ui/themes/themes.dart';
+import 'package:washee/core/ui/widgets/common_used_widgets.dart';
+import 'package:washee/features/account/presentation/widgets/no_buttton.dart';
+import 'package:washee/features/account/presentation/widgets/yes_button.dart';
 
 class ConfirmLogOut extends StatelessWidget {
   @override

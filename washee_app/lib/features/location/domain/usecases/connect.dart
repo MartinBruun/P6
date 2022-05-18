@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:washee/core/usecases/usecase.dart';
+import 'package:washee/core/standards/base_usecase/usecase.dart';
 
 import '../repositories/connect_repository.dart';
 

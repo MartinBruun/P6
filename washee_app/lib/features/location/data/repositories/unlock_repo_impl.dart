@@ -1,6 +1,6 @@
-import 'package:washee/core/network/network_info.dart';
-import 'package:washee/core/washee_box/machine_model.dart';
-import 'package:washee/features/unlock/domain/repositories/unlock_repository.dart';
+import 'package:washee/core/externalities/network/network_info.dart';
+import 'package:washee/features/location/data/models/box_machine_model.dart';
+import 'package:washee/features/location/domain/repositories/unlock_repository.dart';
 
 import '../datasources/unlock_remote.dart';
 

@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:washee/core/account/user.dart';
-import 'package:washee/core/washee_box/machine_model.dart';
+import 'package:washee/features/account/data/models/web_user.dart';
+import 'package:washee/features/location/data/models/box_machine_model.dart';
 import 'package:washee/injection_container.dart';
 import 'package:washee/features/booking/domain/usecases/has_current_booking.dart';
 import 'package:washee/features/unlock/presentation/widgets/please_login_dialog.dart';
-import '../../features/unlock/presentation/widgets/initiate_wash_dialog.dart';
+import '../../../unlock/presentation/widgets/initiate_wash_dialog.dart';
 import 'package:washee/features/unlock/presentation/widgets/does_not_have_current_booking_dialog.dart';
-import '../presentation/themes/colors.dart';
-import '../presentation/themes/dimens.dart';
-import '../presentation/themes/themes.dart';
+import '../../../../core/ui/themes/colors.dart';
+import '../../../../core/ui/themes/dimens.dart';
+import '../../../../core/ui/themes/themes.dart';
 import 'wash_timer_on_card.dart';
 
 // ignore: must_be_immutable

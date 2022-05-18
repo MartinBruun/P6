@@ -2,19 +2,19 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-import 'package:washee/core/account/user.dart';
+import 'package:washee/features/account/data/models/web_user.dart';
 import 'package:washee/core/errors/booking_error_prompt.dart';
 import 'package:washee/core/errors/error_handler.dart';
-import 'package:washee/core/helpers/web_communicator.dart';
-import 'package:washee/core/usecases/usecase.dart';
+import 'package:washee/core/externalities/web/web_communicator.dart';
+import 'package:washee/core/standards/base_usecase/usecase.dart';
 import 'package:washee/features/booking/presentation/provider/calendar_provider.dart';
 import 'package:washee/features/booking/presentation/widgets/booking_success_dialog.dart';
 import 'package:washee/features/sign_in/domain/usecases/update_account.dart';
 import 'package:washee/injection_container.dart';
 import 'package:washee/features/booking/domain/usecases/post_booking.dart';
 
-import '../../../../core/presentation/themes/colors.dart';
-import '../../../../core/presentation/themes/dimens.dart';
+import '../../../../core/ui/themes/colors.dart';
+import '../../../../core/ui/themes/dimens.dart';
 
 class SaveTimeButton extends StatefulWidget {
   final int machineType;

@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-import 'package:washee/core/account/user.dart';
-import 'package:washee/core/helpers/date_helper.dart';
-import 'package:washee/core/helpers/machine_enum.dart';
-import 'package:washee/core/presentation/themes/dimens.dart';
-import 'package:washee/core/presentation/themes/themes.dart';
+import 'package:washee/features/account/data/models/web_user.dart';
+import 'package:washee/core/standards/time/date_helper.dart';
+import 'package:washee/features/location/presentation/pages/machine_enum.dart';
+import 'package:washee/core/ui/themes/dimens.dart';
+import 'package:washee/core/ui/themes/themes.dart';
 import 'package:washee/features/booking/data/models/booking_model.dart';
 import 'package:washee/features/booking/presentation/provider/calendar_provider.dart';
 import 'package:washee/features/booking/presentation/widgets/choose_machine_view.dart';
 import 'package:washee/features/booking/presentation/widgets/outdated_date_dialog.dart';
-import 'package:washee/features/unlock/presentation/widgets/insufficient_funds_dialog.dart';
+import 'package:washee/features/booking/presentation/widgets/insufficient_funds_dialog.dart';
 import '../../data/models/booking_model.dart';
 
 class DayCard extends StatefulWidget {

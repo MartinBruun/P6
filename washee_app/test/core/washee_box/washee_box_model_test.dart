@@ -1,8 +1,8 @@
 import 'dart:convert';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:washee/core/washee_box/washee_entity.dart';
-import 'package:washee/core/washee_box/washee_model.dart';
+import 'package:washee/features/location/domain/entities/washee_entity.dart';
+import 'package:washee/features/location/data/models/box_washee_model.dart';
 
 import '../../fixtures/fixture_reader.dart';
 

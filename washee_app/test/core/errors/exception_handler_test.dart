@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:washee/core/errors/exception_handler.dart';
+import 'package:washee/core/standards/logger/exception_handler.dart';
 
 void main() {
   test(

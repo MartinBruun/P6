@@ -6,7 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:timezone/timezone.dart';
 import 'package:washee/core/environments/environment.dart';
-import 'package:washee/core/helpers/authorizer.dart';
+import 'package:washee/core/apis/web_communicator/authorizer.dart';
 import 'package:washee/core/pages/home_screen.dart';
 import 'package:washee/core/providers/global_provider.dart';
 import 'package:washee/features/booking/presentation/provider/booking_provider.dart';

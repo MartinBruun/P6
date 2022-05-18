@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:washee/core/helpers/web_communicator.dart';
-import 'package:washee/core/network/network_info.dart';
+import 'package:washee/core/externalities/web/web_communicator.dart';
+import 'package:washee/core/externalities/network/network_info.dart';
 import 'package:washee/features/get_machines/data/repositories/get_machines_repo_impl.dart';
 
 import '../../../get_machines/get_machines_test.dart';

@@ -5,9 +5,9 @@
 import 'dart:async' as _i3;
 
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:washee/core/network/network_info.dart' as _i2;
-import 'package:washee/core/washee_box/machine_model.dart' as _i5;
-import 'package:washee/features/unlock/data/datasources/unlock_remote.dart'
+import 'package:washee/core/externalities/network/network_info.dart' as _i2;
+import 'package:washee/features/location/data/models/box_machine_model.dart' as _i5;
+import 'package:washee/features/location/data/datasources/unlock_remote.dart'
     as _i4;
 
 // ignore_for_file: avoid_redundant_argument_values

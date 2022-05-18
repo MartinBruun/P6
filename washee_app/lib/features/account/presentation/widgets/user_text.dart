@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:washee/core/presentation/themes/dimens.dart';
-import 'package:washee/core/presentation/themes/themes.dart';
+import 'package:washee/core/ui/themes/dimens.dart';
+import 'package:washee/core/ui/themes/themes.dart';
 
 class UserText extends StatelessWidget {
   final String textInfo;

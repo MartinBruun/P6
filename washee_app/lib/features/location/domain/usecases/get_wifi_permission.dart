@@ -1,4 +1,4 @@
-import 'package:washee/core/usecases/usecase.dart';
+import 'package:washee/core/standards/base_usecase/usecase.dart';
 
 import '../repositories/unlock_repository.dart';
 

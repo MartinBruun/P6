@@ -1,5 +1,5 @@
-import 'package:washee/core/helpers/web_communicator.dart';
-import 'package:washee/core/network/network_info.dart';
+import 'package:washee/core/externalities/web/web_communicator.dart';
+import 'package:washee/core/externalities/network/network_info.dart';
 
 abstract class BookRemote {
   Future<List<Map<String, dynamic>>> getBookings(

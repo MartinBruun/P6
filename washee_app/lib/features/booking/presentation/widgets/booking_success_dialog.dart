@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:washee/core/widgets/dialog_box_Ok.dart';
+import 'package:washee/core/ui/widgets/dialog_box_Ok.dart';
 
-import '../../../../core/pages/home_screen.dart';
-import '../../../../core/pages/pages_enum.dart';
+import '../../../../core/ui/navigation/home_screen.dart';
+import '../../../../core/ui/navigation/pages_enum.dart';
 
 class BookingSuccessDialog extends StatelessWidget {
   const BookingSuccessDialog({Key? key}) : super(key: key);

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../core/presentation/themes/colors.dart';
+import '../themes/colors.dart';
 
 class DialogExitCross extends StatelessWidget {
   final Function(BuildContext context) onExitFunction;

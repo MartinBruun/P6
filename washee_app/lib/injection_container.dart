@@ -4,9 +4,9 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
-import 'package:washee/core/helpers/authorizer.dart';
-import 'package:washee/core/helpers/web_communicator.dart';
-import 'package:washee/core/helpers/box_communicator.dart';
+import 'package:washee/core/apis/web_communicator/authorizer.dart';
+import 'package:washee/core/externalities/web/web_communicator.dart';
+import 'package:washee/core/apis/box_communicator/box_communicator.dart';
 import 'package:washee/features/booking/data/datasources/book_remote.dart';
 import 'package:washee/features/booking/data/repositories/book_repository_impl.dart';
 import 'package:washee/features/booking/domain/usecases/delete_booking.dart';
@@ -19,16 +19,16 @@ import 'package:washee/features/sign_in/data/repositories/sign_in_repo_impl.dart
 import 'package:washee/features/sign_in/domain/repositories/sign_in_repository.dart';
 import 'package:washee/features/sign_in/domain/usecases/sign_in.dart';
 import 'package:washee/features/sign_in/domain/usecases/update_account.dart';
-import 'package:washee/features/unlock/data/datasources/unlock_remote.dart';
-import 'package:washee/features/unlock/data/repositories/unlock_repo_impl.dart';
-import 'package:washee/features/unlock/domain/repositories/unlock_repository.dart';
+import 'package:washee/features/location/data/datasources/unlock_remote.dart';
+import 'package:washee/features/location/data/repositories/unlock_repo_impl.dart';
+import 'package:washee/features/location/domain/repositories/unlock_repository.dart';
 import 'package:washee/features/unlock/domain/usecases/connect_box_wifi.dart';
 import 'package:washee/features/unlock/domain/usecases/disconnect_box_wifi.dart';
-import 'package:washee/features/unlock/domain/usecases/get_wifi_permission.dart';
+import 'package:washee/features/location/domain/usecases/get_wifi_permission.dart';
 import 'package:washee/features/unlock/domain/usecases/unlock.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-import 'core/network/network_info.dart';
+import 'core/apis/network/network_info.dart';
 import 'features/booking/domain/repositories/book_repository.dart';
 import 'features/booking/domain/usecases/get_bookings.dart';
 

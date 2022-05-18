@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:washee/core/helpers/date_helper.dart';
-import 'package:washee/core/washee_box/machine_model.dart';
+import 'package:washee/core/standards/time/date_helper.dart';
+import 'package:washee/features/location/data/models/box_machine_model.dart';
 
-import '../../../../core/presentation/themes/dimens.dart';
-import '../../../../core/presentation/themes/themes.dart';
+import '../../../../../../core/ui/themes/dimens.dart';
+import '../../../../../../core/ui/themes/themes.dart';
 
 // ignore: must_be_immutable
 class WashTimerOnCard extends StatefulWidget {

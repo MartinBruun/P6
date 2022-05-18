@@ -1,6 +1,6 @@
-import 'package:washee/core/washee_box/washee_entity.dart';
+import 'package:washee/features/location/domain/entities/washee_entity.dart';
 
-import 'machine_entity.dart';
+import '../../domain/entities/machine_entity.dart';
 
 class WasheeBoxModel extends WasheeBox {
   final String ssid;

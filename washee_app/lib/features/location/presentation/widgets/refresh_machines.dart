@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
-import '../../../../core/presentation/themes/dimens.dart';
-import '../../../../core/presentation/themes/themes.dart';
+import '../../../../core/ui/themes/dimens.dart';
+import '../../../../core/ui/themes/themes.dart';
 import '../../../../core/providers/global_provider.dart';
 
 class RefreshMachines extends StatefulWidget {

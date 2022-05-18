@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:washee/core/presentation/themes/dimens.dart';
-import 'package:washee/core/presentation/themes/themes.dart';
-import 'package:washee/features/sign_out/presentation/pages/logout_question.dart';
+import 'package:washee/core/ui/themes/dimens.dart';
+import 'package:washee/core/ui/themes/themes.dart';
+import 'package:washee/features/account/presentation/pages/logout_question.dart';
 
 class LogOutButton extends StatelessWidget {
   @override

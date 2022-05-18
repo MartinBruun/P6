@@ -1,4 +1,4 @@
-import 'package:washee/core/account/account.dart';
+import 'package:washee/features/account/data/models/web_account.dart';
 
 class ActiveUser {
   bool _loggedIn = false;

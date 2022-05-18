@@ -1,12 +1,10 @@
-import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
-import 'package:washee/core/helpers/date_helper.dart';
-import 'package:washee/core/helpers/green_score_database.dart';
-import 'package:washee/core/helpers/web_communicator.dart';
-import 'package:washee/core/washee_box/machine_model.dart';
+import 'package:washee/core/standards/time/date_helper.dart';
+import 'package:washee/features/electricity/data/datasources/green_score_database.dart';
+import 'package:washee/core/externalities/web/web_communicator.dart';
 import 'package:washee/features/booking/data/models/booking_model.dart';
-import 'package:washee/core/errors/exception_handler.dart';
-import '../../../../core/presentation/themes/colors.dart';
+import 'package:washee/core/standards/logger/exception_handler.dart';
+import '../../../../core/ui/themes/colors.dart';
 import '../../data/models/booking_model.dart';
 import 'package:washee/injection_container.dart';
 
@@ -166,11 +164,11 @@ class CalendarProvider extends ChangeNotifier {
     }
   }
 
-//TODO: should be moved to some bookings provider, we ought only to have one store for bookings
   updateBookings(List<BookingModel> bookings) {
     if (bookings.isNotEmpty) {
-      _bookings.clear();
-      _bookings = bookings;
+      for (var booking in bookings) {
+        _bookings.add(booking);
+      }
     }
   }
 
@@ -423,22 +421,21 @@ class CalendarProvider extends ChangeNotifier {
     var timeSlots = getTimeSlots(currentDate);
 
     greenScoresForDay =
-        updateGreenScoreWithVacancy(bookings, greenScoresForDay, currentDate);
+        updateGreenScoreWithVacancy(bookings, greenScoresForDay,currentDate);
 
     return calculateBestGreenScore(greenScoresForDay, timeSlots);
   }
 
-  List<GreenScore> updateGreenScoreWithVacancy(List<BookingModel> bookings,
-      List<GreenScore> greenscoresList, DateTime currentDate) {
+  List<GreenScore> updateGreenScoreWithVacancy(
+      List<BookingModel> bookings, List<GreenScore> greenscoresList,DateTime currentDate) {
     int greenScoreDayLength = greenscoresList.length;
 
     for (int index = 0; index < greenscoresList.length; index++) {
       var slot = greenscoresList[index];
-      var slotDate = DateTime(currentDate.year, currentDate.month,
-          currentDate.day, slot.hour, slot.minute, 0);
+      var slotDate = DateTime(currentDate.year, currentDate.month,currentDate.day, slot.hour, slot.minute, 0);
 
       for (var booking in bookings) {
-        if (doesSlotOverlap(booking.startTime!, slotDate, booking.endTime!)) {
+        if (doesSlotOverlap(booking.startTime!,slotDate, booking.endTime!)) {
           greenscoresList[index].vacant = false;
         }
       }

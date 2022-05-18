@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:washee/core/helpers/green_score_database.dart';
-import 'package:washee/core/helpers/machine_enum.dart';
+import 'package:washee/features/electricity/data/datasources/green_score_database.dart';
+import 'package:washee/features/location/presentation/pages/machine_enum.dart';
 import 'package:washee/features/booking/data/models/booking_model.dart';
 
-import '../../../../core/presentation/themes/colors.dart';
-import '../../../../core/presentation/themes/dimens.dart';
+import '../../../../core/ui/themes/colors.dart';
+import '../../../../core/ui/themes/dimens.dart';
 import 'choose_time_view.dart';
 
 class MachineTypeButton extends StatelessWidget {

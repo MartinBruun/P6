@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-import 'package:washee/core/helpers/green_score_database.dart';
-import 'package:washee/core/helpers/machine_enum.dart';
-import 'package:washee/core/presentation/themes/dimens.dart';
-import 'package:washee/core/presentation/themes/themes.dart';
+import 'package:washee/features/electricity/data/datasources/green_score_database.dart';
+import 'package:washee/features/location/presentation/pages/machine_enum.dart';
+import 'package:washee/core/ui/themes/dimens.dart';
+import 'package:washee/core/ui/themes/themes.dart';
 import 'package:washee/features/booking/data/models/booking_model.dart';
 import 'package:washee/features/booking/presentation/provider/calendar_provider.dart';
 import 'package:washee/features/booking/presentation/widgets/save_time_button.dart';
 import 'package:washee/features/booking/presentation/widgets/time_slots.dart';
 
-import '../../../../core/presentation/themes/colors.dart';
-import '../../../../core/widgets/cancel_button.dart';
+import '../../../../core/ui/themes/colors.dart';
+import 'cancel_button.dart';
 
 class ChooseTimeView extends StatefulWidget {
   final List<BookingModel>? bookingsForDate;

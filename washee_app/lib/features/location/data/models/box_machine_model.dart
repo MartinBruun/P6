@@ -1,5 +1,5 @@
-import 'package:washee/core/helpers/date_helper.dart';
-import 'package:washee/core/washee_box/machine_entity.dart';
+import 'package:washee/core/standards/time/date_helper.dart';
+import 'package:washee/features/location/domain/entities/machine_entity.dart';
 
 // ignore: must_be_immutable
 class MachineModel extends Machine {

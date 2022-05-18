@@ -5,8 +5,8 @@
 import 'dart:async' as _i3;
 
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:washee/core/helpers/box_communicator.dart' as _i2;
-import 'package:washee/core/washee_box/machine_model.dart' as _i4;
+import 'package:washee/core/apis/box_communicator/box_communicator.dart' as _i2;
+import 'package:washee/features/location/data/models/box_machine_model.dart' as _i4;
 
 // ignore_for_file: avoid_redundant_argument_values
 // ignore_for_file: avoid_setters_without_getters

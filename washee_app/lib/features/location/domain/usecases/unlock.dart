@@ -1,13 +1,13 @@
 import 'package:equatable/equatable.dart';
-import 'package:washee/core/helpers/date_helper.dart';
-import 'package:washee/core/helpers/web_communicator.dart';
-import 'package:washee/core/usecases/usecase.dart';
-import 'package:washee/core/washee_box/machine_model.dart';
+import 'package:washee/core/standards/time/date_helper.dart';
+import 'package:washee/core/externalities/web/web_communicator.dart';
+import 'package:washee/core/standards/base_usecase/usecase.dart';
+import 'package:washee/features/location/data/models/box_machine_model.dart';
 import 'package:washee/features/unlock/domain/usecases/connect_box_wifi.dart';
 import 'package:washee/features/unlock/domain/usecases/disconnect_box_wifi.dart';
 import 'package:washee/injection_container.dart';
 
-import '../repositories/unlock_repository.dart';
+import '../../../location/domain/repositories/unlock_repository.dart';
 
 class UnlockUseCase implements UseCase<MachineModel?, UnlockParams> {
   final UnlockRepository repository;

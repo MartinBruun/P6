@@ -2,8 +2,8 @@ import 'dart:core';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:washee/core/helpers/date_helper.dart';
-import 'package:washee/core/network/network_info.dart';
+import 'package:washee/core/standards/time/date_helper.dart';
+import 'package:washee/core/externalities/network/network_info.dart';
 import 'package:washee/features/booking/data/datasources/book_remote.dart';
 import 'package:washee/features/booking/data/models/booking_model.dart';
 import 'package:washee/features/booking/data/repositories/book_repository_impl.dart';

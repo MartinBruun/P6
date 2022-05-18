@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:washee/core/account/user.dart';
+import 'package:washee/features/account/data/models/web_user.dart';
 import 'package:washee/features/booking/presentation/provider/booking_provider.dart';
 
 import '../../../../core/usecases/usecase.dart';
