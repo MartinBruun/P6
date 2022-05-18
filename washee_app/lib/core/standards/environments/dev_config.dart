@@ -1,5 +1,5 @@
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:washee/core/environments/base_config.dart';
+import 'package:washee/core/standards/environments/base_config.dart';
 
 import "base_config.dart";
 

@@ -1,12 +1,12 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:intl/intl.dart';
-import 'package:washee/core/account/account.dart';
-import 'package:washee/core/account/user.dart';
-import 'package:washee/core/environments/environment.dart';
-import 'package:washee/core/errors/exception_handler.dart';
-import 'package:washee/core/helpers/authorizer.dart';
-import 'package:washee/core/helpers/date_helper.dart';
+import 'package:washee/features/account/data/models/web_account.dart';
+import 'package:washee/features/account/data/models/web_user.dart';
+import 'package:washee/core/standards/environments/environment.dart';
+import 'package:washee/core/standards/logger/exception_handler.dart';
+import 'package:washee/core/externalities/web/authorizer.dart';
+import 'package:washee/core/standards/time/date_helper.dart';
 
 import 'package:timezone/timezone.dart' as tz;
 

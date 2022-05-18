@@ -1,6 +1,6 @@
-import 'package:washee/core/environments/base_config.dart';
-import 'package:washee/core/environments/dev_config.dart';
-import 'package:washee/core/environments/prod_config.dart';
+import 'package:washee/core/standards/environments/base_config.dart';
+import 'package:washee/core/standards/environments/dev_config.dart';
+import 'package:washee/core/standards/environments/prod_config.dart';
 
 class Environment {
   factory Environment() {

@@ -1,12 +1,12 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:washee/core/helpers/date_helper.dart';
-import 'package:washee/core/washee_box/machine_model.dart';
-import 'package:washee/core/environments/environment.dart';
+import 'package:washee/core/standards/time/date_helper.dart';
+import 'package:washee/features/location/data/models/box_machine_model.dart';
+import 'package:washee/core/standards/environments/environment.dart';
 
-import 'package:washee/core/errors/exception_handler.dart';
-import '../errors/failures.dart';
+import 'package:washee/core/standards/logger/exception_handler.dart';
+import 'package:washee/core/standards/failures/failures.dart';
 
 abstract class BoxCommunicator {
   Future<Map<String, dynamic>> getMachines();

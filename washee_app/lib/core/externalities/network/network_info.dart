@@ -1,8 +1,8 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:washee/core/errors/exception_handler.dart';
+import 'package:washee/core/standards/logger/exception_handler.dart';
 import 'package:wifi_iot/wifi_iot.dart';
 
-import 'package:washee/core/environments/environment.dart';
+import 'package:washee/core/standards/environments/environment.dart';
 
 abstract class NetworkInfo {
   Future<bool> get isConnected;

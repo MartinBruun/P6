@@ -1,11 +1,11 @@
 import 'package:dio/dio.dart';
-import 'package:washee/core/account/user.dart';
-import 'package:washee/core/environments/environment.dart';
+import 'package:washee/features/account/data/models/web_user.dart';
+import 'package:washee/core/standards/environments/environment.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:washee/core/helpers/web_communicator.dart';
+import 'package:washee/core/externalities/web/web_communicator.dart';
 import 'package:washee/injection_container.dart';
 
-import '../errors/exception_handler.dart';
+import 'package:washee/core/standards/logger/exception_handler.dart';
 
 abstract class Authorizer {
   Dio initDio();

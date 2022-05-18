@@ -1,9 +1,9 @@
 import 'dart:io';
 
-import 'package:washee/core/helpers/web_communicator.dart';
-import 'package:washee/core/network/network_info.dart';
+import 'package:washee/core/externalities/web/web_communicator.dart';
+import 'package:washee/core/externalities/network/network_info.dart';
 import 'package:washee/injection_container.dart';
-import 'package:washee/core/helpers/date_helper.dart';
+import 'package:washee/core/standards/time/date_helper.dart';
 
 class ExceptionHandler{
   // ExceptionHandler is a class where all try/catch blocks in the codebase use the .handle() method on any catched Exception.

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:washee/core/washee_box/machine_model.dart';
+import 'package:washee/features/location/data/models/box_machine_model.dart';
 import 'package:washee/features/booking/data/models/booking_model.dart';
 
 class GlobalProvider extends ChangeNotifier {
