@@ -21,8 +21,8 @@ jobs:
     # Setup the flutter environment.
     - uses: subosito/flutter-action@v1
       with:
-        channel: '2.10.5' # 'dev', 'alpha', or 'stable' default to: 'stable'
-        # Set to the same version as used by MartinBruun for now
+        channel: 'stable' # 'dev', 'alpha', or 'stable' default to: 'stable'
+        flutter-version: '2.10.5' # set to the flutter version of MartinBruun due to previous errors
     
     - name: Run flutter commands
       working-directory: ./washee_app
