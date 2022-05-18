@@ -31,8 +31,8 @@ The callstack can be summarised as follows:
 In case of failures, a specific Failure exception will be thrown, which the next coming layer is expected to catch.
 A provider being updated through a UseCase should always at the bare minimum catch "all exceptions" in case of anything unforseen.
 
-The `core/` folder consists of these components that are shared between the features. It is important that any extension to the core folder does not have anything to do with the domain.
-- `apis/` handles standardisation with how external API's are accessed. Is called by a features datasource layer.
+The `core/` folder consists of components that are shared between the features. It is important that any extension to the core folder does not have anything to do with the domain.
+- `externalities/` handles standardisation with how external storages, such as API's, are accessed. Is called by a features datasource layer.
 - `standards/` handles general purpose standardisation functionality, such as time management, logging, environment setup, types of failures, etc.
 - `ui/` handles non-domain specific ui to create a more cohesive app feel, including reusable widgets, navigation, theming, etc.
 
@@ -43,3 +43,5 @@ There also is an `injection_container.dart`, which creates singletons of all use
 The architecture described is not being completely followed right now, but is expected to be able to be refactored to it.
 
 Also, a static linting CI flow could be made to ensure that all calls to a usecase updates a provider, and these updates should at minimum catch the "everything" exception, in case of unforseen errors.
+
+CI flows should be made such that the core standards directory is always followed (ie. never initialize a DateTime model in the features application, make sure the failures are used correctly as described above and that a Logger is called when it happens, etc.)
