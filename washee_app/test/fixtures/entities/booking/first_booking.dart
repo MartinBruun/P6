@@ -1,4 +1,4 @@
-
+/*
 
 import 'package:mockito/mockito.dart';
 import 'package:washee/core/standards/time/date_helper.dart';
@@ -16,3 +16,5 @@ BookingEntity firstBooking = WebBookingModel(
   serviceResource: serviceResource, 
   accountResource: accountResource
 )
+
+*/
