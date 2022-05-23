@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:washee/features/electricity/data/datasources/green_score_database.dart';
 import 'package:washee/features/location/presentation/pages/machine_enum.dart';
 import 'package:washee/features/booking/data/models/booking_model.dart';
 

@@ -27,14 +27,10 @@ class SignInScreen extends StatefulWidget {
 class _SignInScreenState extends State<SignInScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-  final _testController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   ActiveUser user = ActiveUser();
-  final OutlineInputBorder _borderStyle = OutlineInputBorder(
-    borderSide: BorderSide(color: Colors.white),
-  );
-
+  
   @override
   void dispose() {
     _emailController.dispose();

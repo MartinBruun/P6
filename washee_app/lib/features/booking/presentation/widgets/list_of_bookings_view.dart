@@ -16,7 +16,7 @@ class ListOfBookingsView extends StatelessWidget {
   final List<BookingModel> bookings;
 
   ListOfBookingsView({required this.bookings});
-  var currentTime = DateHelper().currentTime();
+  final currentTime = DateHelper().currentTime();
   bool _validateShowBooking(BookingModel bookingToShow, DateTime current) {
     if (bookingToShow.endTime!.day == current.day) {
       if (bookingToShow.endTime!.hour > current.hour) {

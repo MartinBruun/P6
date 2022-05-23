@@ -1,7 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:provider/provider.dart';
 import 'package:washee/features/electricity/data/datasources/green_score_database.dart';
-import 'package:washee/features/booking/presentation/provider/calendar_provider.dart';
 
 void main() {
   // var calendar = Provider.of<CalendarProvider>(null, listen: false);

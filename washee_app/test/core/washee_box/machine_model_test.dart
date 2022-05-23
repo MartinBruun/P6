@@ -1,10 +1,4 @@
-import 'dart:convert';
-
 import 'package:flutter_test/flutter_test.dart';
-import 'package:washee/features/location/domain/entities/machine_entity.dart';
-import 'package:washee/features/location/data/models/box_machine_model.dart';
-
-import '../../fixtures/fixture_reader.dart';
 
 void main() {
   test(

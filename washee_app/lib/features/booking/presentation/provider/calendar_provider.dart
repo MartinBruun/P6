@@ -428,7 +428,6 @@ class CalendarProvider extends ChangeNotifier {
 
   List<GreenScore> updateGreenScoreWithVacancy(
       List<BookingModel> bookings, List<GreenScore> greenscoresList,DateTime currentDate) {
-    int greenScoreDayLength = greenscoresList.length;
 
     for (int index = 0; index < greenscoresList.length; index++) {
       var slot = greenscoresList[index];

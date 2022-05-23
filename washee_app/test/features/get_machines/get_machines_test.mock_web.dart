@@ -2,11 +2,8 @@
 // in washee/test/features/get_machines/get_machines_test.dart.
 // Do not manually edit this file.
 
-import 'dart:async' as _i3;
-
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:washee/core/externalities/web/web_communicator.dart' as _i2;
-import 'package:washee/features/location/data/models/box_machine_model.dart' as _i4;
 
 // ignore_for_file: avoid_redundant_argument_values
 // ignore_for_file: avoid_setters_without_getters

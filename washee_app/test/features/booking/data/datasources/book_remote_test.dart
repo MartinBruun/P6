@@ -35,19 +35,6 @@ main() {
         machineResource: "https://mocked_machineResource/1",
         serviceResource: "https://mocked_serviceResource/1",
         accountResource: "https://mocked_accountResource/1");
-
-    Map<String, dynamic> mockReturnedBookings = {
-      "start_time": "test",
-      "end_time": "test",
-      "created": "2022-04-14T13:07:08.711Z",
-      "last_updated": "2022-04-14T13:07:08.711Z",
-      "machine": "https://mocked_machineResource/1",
-      "service": "https://mocked_serviceResource/1",
-      "account": "https://mocked_accountResource/1",
-      "id": "12",
-      "activated": false,
-    };
-    // when((() => constructBooking([mockReturnedBookings])))
   });
 
   test(

@@ -126,16 +126,15 @@ void main() {
       });
     });
 
-    testWidgets("Machines are displayed after successfull backend fetch",
+    // REWRITE THIS TEST to make sure ALL machines are fetched properly!!!
+    testWidgets("At least one machine is displayed after successfull backend fetch",
         (WidgetTester tester) async {
       tester.runAsync(() async {
         await arrangeMachineModelsReturned(usecase);
         await tester.pumpWidget(createWidgetUnderTest());
 
         await tester.pumpAndSettle();
-        for (final machine in mockMachines) {
-          expect(find.byType(MachineCard), findsOneWidget);
-        }
+        expect(find.byType(MachineCard), findsOneWidget);
       });
     });
   });

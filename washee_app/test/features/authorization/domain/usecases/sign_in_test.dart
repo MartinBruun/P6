@@ -1,5 +1,10 @@
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  assert(true);
+  test(
+    'Setup Ready For Test',
+    () async {
+      expect(true, true);
+    },
+  );
 }

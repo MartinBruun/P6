@@ -5,7 +5,6 @@ import 'package:mocktail/mocktail.dart';
 import 'package:washee/core/standards/time/date_helper.dart';
 import 'package:washee/core/externalities/network/network_info.dart';
 import 'package:washee/features/booking/data/datasources/book_remote.dart';
-import 'package:washee/features/booking/data/models/booking_model.dart';
 import 'package:washee/features/booking/data/repositories/book_repository_impl.dart';
 import 'package:timezone/timezone.dart' as tz;
 
@@ -24,20 +23,20 @@ void main() {
   late MockNetworkInfo mockNetworkInfo;
   late MockBookRemote mockRemote;
   // late MockBookingModel mockBookingHelper;
-  late MockDateHelper mockDateHelper;
-  late BookingModel mockBookingModelResult;
+  //late MockDateHelper mockDateHelper;
+  //late BookingModel mockBookingModelResult;
   late Map<String, dynamic> mockBookingJson;
-  late DateTime currentTime;
+  //late DateTime currentTime;
 
   setUp(() {
     registerFallbackValue(FakeLocation());
     mockRemote = MockBookRemote();
     mockNetworkInfo = MockNetworkInfo();
     // mockBookingHelper = MockBookingModel();
-    mockDateHelper = MockDateHelper();
+    //mockDateHelper = MockDateHelper();
     sut_bookRepositoryImpl =
         BookRepositoryImpl(networkInfo: mockNetworkInfo, remote: mockRemote );
-    currentTime = DateTime.now();
+    //currentTime = DateTime.now();
     var booking1_start_time = DateTime(2022, 01, 01, 2, 0);
     var booking1_end_time =
         booking1_start_time.add(Duration(hours: 2, minutes: 30));
@@ -50,13 +49,13 @@ void main() {
       "accountResource": "https://mocked_accountResource/1"
     };
 
-    mockBookingModelResult = BookingModel(
-        bookingID: 12,
-        startTime: booking1_start_time,
-        endTime: booking1_end_time,
-        machineResource: "https://mocked_machineResource/1",
-        serviceResource: "https://mocked_serviceResource/1",
-        accountResource: "https://mocked_accountResource/1");
+    //mockBookingModelResult = BookingModel(
+    //    bookingID: 12,
+    //    startTime: booking1_start_time,
+    //    endTime: booking1_end_time,
+    //    machineResource: "https://mocked_machineResource/1",
+    //    serviceResource: "https://mocked_serviceResource/1",
+    //    accountResource: "https://mocked_accountResource/1");
   });
 
 
