@@ -1,3 +1,5 @@
+#!/bin/zsh
+
 cd ..
 cd ..
 docker-compose logs -t
