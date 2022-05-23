@@ -11,6 +11,12 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+
+      #- name: Check for linting before running tests
+      #  uses: py-actions/flake8@v2
+      #  with:
+      #    path: "washee_box"
+
       - name: Build, run, test and tear down
         run: |
           docker-compose up -d --build box

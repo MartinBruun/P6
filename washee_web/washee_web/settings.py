@@ -24,16 +24,19 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = int(os.environ.get("DEBUG",default=0))
+DEBUG = int(os.environ.get("DEBUG", default=0))
 
 # SECURITY WARNING: Controls all security related to the nginx proxy server
-SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https") if int(os.environ.get("SECURE_PROXY_HEADER",default=0)) == 1 else None
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https") if int(
+    os.environ.get("SECURE_PROXY_HEADER", default=0)) == 1 else None
 
 # SECURITY WARNING! Controls all CSRF based security
-CSRF_COOKIE_SECURE = False if os.environ.get("DJANGO_CSRF_COOKIE",default=1) == 0 else True
+CSRF_COOKIE_SECURE = False if os.environ.get(
+    "DJANGO_CSRF_COOKIE", default=1) == 0 else True
 
 # SECURITY WARNING! Controls all session based security
-SESSION_COOKIE_SECURE = False if os.environ.get("DJANGO_SESSION_COOKIE",default=1) == 0 else True
+SESSION_COOKIE_SECURE = False if os.environ.get(
+    "DJANGO_SESSION_COOKIE", default=1) == 0 else True
 
 # Create Fixture files that can load a whole database
 FIXTURE_DIRS = [
@@ -67,8 +70,11 @@ OWN_APPS = [
 THIRD_PARTY = [
     'rest_framework',
     'rest_framework.authtoken',
-    'corsheaders',
-    #'admin_honeypot' # Doesnt work, because the makemigrations file is placed in the python libraries, which wont (and shouldnt!!!) get copied to the containers. makemigrations should NEVER be run on the production server. EVER!
+    'corsheaders'
+    # 'admin_honeypot' # Add back in, but now doesnt work,
+    # because the makemigrations file is placed in the python libraries,
+    # which wont (and shouldnt!!!) get copied to the containers.
+    # makemigrations should NEVER be run on the production server. EVER!
 ]
 
 INSTALLED_APPS = CORE_APPS+THIRD_PARTY+OWN_APPS
@@ -85,8 +91,11 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-CORS_ALLOW_ALL_ORIGINS = True # Says that all hosts can access the REST API, however, Tokens validate if they may take actions.
-# If need be, we can manually set the host of everyone who is part of the experiment, and block everyone else
+# Says that all hosts can access the REST API,
+# however, Tokens validate if they may take actions.
+CORS_ALLOW_ALL_ORIGINS = True
+# If need be, we can manually set the host of everyone
+# who is part of the experiment, and block everyone else
 
 ROOT_URLCONF = 'washee_web.urls'
 
@@ -130,8 +139,6 @@ DATABASES = {
         "PORT": os.environ.get("DB_PORT", "5432"),
     }
 }
-
-
 
 # Password validation and User Model
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
