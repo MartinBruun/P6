@@ -24,11 +24,6 @@ jobs:
         channel: 'stable' # 'dev', 'alpha', or 'stable' default to: 'stable'
         flutter-version: '2.10.5' # set to the flutter version of MartinBruun due to previous errors
     
-    - name: Lint according to analysis_options.yaml rules
-      working-directory: ./washee_app
-      run: |
-        flutter analyze
-    
     - name: Setup necessary environment files
       working-directory: ./washee_app
       run: |
@@ -38,6 +33,11 @@ jobs:
         echo "BOX_WIFI_PASSWORD=boxNetworkPassword" >> .env.dev
         echo "BOX_HAS_INTERNET=true" >> .env.dev
         echo "Necessary production environment to satisfy flutter assets" > .env.prod
+
+    - name: Lint according to analysis_options.yaml rules
+      working-directory: ./washee_app
+      run: |
+        flutter analyze
 
     - name: Run flutter tests and check for minimum coverage afterwards
       working-directory: ./washee_app
