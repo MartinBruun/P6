@@ -42,8 +42,7 @@ jobs:
 
     - uses: VGVentures/very-good-coverage@v1.1.1
       with:
-        working-directory: ./washee_app
-        path: "./coverage/lcov.info"
+        path: "./washee_app/coverage/lcov.info"
         min_coverage: 95
         exclude: "**/*_observer.dart **/change.dart"
 
