@@ -91,7 +91,7 @@ class AuthorizerImpl implements Authorizer {
       return await this.signIn(email: username, password: password);
     }
     else{
-      return await false;
+      return false;
     }
   }
 

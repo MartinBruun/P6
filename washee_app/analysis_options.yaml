@@ -1,0 +1,13 @@
+
+
+#include: package:lints/recommended.yaml
+
+analyzer:
+  exclude: [build/**]
+  language:
+    brace-in-string-interps: false
+
+linter:
+  rules:
+    - cancel_subscriptions
+
