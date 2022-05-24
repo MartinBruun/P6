@@ -5,10 +5,11 @@ on:
     paths:
       - 'washee_web/**'
 
+env:
+  MIN_COVERAGE: 75
+
 jobs:
-
   build:
-
     runs-on: ubuntu-latest
 
     steps:
@@ -25,5 +26,5 @@ jobs:
       run: |
         chmod +x entrypoint.sh
         docker-compose up -d --build web
-        docker-compose exec -T web pytest --cov=. --cov-fail-under=75
+        docker-compose exec -T web pytest --cov=. --cov-fail-under=$MIN_COVERAGE
         docker-compose down -v
