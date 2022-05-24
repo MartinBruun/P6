@@ -3,13 +3,14 @@ from rest_framework import viewsets
 from booking.models import Booking
 from booking.serializers import BookingSerializer
 
+
 class BookingViewSet(viewsets.ModelViewSet):
     queryset = Booking.objects.all()
     serializer_class = BookingSerializer
-    
+
     def get_queryset(self):
         queryset = Booking.objects.all().filter(active=True)
-        
+
         start_time__gte = self.request.query_params.get('start_time__gte')
         if start_time__gte is not None:
             queryset = queryset.filter(start_time__gte=start_time__gte)
@@ -31,5 +32,5 @@ class BookingViewSet(viewsets.ModelViewSet):
         machine_id = self.request.query_params.get('machine_id')
         if machine_id is not None:
             queryset = queryset.filter(machine=machine_id)
-        
+
         return queryset

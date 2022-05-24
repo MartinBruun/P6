@@ -3,16 +3,17 @@ from sklearn.linear_model import LinearRegression
 from sklearn.model_selection import train_test_split
 import pandas
 
+
 class NordpoolML:
 
     def __init__(self, ):
-        self.train_data:dict = None
+        self.train_data: dict = None
         self.test_data: dict = None
         self.model = None
-                
-    def __train_linear_regression(self, train_data = None):
 
-        if(train_data == None):
+    def __train_linear_regression(self, train_data=None):
+
+        if(train_data is None):
             train_data = self.train_data
 
         self.model = LinearRegression()
@@ -22,12 +23,12 @@ class NordpoolML:
         return self.model
 
     def split(self, data):
- 
+
         # x represents independent variables
         # y represents the dependent variable
         x = data[['hour']]
         y = data[['price']]
-        
+
         x_train, x_test, y_train, y_test = train_test_split(x, y)
 
         self.train_data = {'x': x_train, 'y': y_train}
@@ -35,11 +36,11 @@ class NordpoolML:
 
         return self.train_data, self.test_data
 
-    def train(self, train_data = None):
+    def train(self, train_data=None):
         return self.__train_linear_regression(train_data)
 
-    def score(self, test_data = None):
-        if test_data == None:
+    def score(self, test_data=None):
+        if test_data is None:
             test_data = self.test_data
         return self.model.score(test_data['x'].values.reshape(-1, 1), test_data['y'].values.reshape(-1, 1))
 
@@ -49,9 +50,9 @@ class NordpoolML:
 
 if __name__ == '__main__':
     dataset = {
-                'hour': [1 ,2 ,3 ,4 ,5 ,6 , 7],
-                'price': [123, 234, 45, 456, 456, 567, 234]
-            }
+        'hour': [1, 2, 3, 4, 5, 6, 7],
+        'price': [123, 234, 45, 456, 456, 567, 234]
+    }
     data = pandas.DataFrame(dataset)
 
     x_train = data[['hour']]
@@ -61,7 +62,7 @@ if __name__ == '__main__':
 
     ml = NordpoolML()
     # train_data, test_data = ml.split(data)
-    
+
     ml.train(train_data)
 
     # print(ml.score())

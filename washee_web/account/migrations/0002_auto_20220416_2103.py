@@ -12,7 +12,8 @@ class Migration(migrations.Migration):
     operations = [
         migrations.AlterModelOptions(
             name='user',
-            options={'managed': True, 'ordering': ['-date_joined'], 'verbose_name': 'user', 'verbose_name_plural': 'users'},
+            options={'managed': True, 'ordering': ['-date_joined'],
+                     'verbose_name': 'user', 'verbose_name_plural': 'users'},
         ),
         migrations.RenameField(
             model_name='account',

@@ -13,10 +13,10 @@ class NordpoolAPI:
 
     __REQUIRED_COLUMNS = 35
 
-    def __init__(self, ftp = None):
-        
+    def __init__(self, ftp=None):
+
         path = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__), "nordpool.json"))
-        
+
         data = self.__get_nordpool_access_data(path)
 
         self.__url = data["url"]
@@ -24,8 +24,8 @@ class NordpoolAPI:
         self.__password = data["password"]
 
         self.__save_data_path = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__), "..", "data.csv"))
-        
-        if ftp == None:
+
+        if ftp is None:
             self.__ftp = ftplib.FTP(self.__url)
         else:
             self.__ftp = ftp
@@ -34,7 +34,7 @@ class NordpoolAPI:
         file = open(path)
 
         data = json.load(file)
-        
+
         return data
 
     def __save_data(self, data):
@@ -54,7 +54,7 @@ class NordpoolAPI:
         print("-----END-----")
 
     def __decode(self, data):
-        
+
         # make all bytes into strings
         for i in range(0, len(data)):
             data[i] = str(data[i])
@@ -73,12 +73,12 @@ class NordpoolAPI:
         #   && that that end of file have not been reached
         i = 0
         for line in data_lines:
-            if (i > 5 
+            if (i > 5
                 and self.__number_of_columns(line) < self.__REQUIRED_COLUMNS
-                and len(data_lines) > i + 1):
+                    and len(data_lines) > i + 1):
 
-                    data_lines[i+1] = str(line) + str(data_lines[i+1])
-                    data_lines.pop(i)
+                data_lines[i + 1] = str(line) + str(data_lines[i + 1])
+                data_lines.pop(i)
             elif line == "":
                 data_lines.pop(i)
 
@@ -94,7 +94,7 @@ class NordpoolAPI:
         return count
 
     def ftp_retrieve(self, path, filename):
-        
+
         self.__ftp.login(self.__username, self.__password)
 
         self.__ftp.cwd(path)
@@ -109,7 +109,7 @@ class NordpoolAPI:
         self.__ftp.quit()
 
         data = self.__decode(data)
-        
+
         self.__save_data(data)
 
         return data
@@ -131,7 +131,6 @@ class NordpoolAPI:
 if __name__ == '__main__':
     nordpool = NordpoolAPI()
 
-
     # # path and file that works with regular decoding
     # path = "/Operating_data/Denmark"
     # file = "podk2207.sdv"
@@ -142,8 +141,6 @@ if __name__ == '__main__':
     # print("hello")
     data = nordpool.ftp_retrieve(path, file)
 
-
-
     # # check each line below the headers has more than 35 columns
     # for line in data:
     #     for character in line:
@@ -151,9 +148,8 @@ if __name__ == '__main__':
     #             column_count += 1
     #     print(column_count)
     #     if line_count > 5 and column_count < 35:# 35:
-    #         is_ok = False 
+    #         is_ok = False
     #     column_count = 0
     #     line_count += 1
-
 
     # nordpool.__ftp_dir(path)

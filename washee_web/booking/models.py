@@ -10,27 +10,28 @@ from booking.managers import (
     BookingManager
 )
 
-class Booking(models.Model):    
+
+class Booking(models.Model):
     """
         Represents a single booking, with a chosen start_time, where the booking was made at a specific time (created)
         It is setup so that it is possible to change this booking.
     """
-    
+
     # Fields
     id = models.AutoField(primary_key=True)
     start_time = models.DateTimeField(editable=True)
     end_time = models.DateTimeField(editable=False)
     active = models.BooleanField(default=True)
     activated = models.BooleanField(default=False)
-    
+
     created = models.DateTimeField(auto_now_add=True, editable=False)
     last_updated = models.DateTimeField(auto_now=True, editable=False)
-    
+
     # Choices
-    
+
     # Foreign Keys
     machine = models.ForeignKey(
-        Machine, 
+        Machine,
         on_delete=models.CASCADE,
         related_name="bookings"
     )
@@ -42,14 +43,14 @@ class Booking(models.Model):
         null=True
     )
     account = models.ForeignKey(
-        Account, 
+        Account,
         on_delete=models.CASCADE,
         related_name="bookings"
     )
-    
+
     # Managers
     objects = BookingManager()
-    
+
     def __str__(self):
         pre_fix = ""
         if self.active:
@@ -61,27 +62,28 @@ class Booking(models.Model):
                 pre_fix = "(skipped)"
         else:
             pre_fix = "(deleted)"
-                
-        return pre_fix + " Booking from " + str(self.start_time) + " to " + str(self.end_time) + " made by " + str(self.account.name)
-    
+
+        return pre_fix + " Booking from " + str(self.start_time) + " to " + \
+            str(self.end_time) + " made by " + str(self.account.name)
+
     def save(self, *args, **kwargs):
         self.end_time = self.start_time + timedelta(seconds=self.service.duration_in_sec)
         overlapping_bookings = Booking.objects.filter(machine=self.machine).exclude(id=self.id).exclude(active=False).exclude(
             Q(start_time__lte=self.start_time, end_time__lte=self.start_time) |
             Q(start_time__gte=self.end_time, end_time__gte=self.end_time)
         ).all()
-        
+
         if overlapping_bookings.exists():
             validation_error = "ERROR! The booking clashes with the following bookings:"
             for booking in overlapping_bookings:
-                validation_error += ' <' + str(booking.start_time) + ' to ' + str(booking.end_time) +'>'
+                validation_error += ' <' + str(booking.start_time) + ' to ' + str(booking.end_time) + '>'
             raise ValidationError(validation_error)
         else:
             if self.pk is None:
                 self.account.balance -= self.service.price_in_dk
                 self.account.save()
-            return super(Booking, self).save(*args,**kwargs)
-        
+            return super(Booking, self).save(*args, **kwargs)
+
     def delete(self):
         if self.activated or not self.active:
             raise ValidationError("Can't delete inactive or activated bookings!")
@@ -89,7 +91,7 @@ class Booking(models.Model):
         self.account.save()
         self.active = False
         return super(Booking, self).save()
-    
+
     class Meta:
         ordering = ['-created']
         db_table = 'booking'

@@ -21,8 +21,10 @@ class Migration(migrations.Migration):
                 ('content', models.TextField()),
                 ('created', models.DateTimeField(auto_now_add=True)),
                 ('last_updated', models.DateTimeField(auto_now=True)),
-                ('source', models.CharField(choices=[('APP', 'Logs from app'), ('BOX', 'Logs from box'), ('WEBLogs from web', 'Web'), ('MAN', 'Manual logs'), ('NON', 'No given source')], default='NON', max_length=32)),
-                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='logs_written', to=settings.AUTH_USER_MODEL)),
+                ('source', models.CharField(choices=[('APP', 'Logs from app'), ('BOX', 'Logs from box'), (
+                    'WEBLogs from web', 'Web'), ('MAN', 'Manual logs'), ('NON', 'No given source')], default='NON', max_length=32)),
+                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE,
+                 related_name='logs_written', to=settings.AUTH_USER_MODEL)),
             ],
             options={
                 'verbose_name': 'log',

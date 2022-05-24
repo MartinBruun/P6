@@ -1,13 +1,17 @@
 cd ..
 cd ..
 cd washee_app
-echo ------------ LINTING FOR APP --------------
+echo ------------ LINTING ERROS FOR APP --------------
 call flutter analyze
-echo ------------ LINTING FOR WEB --------------
-echo AUTOFIX THE EASIEST WITH BLACK
-echo MAKE SURE IT FOLLOWS tox.ini!
-call flake8 washee_web
-echo ------------ LINTING FOR BOX --------------
-echo AUTOFIX THE EASIEST WITH BLACK
-echo MAKE SURE IT FOLLOWS tox.ini!
-call flake8 washee_box
+echo ------------ LINTING ERRORS FOR WEB --------------
+call autopep8 --in-place --recursive --aggressive washee_web
+cd washee_web
+call flake8
+cd ..
+echo ------------ LINTING ERRORS FOR BOX --------------
+call autopep8 --in-place --recursive --aggressiv ewashee_box
+cd washee_box
+call flake8
+cd ..
+cd scripts
+cd  win

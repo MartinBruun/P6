@@ -77,7 +77,7 @@ THIRD_PARTY = [
     # makemigrations should NEVER be run on the production server. EVER!
 ]
 
-INSTALLED_APPS = CORE_APPS+THIRD_PARTY+OWN_APPS
+INSTALLED_APPS = CORE_APPS + THIRD_PARTY + OWN_APPS
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

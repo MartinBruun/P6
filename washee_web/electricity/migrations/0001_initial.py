@@ -20,7 +20,8 @@ class Migration(migrations.Migration):
                 ('price', models.DecimalField(decimal_places=4, default=0, max_digits=19)),
                 ('created', models.DateTimeField(auto_now_add=True)),
                 ('last_updated', models.DateTimeField(auto_now=True)),
-                ('zone', models.CharField(choices=[('NON', 'No given zone'), ('DK1', 'West Denmark'), ('DK2', 'East Denmark')], default='NON', max_length=32)),
+                ('zone', models.CharField(choices=[('NON', 'No given zone'), ('DK1',
+                 'West Denmark'), ('DK2', 'East Denmark')], default='NON', max_length=32)),
             ],
             options={
                 'verbose_name': 'electricity_block',

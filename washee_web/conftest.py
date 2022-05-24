@@ -11,11 +11,11 @@ from security.models import Log
 """
     This file contains all fixtures for creating models used in the app.
     It defines their internal dependencies, which also can be seen in test_conftest.py at root.
-    
     The structure is that there is a unique combination for each model.
     first_booking depends on first_account that depends on first_user etc.
     ALL tests are expected to change the models in the arrange step, so it is obvious what the test tests.
 """
+
 
 @pytest.fixture
 def first_user():
@@ -24,7 +24,7 @@ def first_user():
         password="password"
     )
     user.username = "Test User 1"
-    
+
     return user
 
 
@@ -35,9 +35,8 @@ def second_user():
         password="password"
     )
     user.username = "Test User 2"
-    
-    return user
 
+    return user
 
 
 @pytest.fixture
@@ -47,7 +46,7 @@ def first_account(first_user):
         name="Test Account 1",
         balance=100,
     )
-    
+
     return account
 
 
@@ -58,34 +57,37 @@ def second_account(second_user):
         name="Test Account 2",
         balance=100,
     )
-    
+
     return account
+
 
 @pytest.fixture
 def first_machine_model():
     machine_model = MachineModel(
         name="Machine Model 1"
     )
-    
+
     return machine_model
+
 
 @pytest.fixture
 def second_machine_model():
     machine_model = MachineModel(
         name="Machine Model 2"
     )
-    
+
     return machine_model
+
 
 @pytest.fixture
 def first_service(first_machine_model):
     first_machine_model.save()
     service = Service(
-        price_in_dk=10, 
+        price_in_dk=10,
         duration_in_sec=100,
         machine_model=first_machine_model
     )
-    
+
     return service
 
 
@@ -93,11 +95,11 @@ def first_service(first_machine_model):
 def second_service(second_machine_model):
     second_machine_model.save()
     service = Service(
-        price_in_dk=10, 
+        price_in_dk=10,
         duration_in_sec=100,
         machine_model=second_machine_model
     )
-    
+
     return service
 
 
@@ -108,7 +110,7 @@ def first_location(first_user):
         name="Test Location 1",
         owner=first_user
     )
-    
+
     return location
 
 
@@ -119,8 +121,9 @@ def second_location(second_user):
         name="Test Location 2",
         owner=second_user
     )
-    
+
     return location
+
 
 @pytest.fixture
 def first_machine(first_user, first_machine_model, first_location):
@@ -133,8 +136,9 @@ def first_machine(first_user, first_machine_model, first_location):
         model=first_machine_model,
         owner=first_user
     )
-    
+
     return machine
+
 
 @pytest.fixture
 def second_machine(second_user, second_machine_model, second_location):
@@ -147,7 +151,7 @@ def second_machine(second_user, second_machine_model, second_location):
         model=second_machine_model,
         owner=second_user
     )
-    
+
     return machine
 
 
@@ -161,11 +165,11 @@ def first_booking(first_account, first_service, first_machine):
         start_time=datetime.now(pytz.UTC),
         active=True,
         activated=False,
-        account=first_account, 
+        account=first_account,
         service=first_service,
         machine=first_machine
     )
-    
+
     return booking
 
 
@@ -179,11 +183,11 @@ def second_booking(second_account, second_service, second_machine):
         start_time=datetime.now(pytz.UTC),
         active=True,
         activated=False,
-        account=second_account, 
+        account=second_account,
         service=second_service,
         machine=second_machine
     )
-    
+
     return booking
 
 
@@ -191,12 +195,12 @@ def second_booking(second_account, second_service, second_machine):
 @pytest.mark.django_db
 def first_electricity_block():
     electricity_block = ElectricityBlock(
-        start_time = datetime.now(pytz.UTC),
-        end_time = datetime.now(pytz.UTC),
-        price = 10,
+        start_time=datetime.now(pytz.UTC),
+        end_time=datetime.now(pytz.UTC),
+        price=10,
         zone=ElectricityBlock.ZoneChoices.WEST_DK
     )
-    
+
     return electricity_block
 
 
@@ -204,12 +208,12 @@ def first_electricity_block():
 @pytest.mark.django_db
 def second_electricity_block():
     electricity_block = ElectricityBlock(
-        start_time = datetime.now(pytz.UTC),
-        end_time = datetime.now(pytz.UTC),
-        price = 10,
+        start_time=datetime.now(pytz.UTC),
+        end_time=datetime.now(pytz.UTC),
+        price=10,
         zone=ElectricityBlock.ZoneChoices.EAST_DK
     )
-    
+
     return electricity_block
 
 
@@ -222,7 +226,7 @@ def first_log(first_user):
         source=Log.SourceChoices.MANUAL,
         user=first_user
     )
-    
+
     return log
 
 
@@ -235,5 +239,5 @@ def second_log(second_user):
         source=Log.SourceChoices.APP,
         user=second_user
     )
-    
+
     return log
