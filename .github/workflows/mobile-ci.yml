@@ -5,9 +5,6 @@ on:
     paths:
       - 'washee_app/**'
 
-env:
-  MIN_COVERAGE: 5
-
 jobs:
   build:
     # This job will run on ubuntu virtual machine
@@ -50,7 +47,7 @@ jobs:
     - uses: VGVentures/very-good-coverage@v1.1.1
       with:
         path: "./washee_app/coverage/lcov.info"
-        min_coverage: "$MIN_COVERAGE"
+        min_coverage: 5
         exclude: "**/*_observer.dart **/change.dart"
 
     - name: Build APK 
