@@ -1,4 +1,3 @@
-import pandas
 from electricity.ml_electricity.preprocessing.preprocessor import Preprocessor
 from electricity.ml_electricity.nordpool_API.Nordpool import NordpoolAPI
 from electricity.ml_electricity.machine_learning.machine_learning import NordpoolML

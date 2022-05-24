@@ -1,11 +1,8 @@
 # Press Shift+F10 to execute it or replace it with your code.
 # Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
-from hashlib import new
 import json
 import ftplib
 import os
-from typing import Type
-from unittest import mock
 import csv
 
 

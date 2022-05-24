@@ -6,7 +6,6 @@ from hardware.raspberryLED import RaspberryLED
 from hardware.raspberry import Raspberry
 
 
-
 class MainController:
 
     def __init__(self):
@@ -36,7 +35,7 @@ class MainController:
         # machine["startTime"] = now
         # machine["endTime"]= now + timedelta(seconds = timeLeft)
         # TODO:maybe move to the caller
-        logmessage = "startTime:"+str(now) + " ; endTime:" + str(machine["endTime"]) + "; duration:" + str(duration).format(
+        logmessage = "startTime:" + str(now) + " ; endTime:" + str(machine["endTime"]) + "; duration:" + str(duration).format(
             "hh:mm")
         self.writeToLog(account, user, machine, logmessage)
         machines = self.getMachinesInfo()["machines"]
@@ -50,8 +49,8 @@ class MainController:
         relayport_a = RaspberryLED(machine["pin_a"])  # power on relay
         relayport_b = RaspberryLED(machine["pin_b"])  # power on relay
 
-        while (timeLeft > 0 and running == True):
-            print(machine["machineID"],  timeLeft)
+        while (timeLeft > 0 and running is True):
+            print(machine["machineID"], timeLeft)
             sleep(1)
             timeLeft -= 1
         relayport_a.close()  # make relay available for other functioncalls

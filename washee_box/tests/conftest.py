@@ -1,9 +1,7 @@
-import os
-import tempfile
-
 import pytest
 
 from washee_box import washee_box_entry
+
 
 @pytest.fixture
 def client():

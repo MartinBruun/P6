@@ -10,7 +10,7 @@ from security.exception_handler import ExceptionHandler
 def test_exception_handler_can_be_initialized():
     # Arrange
     # Act
-    handler = ExceptionHandler()
+    ExceptionHandler()
     # Assert
     assert True
 

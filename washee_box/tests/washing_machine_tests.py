@@ -2,7 +2,7 @@ from washee_box.data_models.Machine import Machine
 
 
 def test_washing_machine_can_be_initialized():
-    machine = Machine("machineID", "machineName", "machineType")
+    Machine("machineID", "machineName", "machineType")
     assert True
 
 

@@ -1,10 +1,6 @@
-from datetime import datetime, timedelta
-
-import json
 import os
 import pytz
-from datetime import datetime
-from datetime import timedelta
+from datetime import datetime, timedelta
 from flask import Flask, request
 import dateutil.parser
 import threading
@@ -55,14 +51,15 @@ def menuEndPoint():
             machine["name"] + " connected to pins " + \
             str(machine["pin_a"]) + "," + str(machine["pin_b"]) + "</a></p>"
 
-    return "<p><a href='/factoryreset'>Factory reset!</a></p>" + "<p><a href='/getMachinesInfo'>get installed machines!</a></p>" + "<p><a href='/getlog'>get log file</a></p>" + "<p> booking kalender</p> \n <p>tænd strøm til maskine:" + machine_name_on_string + "</p>"+"<p>sluk strøm til maskine:" + machine_name_off_string + "</p>" + "<p><a href='/resetpins'> reset pins</a></p>" + "<p><a href='/allon'> turn on all pins</a></p>"
+    return "<p><a href='/factoryreset'>Factory reset!</a></p>" + "<p><a href='/getMachinesInfo'>get installed machines!</a></p>" + "<p><a href='/getlog'>get log file</a></p>" + "<p> booking kalender</p> \n <p>tænd strøm til maskine:" + \
+        machine_name_on_string + "</p>" + "<p>sluk strøm til maskine:" + machine_name_off_string + "</p>" + "<p><a href='/resetpins'> reset pins</a></p>" + "<p><a href='/allon'> turn on all pins</a></p>"
 
 
 @app.route('/getMachinesInfo')
 def getMachinesInfoEndPoint():
     return controller.getMachinesInfo()
 
-##Receives a json {user:xxx, machine:{xxxxxxxxxxx} }##
+# Receives a json {user:xxx, machine:{xxxxxxxxxxx} }##
 
 
 @app.route('/unlock', methods=['GET', 'POST'])
@@ -80,8 +77,8 @@ def unlockEndPoint():
     if "account" in data:
         account = data["account"]
 
-    name = data["name"]
-    machineType = data["machineType"]
+    # name = data["name"]
+    # machineType = data["machineType"]
     if "startTime" in data:
         time = data["startTime"].split(".")[0]
         time = time.replace(' ', 'T')
@@ -179,7 +176,7 @@ def reset():
 #     return "<a href='/'> Machine has been unlocked </a>"
 
 
-#### Reset All pins when restarting ###
+# Reset All pins when restarting
 # for i in range(1,28) :
 #     print("reset pin:" + str(i))
 #     led = LED(i)

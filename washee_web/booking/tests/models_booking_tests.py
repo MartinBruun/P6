@@ -3,7 +3,6 @@ from datetime import datetime, timedelta
 import pytz
 
 from rest_framework.exceptions import ValidationError
-from booking.models import Booking
 
 
 @pytest.mark.django_db
