@@ -16,6 +16,7 @@ jobs:
         uses: py-actions/flake8@v2
         with:
           path: "washee_box"
+          max-line-length: 9000
 
       - name: Build, run, test and tear down
         run: |
