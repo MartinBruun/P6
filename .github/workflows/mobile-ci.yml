@@ -50,7 +50,7 @@ jobs:
     - uses: VGVentures/very-good-coverage@v1.1.1
       with:
         path: "./washee_app/coverage/lcov.info"
-        min_coverage: $MIN_COVERAGE
+        min_coverage: "$MIN_COVERAGE"
         exclude: "**/*_observer.dart **/change.dart"
 
     - name: Build APK 
