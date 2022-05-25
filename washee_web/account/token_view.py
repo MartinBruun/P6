@@ -16,7 +16,7 @@ class UserAndAuthToken(ObtainAuthToken):
 
         response_json = {
             "token": token.key,
-            "user_id": user.id,
+            "id": user.id,
             "email": user.email,
             "username": user.username,
             "accounts": []
@@ -24,7 +24,7 @@ class UserAndAuthToken(ObtainAuthToken):
 
         for account in user.accounts.all():
             response_json["accounts"].append({
-                "account_id": account.id,
+                "id": account.id,
                 "name": account.name,
                 "balance": account.balance
             })

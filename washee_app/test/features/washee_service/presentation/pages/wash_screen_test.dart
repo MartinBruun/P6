@@ -26,7 +26,7 @@ setUp() {
   ic.initAll();
   ActiveUser user = ActiveUser();
   user.initUser(1, "email", "username", [
-    {'account_id': 1, 'name': "some_name", 'balance': 20.0}
+    {'id': 1, 'name': "some_name", 'balance': 20.0}
   ]);
   mockMachines = [
     MachineModel(machineID: "machineID1", name: "name1", machineType: "Wash"),

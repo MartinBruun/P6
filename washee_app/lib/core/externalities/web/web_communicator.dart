@@ -240,8 +240,8 @@ class WebCommunicatorImpl implements WebCommunicator {
     response = await dio.get(url);
 
     if (response.statusCode == 200) {
-      response.data["account_id"] = response.data[
-          "id"]; //Stupid choice made early on the backend side, not sending proper values
+      response.data["id"] = response.data[
+          "id"];
       return response.data;
     } else {
       ExceptionHandler().handle(
