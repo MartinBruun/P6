@@ -28,7 +28,7 @@ from booking.view_sets import BookingViewSet
 from location.view_sets import (
     LocationViewSet, MachineViewSet, MachineModelViewSet, ServiceViewSet
 )
-from electricity.view_sets import ElectricityBlockViewSet
+from green_info.view_sets import ElectricityBlockViewSet
 from security.view_sets import LogViewSet
 
 # Routes

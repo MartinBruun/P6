@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:washee/core/standards/time/date_helper.dart';
-import 'package:washee/features/electricity/data/datasources/green_score_database.dart';
+import 'package:washee/features/green_info/data/datasources/green_score_database.dart';
 import 'package:washee/core/externalities/web/web_communicator.dart';
 import 'package:washee/features/booking/data/models/booking_model.dart';
 import 'package:washee/core/standards/logger/exception_handler.dart';

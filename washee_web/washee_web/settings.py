@@ -63,7 +63,7 @@ OWN_APPS = [
     "upload",
     "booking",
     "location",
-    "electricity",
+    "green_info",
     "security"
 ]
 

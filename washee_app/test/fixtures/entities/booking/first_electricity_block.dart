@@ -1,6 +1,6 @@
 /*
 
-ElectricityBlockEntity firstElectricityBlock = WebTimeSlotModel(
+GreenInfoEntity firstGreenInfo = GreenInfoEntity(
   
 )
 

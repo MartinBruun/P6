@@ -1,6 +1,6 @@
 from django.db import models
 
-from electricity.managers import ElectricityManager
+from green_info.managers import ElectricityManager
 
 # Create your models here.
 

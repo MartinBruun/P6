@@ -5,7 +5,7 @@ from datetime import datetime
 from booking.models import Booking
 from account.models import User
 from location.models import Service, MachineModel, Machine, Location
-from electricity.models import ElectricityBlock
+from green_info.models import ElectricityBlock
 from security.models import Log
 
 """

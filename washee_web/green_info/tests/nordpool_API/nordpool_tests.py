@@ -1,11 +1,11 @@
-from electricity.ml_electricity.nordpool_API.Nordpool import NordpoolAPI
+from green_info.ml_electricity.nordpool_API.Nordpool import NordpoolAPI
 from unittest.mock import MagicMock
 
 
 def test_Nordpool_API_can_be_mocked(mocker, mock_ftp, test_access_data):
     # Arrange
-    mocker.patch('electricity.ml_electricity.nordpool_API.Nordpool.open', return_value=MagicMock())
-    mocker.patch('electricity.ml_electricity.nordpool_API.Nordpool.json.load', return_value=test_access_data)
+    mocker.patch('green_info.ml_electricity.nordpool_API.Nordpool.open', return_value=MagicMock())
+    mocker.patch('green_info.ml_electricity.nordpool_API.Nordpool.json.load', return_value=test_access_data)
 
     npAPI = NordpoolAPI(ftp=mock_ftp)
 
@@ -18,8 +18,8 @@ def test_Nordpool_API_can_be_mocked(mocker, mock_ftp, test_access_data):
 
 def test_decoded_data_does_not_have_unnecesary_line_breaks(mocker, mock_ftp, test_access_data):
     # Arrange
-    mocker.patch('electricity.ml_electricity.nordpool_API.Nordpool.open', return_value=MagicMock())
-    mocker.patch('electricity.ml_electricity.nordpool_API.Nordpool.json.load', return_value=test_access_data)
+    mocker.patch('green_info.ml_electricity.nordpool_API.Nordpool.open', return_value=MagicMock())
+    mocker.patch('green_info.ml_electricity.nordpool_API.Nordpool.json.load', return_value=test_access_data)
 
     npAPI = NordpoolAPI(ftp=mock_ftp)
 
@@ -53,8 +53,8 @@ def test_decoded_data_does_not_have_unnecesary_line_breaks(mocker, mock_ftp, tes
 
 def test_decoded_data_does_not_contain_byte_encoding(mocker, mock_ftp, test_access_data):
     # Arrange
-    mocker.patch('electricity.ml_electricity.nordpool_API.Nordpool.open', return_value=MagicMock())
-    mocker.patch('electricity.ml_electricity.nordpool_API.Nordpool.json.load', return_value=test_access_data)
+    mocker.patch('green_info.ml_electricity.nordpool_API.Nordpool.open', return_value=MagicMock())
+    mocker.patch('green_info.ml_electricity.nordpool_API.Nordpool.json.load', return_value=test_access_data)
 
     npAPI = NordpoolAPI(ftp=mock_ftp)
 
@@ -80,8 +80,8 @@ def test_decoded_data_does_not_contain_byte_encoding(mocker, mock_ftp, test_acce
 
 def test_decoded_data_does_not_contain_new_lines(mocker, mock_ftp, test_access_data):
     # Arrange
-    mocker.patch('electricity.ml_electricity.nordpool_API.Nordpool.open', return_value=MagicMock())
-    mocker.patch('electricity.ml_electricity.nordpool_API.Nordpool.json.load', return_value=test_access_data)
+    mocker.patch('green_info.ml_electricity.nordpool_API.Nordpool.open', return_value=MagicMock())
+    mocker.patch('green_info.ml_electricity.nordpool_API.Nordpool.json.load', return_value=test_access_data)
 
     npAPI = NordpoolAPI(ftp=mock_ftp)
 

@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from electricity.models import ElectricityBlock
+from green_info.models import ElectricityBlock
 
 
 class ElectricityBlockSerializer(serializers.HyperlinkedModelSerializer):

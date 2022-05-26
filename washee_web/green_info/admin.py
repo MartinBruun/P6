@@ -1,5 +1,5 @@
 from django.contrib import admin
 
-from electricity.models import ElectricityBlock
+from green_info.models import ElectricityBlock
 
 admin.site.register(ElectricityBlock)

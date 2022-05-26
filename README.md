@@ -12,8 +12,8 @@ More information in how this project has been worked upon is presented in the (W
 The system consist of the following features, each handling a seperate part of the domain, and each having their own unique usecases:
 
 `account`: The system manages your account information, can handle transactions and validate users.
-`booking`: The system can create bookings which can be used to activate machines.
-`electricity`: The system calculates and present oppertune times to use electricity.
+`booking`: The system can create bookings which can be used to activate machines services.
+`green_info`: The system calculates and present oppertune times to use different services.
 `location`: The system works in physical locations, where you can redeem your bookings to activate them.
 
 ## How to run it

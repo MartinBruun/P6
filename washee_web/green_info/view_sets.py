@@ -1,7 +1,7 @@
 from rest_framework import viewsets
 
-from electricity.models import ElectricityBlock
-from electricity.serializers import ElectricityBlockSerializer
+from green_info.models import ElectricityBlock
+from green_info.serializers import ElectricityBlockSerializer
 
 
 class ElectricityBlockViewSet(viewsets.ModelViewSet):

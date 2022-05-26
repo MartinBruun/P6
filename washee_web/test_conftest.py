@@ -4,7 +4,7 @@ from booking.models import Booking
 from account.models import User, Account
 from location.models import Location, MachineModel, Service, Machine
 from security.models import Log
-from electricity.models import ElectricityBlock
+from green_info.models import ElectricityBlock
 
 
 @pytest.mark.django_db
