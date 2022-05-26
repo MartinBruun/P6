@@ -2,9 +2,6 @@
 
 cd ..
 cd ..
-echo -------------------- INFO -----------------------
-echo This automatically lints everything.
-echo It should take 15 seconds at max to lint it all.
 echo ------------ LINTING ERROS FOR APP --------------
 cd washee_app
 call flutter analyze
