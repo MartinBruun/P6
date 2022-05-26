@@ -7,6 +7,7 @@ from security.models import Log
 from green_info.models import ElectricityBlock
 
 
+@pytest.mark.must_pass
 @pytest.mark.django_db
 def test_first_user_has_functioning_default_values(first_user):
     first_user.save()
@@ -14,6 +15,7 @@ def test_first_user_has_functioning_default_values(first_user):
     assert isinstance(first_user, User)
 
 
+@pytest.mark.must_pass
 @pytest.mark.django_db
 def test_second_user_has_functioning_default_values(second_user):
     second_user.save()
@@ -21,6 +23,7 @@ def test_second_user_has_functioning_default_values(second_user):
     assert isinstance(second_user, User)
 
 
+@pytest.mark.must_pass
 @pytest.mark.django_db
 def test_first_account_has_functioning_default_values(first_account, first_user):
     first_account.save()
@@ -29,6 +32,7 @@ def test_first_account_has_functioning_default_values(first_account, first_user)
     assert first_account.owners.all()[0].id == first_user.id
 
 
+@pytest.mark.must_pass
 @pytest.mark.django_db
 def test_second_account_has_functioning_default_values(second_account, second_user):
     second_account.save()
@@ -37,6 +41,7 @@ def test_second_account_has_functioning_default_values(second_account, second_us
     assert second_account.owners.all()[0].id == second_user.id
 
 
+@pytest.mark.must_pass
 @pytest.mark.django_db
 def test_first_machine_model_has_functioning_default_values(first_machine_model):
     first_machine_model.save()
@@ -44,6 +49,7 @@ def test_first_machine_model_has_functioning_default_values(first_machine_model)
     assert isinstance(first_machine_model, MachineModel)
 
 
+@pytest.mark.must_pass
 @pytest.mark.django_db
 def test_second_machine_model_has_functioning_default_values(second_machine_model):
     second_machine_model.save()
@@ -51,6 +57,7 @@ def test_second_machine_model_has_functioning_default_values(second_machine_mode
     assert isinstance(second_machine_model, MachineModel)
 
 
+@pytest.mark.must_pass
 @pytest.mark.django_db
 def test_first_service_has_functioning_default_values(first_service, first_machine_model):
     first_service.save()
@@ -59,6 +66,7 @@ def test_first_service_has_functioning_default_values(first_service, first_machi
     assert first_service.machine_model.id == first_machine_model.id
 
 
+@pytest.mark.must_pass
 @pytest.mark.django_db
 def test_second_service_has_functioning_default_values(second_service, second_machine_model):
     second_service.save()
@@ -67,6 +75,7 @@ def test_second_service_has_functioning_default_values(second_service, second_ma
     assert second_service.machine_model.id == second_machine_model.id
 
 
+@pytest.mark.must_pass
 @pytest.mark.django_db
 def test_first_location_has_functioning_default_values(first_location, first_user):
     first_location.save()
@@ -75,6 +84,7 @@ def test_first_location_has_functioning_default_values(first_location, first_use
     assert first_location.owner.id == first_user.id
 
 
+@pytest.mark.must_pass
 @pytest.mark.django_db
 def test_second_location_has_functioning_default_values(second_location, second_user):
     second_location.save()
@@ -83,6 +93,7 @@ def test_second_location_has_functioning_default_values(second_location, second_
     assert second_location.owner.id == second_user.id
 
 
+@pytest.mark.must_pass
 @pytest.mark.django_db
 def test_first_machine_has_functioning_default_values(first_machine, first_location, first_user):
     first_machine.save()
@@ -92,6 +103,7 @@ def test_first_machine_has_functioning_default_values(first_machine, first_locat
     assert first_machine.owner.id == first_user.id
 
 
+@pytest.mark.must_pass
 @pytest.mark.django_db
 def test_second_machine_has_functioning_default_values(second_machine, second_location, second_user):
     second_machine.save()
@@ -101,6 +113,7 @@ def test_second_machine_has_functioning_default_values(second_machine, second_lo
     assert second_machine.owner.id == second_user.id
 
 
+@pytest.mark.must_pass
 @pytest.mark.django_db
 def test_first_booking_has_functioning_default_values(first_booking, first_account, first_service, first_machine):
     first_booking.save()
@@ -111,6 +124,7 @@ def test_first_booking_has_functioning_default_values(first_booking, first_accou
     assert first_booking.machine.id == first_machine.id
 
 
+@pytest.mark.must_pass
 @pytest.mark.django_db
 def test_second_booking_has_functioning_default_values(second_booking, second_account, second_service, second_machine):
     second_booking.save()
@@ -121,6 +135,7 @@ def test_second_booking_has_functioning_default_values(second_booking, second_ac
     assert second_booking.machine.id == second_machine.id
 
 
+@pytest.mark.must_pass
 @pytest.mark.django_db
 def test_first_electricity_block_has_functioning_default_values(first_electricity_block):
     first_electricity_block.save()
@@ -128,6 +143,7 @@ def test_first_electricity_block_has_functioning_default_values(first_electricit
     assert isinstance(first_electricity_block, ElectricityBlock)
 
 
+@pytest.mark.must_pass
 @pytest.mark.django_db
 def test_second_electricity_block_has_functioning_default_values(second_electricity_block):
     second_electricity_block.save()
@@ -135,6 +151,7 @@ def test_second_electricity_block_has_functioning_default_values(second_electric
     assert isinstance(second_electricity_block, ElectricityBlock)
 
 
+@pytest.mark.must_pass
 @pytest.mark.django_db
 def test_first_log_has_functioning_default_values(first_log, first_user):
     first_log.save()
@@ -143,6 +160,7 @@ def test_first_log_has_functioning_default_values(first_log, first_user):
     assert first_log.user.id == first_user.id
 
 
+@pytest.mark.must_pass
 @pytest.mark.django_db
 def test_second_log_has_functioning_default_values(second_log, second_user):
     second_log.save()

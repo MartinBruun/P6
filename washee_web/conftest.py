@@ -9,7 +9,27 @@ from green_info.models import ElectricityBlock
 from security.models import Log
 
 """
-    This file contains all fixtures for creating models used in the app.
+    This sets up the necessary code for making a must_pass mark to the fixtures.
+    This sets it so that if some fixture tests fail, they will make sure to skip tests that use those fixtures.
+    This makes it much easier to see, that it is in fact the fixture that fails, and not the logic itself.
+"""
+
+
+def pytest_runtest_makereport(item, call):
+    if item.iter_markers(name='must_pass'):
+        if call.excinfo is not None:
+            parent = item.parent
+            parent._mpfailed = item
+
+
+def pytest_runtest_setup(item):
+    must_pass_failed = getattr(item.parent, '_mpfailed', None)
+    if must_pass_failed is not None:
+        pytest.skip('must pass test failed (%s)' % must_pass_failed.name)
+
+
+"""
+    This file contains all fixtures for creating models used in web.
     It defines their internal dependencies, which also can be seen in test_conftest.py at root.
     The structure is that there is a unique combination for each model.
     first_booking depends on first_account that depends on first_user etc.
