@@ -7,7 +7,17 @@ UserEntity thisUser = UserEntity(
   email: "this_user@test.com"
 );
 
+Map<String,dynamic> thisUserAsJson = {
+  "id": 1,
+  "email": "this_user@test.com"
+};
+
 UserEntity secondUser = UserEntity(
   id: 2,
   email: "some_other_user@test.com"
 );
+
+Map<String,dynamic> secondUserAsJson = {
+  "id": 2,
+  "email": "some_other_user@test.com"
+};

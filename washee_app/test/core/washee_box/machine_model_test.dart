@@ -2,11 +2,12 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   test(
-    "Is here to make this file not fail. See commets",
+    "Is here to make this file not fail. See comments",
     () {
       expect(true,true);
     }
   );
+}
 /* IS NOT WORKING. because DateHelper needs to be injected so it can be mocked, so tz. wont get called!
   test(
     'should be a subclass of Machine entity',
@@ -43,4 +44,3 @@ void main() {
     },
   );
 */
-}
