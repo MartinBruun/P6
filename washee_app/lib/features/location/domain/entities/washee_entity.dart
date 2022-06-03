@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-import 'machine_entity.dart';
+import 'machine.dart';
 
 class WasheeBox extends Equatable {
   final String ssid;

@@ -1,2 +1,0 @@
-
-// AccountEntity firstAccount = WebAccountModel()

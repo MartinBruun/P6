@@ -1,16 +1,17 @@
 import 'package:equatable/equatable.dart';
+import 'package:washee/features/location/domain/entities/machine_type_entity.dart';
 
 // ignore: must_be_immutable
-class Machine extends Equatable {
-  final String machineID;
+class MachineEntity extends Equatable {
+  final int id;
   final String name;
-  final String machineType;
+  final MachineTypeEntity machineType;
   DateTime? startTime;
   DateTime? endTime;
   bool activated;
 
-  Machine({
-    required this.machineID,
+  MachineEntity({
+    required this.id,
     required this.name,
     required this.machineType,
     this.startTime,
@@ -19,5 +20,5 @@ class Machine extends Equatable {
   });
 
   @override
-  List<Object?> get props => [machineID, name, machineType, startTime, endTime, activated];
+  List<Object?> get props => [id, name, machineType, startTime, endTime, activated];
 }
