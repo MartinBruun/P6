@@ -6,16 +6,16 @@ import '../account/accounts.dart';
 import '../location/first_machine.dart';
 import '../location/first_service.dart';
 
-BookingEntity firstBooking = BookingEntity(
+BookingEntity firstBookingFixture = BookingEntity(
   id: 1,
-  machine: firstMachine,
-  service: firstService,
-  account: firstAccount,
+  machine: firstMachineFixture,
+  service: firstServiceFixture,
+  account: firstAccountFixture,
 );
 
-BookingEntity secondBooking = BookingEntity(
+BookingEntity secondBookingFixture = BookingEntity(
   id: 2,
-  machine: secondMachine,
-  service: secondService,
-  account: secondAccount,
+  machine: secondMachineFixture,
+  service: secondServiceFixture,
+  account: secondAccountFixture,
 );

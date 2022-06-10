@@ -3,9 +3,9 @@ import 'package:washee/features/account/domain/entities/account_entity.dart';
 
 // ignore: must_be_immutable
 class UserEntity extends Equatable {
-  final int? id;
-  final String? email;
-  String? username;
+  final int id;
+  final String email;
+  final String username;
   AccountEntity? activeAccount;
   late List<AccountEntity> accounts = [];
   late bool loggedIn;
@@ -13,7 +13,7 @@ class UserEntity extends Equatable {
   UserEntity({
     required this.id,
     required this.email,
-    username,
+    required this.username,
     activeAccount,
     accounts,
     loggedIn: false

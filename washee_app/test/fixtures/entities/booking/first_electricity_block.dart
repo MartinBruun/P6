@@ -1,7 +1,0 @@
-/*
-
-GreenInfoEntity firstGreenInfo = GreenInfoEntity(
-  
-)
-
-*/

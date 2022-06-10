@@ -2,45 +2,60 @@ import 'dart:core';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:washee/features/account/data/models/web_user_model.dart';
+import 'package:washee/features/account/domain/entities/user_entity.dart';
 
 import '../../../../fixtures/entities/account/users.dart';
 
 void main() {
-  late WebUserModel testWebUserModel;
-
-  group("toJson",() {
+  group("WebUserModel Serialization of toJson and fromJson",() {
     test(
       """
-        Should convert an AccountEntity to json that can be accepted by the backend
-        When called with a complete AccountEntity
+        Should convert a valid json input into a user web model and back again,
+        Given the json is valid on the backend.
       """,
       () {
       // arrange
-      testWebUserModel = WebUserModel();
+      Map<String,dynamic> userAsJson = {
+        "id": 1,
+        "email": "test_user@test.com",
+        "username": "Test User",
+        "accounts": []
+      };
+      WebUserModel testWebAccountModel = WebUserModel.fromJson(userAsJson);
 
       // act
-      final result = testWebUserModel.toJson(thisUser);
+      final result = testWebAccountModel.toJson();
 
       // assert
-      expect (result, thisUserAsJson);
-    }, skip: true);
-  });
-
-  group("fromJson",() {
+      expect (result, userAsJson);
+    });
     test(
       """
-        Should convert backend data to an AccountEntity
-        When called with a complete entity json
+        Should verify that it can use the first account fixture
       """,
       () {
       // arrange
-      testWebUserModel = WebUserModel();
+      WebUserModel testWebUserModel = WebUserModel.fromJson(firstUserAsJsonFixture);
 
       // act
-      final result = testWebUserModel.fromJson(thisUserAsJson);
+      final result = testWebUserModel.toJson();
 
       // assert
-      expect (result, thisUser);
-    }, skip: true);
+      expect (result, firstUserAsJsonFixture);
+    });
+    test(
+      """
+        Should verify that it can use the second account fixture
+      """,
+      () {
+      // arrange
+      WebUserModel testWebUserModel = WebUserModel.fromJson(secondUserAsJsonFixture);
+
+      // act
+      final result = testWebUserModel.toJson();
+
+      // assert
+      expect (result, secondUserAsJsonFixture);
+    });
   });
 }

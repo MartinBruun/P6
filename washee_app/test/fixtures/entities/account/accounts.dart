@@ -1,25 +1,31 @@
 import 'package:washee/features/account/domain/entities/account_entity.dart';
 
-AccountEntity firstAccount = AccountEntity(
+import 'users.dart';
+
+AccountEntity firstAccountFixture = AccountEntity(
   id: 1,
   name: "First Account",
-  balance: 100
+  balance: 100.0,
+  owners: [firstUserFixture]
 );
 
-Map<String,dynamic> firstAccountAsJson = {
+Map<String,dynamic> firstAccountAsJsonFixture = {
   "id": 1,
   "name": "First Account",
-  "balance": 100
+  "balance": 100.0,
+  "owners": [firstUserAsJsonFixture]
 };
 
-AccountEntity secondAccount = AccountEntity(
+AccountEntity secondAccountFixture = AccountEntity(
   id: 2,
   name: "Second Account",
-  balance: 100
+  balance: 100.0,
+  owners: [secondUserFixture]
 );
 
-Map<String,dynamic> secondAccountAsJson = {
+Map<String,dynamic> secondAccountAsJsonFixture = {
   "id": 2,
   "name": "Second Account",
-  "balance": 100
+  "balance": 100.0,
+  "owners": [secondUserAsJsonFixture]
 };

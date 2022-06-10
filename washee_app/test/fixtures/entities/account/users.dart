@@ -2,22 +2,32 @@
 
 import 'package:washee/features/account/domain/entities/user_entity.dart';
 
-UserEntity thisUser = UserEntity(
+import 'accounts.dart';
+
+UserEntity firstUserFixture = UserEntity(
   id: 1,
-  email: "this_user@test.com"
+  email: "first_user@test.com",
+  username: "First User",
+  accounts: [firstAccountFixture]
 );
 
-Map<String,dynamic> thisUserAsJson = {
+Map<String,dynamic> firstUserAsJsonFixture = {
   "id": 1,
-  "email": "this_user@test.com"
+  "email": "first_user@test.com",
+  "username": "First User",
+  "accounts": [firstAccountAsJsonFixture]
 };
 
-UserEntity secondUser = UserEntity(
+UserEntity secondUserFixture = UserEntity(
   id: 2,
-  email: "some_other_user@test.com"
+  email: "some_user@test.com",
+  username: "Second User",
+  accounts: [secondAccountFixture]
 );
 
-Map<String,dynamic> secondUserAsJson = {
+Map<String,dynamic> secondUserAsJsonFixture = {
   "id": 2,
-  "email": "some_other_user@test.com"
+  "email": "second_user@test.com",
+  "username": "Second User",
+  "accounts": [secondAccountAsJsonFixture]
 };

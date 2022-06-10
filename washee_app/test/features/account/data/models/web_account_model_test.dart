@@ -6,41 +6,56 @@ import 'package:washee/features/account/data/models/web_account_model.dart';
 import '../../../../fixtures/entities/account/accounts.dart';
 
 void main() {
-  late WebAccountModel testWebAccountModel;
-
-  group("toJson",() {
+  group("WebAccountModel Serialization of toJson and fromJson",() {
     test(
       """
-        Should convert an AccountEntity to json that can be accepted by the backend
-        When called with a complete AccountEntity
+        Should convert a valid json input into an account web model and back again,
+        Given the json is valid on the backend.
       """,
       () {
       // arrange
-      testWebAccountModel = WebAccountModel();
+      Map<String,dynamic> accountAsJson = {
+        "id": 1,
+        "name": "Some Account",
+        "balance": 100.0,
+        "owners": []
+      };
+      WebAccountModel testWebAccountModel = WebAccountModel.fromJson(accountAsJson);
 
       // act
-      final result = testWebAccountModel.toJson(firstAccount);
+      final result = testWebAccountModel.toJson();
 
       // assert
-      expect (result, firstAccountAsJson);
-    }, skip: true);
-  });
-
-  group("fromJson",() {
+      
+      expect (result, accountAsJson);
+    });
     test(
       """
-        Should convert backend data to an AccountEntity
-        When called with a complete entity json
+        Should verify that it can use the first account fixture
       """,
       () {
       // arrange
-      testWebAccountModel = WebAccountModel();
+      WebAccountModel testWebAccountModel = WebAccountModel.fromJson(firstAccountAsJsonFixture);
 
       // act
-      final result = testWebAccountModel.fromJson(firstAccountAsJson);
+      final result = testWebAccountModel.toJson();
 
       // assert
-      expect (result, firstAccount);
-    }, skip: true);
+      expect (result, firstAccountAsJsonFixture);
+    });
+    test(
+      """
+        Should verify that it can use the second account fixture
+      """,
+      () {
+      // arrange
+      WebAccountModel testWebAccountModel = WebAccountModel.fromJson(secondAccountAsJsonFixture);
+
+      // act
+      final result = testWebAccountModel.toJson();
+
+      // assert
+      expect (result, secondAccountAsJsonFixture);
+    });
   });
 }
