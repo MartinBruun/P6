@@ -16,5 +16,5 @@ class AccountEntity extends Equatable {
   });
 
   @override
-  List<Object?> get props => [id, name, balance];
+  List<Object?> get props => [id, name, balance,owners];
 }

@@ -8,7 +8,7 @@ class UserEntity extends Equatable {
   final String username;
   AccountEntity? activeAccount;
   late List<AccountEntity> accounts = [];
-  late bool loggedIn;
+  bool loggedIn = false;
 
   UserEntity({
     required this.id,
@@ -16,9 +16,9 @@ class UserEntity extends Equatable {
     required this.username,
     activeAccount,
     accounts,
-    loggedIn: false
+    loggedIn
   });
 
   @override
-  List<Object?> get props => [id, email, username, activeAccount, accounts, ];
+  List<Object?> get props => [id, email, username, activeAccount, accounts];
 }

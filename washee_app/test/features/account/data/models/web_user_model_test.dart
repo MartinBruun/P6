@@ -4,58 +4,134 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:washee/features/account/data/models/web_user_model.dart';
 import 'package:washee/features/account/domain/entities/user_entity.dart';
 
+import '../../../../fixtures/entities/account/accounts.dart';
 import '../../../../fixtures/entities/account/users.dart';
 
 void main() {
-  group("WebUserModel Serialization of toJson and fromJson",() {
+  group("WebUserModel fromEntity",() {
     test(
       """
-        Should convert a valid json input into a user web model and back again,
-        Given the json is valid on the backend.
+        Should convert an UserEntity into a WebUserModel
       """,
       () {
       // arrange
-      Map<String,dynamic> userAsJson = {
-        "id": 1,
-        "email": "test_user@test.com",
-        "username": "Test User",
-        "accounts": []
-      };
-      WebUserModel testWebAccountModel = WebUserModel.fromJson(userAsJson);
+      UserEntity userEntity = firstUserFixture();
 
       // act
-      final result = testWebAccountModel.toJson();
+      WebUserModel actual = WebUserModel.fromEntity(userEntity);
 
       // assert
-      expect (result, userAsJson);
+      expect (actual.props, userEntity.props);
+    });
+  });
+  group("WebUserModel fromJson",() {
+    test(
+      """
+        Should convert a valid json input into an user web model,
+      """,
+      () {
+      // arrange
+      Map<String,dynamic> userAsJson = firstUserAsJsonFixture();
+
+      WebUserModel expectedUser = WebUserModel.fromEntity(firstUserFixture());
+
+      // act
+      WebUserModel actual = WebUserModel.fromJson(userAsJson);
+
+      // assert
+      expect (actual, expectedUser);
     });
     test(
       """
-        Should verify that it can use the first account fixture
+        Should be able to deserialize a user with an account
       """,
       () {
       // arrange
-      WebUserModel testWebUserModel = WebUserModel.fromJson(firstUserAsJsonFixture);
+      Map<String,dynamic> testUser = firstUserAsJsonFixture();
+      testUser["accounts"] = [firstAccountAsJsonFixture()];
+
+      WebUserModel expectedUser = WebUserModel.fromEntity(firstUserFixture());
+      expectedUser.accounts.add(firstAccountFixture());
 
       // act
-      final result = testWebUserModel.toJson();
+      WebUserModel actual = WebUserModel.fromJson(testUser);
 
       // assert
-      expect (result, firstUserAsJsonFixture);
+      expect (actual, expectedUser);
+    });
+  test(
+      """
+        Should be able to deserialize a User that has two accounts
+      """,
+      () {
+      // arrange
+      Map<String,dynamic> testUser = firstUserAsJsonFixture();
+      testUser["accounts"] = [firstAccountAsJsonFixture(), secondAccountAsJsonFixture()];
+      
+      WebUserModel expectedUser = WebUserModel.fromEntity(firstUserFixture());
+      expectedUser.accounts.add(firstAccountFixture());
+      expectedUser.accounts.add(secondAccountFixture());
+
+      // act
+      WebUserModel actual = WebUserModel.fromJson(testUser);
+
+      // assert
+      expect (actual, expectedUser);
+    });
+  });
+  group("WebUserModel toJson",() {
+    test(
+      """
+        Should convert an User web model into its corresponding json
+      """,
+      () {
+      // arrange
+      WebUserModel testUser = WebUserModel.fromEntity(firstUserFixture());
+      
+      Map<String,dynamic> expectedJson = firstUserAsJsonFixture();
+
+      // act
+      Map<String,dynamic> actual = testUser.toJson();
+
+      // assert
+      expect (actual, expectedJson);
     });
     test(
       """
-        Should verify that it can use the second account fixture
+        Should be able to serialize a user with a account
       """,
       () {
       // arrange
-      WebUserModel testWebUserModel = WebUserModel.fromJson(secondUserAsJsonFixture);
+      WebUserModel testUser = WebUserModel.fromEntity(firstUserFixture());
+      testUser.accounts.add(firstAccountFixture());
+      
+      Map<String,dynamic> expectedJson = firstUserAsJsonFixture();
+      expectedJson["accounts"] = [firstAccountAsJsonFixture()];
 
       // act
-      final result = testWebUserModel.toJson();
+      Map<String,dynamic> actual = testUser.toJson();
 
       // assert
-      expect (result, secondUserAsJsonFixture);
+      expect (actual, expectedJson);
+    });
+  test(
+      """
+        Should be able to serialize a user which have multiple accounts
+      """,
+      () {
+      // arrange
+      WebUserModel testUser = WebUserModel.fromEntity(firstUserFixture());
+      testUser.accounts.add(firstAccountFixture());
+      testUser.accounts.add(secondAccountFixture());
+      
+      Map<String,dynamic> expectedJson = firstUserAsJsonFixture();
+      expectedJson["accounts"] = [firstAccountAsJsonFixture(), secondAccountAsJsonFixture()];
+
+      // act
+      Map<String,dynamic> actual = testUser.toJson();
+
+      // assert
+      expect (actual, expectedJson);
     });
   });
 }

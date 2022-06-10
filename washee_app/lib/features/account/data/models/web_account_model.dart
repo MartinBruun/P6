@@ -4,11 +4,12 @@ import 'package:washee/features/account/data/models/web_user_model.dart';
 import 'package:washee/features/account/domain/entities/account_entity.dart';
 import 'package:washee/features/account/domain/entities/user_entity.dart';
 
+// ignore: must_be_immutable
 class WebAccountModel extends AccountEntity {
   final int id;
   final String name;
   final double balance;
-  final List<UserEntity> owners;
+  late List<UserEntity> owners;
 
   WebAccountModel({
     required this.id,
@@ -21,6 +22,15 @@ class WebAccountModel extends AccountEntity {
     balance: balance,
     owners: owners
   );
+
+  factory WebAccountModel.fromEntity(AccountEntity accountEntity){
+    return WebAccountModel(
+      id: accountEntity.id, 
+      name: accountEntity.name,
+      balance: accountEntity.balance,
+      owners: accountEntity.owners
+    );
+  }
 
   Map<String, dynamic> toJson(){
     Map<String,dynamic> accountJson = {
@@ -47,8 +57,14 @@ class WebAccountModel extends AccountEntity {
     if (accountListJson == null){
       return accountList;
     }
+
     for(Map<String,dynamic> accountJson in accountListJson){
-      accountList.add(WebAccountModel.fromJson(accountJson));
+      WebAccountModel accountModel = WebAccountModel.fromJson(accountJson);
+      // Flutter is incredibly stupid...
+      // It is necessary to make this conversion, otherwise the function will return List<WebAccountModel> instead of List<AccountEntity>
+      // EVEN THOUGH the List has been specified as being ONLY AccountEntity AND NOT WebAccountModel
+      AccountEntity accountEntity = AccountEntity(id: accountModel.id, name: accountModel.name, balance: accountModel.balance, owners: accountModel.owners);
+      accountList.add(accountEntity);
     }
     return accountList;
   }

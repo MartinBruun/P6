@@ -2,6 +2,10 @@
 
 import 'package:washee/features/green_info/domain/entities/electricity_block_entity.dart';
 
-ElectricityBlockEntity firstElectricityBlockFixture = ElectricityBlockEntity();
+ElectricityBlockEntity firstElectricityBlockFixture(){
+  return  ElectricityBlockEntity();
+}
 
-ElectricityBlockEntity secondElectricityBlockFixture = ElectricityBlockEntity();
+ElectricityBlockEntity secondElectricityBlockFixture(){
+  return ElectricityBlockEntity();
+}

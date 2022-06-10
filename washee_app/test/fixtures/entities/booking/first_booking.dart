@@ -8,14 +8,14 @@ import '../location/first_service.dart';
 
 BookingEntity firstBookingFixture = BookingEntity(
   id: 1,
-  machine: firstMachineFixture,
-  service: firstServiceFixture,
-  account: firstAccountFixture,
+  machine: firstMachineFixture(),
+  service: firstServiceFixture(),
+  account: firstAccountFixture(),
 );
 
 BookingEntity secondBookingFixture = BookingEntity(
   id: 2,
-  machine: secondMachineFixture,
-  service: secondServiceFixture,
-  account: secondAccountFixture,
+  machine: secondMachineFixture(),
+  service: secondServiceFixture(),
+  account: secondAccountFixture(),
 );

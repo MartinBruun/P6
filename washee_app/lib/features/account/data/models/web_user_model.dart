@@ -2,13 +2,14 @@ import 'package:washee/features/account/data/models/web_account_model.dart';
 import 'package:washee/features/account/domain/entities/account_entity.dart';
 import 'package:washee/features/account/domain/entities/user_entity.dart';
 
+// ignore: must_be_immutable
 class WebUserModel extends UserEntity{
   final int id;
   final String email;
   final String username;
   AccountEntity? activeAccount;
   late List<AccountEntity> accounts;
-  late bool loggedIn;
+  bool loggedIn;
 
   WebUserModel({
     required this.id,
@@ -26,6 +27,16 @@ class WebUserModel extends UserEntity{
     loggedIn: loggedIn 
   );
 
+  factory WebUserModel.fromEntity(UserEntity userEntity){
+    return WebUserModel(
+      id: userEntity.id, 
+      email: userEntity.email, 
+      username: userEntity.username, 
+      accounts: userEntity.accounts,
+      loggedIn: userEntity.loggedIn
+    );
+  }
+
   Map<String, dynamic> toJson(){
     return {
       "id": id,
@@ -35,26 +46,29 @@ class WebUserModel extends UserEntity{
     };
   }
 
-  factory WebUserModel.fromJson(Map<String,dynamic> account){
+  factory WebUserModel.fromJson(Map<String,dynamic> userJson){
     WebUserModel userModel = WebUserModel(
-      id: account["id"], 
-      email: account["email"], 
-      username: account["username"], 
-      accounts: [],
+      id: userJson["id"], 
+      email: userJson["email"], 
+      username: userJson["username"], 
+      accounts: WebAccountModel.listFromJson(userJson["accounts"]),
       loggedIn: false
     );
-    userModel.accounts = WebAccountModel.listFromJson(account["accounts"]);
-
     return userModel;
   }
 
-  static List<UserEntity> listFromJson(List<dynamic>? userListJson, {AccountEntity? accountAlreadySerialized: null}){
-    List<WebUserModel> userList = [];
+  static List<UserEntity> listFromJson(List<dynamic>? userListJson){   
+    List<UserEntity> userList = [];
     if(userListJson == null){
       return userList;
     }
     for(Map<String,dynamic> userJson in userListJson){
-      userList.add(WebUserModel.fromJson(userJson));
+      WebUserModel userModel = WebUserModel.fromJson(userJson);
+      // Flutter is incredibly stupid...
+      // It is necessary to make this conversion, otherwise the function will return List<WebUserModel> instead of List<AccountEntity>
+      // EVEN THOUGH the List has been specified as being ONLY UserEntity AND NOT WebUserModel
+      UserEntity userEntity = UserEntity(id: userModel.id, email: userModel.email, username: userModel.username, accounts: userModel.accounts, loggedIn: userModel.loggedIn);
+      userList.add(userEntity);
     }
     return userList;
   }
