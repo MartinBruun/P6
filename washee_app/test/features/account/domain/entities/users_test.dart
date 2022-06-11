@@ -61,8 +61,7 @@ void main() {
   group("UserEntity anonymousUser",() {
     test(
       """
-        Should be possible to have an anonymous user with id 0,
-        Given the backend will reject any entity with id 0
+        Should be possible to have an anonymous user with id 0
       """,
       () async {
       // arrange

@@ -1,7 +1,7 @@
 import 'package:washee/core/externalities/web/authorizer.dart';
 import 'package:washee/core/externalities/web/web_communicator.dart';
 import 'package:washee/features/account/data/models/web_account.dart';
-import 'package:washee/features/account/domain/repositories/sign_in_repository.dart';
+import 'package:washee/features/account/domain/repository_interfaces/sign_in_repository.dart';
 
 class SignInRepositoryImpl implements SignInRepository {
   Authorizer authorizer;

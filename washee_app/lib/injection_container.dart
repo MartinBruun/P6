@@ -16,7 +16,7 @@ import 'package:washee/features/location/data/repositories/get_machines_repo_imp
 import 'package:washee/features/location/domain/repositories/get_machines_repository.dart';
 import 'package:washee/features/location/domain/usecases/get_machines.dart';
 import 'package:washee/features/account/data/repositories/sign_in_repo_impl.dart';
-import 'package:washee/features/account/domain/repositories/sign_in_repository.dart';
+import 'package:washee/features/account/domain/repository_interfaces/sign_in_repository.dart';
 import 'package:washee/features/account/domain/usecases/sign_in.dart';
 import 'package:washee/features/account/domain/usecases/update_account.dart';
 import 'package:washee/features/location/data/datasources/unlock_remote.dart';

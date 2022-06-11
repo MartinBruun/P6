@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:washee/core/standards/base_usecase/usecase.dart';
 
-import '../repositories/sign_in_repository.dart';
+import '../repository_interfaces/sign_in_repository.dart';
 
 class SignInUseCase implements UseCase<void, SignInParams> {
   final SignInRepository repository;
