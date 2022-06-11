@@ -1,6 +1,6 @@
 
 
-abstract class  AccountRemoteInterface{
+abstract class  IAccountRemote{
   Future<Map<String,dynamic>> getAccount(int accountId);
   Future<List<Map<String,dynamic>>> getAccounts(Map<String,dynamic> valuesToGet);
   Future<Map<String,dynamic>> postAccount(Map<String,dynamic> accountAsJson);
@@ -8,7 +8,7 @@ abstract class  AccountRemoteInterface{
   Future<Map<String,dynamic>> deleteAccount(Map<String,dynamic> accountAsJson);
 }
 
-class AccountRemote extends AccountRemoteInterface{
+class AccountRemote extends IAccountRemote{
   @override
   Future<Map<String, dynamic>> deleteAccount(Map<String, dynamic> accountAsJson) {
     // TODO: implement deleteAccount

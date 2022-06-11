@@ -2,7 +2,7 @@
 
 import 'package:washee/features/account/domain/entities/user_entity.dart';
 
-abstract class UserRepositoryInterface {
+abstract class IUserRepository {
   Future<UserEntity> getUser(int userId);
   Future<List<UserEntity>> getUsers(Map<String,dynamic> valuesToGet);
   Future<UserEntity> postUser(UserEntity userEntity);
@@ -10,7 +10,7 @@ abstract class UserRepositoryInterface {
   Future<UserEntity> deleteUser(UserEntity userEntity);
 }
 
-class UserRepository extends UserRepositoryInterface{
+class UserRepository extends IUserRepository{
   @override
   Future<UserEntity> deleteUser(UserEntity userEntity) {
     // TODO: implement deleteUser

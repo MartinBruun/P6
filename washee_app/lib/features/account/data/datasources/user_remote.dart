@@ -1,6 +1,6 @@
 
 
-abstract class UserRemoteInterface{
+abstract class IUserRemote{
   Future<Map<String,dynamic>> getUser(int userId);
   Future<List<Map<String,dynamic>>> getUsers(Map<String,dynamic> valuesToGet);
   Future<Map<String,dynamic>> postUser(Map<String,dynamic> userAsJson);
@@ -8,7 +8,7 @@ abstract class UserRemoteInterface{
   Future<Map<String,dynamic>> deleteUser(Map<String,dynamic> userAsJson);
 }
 
-class UserRemote extends UserRemoteInterface{
+class UserRemote extends IUserRemote{
   @override
   Future<Map<String, dynamic>> deleteUser(Map<String, dynamic> userAsJson) {
     // TODO: implement deleteUser

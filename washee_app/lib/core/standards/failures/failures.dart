@@ -25,3 +25,11 @@ class HTTPFailure extends Failure {
   @override
   List<Object?> get props => [message];
 }
+
+class NotAuthorizedFailure extends Failure {
+  final String message;
+  NotAuthorizedFailure({this.message = "User not authorized!"});
+
+  @override
+  List<Object?> get props => [message];
+}

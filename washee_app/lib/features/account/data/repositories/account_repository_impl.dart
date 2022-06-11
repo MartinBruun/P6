@@ -4,7 +4,7 @@ import 'package:washee/features/account/data/datasources/account_remote.dart';
 import 'package:washee/features/account/data/models/web_account_model.dart';
 import 'package:washee/features/account/domain/entities/account_entity.dart';
 
-abstract class AccountRepositoryInterface {
+abstract class IAccountRepository {
   Future<AccountEntity> getAccount(int accountId);
   Future<List<AccountEntity>> getAccounts(Map<String,dynamic> valuesToGet);
   Future<AccountEntity> postAccount(AccountEntity accountEntity);
@@ -12,7 +12,7 @@ abstract class AccountRepositoryInterface {
   Future<AccountEntity> deleteAccount(AccountEntity accountEntity);
 }
 
-class AccountRepository extends AccountRepositoryInterface{
+class AccountRepository extends IAccountRepository{
   late AccountRemote accountRemote;
 
   AccountRepository({required AccountRemote accRemote}){
