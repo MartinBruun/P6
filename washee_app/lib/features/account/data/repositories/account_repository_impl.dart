@@ -13,9 +13,9 @@ abstract class IAccountRepository {
 }
 
 class AccountRepository extends IAccountRepository{
-  late AccountRemote accountRemote;
+  late WebAccountRemote accountRemote;
 
-  AccountRepository({required AccountRemote accRemote}){
+  AccountRepository({required WebAccountRemote accRemote}){
     accountRemote = accRemote;
   }
 

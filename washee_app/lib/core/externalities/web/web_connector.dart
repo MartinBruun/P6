@@ -51,7 +51,6 @@ class WebConnector extends IWebConnector{
     return response;
   }
 
-  // Checks if already authorized
   // TODO: enhance to also check if token is expired!
   Future<bool> isAuthorized() async {
     String? token = await secureStorage.read(key: secureStorageTokenKey);
