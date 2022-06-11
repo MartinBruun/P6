@@ -58,4 +58,21 @@ void main() {
       expect(secondUserUsingSameFixture.accounts, []);
     });
   });
+  group("UserEntity anonymousUser",() {
+    test(
+      """
+        Should be possible to have an anonymous user with id 0,
+        Given the backend will reject any entity with id 0
+      """,
+      () async {
+      // arrange
+
+      // act
+      UserEntity anonymousUser = UserEntity.anonymousUser();
+
+      // assert
+      expect(anonymousUser.id, 0);
+      expect(anonymousUser.loggedIn, false);
+    });
+  });
 }

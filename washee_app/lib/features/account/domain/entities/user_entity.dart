@@ -19,6 +19,16 @@ class UserEntity extends Equatable {
     loggedIn
   });
 
+  factory UserEntity.anonymousUser(){
+    return UserEntity(
+      id: 0, 
+      email: "anon@mail.com", 
+      username: "Anonymous User",
+      accounts: [],
+      loggedIn: false
+    );
+  }
+
   @override
   List<Object?> get props => [id, email, username, activeAccount, accounts];
 }
