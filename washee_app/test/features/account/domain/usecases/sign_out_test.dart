@@ -1,12 +1,13 @@
 import 'dart:core';
 
 import 'package:flutter_test/flutter_test.dart';
-// import 'package:mocktail/mocktail.dart';
+import 'package:mocktail/mocktail.dart';
+import 'package:washee/features/account/data/repositories/user_repository.dart';
 
-// class MockREPOSITORY_NAME extends Mock implements REPOSITORY_NAME {}
+class MockUserRepository extends Mock implements UserRepository {}
 
 void main() {
-  group("TEST_USECASE_NAME base (requirements)",() {
+  group("SignOutUsecase base (requirements)",() {
     test(
       """
         Should XXX
@@ -20,9 +21,9 @@ void main() {
 
       // assert
     }, skip: true,
-    tags: ["unittest","FEATURE_NAME","usecases","FILE_NAME","base"]);
+    tags: ["unittest","account","usecases","sign_out","base"]);
   });
-  group("TEST_USECASE_NAME security (requirements)",() {
+  group("SignOutUsecase security (requirements)",() {
     test(
       """
         Should XXX
@@ -36,6 +37,6 @@ void main() {
 
       // assert
     }, skip: true,
-    tags: ["unittest","FEATURE_NAME","usecases","FILE_NAME","security"]);
+    tags: ["unittest","account","usecases","sign_out","security"]);
   });
 }
