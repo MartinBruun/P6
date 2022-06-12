@@ -10,6 +10,7 @@ abstract class IUserRepository {
   Future<UserEntity> postUser(UserEntity userEntity);
   Future<UserEntity> updateUser(UserEntity userEntity, Map<String,dynamic> valuesToUpdate);
   Future<UserEntity> deleteUser(UserEntity userEntity);
+  Future<UserEntity> signIn(String username, String password);
 }
 
 class UserRepository extends IUserRepository{
@@ -48,6 +49,12 @@ class UserRepository extends IUserRepository{
   @override
   Future<UserEntity> updateUser(UserEntity userEntity, Map<String, dynamic> valuesToUpdate) {
     // TODO: implement updateUser
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<UserEntity> signIn(String username, String password) {
+    // TODO: implement signIn
     throw UnimplementedError();
   }
 }

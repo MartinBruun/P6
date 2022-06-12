@@ -9,7 +9,7 @@ import 'package:washee/features/account/domain/entities/account_entity.dart';
 
 import '../../../../fixtures/entities/account/accounts.dart';
 
-class MockAccountRemote extends Mock implements AccountRemote {}
+class MockAccountRemote extends Mock implements WebAccountRemote {}
 
 void main() {
   group("AccountRepository getAccount",() {
@@ -21,7 +21,7 @@ void main() {
       () async {
       // arrange
       WebAccountModel expectedEntity = WebAccountModel.fromEntity(firstAccountFixture());
-      AccountRemote mockRemote = MockAccountRemote();
+      WebAccountRemote mockRemote = MockAccountRemote();
       when(() => 
         mockRemote.getAccount(expectedEntity.id))
         .thenAnswer((_) async => expectedEntity.toJson());
@@ -32,7 +32,8 @@ void main() {
 
       // assert
       expect(result,expectedEntity);
-    });
+    },
+    tags: ["unittest","account","repositories","account_repository","getAccount"]);
   });
   group("AccountRepository getAccounts",() {
     test(
@@ -46,7 +47,8 @@ void main() {
       // act
 
       // assert
-    }, skip: true);
+    }, skip:true,
+    tags: ["unittest","account","repositories","account_repository","getAccounts"]);
   });
   group("AccountRepository updateAccount",() {
     test(
@@ -61,7 +63,8 @@ void main() {
       // act
 
       // assert
-    }, skip: true);
+    }, skip:true,
+    tags: ["unittest","account","repositories","account_repository","updateAccount"]);
   });
   group("AccountRepository postAccount",() {
     test(
@@ -76,7 +79,8 @@ void main() {
       // act
 
       // assert
-    }, skip: true);
+    }, skip:true,
+    tags: ["unittest","account","repositories","account_repository","postAccount"]);
   });
   group("AccountRepository deleteAccount",() {
     test(
@@ -91,6 +95,7 @@ void main() {
       // act
 
       // assert
-    }, skip: true);
+    }, skip:true,
+    tags: ["unittest","account","repositories","account_repository","deleteAccount"]);
   });
 }

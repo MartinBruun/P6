@@ -22,7 +22,8 @@ void main() {
 
       // assert
       expect (actual.props, accountEntity.props);
-    });
+    },
+    tags: ["unittest","account","models","web_account_model","fromEntity"]);
   });
   group("WebAccountModel fromJson",() {
     test(
@@ -40,7 +41,8 @@ void main() {
 
       // assert
       expect (actual, expectedAccount);
-    });
+    },
+    tags: ["unittest","account","models","web_account_model","fromJson"]);
     test(
       """
         Should be able to deserialize an account with a user
@@ -58,7 +60,8 @@ void main() {
 
       // assert
       expect (actual, expectedAccount);
-    });
+    },
+    tags: ["unittest","account","models","web_account_model","fromJson"]);
   test(
       """
         Should be able to deserialize an account which is shared by another user
@@ -77,7 +80,8 @@ void main() {
 
       // assert
       expect (actual, expectedAccount);
-    });
+    },
+    tags: ["unittest","account","models","web_account_model","fromJson"]);
   });
   group("WebAccountModel toJson",() {
     test(
@@ -95,7 +99,8 @@ void main() {
 
       // assert
       expect (actual, expectedJson);
-    });
+    },
+    tags: ["unittest","account","models","web_account_model","toJson"]);
     test(
       """
         Should be able to serialize an account with a user
@@ -113,7 +118,8 @@ void main() {
 
       // assert
       expect (actual, expectedJson);
-    });
+    },
+    tags: ["unittest","account","models","web_account_model","toJson"]);
   test(
       """
         Should be able to serialize an account which is shared by another user
@@ -132,6 +138,7 @@ void main() {
 
       // assert
       expect (actual, expectedJson);
-    });
+    },
+    tags: ["unittest","account","models","web_account_model","toJson"]);
   });
 }
