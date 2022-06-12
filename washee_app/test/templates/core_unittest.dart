@@ -1,6 +1,9 @@
 import 'dart:core';
 
 import 'package:flutter_test/flutter_test.dart';
+// import 'package:mocktail/mocktail.dart';
+
+// class MockDEPENDENCY_NAME extends Mock implements DEPEDENDENCY_NAME {}
 
 void main() {
   group("TEST_CLASS_NAME TEST_METHOD_NAME",() {
@@ -17,6 +20,6 @@ void main() {
 
       // assert
     }, skip: true,
-    tags: ["unittest","FEATURE_NAME","entities","FILE_NAME","TEST_METHOD_NAME"]);
+    tags: ["unittest","core","FOLDER_NAME","FILE_NAME","TEST_METHOD_NAME"]);
   });
 }

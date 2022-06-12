@@ -17,6 +17,6 @@ void main() {
 
       // assert
     }, skip: true,
-    tags: ["unittest","FEATURE_NAME","entities","FILE_NAME","TEST_METHOD_NAME"]);
+    tags: ["integrationtest","core","FOLDER_NAME","FILE_NAME","TEST_METHOD_NAME"]);
   });
 }

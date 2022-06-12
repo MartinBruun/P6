@@ -1,6 +1,9 @@
 import 'dart:core';
 
 import 'package:flutter_test/flutter_test.dart';
+// import 'package:mocktail/mocktail.dart';
+
+// class MockCORE_NAME extends Mock implements CORE_NAME {}
 
 void main() {
   group("TEST_CLASS_NAME TEST_METHOD_NAME",() {
@@ -17,6 +20,6 @@ void main() {
 
       // assert
     }, skip: true,
-    tags: ["unittest","FEATURE_NAME","entities","FILE_NAME","TEST_METHOD_NAME"]);
+    tags: ["unittest","FEATURE_NAME","datasources","FILE_NAME","TEST_METHOD_NAME"]);
   });
 }
