@@ -7,7 +7,7 @@ import '../../../../fixtures/entities/account/accounts.dart';
 import '../../../../fixtures/entities/account/users.dart';
 
 void main() {
-  group("AccountEntity Constructor",() {
+  group("AccountEntity constructor",() {
     test(
       """
         Should have a valid set of fixtures that follow the id schema
@@ -22,7 +22,8 @@ void main() {
       // assert
       expect(firstAccount.id, 1);
       expect(secondAccount.id, 2);
-    });
+    },
+    tags: ["unittest","account","entities","account_entity","constructor"]);
     test(
       """
         First Fixture should create a new entity, independent of changes done to a previous entity
@@ -39,7 +40,8 @@ void main() {
       expect(firstAccountUsingSameFixture.id, firstAccount.id);
       expect(firstAccount.owners, [firstUserFixture()]);
       expect(firstAccountUsingSameFixture.owners, []);
-    });
+    },
+    tags: ["unittest","account","entities","account_entity","constructor"]);
     test(
       """
         Second Fixture should create a new entity, independent of changes done to a previous entity
@@ -56,6 +58,7 @@ void main() {
       expect(secondAccountUsingSameFixture.id, secondAccount.id);
       expect(secondAccount.owners, [firstUserFixture()]);
       expect(secondAccountUsingSameFixture.owners, []);
-    });
+    },
+    tags: ["unittest","account","entities","account_entity","constructor"]);
   });
 }

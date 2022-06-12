@@ -7,7 +7,7 @@ import '../../../../fixtures/entities/account/accounts.dart';
 import '../../../../fixtures/entities/account/users.dart';
 
 void main() {
-  group("UserEntity Constructor",() {
+  group("UserEntity constructor",() {
     test(
       """
         Should have a valid set of fixtures that have unique ids
@@ -22,7 +22,8 @@ void main() {
       // assert
       expect(firstUser.id, 1);
       expect(secondUser.id, 2);
-    });
+    },
+    tags: ["unittest","account","entities","user_entity","constructor"]);
     test(
       """
         First Fixture should create a new entity, independent of changes done to a previous entity
@@ -39,7 +40,8 @@ void main() {
       expect(firstUserUsingSameFixture.id, firstUser.id);
       expect(firstUser.accounts, [firstAccountFixture()]);
       expect(firstUserUsingSameFixture.accounts, []);
-    });
+    },
+    tags: ["unittest","account","entities","user_entity","constructor"]);
     test(
       """
         Second Fixture should create a new entity, independent of changes done to a previous entity
@@ -56,7 +58,8 @@ void main() {
       expect(secondUserUsingSameFixture.id, secondUser.id);
       expect(secondUser.accounts, [firstAccountFixture()]);
       expect(secondUserUsingSameFixture.accounts, []);
-    });
+    },
+    tags: ["unittest","account","entities","user_entity","constructor"]);
   });
   group("UserEntity anonymousUser",() {
     test(
@@ -72,6 +75,7 @@ void main() {
       // assert
       expect(anonymousUser.id, 0);
       expect(anonymousUser.loggedIn, false);
-    });
+    },
+    tags: ["unittest","account","entities","user_entity","anonymousUser"]);
   });
 }
