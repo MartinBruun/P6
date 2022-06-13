@@ -23,6 +23,21 @@ void main() {
     }, skip: true,
     tags: ["unittest","core","externalities"]);
   });
+  group("WebConnector renewAuthorization",() {
+    test(
+      """
+        Should renew the authorization
+        Given the cached username and password exists on the backend
+      """,
+      () async {
+      // arrange
+
+      // act
+
+      // assert
+    }, skip: true,
+    tags: ["unittest","core","externalities"]);
+  });
   group("WebConnector retrieve",() {
     test(
       """

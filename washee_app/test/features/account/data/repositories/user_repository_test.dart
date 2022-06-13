@@ -97,4 +97,20 @@ void main() {
     }, skip:true,
     tags: ["unittest","account","repositories"]);
   });
+  group("UserRepository autoSignIn",() {
+    test(
+      """
+        Should return the signed in User 
+        When called with the users username and password
+        Given the remote correctly sends the data to the backend
+      """,
+      () async {
+      // arrange
+
+      // act
+
+      // assert
+    }, skip:true,
+    tags: ["unittest","account","repositories"]);
+  });
 }

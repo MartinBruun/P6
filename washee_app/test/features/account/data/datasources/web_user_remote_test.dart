@@ -101,4 +101,19 @@ void main() {
     },skip: true,
     tags: ["unittest","account","datasources"]);
   });
+  group("WebUserRemote autoSignIn",() {
+    test(
+      """
+        Should return the json of the just signed in user
+        Given the web connector correctly sends the data to the backend
+      """,
+      () async {
+      // arrange
+
+      // act
+
+      // assert
+    },skip: true,
+    tags: ["unittest","account","datasources"]);
+  });
 }
