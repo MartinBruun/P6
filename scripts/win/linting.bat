@@ -2,7 +2,7 @@
 
 cd ..
 cd ..
-echo ------------ LINTING ERROS FOR APP --------------
+echo ------------ LINTING ERRORS FOR APP --------------
 cd washee_app
 call flutter analyze
 cd ..

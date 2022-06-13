@@ -3,7 +3,6 @@ import 'dart:core';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:washee/features/account/domain/usecases/sign_in.dart';
-import 'package:washee/features/account/presentation/pages/sign_in_page.dart';
 import 'package:washee/main.dart';
 import 'package:washee/injection_container.dart' as ic;
 
@@ -19,13 +18,16 @@ void main() {
       (tester) async {
       // arrange
       ic.initAll();
-      await tester.pumpWidget(WasheeApp());
-
+      WasheeApp mainWidget = WasheeApp();
+      await tester.pumpWidget(mainWidget);
+      await tester.pumpAndSettle();
+      String expectedTextToBeSeen = "Log ind";
+      
       // navigate
       // act
       // assert
-      expect(find.byWidget(SignInPage()),findsOneWidget);
-    }, skip: true,
+      expect(find.text(expectedTextToBeSeen),findsOneWidget);
+    },
     tags: ["widgettest","account","pages"]);
     testWidgets(
       """

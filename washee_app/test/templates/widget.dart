@@ -5,20 +5,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 // class MockUSECASE_NAME extends Mock implements USECASE_NAME {}
 
-void main() {
-
-  void userPresses(String buttonText){
-
-  }
-
-  void userScrolls(String direction){
-
-  }
-
-  void userWrites(String text,{required String at}){
-    
-  }
-  
+void main() {  
   group("TEST_WIDGET USE_CASE",() {
     testWidgets(
       """
@@ -28,12 +15,15 @@ void main() {
       """,
       (tester) async {
         // arrange
-
-        // navigate
-  
+        // WidgetName testWidget = WidgetName();
+        // await tester.pumpWidget(testWidget);
+        await tester.pumpAndSettle();
+        String expectedTextToBeSeen = "OutputAUserCanActuallyExperience";
+        
         // act
-  
+
         // assert
+        expect(find.text(expectedTextToBeSeen),findsOneWidget);
     }, skip: true,
     tags: ["widgettest","FEATURE_NAME","widgets"]);
   });
