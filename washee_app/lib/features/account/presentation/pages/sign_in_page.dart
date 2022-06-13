@@ -19,12 +19,12 @@ import 'package:washee/injection_container.dart';
 
 import 'package:washee/core/ui/navigation/home_screen.dart';
 
-class SignInScreen extends StatefulWidget {
+class SignInPage extends StatefulWidget {
   @override
-  State<SignInScreen> createState() => _SignInScreenState();
+  State<SignInPage> createState() => _SignInScreenState();
 }
 
-class _SignInScreenState extends State<SignInScreen> {
+class _SignInScreenState extends State<SignInPage> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();

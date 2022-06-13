@@ -21,7 +21,7 @@ void main() {
 
       // assert
     }, skip: true,
-    tags: ["unittest","account","usecases","update_account","base"]);
+    tags: ["unittest","account","usecases"]);
   });
   group("UpdateAccountUsecase security (requirements)",() {
     test(
@@ -37,6 +37,6 @@ void main() {
 
       // assert
     }, skip: true,
-    tags: ["unittest","account","usecases","update_account","security"]);
+    tags: ["unittest","account","usecases"]);
   });
 }

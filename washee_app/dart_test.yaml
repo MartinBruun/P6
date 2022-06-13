@@ -1,0 +1,50 @@
+
+
+tags:
+  # Types of tests and their expected max time.
+  unittest:
+    timeout: 2s
+  widgettest:
+    timeout: 30s
+  integrationtest:
+    timeout: 2m
+
+  # If some tests surpase their expected max time above, give them this tag instead
+  slow:
+    timeout: 15m
+
+  # Feature tags
+  core:
+    timeout: none
+  account:
+    timeout: none
+  booking:
+    timeout: none
+  green_info:
+    timeout: none
+  location:
+    timeout: none
+
+  # Layer tags
+  externalities:
+    timeout: none
+  standards:
+    timeout: none
+  ui:
+    timeout: none
+  datasources:
+    timeout: none
+  models:
+    timeout: none
+  repositories:
+    timeout: none
+  entities:
+    timeout: none
+  usecases:
+    timeout: none
+  providers:
+    timeout: none
+  pages:
+    timeout: none
+  widgets:
+    timeout: none

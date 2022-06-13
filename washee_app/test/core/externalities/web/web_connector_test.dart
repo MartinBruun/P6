@@ -21,7 +21,7 @@ void main() {
 
       // assert
     }, skip: true,
-    tags: ["unittest","core","externalities","web_connector","authorize"]);
+    tags: ["unittest","core","externalities"]);
   });
   group("WebConnector retrieve",() {
     test(
@@ -35,7 +35,7 @@ void main() {
 
       // assert
     }, skip: true,
-    tags: ["unittest","core","externalities","web_connector","retrieve"]);
+    tags: ["unittest","core","externalities"]);
   });
   group("WebConnector update",() {
     test(
@@ -49,7 +49,7 @@ void main() {
 
       // assert
     }, skip: true,
-    tags: ["unittest","core","externalities","web_connector","update"]);
+    tags: ["unittest","core","externalities"]);
   });
   group("WebConnector create",() {
     test(
@@ -63,7 +63,7 @@ void main() {
 
       // assert
     }, skip: true,
-    tags: ["unittest","core","externalities","web_connector","create"]);
+    tags: ["unittest","core","externalities"]);
   });
   group("WebConnector delete",() {
     test(
@@ -77,6 +77,6 @@ void main() {
 
       // assert
     }, skip: true,
-    tags: ["unittest","core","externalities","web_connector","delete"]);
+    tags: ["unittest","core","externalities"]);
   });
 }

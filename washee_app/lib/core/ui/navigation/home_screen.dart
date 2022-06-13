@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:washee/features/account/data/models/web_user.dart';
 import 'package:washee/core/ui/navigation/pages_enum.dart';
-import 'package:washee/features/account/presentation/pages/sign_in_screen.dart';
+import 'package:washee/features/account/presentation/pages/sign_in_page.dart';
 import 'package:washee/features/account/presentation/pages/washee_screen.dart';
 import 'package:washee/features/location/presentation/pages/wash_screen.dart';
 import 'package:washee/features/booking/presentation/pages/calendar_screen.dart';
@@ -46,7 +46,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return !user.loggedIn
-        ? SignInScreen()
+        ? SignInPage()
         : Scaffold(
             body: _pages[_selectedPageIndex],
             bottomNavigationBar: Container(

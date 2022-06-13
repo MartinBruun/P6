@@ -23,7 +23,7 @@ void main() {
       expect(firstAccount.id, 1);
       expect(secondAccount.id, 2);
     },
-    tags: ["unittest","account","entities","account_entity","constructor"]);
+    tags: ["unittest","account","entities"]);
     test(
       """
         First Fixture should create a new entity, independent of changes done to a previous entity
@@ -41,7 +41,7 @@ void main() {
       expect(firstAccount.owners, [firstUserFixture()]);
       expect(firstAccountUsingSameFixture.owners, []);
     },
-    tags: ["unittest","account","entities","account_entity","constructor"]);
+    tags: ["unittest","account","entities"]);
     test(
       """
         Second Fixture should create a new entity, independent of changes done to a previous entity
@@ -59,6 +59,6 @@ void main() {
       expect(secondAccount.owners, [firstUserFixture()]);
       expect(secondAccountUsingSameFixture.owners, []);
     },
-    tags: ["unittest","account","entities","account_entity","constructor"]);
+    tags: ["unittest","account","entities"]);
   });
 }

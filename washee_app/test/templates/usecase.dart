@@ -20,9 +20,9 @@ void main() {
 
       // assert
     }, skip: true,
-    tags: ["unittest","FEATURE_NAME","usecases","FILE_NAME","base"]);
+    tags: ["unittest","FEATURE_NAME","usecases"]);
   });
-  group("TEST_USECASE_NAME security (requirements)",() {
+  group("TEST_USECASE security (requirements)",() {
     test(
       """
         Should XXX
@@ -36,6 +36,6 @@ void main() {
 
       // assert
     }, skip: true,
-    tags: ["unittest","FEATURE_NAME","usecases","FILE_NAME","security"]);
+    tags: ["unittest","FEATURE_NAME","usecases"]);
   });
 }

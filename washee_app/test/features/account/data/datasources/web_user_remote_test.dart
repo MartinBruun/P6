@@ -20,7 +20,7 @@ void main() {
 
       // assert
     },skip: true,
-    tags: ["unittest","account","datasources","web_user_remote","getUser"]);
+    tags: ["unittest","account","datasources"]);
   });
   group("WebUserRemote getUsers",() {
     test(
@@ -35,7 +35,7 @@ void main() {
 
       // assert
     },skip: true,
-    tags: ["unittest","account","datasources","web_user_remote","getUsers"]);
+    tags: ["unittest","account","datasources"]);
   });
   group("WebUserRemote updateUser",() {
     test(
@@ -51,7 +51,7 @@ void main() {
 
       // assert
     },skip: true,
-    tags: ["unittest","account","datasources","web_user_remote","updateUser"]);
+    tags: ["unittest","account","datasources"]);
   });
   group("WebUserRemote postUser",() {
     test(
@@ -67,7 +67,7 @@ void main() {
 
       // assert
     },skip: true,
-    tags: ["unittest","account","datasources","web_user_remote","postUser"]);
+    tags: ["unittest","account","datasources"]);
   });
   group("WebUserRemote deleteUser",() {
     test(
@@ -83,7 +83,7 @@ void main() {
 
       // assert
     },skip: true,
-    tags: ["unittest","account","datasources","web_user_remote","getUser"]);
+    tags: ["unittest","account","datasources"]);
   });
   group("WebUserRemote signIn",() {
     test(
@@ -99,6 +99,6 @@ void main() {
 
       // assert
     },skip: true,
-    tags: ["unittest","account","datasources","web_user_remote","signIn"]);
+    tags: ["unittest","account","datasources"]);
   });
 }

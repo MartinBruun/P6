@@ -6,7 +6,7 @@ import 'package:flutter_test/flutter_test.dart';
 // class MockCORE_NAME extends Mock implements CORE_NAME {}
 
 void main() {
-  group("TEST_CLASS_NAME TEST_METHOD_NAME",() {
+  group("TEST_REMOTE TEST_METHOD_NAME",() {
     test(
       """
         Should XXX
@@ -20,6 +20,6 @@ void main() {
 
       // assert
     }, skip: true,
-    tags: ["unittest","FEATURE_NAME","datasources","FILE_NAME","TEST_METHOD_NAME"]);
+    tags: ["unittest","FEATURE_NAME","datasources"]);
   });
 }

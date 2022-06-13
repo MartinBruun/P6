@@ -16,7 +16,7 @@ void main() {
 
       // assert
     }, skip:true,
-    tags: ["unittest","account","repositories","user_repository","getUser"]);
+    tags: ["unittest","account","repositories"]);
   });
   group("UserRepository getUsers",() {
     test(
@@ -31,7 +31,7 @@ void main() {
 
       // assert
     }, skip:true,
-    tags: ["unittest","account","repositories","user_repository","getUsers"]);
+    tags: ["unittest","account","repositories"]);
   });
   group("UserRepository updateUser",() {
     test(
@@ -47,7 +47,7 @@ void main() {
 
       // assert
     }, skip:true,
-    tags: ["unittest","account","repositories","user_repository","updateUser"]);
+    tags: ["unittest","account","repositories"]);
   });
   group("UserRepository postUser",() {
     test(
@@ -63,7 +63,7 @@ void main() {
 
       // assert
     }, skip:true,
-    tags: ["unittest","account","repositories","user_repository","postUser"]);
+    tags: ["unittest","account","repositories"]);
   });
   group("UserRepository deleteUser",() {
     test(
@@ -79,7 +79,7 @@ void main() {
 
       // assert
     }, skip:true,
-    tags: ["unittest","account","repositories","user_repository","deleteUser"]);
+    tags: ["unittest","account","repositories"]);
   });
   group("UserRepository signIn",() {
     test(
@@ -95,6 +95,6 @@ void main() {
 
       // assert
     }, skip:true,
-    tags: ["unittest","account","repositories","user_repository","signIn"]);
+    tags: ["unittest","account","repositories"]);
   });
 }

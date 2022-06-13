@@ -1,9 +1,12 @@
 import 'dart:core';
 
 import 'package:flutter_test/flutter_test.dart';
+// import 'package:mocktail/mocktail.dart';
+
+// class MockDEPENDENCY_NAME extends Mock implements DEPEDENDENCY_NAME {}
 
 void main() {
-  group("AccountProvider TEST_METHOD_NAME",() {
+  group("TEST_CLASS TEST_METHOD_NAME",() {
     test(
       """
         Should XXX
@@ -17,6 +20,6 @@ void main() {
 
       // assert
     }, skip: true,
-    tags: ["unittest","account","providers","account_provider","TEST_METHOD_NAME"]);
+    tags: ["unittest","core","FOLDER_NAME"]);
   });
 }

@@ -21,7 +21,7 @@ void main() {
 
       // assert
     }, skip: true,
-    tags: ["unittest","account","usecases","sign_out","base"]);
+    tags: ["unittest","account","usecases"]);
   });
   group("SignOutUsecase security (requirements)",() {
     test(
@@ -37,6 +37,6 @@ void main() {
 
       // assert
     }, skip: true,
-    tags: ["unittest","account","usecases","sign_out","security"]);
+    tags: ["unittest","account","usecases"]);
   });
 }

@@ -33,7 +33,7 @@ void main() {
       // assert
       expect(result,expectedEntity);
     },
-    tags: ["unittest","account","repositories","account_repository","getAccount"]);
+    tags: ["unittest","account","repositories"]);
   });
   group("AccountRepository getAccounts",() {
     test(
@@ -48,7 +48,7 @@ void main() {
 
       // assert
     }, skip:true,
-    tags: ["unittest","account","repositories","account_repository","getAccounts"]);
+    tags: ["unittest","account","repositories"]);
   });
   group("AccountRepository updateAccount",() {
     test(
@@ -64,7 +64,7 @@ void main() {
 
       // assert
     }, skip:true,
-    tags: ["unittest","account","repositories","account_repository","updateAccount"]);
+    tags: ["unittest","account","repositories"]);
   });
   group("AccountRepository postAccount",() {
     test(
@@ -80,7 +80,7 @@ void main() {
 
       // assert
     }, skip:true,
-    tags: ["unittest","account","repositories","account_repository","postAccount"]);
+    tags: ["unittest","account","repositories"]);
   });
   group("AccountRepository deleteAccount",() {
     test(
@@ -96,6 +96,6 @@ void main() {
 
       // assert
     }, skip:true,
-    tags: ["unittest","account","repositories","account_repository","deleteAccount"]);
+    tags: ["unittest","account","repositories"]);
   });
 }

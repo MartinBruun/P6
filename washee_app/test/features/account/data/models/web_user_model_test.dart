@@ -23,7 +23,7 @@ void main() {
       // assert
       expect (actual.props, userEntity.props);
     },
-    tags: ["unittest","account","models","web_user_model","fromEntity"]);
+    tags: ["unittest","account","models"]);
   });
   group("WebUserModel fromJson",() {
     test(
@@ -42,7 +42,7 @@ void main() {
       // assert
       expect (actual, expectedUser);
     },
-    tags: ["unittest","account","models","web_user_model","fromJson"]);
+    tags: ["unittest","account","models"]);
     test(
       """
         Should be able to deserialize a user with an account
@@ -61,7 +61,7 @@ void main() {
       // assert
       expect (actual, expectedUser);
     },
-    tags: ["unittest","account","models","web_user_model","fromJson"]);
+    tags: ["unittest","account","models"]);
   test(
       """
         Should be able to deserialize a User that has two accounts
@@ -81,7 +81,7 @@ void main() {
       // assert
       expect (actual, expectedUser);
     },
-    tags: ["unittest","account","models","web_user_model","fromJson"]);
+    tags: ["unittest","account","models"]);
   });
   group("WebUserModel toJson",() {
     test(
@@ -100,7 +100,7 @@ void main() {
       // assert
       expect (actual, expectedJson);
     },
-    tags: ["unittest","account","models","web_user_model","toJson"]);
+    tags: ["unittest","account","models"]);
     test(
       """
         Should be able to serialize a user with a account
@@ -119,7 +119,7 @@ void main() {
       // assert
       expect (actual, expectedJson);
     },
-    tags: ["unittest","account","models","web_user_model","toJson"]);
+    tags: ["unittest","account","models"]);
   test(
       """
         Should be able to serialize a user which have multiple accounts
@@ -139,6 +139,6 @@ void main() {
       // assert
       expect (actual, expectedJson);
     },
-    tags: ["unittest","account","models","web_user_model","toJson"]);
+    tags: ["unittest","account","models"]);
   });
 }

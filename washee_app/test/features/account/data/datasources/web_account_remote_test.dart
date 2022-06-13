@@ -20,7 +20,7 @@ void main() {
 
       // assert
     },skip: true,
-    tags: ["unittest","account","datasources","web_account_remote","getAccount"]);
+    tags: ["unittest","account","datasources"]);
   });
   group("WebAccountRemote getAccounts",() {
     test(
@@ -35,7 +35,7 @@ void main() {
 
       // assert
     },skip: true,
-    tags: ["unittest","account","datasources","web_account_remote","getAccounts"]);
+    tags: ["unittest","account","datasources"]);
   });
   group("WebAccountRemote updateAccount",() {
     test(
@@ -51,7 +51,7 @@ void main() {
 
       // assert
     }, skip: true,
-    tags: ["unittest","account","datasources","web_account_remote","updateAccount"]);
+    tags: ["unittest","account","datasources"]);
   });
   group("WebAccountRemote postAccount",() {
     test(
@@ -67,7 +67,7 @@ void main() {
 
       // assert
     },skip: true,
-    tags: ["unittest","account","datasources","web_account_remote","postAccount"]);
+    tags: ["unittest","account","datasources"]);
   });
   group("WebAccountRemote deleteAccount",() {
     test(
@@ -83,6 +83,6 @@ void main() {
 
       // assert
     },skip: true,
-    tags: ["unittest","account","datasources","web_account_remote","deleteAccount"]);
+    tags: ["unittest","account","datasources"]);
   });
 }

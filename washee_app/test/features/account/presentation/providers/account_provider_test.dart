@@ -3,7 +3,7 @@ import 'dart:core';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  group("TEST_CLASS_NAME TEST_METHOD_NAME",() {
+  group("AccountProvider signingIn",() {
     test(
       """
         Should XXX
@@ -17,6 +17,6 @@ void main() {
 
       // assert
     }, skip: true,
-    tags: ["integrationtest","core","FOLDER_NAME","FILE_NAME","TEST_METHOD_NAME"]);
+    tags: ["unittest","account","providers"]);
   });
 }
