@@ -3,8 +3,6 @@ import 'package:washee/core/standards/base_usecase/usecase.dart';
 import 'package:washee/features/account/data/repositories/user_repository.dart';
 import 'package:washee/features/account/domain/entities/user_entity.dart';
 
-import '../repository_interfaces/sign_in_repository.dart';
-
 class SignInUseCase implements UseCase<void, SignInParams> {
   final UserRepository userRepository;
 
