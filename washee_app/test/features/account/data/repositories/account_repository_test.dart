@@ -25,7 +25,7 @@ void main() {
       when(() => 
         mockRemote.getAccount(expectedEntity.id))
         .thenAnswer((_) async => expectedEntity.toJson());
-      AccountRepository testAccountRepository = AccountRepository(accRemote: mockRemote);
+      AccountRepository testAccountRepository = AccountRepository(accountRemote: mockRemote);
 
       // act
       AccountEntity result = await testAccountRepository.getAccount(expectedEntity.id);

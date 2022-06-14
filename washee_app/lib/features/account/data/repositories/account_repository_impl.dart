@@ -15,9 +15,7 @@ abstract class IAccountRepository {
 class AccountRepository extends IAccountRepository{
   late WebAccountRemote accountRemote;
 
-  AccountRepository({required WebAccountRemote accRemote}){
-    accountRemote = accRemote;
-  }
+  AccountRepository({required this.accountRemote});
 
   @override
   Future<AccountEntity> deleteAccount(AccountEntity accountEntity) {

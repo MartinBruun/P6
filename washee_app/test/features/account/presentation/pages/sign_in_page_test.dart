@@ -64,7 +64,6 @@ void main() {
       await tester.pumpAndSettle();
       String expecteNotVisibleText = "Velkommen til Washee";
       
-      // navigate
       // act
       // assert
       expect(find.text(expecteNotVisibleText),findsNothing);
@@ -89,12 +88,11 @@ void main() {
 
       currentUser.loggedIn = true;
       when(
-        () => MockSignInUsecase().call(SignInParams(email: currentUser.email, password: "testPassword")));
-      //  .thenAnswer((_) => currentUser);
+        () => MockSignInUsecase().call(SignInParams(email: currentUser.email, password: "testPassword")))
+        .thenAnswer((_) async => currentUser);
 
       String expecteNotVisibleText = "Velkommen til Washee";
       
-      // navigate
       // act
       // assert
       expect(currentUser.loggedIn, true);

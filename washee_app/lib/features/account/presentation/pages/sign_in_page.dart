@@ -130,7 +130,7 @@ class _SignInScreenState extends State<SignInPage> {
                                       email: _emailController.text,
                                       password: _passwordController.text));
 
-                              if (result) {
+                              if (result.loggedIn) {
                                 if (Platform.isAndroid) {
                                   await sl<GetWifiPermissionUsecase>()
                                       .call(NoParams());

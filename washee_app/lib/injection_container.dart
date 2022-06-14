@@ -7,6 +7,11 @@ import 'package:http/http.dart' as http;
 import 'package:washee/core/externalities/web/authorizer.dart';
 import 'package:washee/core/externalities/web/web_communicator.dart';
 import 'package:washee/core/externalities/box/box_communicator.dart';
+import 'package:washee/core/externalities/web/web_connector.dart';
+import 'package:washee/features/account/data/datasources/account_remote.dart';
+import 'package:washee/features/account/data/datasources/user_remote.dart';
+import 'package:washee/features/account/data/repositories/account_repository_impl.dart';
+import 'package:washee/features/account/data/repositories/user_repository.dart';
 import 'package:washee/features/booking/data/datasources/book_remote.dart';
 import 'package:washee/features/booking/data/repositories/book_repository_impl.dart';
 import 'package:washee/features/booking/domain/usecases/delete_booking.dart';
@@ -36,13 +41,22 @@ import 'features/booking/domain/usecases/get_bookings.dart';
 final GetIt sl = GetIt.instance;
 
 void initAll() {
+  initCore();
   initCoreAndExternal();
+  initAccount();
   initUnlock();
   initGetMachines();
-  initSignIn();
+  
   initBooking();
 }
 
+initCore(){
+  sl.registerLazySingleton<Dio>(() => Dio());
+  sl.registerLazySingleton<FlutterSecureStorage>(() => FlutterSecureStorage());
+  sl.registerLazySingleton<WebConnector>(() => WebConnector(httpCon: sl(), secStorage: sl()));
+}
+
+// OLD should be moved to initCore
 initCoreAndExternal() {
   sl.registerLazySingleton<NetworkInfo>(
       () => NetworkInfoImpl(connectionChecker: sl()));
@@ -51,9 +65,8 @@ initCoreAndExternal() {
 
   sl.registerLazySingleton<BoxCommunicator>(
       () => BoxCommunicatorImpl(dio: sl()));
-  sl.registerLazySingleton(() => Dio());
+  
 
-  sl.registerLazySingleton(() => FlutterSecureStorage());
   sl.registerLazySingleton<Authorizer>(() => AuthorizerImpl(dio: sl()));
 
   sl.registerLazySingleton<WebCommunicator>(
@@ -105,12 +118,18 @@ void initGetMachines() {
       () => GetMachinesRepositoryImpl(communicator: sl(), networkInfo: sl()));
 }
 
-void initSignIn() {
+void initAccount() {
   // Usecases
-  sl.registerLazySingleton(() => SignInUseCase(repository: sl()));
-  sl.registerLazySingleton(() => UpdateAccountUseCase(repository: sl()));
+  sl.registerLazySingleton<SignInUseCase>(() => SignInUseCase(userRepository: sl()));
+  sl.registerLazySingleton<UpdateAccountUseCase>(() => UpdateAccountUseCase(userRepository: sl(), accountRepository: sl()));
 
-  // Repository
-  sl.registerLazySingleton<SignInRepository>(
-      () => SignInRepositoryImpl(authorizer: sl(), communicator: sl()));
+  // Repositories
+  sl.registerLazySingleton<IUserRepository>(
+      () => UserRepository(webRemote: sl()));
+  sl.registerLazySingleton<IAccountRepository>(
+      () => AccountRepository(accountRemote: sl()));
+
+  // Data Sources
+  sl.registerLazySingleton<WebAccountRemote>(() => WebAccountRemote(webConnector: sl()));
+  sl.registerLazySingleton<WebUserRemote>(() => WebUserRemote(webConnector: sl()));
 }

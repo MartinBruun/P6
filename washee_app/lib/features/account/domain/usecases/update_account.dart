@@ -1,19 +1,16 @@
-import 'package:washee/features/account/data/models/web_user.dart';
 import 'package:washee/core/standards/base_usecase/usecase.dart';
-import 'package:washee/features/account/data/models/web_account.dart';
-
-import '../repository_interfaces/sign_in_repository.dart';
+import 'package:washee/features/account/data/repositories/account_repository_impl.dart';
+import 'package:washee/features/account/data/repositories/user_repository.dart';
+import 'package:washee/features/account/domain/entities/account_entity.dart';
 
 class UpdateAccountUseCase implements UseCase<void, NoParams> {
-  final SignInRepository repository;
+  final IUserRepository userRepository;
+  final IAccountRepository accountRepository;
 
-  UpdateAccountUseCase({required this.repository});
+  UpdateAccountUseCase({required this.accountRepository, required this.userRepository});
 
   @override
-  Future<bool> call(NoParams) async {
-    ActiveUser user = ActiveUser();
-    Account updatedAccount = await repository.getAccount(user.activeAccount!);
-    user.upDateAccount(updatedAccount);
-    return true;
+  Future<AccountEntity> call(NoParams) async {
+    throw UnimplementedError();
   }
 }
