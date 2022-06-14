@@ -12,7 +12,10 @@ import 'package:washee/features/account/domain/usecases/auto_sign_in.dart';
 class MockAutoSignInUsecase extends Mock implements AutoSignInUsecase {}
 // class MockUSECASE_NAME extends Mock implements USECASE_NAME {}
 
+final List<String> passedTests = [];
+
 void main() {
+
   void automaticSignIn(bool autoSignIn){
     UserEntity activeUser = UserEntity.anonymousUser();
     if(autoSignIn){
@@ -22,6 +25,36 @@ void main() {
       () => MockAutoSignInUsecase().call(AutoSignInParams()))
       .thenAnswer((_) async => activeUser);
   }
+
+  void navigateToPage(){
+
+  }
+
+  group("TEST_PAGE basic navigation",() {
+    testWidgets(
+      """
+        Should XXX
+        When YYY
+        Given ZZZ
+      """,
+      (tester) async {
+        // arrange
+        ic.initAll();
+        automaticSignIn(true);
+        WasheeApp mainWidget = WasheeApp();
+        await tester.pumpWidget(mainWidget);
+        await tester.pumpAndSettle();
+        navigateToPage();
+        String expectedTextToBeSeen = "OutputAUserCanActuallyExperience";
+
+        // act
+
+        // assert
+        expect(find.text(expectedTextToBeSeen),findsOneWidget);
+        passedTests.add("canNavigateToPage");
+    }, skip: true,
+    tags: ["widgettest","FEATURE_NAME","pages"]);
+  });
   group("TEST_PAGE USE_CASE",() {
     testWidgets(
       """
@@ -36,15 +69,14 @@ void main() {
         WasheeApp mainWidget = WasheeApp();
         await tester.pumpWidget(mainWidget);
         await tester.pumpAndSettle();
+        navigateToPage();
         String expectedTextToBeSeen = "OutputAUserCanActuallyExperience";
-        
-        // navigate
 
         // act
 
         // assert
         expect(find.text(expectedTextToBeSeen),findsOneWidget);
-    }, skip: true,
+    }, skip: !passedTests.contains("canNavigateToPage"),
     tags: ["widgettest","FEATURE_NAME","pages"]);
   });
 }

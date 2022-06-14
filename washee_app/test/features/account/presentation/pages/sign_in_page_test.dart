@@ -25,7 +25,7 @@ void main() {
       .thenAnswer((_) async => activeUser);
   }
 
-  group("SignInPage AutoSignInUsecase",() {
+  group("SignInPage basic navigation",() {
     testWidgets(
       """
         Should be the first page the user sees
@@ -65,28 +65,6 @@ void main() {
       // act
       // assert
       expect(find.text(expecteNotVisibleText),findsNothing);
-    }, skip: true,
-    tags: ["widgettest","account","pages"]);
-  });
-  group("SignInPage AutoSignInUsecase",() {
-    testWidgets(
-      """
-        Should go to a different screen with a logged in user
-        When the user enters the username and password in the form
-        Given the username and password given is correct
-      """,
-      (tester) async {
-      // arrange
-      ic.initAll();
-      WasheeApp mainWidget = WasheeApp();
-      await tester.pumpWidget(mainWidget);
-      await tester.pumpAndSettle();
-      String expectedTextToBeSeen = "Log ind";
-      
-      // navigate
-      // act
-      // assert
-      expect(find.text(expectedTextToBeSeen),findsOneWidget);
     }, skip: true,
     tags: ["widgettest","account","pages"]);
   });

@@ -2,7 +2,6 @@
 
 import 'package:dio/dio.dart';
 import 'package:washee/core/externalities/web/web_connector.dart';
-import 'package:washee/core/standards/failures/failures.dart';
 
 abstract class IWebUserRemote{
   Future<Map<String,dynamic>> getUser(int userId);
