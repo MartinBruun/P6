@@ -15,7 +15,7 @@ class MockSignInUsecase extends Mock implements SignInUseCase {}
 
 void main() {
 
-  void automaticSignIn(bool autoSignIn){
+  UserEntity automaticSignIn(bool autoSignIn){
     UserEntity activeUser = UserEntity.anonymousUser();
     if(autoSignIn){
       activeUser = firstUserFixture();
@@ -23,6 +23,7 @@ void main() {
     when(
       () => MockAutoSignInUsecase().call(AutoSignInParams()))
       .thenAnswer((_) async => activeUser);
+    return activeUser;
   }
 
   group("SignInPage basic navigation",() {
@@ -34,12 +35,13 @@ void main() {
       (tester) async {
       // arrange
       ic.initAll();
-      automaticSignIn(false);
+      UserEntity currentUser = automaticSignIn(false);
+      expect(currentUser.loggedIn, false);
       WasheeApp mainWidget = WasheeApp();
       await tester.pumpWidget(mainWidget);
       await tester.pumpAndSettle();
 
-      String expectedTextToBeSeen = "Log ind";
+      String expectedTextToBeSeen = "Velkommen til Washee";
       
       // navigate
       // act
@@ -55,11 +57,12 @@ void main() {
       (tester) async {
       // arrange
       ic.initAll();
-      automaticSignIn(true);
+      UserEntity currentUser = automaticSignIn(true);
+      expect(currentUser.loggedIn, true);
       WasheeApp mainWidget = WasheeApp();
       await tester.pumpWidget(mainWidget);
       await tester.pumpAndSettle();
-      String expecteNotVisibleText = "Log ind";
+      String expecteNotVisibleText = "Velkommen til Washee";
       
       // navigate
       // act
@@ -78,15 +81,24 @@ void main() {
       (tester) async {
       // arrange
       ic.initAll();
+      UserEntity currentUser = automaticSignIn(false);
+      expect(currentUser.loggedIn, false);
       WasheeApp mainWidget = WasheeApp();
       await tester.pumpWidget(mainWidget);
       await tester.pumpAndSettle();
-      String expectedTextToBeSeen = "Log ind";
+
+      currentUser.loggedIn = true;
+      when(
+        () => MockSignInUsecase().call(SignInParams(email: currentUser.email, password: "testPassword")));
+      //  .thenAnswer((_) => currentUser);
+
+      String expecteNotVisibleText = "Velkommen til Washee";
       
       // navigate
       // act
       // assert
-      expect(find.text(expectedTextToBeSeen),findsOneWidget);
+      expect(currentUser.loggedIn, true);
+      expect(find.text(expecteNotVisibleText),findsNothing);
     }, skip: true,
     tags: ["widgettest","account","pages"]);
   });

@@ -60,6 +60,19 @@ void main() {
       expect(secondUserUsingSameFixture.accounts, []);
     },
     tags: ["unittest","account","entities"]);
+    test(
+      """
+        Should be possible to create a UserEntity which is loggedIn
+      """,
+      () async {
+      // arrange
+      UserEntity testUser = UserEntity(id: 1, email: "somemail@test.com", username: "Some username", loggedIn: true, accounts: []);
+
+      // act
+      // assert
+      expect(testUser.loggedIn, true);
+    },
+    tags: ["unittest","account","entities"]);
   });
   group("UserEntity anonymousUser",() {
     test(

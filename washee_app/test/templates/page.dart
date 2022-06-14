@@ -16,14 +16,15 @@ final List<String> passedTests = [];
 
 void main() {
 
-  void automaticSignIn(bool autoSignIn){
+  UserEntity automaticSignIn(bool autoSignIn){
     UserEntity activeUser = UserEntity.anonymousUser();
     if(autoSignIn){
-      // activeUser = firstUserFixture();
+      // activeUser = firstUserFixture();  // REMEMBER TO UNCOMMENT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     }
     when(
       () => MockAutoSignInUsecase().call(AutoSignInParams()))
       .thenAnswer((_) async => activeUser);
+    return activeUser;
   }
 
   void navigateToPage(){
@@ -40,7 +41,8 @@ void main() {
       (tester) async {
         // arrange
         ic.initAll();
-        automaticSignIn(true);
+        UserEntity currentUser = automaticSignIn(true);
+        expect(currentUser.loggedIn, true);
         WasheeApp mainWidget = WasheeApp();
         await tester.pumpWidget(mainWidget);
         await tester.pumpAndSettle();
@@ -65,7 +67,8 @@ void main() {
       (tester) async {
         // arrange
         ic.initAll();
-        automaticSignIn(true);
+        UserEntity currentUser = automaticSignIn(true);
+        expect(currentUser.loggedIn, true);
         WasheeApp mainWidget = WasheeApp();
         await tester.pumpWidget(mainWidget);
         await tester.pumpAndSettle();

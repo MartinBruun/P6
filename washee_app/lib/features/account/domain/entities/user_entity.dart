@@ -15,8 +15,8 @@ class UserEntity extends Equatable {
     required this.email,
     required this.username,
     activeAccount,
-    accounts,
-    loggedIn
+    required this.accounts,
+    required this.loggedIn
   });
 
   factory UserEntity.anonymousUser(){
