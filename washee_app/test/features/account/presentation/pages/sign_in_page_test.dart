@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import 'package:washee/core/ui/navigation/home_screen.dart';
 import 'package:washee/core/ui/themes/themes.dart';
 import 'package:washee/features/account/domain/entities/user_entity.dart';
+import 'package:washee/features/account/presentation/pages/sign_in_page.dart';
 import 'package:washee/features/account/presentation/provider/account_language_provider.dart';
 import 'package:washee/features/account/presentation/provider/account_provider.dart';
 import 'package:washee/features/account/presentation/provider/sign_in_provider.dart';
@@ -92,21 +93,21 @@ void main() {
       (tester) async {
       // arrange
       AccountProvider mockAccountProvider = MockAccountProvider();
-      UserEntity providedUser = firstUserFixture();
-      providedUser.loggedIn = true;
-      when(() => mockAccountProvider.currentUser).thenAnswer((_) => providedUser);
+      UserEntity initialUser = UserEntity.anonymousUser();
+      initialUser.loggedIn = false;
+      String testUsername = initialUser.username;
+      String testPassword = "SomePassword";
+      when(() => mockAccountProvider.currentUser).thenAnswer((_) => initialUser);
+      when(() => mockAccountProvider.signIn(username: testUsername, password: testPassword)).thenAnswer((_) async {
+        initialUser.loggedIn = true;
+        return initialUser;
+      });
       AccountLanguageProvider langProv = AccountLanguageProvider();
       await initializeApp(tester, mockAcc: mockAccountProvider, mockAccountLang: langProv);
       
       // act
-      await tester.pump(Duration(milliseconds: 400));
-      expect(langProv.getText("SignInPage", "usernameField"), "Email");
-      var a = find.text(langProv.getText("SignInPage", "usernameField"));
-      expect(a, findsOneWidget);
-      expect(langProv.getText("SignInPage", "usernameField"), "Email1");
-
-      await tester.enterText(find.text(langProv.getText("SignInPage", "usernameField")), "ValidUsername");
-      await tester.enterText(find.text(langProv.getText("SignInPage", "passwordField")), "ValidPassword");
+      await tester.enterText(find.text(langProv.getText("SignInPage", "usernameField")), testUsername);
+      await tester.enterText(find.text(langProv.getText("SignInPage", "passwordField")), testPassword);
       await tester.pumpAndSettle();
       await tester.tap(find.text(langProv.getText("SignInPage", "buttonText")));
       await tester.pumpAndSettle();

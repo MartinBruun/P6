@@ -12,6 +12,7 @@ import 'package:washee/core/standards/base_usecase/usecase.dart';
 import 'package:washee/features/account/domain/usecases/sign_in.dart';
 import 'package:washee/features/account/presentation/pages/wrong_input.dart';
 import 'package:washee/features/account/presentation/provider/account_language_provider.dart';
+import 'package:washee/features/account/presentation/provider/account_provider.dart';
 import 'package:washee/features/account/presentation/provider/sign_in_provider.dart';
 import 'package:washee/features/account/presentation/widgets/password_help_box.dart';
 import 'package:washee/features/account/presentation/widgets/text_input.dart';
@@ -29,8 +30,6 @@ class _SignInScreenState extends State<SignInPage> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
-  ActiveUser user = ActiveUser();
   
   @override
   void dispose() {
@@ -41,6 +40,7 @@ class _SignInScreenState extends State<SignInPage> {
   @override
   Widget build(BuildContext context) {
     AccountLanguageProvider alp = Provider.of<AccountLanguageProvider>(context, listen: false);
+    AccountProvider ap = Provider.of<AccountProvider>(context,listen: false);
     return Scaffold(
       resizeToAvoidBottomInset: true,
       appBar: AppBar(
@@ -127,10 +127,7 @@ class _SignInScreenState extends State<SignInPage> {
                             _formKey.currentState!.save();
                             try {
                               data.updateSignIn(true);
-                              var result = await sl<SignInUseCase>().call(
-                                  SignInParams(
-                                      email: _emailController.text,
-                                      password: _passwordController.text));
+                              var result = await ap.signIn(username: _emailController.text, password: _passwordController.text);
 
                               if (result.loggedIn) {
                                 if (Platform.isAndroid) {

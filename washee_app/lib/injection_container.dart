@@ -73,7 +73,7 @@ void initAccount() {
   sl.registerLazySingleton<UpdateAccountUseCase>(() => UpdateAccountUseCase(userRepository: sl(), accountRepository: sl()));
 
   // Providers
-  sl.registerLazySingleton<AccountProvider>(() => AccountProvider(autoSignInUsecase: sl()));
+  sl.registerLazySingleton<AccountProvider>(() => AccountProvider(autoSignInUsecase: sl(), signInUsecase: sl()));
   sl.registerLazySingleton<AccountLanguageProvider>(() => AccountLanguageProvider());
 }
 
