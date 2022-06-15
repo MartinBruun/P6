@@ -27,7 +27,6 @@ class AuthorizerImpl implements Authorizer {
 
   @override
   Dio initDio() {
-    Dio dio = new Dio();
     dio.options.headers["content-Type"] = "application/json";
     return dio;
   }

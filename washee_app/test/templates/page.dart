@@ -2,7 +2,6 @@ import 'dart:core';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:washee/main.dart';
-import 'package:washee/injection_container.dart' as ic;
 import 'package:mocktail/mocktail.dart';
 import 'package:washee/features/account/domain/entities/user_entity.dart';
 import 'package:washee/features/account/domain/usecases/auto_sign_in.dart';
@@ -40,10 +39,8 @@ void main() {
       """,
       (tester) async {
         // arrange
-        ic.initAll();
         UserEntity currentUser = automaticSignIn(true);
-        expect(currentUser.loggedIn, true);
-        WasheeApp mainWidget = WasheeApp();
+        WasheeApp mainWidget = WasheeApp(currentUser: currentUser);
         await tester.pumpWidget(mainWidget);
         await tester.pumpAndSettle();
         navigateToPage();
@@ -66,10 +63,8 @@ void main() {
       """,
       (tester) async {
         // arrange
-        ic.initAll();
         UserEntity currentUser = automaticSignIn(true);
-        expect(currentUser.loggedIn, true);
-        WasheeApp mainWidget = WasheeApp();
+        WasheeApp mainWidget = WasheeApp(currentUser: currentUser);
         await tester.pumpWidget(mainWidget);
         await tester.pumpAndSettle();
         navigateToPage();

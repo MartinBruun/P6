@@ -18,7 +18,7 @@ abstract class BoxCommunicator {
 }
 
 class BoxCommunicatorImpl implements BoxCommunicator {
-  Dio dio = new Dio();
+  late Dio dio;
 
   BoxCommunicatorImpl({required this.dio});
   @override

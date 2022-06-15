@@ -51,7 +51,7 @@ void initAll() {
 initCore(){
   sl.registerLazySingleton<Dio>(() => Dio());
   sl.registerLazySingleton<FlutterSecureStorage>(() => FlutterSecureStorage());
-  sl.registerLazySingleton<WebConnector>(() => WebConnector(httpCon: sl(), secStorage: sl()));
+  sl.registerLazySingleton<IWebConnector>(() => WebConnector(httpCon: sl(), secStorage: sl()));
 }
 
 // OLD should be moved to initCore

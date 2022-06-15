@@ -9,6 +9,9 @@ import 'package:washee/core/standards/environments/environment.dart';
 import 'package:washee/core/externalities/web/authorizer.dart';
 import 'package:washee/core/ui/navigation/home_screen.dart';
 import 'package:washee/core/ui/global_providers/global_provider.dart';
+import 'package:washee/features/account/domain/entities/user_entity.dart';
+import 'package:washee/features/account/domain/usecases/auto_sign_in.dart';
+import 'package:washee/features/account/presentation/provider/user_provider.dart';
 import 'package:washee/features/booking/presentation/provider/booking_provider.dart';
 import 'package:washee/features/booking/presentation/provider/calendar_provider.dart';
 import 'package:washee/features/account/presentation/provider/sign_in_provider.dart';
@@ -32,14 +35,17 @@ void main() async {
   print(
       "From main.dart: boxHasInternetAccess = ${Environment().config.boxHasInternetAccess}");
 
-  if (kDebugMode) {
-    await sl<Authorizer>().removeAllCredentials();
-  }
   await sl<Authorizer>().autoSignIn();
-  runApp(WasheeApp());
+
+  UserEntity currentUser = await sl<AutoSignInUsecase>().call(AutoSignInParams());
+  runApp(WasheeApp(currentUser: currentUser));
 }
 
 class WasheeApp extends StatelessWidget {
+  final UserEntity currentUser;
+
+  WasheeApp({required this.currentUser});
+
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -49,6 +55,7 @@ class WasheeApp extends StatelessWidget {
         ChangeNotifierProvider(create: (ctx) => CalendarProvider()),
         ChangeNotifierProvider(create: (ctx) => SignInProvider()),
         ChangeNotifierProvider(create: (ctx) => BookingProvider()),
+        ChangeNotifierProvider(create: (ctx) => UserProvider(currentUser: currentUser)),
       ],
       child: ScreenUtilInit(
         designSize: Size(1000, 1600),

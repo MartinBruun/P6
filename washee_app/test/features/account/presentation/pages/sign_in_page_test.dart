@@ -6,7 +6,6 @@ import 'package:washee/features/account/domain/entities/user_entity.dart';
 import 'package:washee/features/account/domain/usecases/auto_sign_in.dart';
 import 'package:washee/features/account/domain/usecases/sign_in.dart';
 import 'package:washee/main.dart';
-import 'package:washee/injection_container.dart' as ic;
 
 import '../../../../fixtures/entities/account/users.dart';
 
@@ -34,10 +33,8 @@ void main() {
       """,
       (tester) async {
       // arrange
-      ic.initAll();
       UserEntity currentUser = automaticSignIn(false);
-      expect(currentUser.loggedIn, false);
-      WasheeApp mainWidget = WasheeApp();
+      WasheeApp mainWidget = WasheeApp(currentUser: currentUser);
       await tester.pumpWidget(mainWidget);
       await tester.pumpAndSettle();
 
@@ -56,10 +53,8 @@ void main() {
       """,
       (tester) async {
       // arrange
-      ic.initAll();
       UserEntity currentUser = automaticSignIn(true);
-      expect(currentUser.loggedIn, true);
-      WasheeApp mainWidget = WasheeApp();
+      WasheeApp mainWidget = WasheeApp(currentUser: currentUser,);
       await tester.pumpWidget(mainWidget);
       await tester.pumpAndSettle();
       String expecteNotVisibleText = "Velkommen til Washee";
@@ -67,7 +62,7 @@ void main() {
       // act
       // assert
       expect(find.text(expecteNotVisibleText),findsNothing);
-    }, skip: true,
+    },
     tags: ["widgettest","account","pages"]);
   });
   group("SignInPage SignInUsecase",() {
@@ -79,10 +74,8 @@ void main() {
       """,
       (tester) async {
       // arrange
-      ic.initAll();
       UserEntity currentUser = automaticSignIn(false);
-      expect(currentUser.loggedIn, false);
-      WasheeApp mainWidget = WasheeApp();
+      WasheeApp mainWidget = WasheeApp(currentUser: currentUser);
       await tester.pumpWidget(mainWidget);
       await tester.pumpAndSettle();
 
