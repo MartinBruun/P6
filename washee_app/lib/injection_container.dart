@@ -8,10 +8,14 @@ import 'package:washee/core/externalities/web/authorizer.dart';
 import 'package:washee/core/externalities/web/web_communicator.dart';
 import 'package:washee/core/externalities/box/box_communicator.dart';
 import 'package:washee/core/externalities/web/web_connector.dart';
+import 'package:washee/core/standards/base_usecase/usecase.dart';
 import 'package:washee/features/account/data/datasources/account_remote.dart';
 import 'package:washee/features/account/data/datasources/user_remote.dart';
 import 'package:washee/features/account/data/repositories/account_repository_impl.dart';
 import 'package:washee/features/account/data/repositories/user_repository.dart';
+import 'package:washee/features/account/domain/usecases/auto_sign_in.dart';
+import 'package:washee/features/account/presentation/provider/account_language_provider.dart';
+import 'package:washee/features/account/presentation/provider/account_provider.dart';
 import 'package:washee/features/booking/data/datasources/book_remote.dart';
 import 'package:washee/features/booking/data/repositories/book_repository_impl.dart';
 import 'package:washee/features/booking/domain/usecases/delete_booking.dart';
@@ -38,7 +42,7 @@ import 'features/booking/domain/usecases/get_bookings.dart';
 // sl is short for service locater
 final GetIt sl = GetIt.instance;
 
-void initAll() {
+Future<void> initAll() async {
   initCore();
   initCoreAndExternal();
   initAccount();
@@ -48,13 +52,33 @@ void initAll() {
   initBooking();
 }
 
-initCore(){
+void initCore(){
   sl.registerLazySingleton<Dio>(() => Dio());
   sl.registerLazySingleton<FlutterSecureStorage>(() => FlutterSecureStorage());
-  sl.registerLazySingleton<IWebConnector>(() => WebConnector(httpCon: sl(), secStorage: sl()));
+  sl.registerLazySingleton<IWebConnector>(() => WebConnector(httpConnection: sl(), secureStorage: sl()));
 }
 
-// OLD should be moved to initCore
+void initAccount() {
+  // Data Sources
+  sl.registerLazySingleton<IWebAccountRemote>(() => WebAccountRemote(webConnector: sl()));
+  sl.registerLazySingleton<IWebUserRemote>(() => WebUserRemote(webConnector: sl()));
+
+  // Repositories
+  sl.registerLazySingleton<IUserRepository>(() => UserRepository(webRemote: sl()));
+  sl.registerLazySingleton<IAccountRepository>(() => AccountRepository(accountRemote: sl()));
+
+  // Usecases
+  sl.registerLazySingleton<AutoSignInUsecase>(() => AutoSignInUsecase(userRepository: sl()));
+  sl.registerLazySingleton<SignInUseCase>(() => SignInUseCase(userRepository: sl()));
+  sl.registerLazySingleton<UpdateAccountUseCase>(() => UpdateAccountUseCase(userRepository: sl(), accountRepository: sl()));
+
+  // Providers
+  sl.registerLazySingleton<AccountProvider>(() => AccountProvider(autoSignInUsecase: sl()));
+  sl.registerLazySingleton<AccountLanguageProvider>(() => AccountLanguageProvider());
+}
+
+
+// EVERYTHING BELOW HERE IS OLD and should be moved to the top structure
 initCoreAndExternal() {
   sl.registerLazySingleton<NetworkInfo>(
       () => NetworkInfoImpl(connectionChecker: sl()));
@@ -114,20 +138,4 @@ void initGetMachines() {
   // Repositories
   sl.registerLazySingleton<GetMachinesRepository>(
       () => GetMachinesRepositoryImpl(communicator: sl(), networkInfo: sl()));
-}
-
-void initAccount() {
-  // Usecases
-  sl.registerLazySingleton<SignInUseCase>(() => SignInUseCase(userRepository: sl()));
-  sl.registerLazySingleton<UpdateAccountUseCase>(() => UpdateAccountUseCase(userRepository: sl(), accountRepository: sl()));
-
-  // Repositories
-  sl.registerLazySingleton<IUserRepository>(
-      () => UserRepository(webRemote: sl()));
-  sl.registerLazySingleton<IAccountRepository>(
-      () => AccountRepository(accountRemote: sl()));
-
-  // Data Sources
-  sl.registerLazySingleton<WebAccountRemote>(() => WebAccountRemote(webConnector: sl()));
-  sl.registerLazySingleton<WebUserRemote>(() => WebUserRemote(webConnector: sl()));
 }

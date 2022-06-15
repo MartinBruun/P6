@@ -4,7 +4,7 @@ import 'package:washee/features/account/data/repositories/user_repository.dart';
 import 'package:washee/features/account/domain/entities/user_entity.dart';
 
 class AutoSignInUsecase implements UseCase<void, AutoSignInParams> {
-  final UserRepository userRepository;
+  final IUserRepository userRepository;
 
   AutoSignInUsecase({required this.userRepository});
 

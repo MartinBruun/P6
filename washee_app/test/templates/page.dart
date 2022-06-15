@@ -1,56 +1,62 @@
 import 'dart:core';
 
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:washee/main.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:provider/provider.dart';
+import 'package:washee/core/ui/navigation/home_screen.dart';
+import 'package:washee/core/ui/themes/themes.dart';
 import 'package:washee/features/account/domain/entities/user_entity.dart';
-import 'package:washee/features/account/domain/usecases/auto_sign_in.dart';
+import 'package:washee/features/account/presentation/provider/account_provider.dart';
 
-// import '../../../../fixtures/entities/account/users.dart';
-
-class MockAutoSignInUsecase extends Mock implements AutoSignInUsecase {}
-// class MockUSECASE_NAME extends Mock implements USECASE_NAME {}
-
-final List<String> passedTests = [];
+class MockAccountProvider extends Mock implements AccountProvider {}
 
 void main() {
 
-  UserEntity automaticSignIn(bool autoSignIn){
-    UserEntity activeUser = UserEntity.anonymousUser();
-    if(autoSignIn){
-      // activeUser = firstUserFixture();  // REMEMBER TO UNCOMMENT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    }
-    when(
-      () => MockAutoSignInUsecase().call(AutoSignInParams()))
-      .thenAnswer((_) async => activeUser);
-    return activeUser;
-  }
+    Future<void> initializeApp(WidgetTester tester, {required AccountProvider mockAcc}) async {
+        await tester.pumpWidget(MultiProvider(
+          providers: [
+            ChangeNotifierProvider(create: (ctx) => mockAcc),
+          ],
+          child: ScreenUtilInit(
+            designSize: Size(1000, 1600),
+            builder: (_) => MaterialApp(
+              title: "Washee App",
+              debugShowCheckedModeBanner: true,
+              theme: getMainTheme(),
+              home: HomeScreen(),
+              routes: {},
+            ),
+          ),
+        ));
+        await tester.pumpAndSettle();
+      }
 
-  void navigateToPage(){
+  Future<void> navigateToPage() async {
 
   }
 
   group("TEST_PAGE basic navigation",() {
     testWidgets(
       """
-        Should XXX
-        When YYY
-        Given ZZZ
+        Should be able to navigate to TEST_PAGE
+        Given the user can automatically sign in
       """,
       (tester) async {
         // arrange
-        UserEntity currentUser = automaticSignIn(true);
-        WasheeApp mainWidget = WasheeApp(currentUser: currentUser);
-        await tester.pumpWidget(mainWidget);
-        await tester.pumpAndSettle();
-        navigateToPage();
-        String expectedTextToBeSeen = "OutputAUserCanActuallyExperience";
-
+        AccountProvider mockAccountProvider = MockAccountProvider();
+        UserEntity providedUser = UserEntity.anonymousUser(); // CHANGE THIS to firstUserFixture(). It is only to avoid syntax errors in the template
+        providedUser.loggedIn = true;
+        when(() => mockAccountProvider.currentUser).thenAnswer((_) => providedUser);
+        await initializeApp(tester, mockAcc: mockAccountProvider);
+      
         // act
+        await navigateToPage();
 
         // assert
+        String expectedTextToBeSeen = "UseALanguageProviderToSetTheTextHere";
         expect(find.text(expectedTextToBeSeen),findsOneWidget);
-        passedTests.add("canNavigateToPage");
     }, skip: true,
     tags: ["widgettest","FEATURE_NAME","pages"]);
   });
@@ -63,18 +69,19 @@ void main() {
       """,
       (tester) async {
         // arrange
-        UserEntity currentUser = automaticSignIn(true);
-        WasheeApp mainWidget = WasheeApp(currentUser: currentUser);
-        await tester.pumpWidget(mainWidget);
-        await tester.pumpAndSettle();
-        navigateToPage();
-        String expectedTextToBeSeen = "OutputAUserCanActuallyExperience";
-
+        AccountProvider mockAccountProvider = MockAccountProvider();
+        UserEntity providedUser = UserEntity.anonymousUser(); // CHANGE THIS to firstUserFixture(). It is only to avoid syntax errors in the template
+        providedUser.loggedIn = true;
+        when(() => mockAccountProvider.currentUser).thenAnswer((_) => providedUser);
+        await initializeApp(tester, mockAcc: mockAccountProvider);
+        await navigateToPage();
+      
         // act
-
+        
         // assert
+        String expectedTextToBeSeen = "UseALanguageProviderToSetTheTextHere";
         expect(find.text(expectedTextToBeSeen),findsOneWidget);
-    }, skip: !passedTests.contains("canNavigateToPage"),
+    },
     tags: ["widgettest","FEATURE_NAME","pages"]);
   });
 }

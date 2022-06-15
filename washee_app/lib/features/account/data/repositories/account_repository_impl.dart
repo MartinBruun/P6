@@ -13,7 +13,7 @@ abstract class IAccountRepository {
 }
 
 class AccountRepository extends IAccountRepository{
-  late WebAccountRemote accountRemote;
+  late IWebAccountRemote accountRemote;
 
   AccountRepository({required this.accountRemote});
 

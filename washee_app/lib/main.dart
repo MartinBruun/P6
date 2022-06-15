@@ -9,9 +9,8 @@ import 'package:washee/core/standards/environments/environment.dart';
 import 'package:washee/core/externalities/web/authorizer.dart';
 import 'package:washee/core/ui/navigation/home_screen.dart';
 import 'package:washee/core/ui/global_providers/global_provider.dart';
-import 'package:washee/features/account/domain/entities/user_entity.dart';
-import 'package:washee/features/account/domain/usecases/auto_sign_in.dart';
-import 'package:washee/features/account/presentation/provider/user_provider.dart';
+import 'package:washee/features/account/presentation/provider/account_language_provider.dart';
+import 'package:washee/features/account/presentation/provider/account_provider.dart';
 import 'package:washee/features/booking/presentation/provider/booking_provider.dart';
 import 'package:washee/features/booking/presentation/provider/calendar_provider.dart';
 import 'package:washee/features/account/presentation/provider/sign_in_provider.dart';
@@ -23,7 +22,7 @@ import 'package:washee/injection_container.dart';
 void main() async {
   await setupEnvironment();
   WidgetsFlutterBinding.ensureInitialized();
-  ic.initAll();
+  await ic.initAll();
   ByteData tzf = await rootBundle.load('assets/2021a.tzf');
   initializeDatabase(tzf.buffer.asUint8List());
 
@@ -37,14 +36,12 @@ void main() async {
 
   await sl<Authorizer>().autoSignIn();
 
-  UserEntity currentUser = await sl<AutoSignInUsecase>().call(AutoSignInParams());
-  runApp(WasheeApp(currentUser: currentUser));
+  await sl<AccountProvider>().autoSignIn(); // Should be moved to the WasheeApp instead, but it presently cant support awaits
+  runApp(WasheeApp());
 }
 
 class WasheeApp extends StatelessWidget {
-  final UserEntity currentUser;
-
-  WasheeApp({required this.currentUser});
+  WasheeApp();
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +52,8 @@ class WasheeApp extends StatelessWidget {
         ChangeNotifierProvider(create: (ctx) => CalendarProvider()),
         ChangeNotifierProvider(create: (ctx) => SignInProvider()),
         ChangeNotifierProvider(create: (ctx) => BookingProvider()),
-        ChangeNotifierProvider(create: (ctx) => UserProvider(currentUser: currentUser)),
+        ChangeNotifierProvider(create: (ctx) => sl<AccountProvider>()),
+        ChangeNotifierProvider(create: (ctx) => sl<AccountLanguageProvider>()),
       ],
       child: ScreenUtilInit(
         designSize: Size(1000, 1600),

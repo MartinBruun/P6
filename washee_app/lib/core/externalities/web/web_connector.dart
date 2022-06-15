@@ -22,10 +22,8 @@ class WebConnector extends IWebConnector{
   late String secureStorageUsernameKey;
   late String secureStoragePasswordKey;
 
-  WebConnector({required Dio httpCon, required FlutterSecureStorage secStorage}){
-    secureStorage = secStorage;
+  WebConnector({required this.httpConnection, required this.secureStorage}){
     httpConnection.options.headers["content-Type"] = "application/json";
-    httpConnection = httpCon;
     secureStorageTokenKey = "token";
     secureStorageUsernameKey = "username";
     secureStoragePasswordKey = "password";

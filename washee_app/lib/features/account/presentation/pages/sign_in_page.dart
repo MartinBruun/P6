@@ -11,6 +11,7 @@ import 'package:washee/core/ui/themes/themes.dart';
 import 'package:washee/core/standards/base_usecase/usecase.dart';
 import 'package:washee/features/account/domain/usecases/sign_in.dart';
 import 'package:washee/features/account/presentation/pages/wrong_input.dart';
+import 'package:washee/features/account/presentation/provider/account_language_provider.dart';
 import 'package:washee/features/account/presentation/provider/sign_in_provider.dart';
 import 'package:washee/features/account/presentation/widgets/password_help_box.dart';
 import 'package:washee/features/account/presentation/widgets/text_input.dart';
@@ -39,6 +40,7 @@ class _SignInScreenState extends State<SignInPage> {
 
   @override
   Widget build(BuildContext context) {
+    AccountLanguageProvider alp = Provider.of<AccountLanguageProvider>(context, listen: false);
     return Scaffold(
       resizeToAvoidBottomInset: true,
       appBar: AppBar(
@@ -70,13 +72,13 @@ class _SignInScreenState extends State<SignInPage> {
             Padding(
               padding: EdgeInsets.only(bottom: 50.h),
               child: Text(
-                "Velkommen til Washee",
+                alp.getText("SignInPage", "presentationText"),
                 style: textStyle.copyWith(
                     fontSize: textSize_54, fontWeight: FontWeight.bold),
               ),
             ),
             TextInput(
-              text: "Email",
+              text: alp.getText("SignInPage", "usernameField"),
               controller: _emailController,
               obscure: false,
               validator: (value) {
@@ -87,7 +89,7 @@ class _SignInScreenState extends State<SignInPage> {
               },
             ),
             TextInput(
-              text: "Password",
+              text: alp.getText("SignInPage", "passwordField"),
               controller: _passwordController,
               obscure: true,
               validator: (value) {
@@ -111,7 +113,7 @@ class _SignInScreenState extends State<SignInPage> {
                                 color: Colors.white,
                               )
                             : Text(
-                                "Log ind",
+                                alp.getText("SignInPage", "buttonText"),
                                 style: textStyle.copyWith(
                                     fontSize: textSize_38,
                                     fontWeight: FontWeight.w600),

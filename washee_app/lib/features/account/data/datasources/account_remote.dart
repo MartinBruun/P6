@@ -11,7 +11,7 @@ abstract class  IWebAccountRemote{
 }
 
 class WebAccountRemote extends IWebAccountRemote{
-  final WebConnector webConnector;
+  final IWebConnector webConnector;
 
   WebAccountRemote({required this.webConnector});
 

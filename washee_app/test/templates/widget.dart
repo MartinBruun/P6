@@ -5,6 +5,9 @@ import 'package:flutter_test/flutter_test.dart';
 
 // class MockUSECASE_NAME extends Mock implements USECASE_NAME {}
 
+// THIS TEMPLATE IS NOT WORKING YET! SEE PAGE FOR A WORKING EXAMPLE!
+// THIS TEMPLATE IS FOR TESTING A SINGLE, MODULAR WIDGET! PAGE IS FOR TESTING NAVIGATION AND USECASES!
+
 void main() {  
     group("TEST_WIDGET no interactions",() {
     testWidgets(

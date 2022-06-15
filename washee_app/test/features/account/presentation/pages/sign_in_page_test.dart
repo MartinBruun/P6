@@ -1,28 +1,42 @@
 import 'dart:core';
 
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:provider/provider.dart';
+import 'package:washee/core/ui/navigation/home_screen.dart';
+import 'package:washee/core/ui/themes/themes.dart';
 import 'package:washee/features/account/domain/entities/user_entity.dart';
-import 'package:washee/features/account/domain/usecases/auto_sign_in.dart';
-import 'package:washee/features/account/domain/usecases/sign_in.dart';
-import 'package:washee/main.dart';
+import 'package:washee/features/account/presentation/provider/account_language_provider.dart';
+import 'package:washee/features/account/presentation/provider/account_provider.dart';
+import 'package:washee/features/account/presentation/provider/sign_in_provider.dart';
 
 import '../../../../fixtures/entities/account/users.dart';
 
-class MockAutoSignInUsecase extends Mock implements AutoSignInUsecase {}
-class MockSignInUsecase extends Mock implements SignInUseCase {}
+class MockAccountProvider extends Mock implements AccountProvider {}
 
 void main() {
 
-  UserEntity automaticSignIn(bool autoSignIn){
-    UserEntity activeUser = UserEntity.anonymousUser();
-    if(autoSignIn){
-      activeUser = firstUserFixture();
-    }
-    when(
-      () => MockAutoSignInUsecase().call(AutoSignInParams()))
-      .thenAnswer((_) async => activeUser);
-    return activeUser;
+  Future<void> initializeApp(WidgetTester tester, {required AccountProvider mockAcc, required AccountLanguageProvider mockAccountLang}) async {
+    await tester.pumpWidget(MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (ctx) => SignInProvider()),
+        ChangeNotifierProvider(create: (ctx) => mockAcc),
+        ChangeNotifierProvider(create: (ctx) => mockAccountLang),
+      ],
+      child: ScreenUtilInit(
+        designSize: Size(1000, 1600),
+        builder: (_) => MaterialApp(
+          title: "Washee App",
+          debugShowCheckedModeBanner: true,
+          theme: getMainTheme(),
+          home: HomeScreen(),
+          routes: {},
+        ),
+      ),
+    ));
+    await tester.pumpAndSettle();
   }
 
   group("SignInPage basic navigation",() {
@@ -33,16 +47,17 @@ void main() {
       """,
       (tester) async {
       // arrange
-      UserEntity currentUser = automaticSignIn(false);
-      WasheeApp mainWidget = WasheeApp(currentUser: currentUser);
-      await tester.pumpWidget(mainWidget);
-      await tester.pumpAndSettle();
-
-      String expectedTextToBeSeen = "Velkommen til Washee";
+      AccountProvider mockAccountProvider = MockAccountProvider();
+      UserEntity providedUser = UserEntity.anonymousUser();
+      providedUser.loggedIn = false;
+      when(() => mockAccountProvider.currentUser).thenAnswer((_) => providedUser);
+      AccountLanguageProvider langProv = AccountLanguageProvider();
+      await initializeApp(tester, mockAcc: mockAccountProvider, mockAccountLang: langProv);
       
       // navigate
       // act
       // assert
+      String expectedTextToBeSeen = langProv.getText("SignInPage", "presentationText");
       expect(find.text(expectedTextToBeSeen),findsOneWidget);
     },
     tags: ["widgettest","account","pages"]);
@@ -53,15 +68,17 @@ void main() {
       """,
       (tester) async {
       // arrange
-      UserEntity currentUser = automaticSignIn(true);
-      WasheeApp mainWidget = WasheeApp(currentUser: currentUser,);
-      await tester.pumpWidget(mainWidget);
-      await tester.pumpAndSettle();
-      String expecteNotVisibleText = "Velkommen til Washee";
+      AccountProvider mockAccountProvider = MockAccountProvider();
+      UserEntity providedUser = firstUserFixture();
+      providedUser.loggedIn = true;
+      when(() => mockAccountProvider.currentUser).thenAnswer((_) => providedUser);
+      AccountLanguageProvider langProv = AccountLanguageProvider();
+      await initializeApp(tester, mockAcc: mockAccountProvider, mockAccountLang: langProv);
       
       // act
       // assert
-      expect(find.text(expecteNotVisibleText),findsNothing);
+      String expectedTextNotToBeSeen = langProv.getText("SignInPage", "presentationText");
+      expect(find.text(expectedTextNotToBeSeen),findsNothing);
     },
     tags: ["widgettest","account","pages"]);
   });
@@ -74,23 +91,31 @@ void main() {
       """,
       (tester) async {
       // arrange
-      UserEntity currentUser = automaticSignIn(false);
-      WasheeApp mainWidget = WasheeApp(currentUser: currentUser);
-      await tester.pumpWidget(mainWidget);
-      await tester.pumpAndSettle();
-
-      currentUser.loggedIn = true;
-      when(
-        () => MockSignInUsecase().call(SignInParams(email: currentUser.email, password: "testPassword")))
-        .thenAnswer((_) async => currentUser);
-
-      String expecteNotVisibleText = "Velkommen til Washee";
+      AccountProvider mockAccountProvider = MockAccountProvider();
+      UserEntity providedUser = firstUserFixture();
+      providedUser.loggedIn = true;
+      when(() => mockAccountProvider.currentUser).thenAnswer((_) => providedUser);
+      AccountLanguageProvider langProv = AccountLanguageProvider();
+      await initializeApp(tester, mockAcc: mockAccountProvider, mockAccountLang: langProv);
       
       // act
+      await tester.pump(Duration(milliseconds: 400));
+      expect(langProv.getText("SignInPage", "usernameField"), "Email");
+      var a = find.text(langProv.getText("SignInPage", "usernameField"));
+      expect(a, findsOneWidget);
+      expect(langProv.getText("SignInPage", "usernameField"), "Email1");
+
+      await tester.enterText(find.text(langProv.getText("SignInPage", "usernameField")), "ValidUsername");
+      await tester.enterText(find.text(langProv.getText("SignInPage", "passwordField")), "ValidPassword");
+      await tester.pumpAndSettle();
+      await tester.tap(find.text(langProv.getText("SignInPage", "buttonText")));
+      await tester.pumpAndSettle();
+
       // assert
-      expect(currentUser.loggedIn, true);
-      expect(find.text(expecteNotVisibleText),findsNothing);
-    }, skip: true,
+      String expectedTextNotToBeSeen = langProv.getText("SignInPage", "presentationText");
+      expect(find.text(expectedTextNotToBeSeen),findsNothing);
+      expect(mockAccountProvider.currentUser.loggedIn, true);
+    },
     tags: ["widgettest","account","pages"]);
   });
 }
