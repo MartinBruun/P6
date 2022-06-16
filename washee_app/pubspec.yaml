@@ -60,6 +60,7 @@ dev_dependencies:
   mockito: ^5.0.14 
   build_runner: ^2.1.1
   mocktail: '^0.2.0'
+  http_mock_adapter: ^0.3.3
 
 flutter:
 

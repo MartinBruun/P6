@@ -1,16 +1,20 @@
 import 'dart:core';
 
 import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:http_mock_adapter/http_mock_adapter.dart';
 import 'package:washee/core/externalities/web/web_connector.dart';
+import 'package:washee/core/standards/environments/base_config.dart';
 import 'package:washee/core/standards/environments/environment.dart';
 
-class MockHttpConnector extends Mock implements Dio {}
+import '../../../fixtures/entities/account/users.dart';
+
 class MockEnvironment extends Mock implements Environment {}
+class MockConfig extends Mock implements BaseConfig {}
 class MockSecureStorage extends Mock implements FlutterSecureStorage {}
-class MockResponse extends Mock implements Response {}
 
 void main() {
   group("WebConnector authorize",() {
@@ -26,19 +30,35 @@ void main() {
       String expectedEndpoint = mockedDomain + "/api-token-auth/";
       String mockUsername = "SomeUsername";
       String mockPassword = "SomePassword";
-      Dio mockDio = MockHttpConnector();
-      Response mockAuthorizedResponse = MockResponse();
-      String mockToken = "Mocked token";
-      mockAuthorizedResponse.data = {"token": mockToken};
-      when(
-        () => mockDio.post(expectedEndpoint, data:{"username": mockUsername, "password": mockPassword}))
-        .thenAnswer((_) async => mockAuthorizedResponse);
+      String mockToken = "SomeToken";
+      Map<String,dynamic> mockResponse = firstUserAsJsonFixture();
+      mockResponse["token"] = "SomeToken";
+
+      final mockDio = Dio(BaseOptions());
+      final dioAdapter = DioAdapter(dio: mockDio);
+      dioAdapter.onPost(
+        expectedEndpoint,
+        (server) => server.reply(
+          200,
+          mockResponse,
+        ),
+        data: {
+          "username": mockUsername,
+          "password": mockPassword
+        },
+      );
+
       Environment mockEnvironment = MockEnvironment();
-      when(
-        () => mockEnvironment.config.webApiHost)
-        .thenAnswer((invocation) => mockedDomain);
-      FlutterSecureStorage secureStorage = FlutterSecureStorage();
-      IWebConnector testWebConector = WebConnector(httpConnection: mockDio, secureStorage: secureStorage, environment: mockEnvironment);
+      BaseConfig testConfig = MockConfig();
+      when(() => mockEnvironment.config).thenAnswer((_) => testConfig);
+      when(() => testConfig.webApiHost).thenAnswer((_) => mockedDomain);
+
+      FlutterSecureStorage mockSecureStorage = MockSecureStorage();
+      when(() => mockSecureStorage.write(key: "username", value: mockUsername)).thenAnswer((_) async => null);
+      when(() => mockSecureStorage.write(key: "password", value: mockPassword)).thenAnswer((_) async => null);
+      when(() => mockSecureStorage.write(key: "token", value: mockToken)).thenAnswer((_) async => null);
+
+      IWebConnector testWebConector = WebConnector(httpConnection: mockDio, secureStorage: mockSecureStorage, environment: mockEnvironment);
       expect(testWebConector.authorizeURL, expectedEndpoint);
 
       // act
@@ -46,7 +66,7 @@ void main() {
 
       // assert
       expect(mockDio.options.headers["authorization"], "TOKEN $mockToken");
-    }, skip: true,
+    },
     tags: ["unittest","core","externalities"]);
   });
   group("WebConnector renewAuthorization",() {
@@ -57,7 +77,7 @@ void main() {
       """,
       () async {
       // arrange
-      Dio mockedDio = MockHttpConnector();
+      /*Dio mockedDio = MockHttpConnector();
       FlutterSecureStorage mockedSecureStorage = MockSecureStorage();
       Environment mockedEnvironment = MockEnvironment();
       IWebConnector testWebConnector = WebConnector(httpConnection: mockedDio, secureStorage: mockedSecureStorage, environment: mockedEnvironment);
@@ -65,7 +85,7 @@ void main() {
       when(() => mockedSecureStorage.read(key: "username")).thenAnswer((_) async => "ValidUsername");
       when(() => mockedSecureStorage.read(key: "password")).thenAnswer((_) async => "ValidPassword");
       // act
-
+*/
       // assert
     }, skip: true,
     tags: ["unittest","core","externalities"]);
