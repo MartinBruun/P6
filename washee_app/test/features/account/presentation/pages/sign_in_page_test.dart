@@ -10,16 +10,16 @@ import 'package:washee/core/ui/themes/themes.dart';
 import 'package:washee/features/account/domain/entities/user_entity.dart';
 import 'package:washee/features/account/presentation/pages/sign_in_page.dart';
 import 'package:washee/features/account/presentation/provider/account_language_provider.dart';
-import 'package:washee/features/account/presentation/provider/account_provider.dart';
+import 'package:washee/features/account/presentation/provider/account_functionality_provider.dart';
 import 'package:washee/features/account/presentation/provider/sign_in_provider.dart';
 
 import '../../../../fixtures/entities/account/users.dart';
 
-class MockAccountProvider extends Mock implements AccountProvider {}
+class MockAccountFunctionalityProvider extends Mock implements AccountFunctionalityProvider {}
 
 void main() {
 
-  Future<void> initializeApp(WidgetTester tester, {required AccountProvider mockAcc, required AccountLanguageProvider mockAccountLang}) async {
+  Future<void> initializeApp(WidgetTester tester, {required AccountFunctionalityProvider mockAcc, required AccountLanguageProvider mockAccountLang}) async {
     await tester.pumpWidget(MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (ctx) => SignInProvider()),
@@ -48,7 +48,7 @@ void main() {
       """,
       (tester) async {
       // arrange
-      AccountProvider mockAccountProvider = MockAccountProvider();
+      AccountFunctionalityProvider mockAccountProvider = MockAccountFunctionalityProvider();
       UserEntity providedUser = UserEntity.anonymousUser();
       providedUser.loggedIn = false;
       when(() => mockAccountProvider.currentUser).thenAnswer((_) => providedUser);
@@ -69,7 +69,7 @@ void main() {
       """,
       (tester) async {
       // arrange
-      AccountProvider mockAccountProvider = MockAccountProvider();
+      AccountFunctionalityProvider mockAccountProvider = MockAccountFunctionalityProvider();
       UserEntity providedUser = firstUserFixture();
       providedUser.loggedIn = true;
       when(() => mockAccountProvider.currentUser).thenAnswer((_) => providedUser);
@@ -92,7 +92,7 @@ void main() {
       """,
       (tester) async {
       // arrange
-      AccountProvider mockAccountProvider = MockAccountProvider();
+      AccountFunctionalityProvider mockAccountProvider = MockAccountFunctionalityProvider();
       UserEntity initialUser = UserEntity.anonymousUser();
       initialUser.loggedIn = false;
       String testUsername = initialUser.username;
@@ -100,14 +100,17 @@ void main() {
       when(() => mockAccountProvider.currentUser).thenAnswer((_) => initialUser);
       when(() => mockAccountProvider.signIn(username: testUsername, password: testPassword)).thenAnswer((_) async {
         initialUser.loggedIn = true;
-        return initialUser;
       });
       AccountLanguageProvider langProv = AccountLanguageProvider();
       await initializeApp(tester, mockAcc: mockAccountProvider, mockAccountLang: langProv);
       
       // act
-      await tester.enterText(find.text(langProv.getText("SignInPage", "usernameField")), testUsername);
-      await tester.enterText(find.text(langProv.getText("SignInPage", "passwordField")), testPassword);
+      //expect(find.text(langProv.getText("SignInPage", "usernameField")), findsOneWidget);
+      //expect(1,0);
+      Finder usernameTextInputField = find.byKey(Key(langProv.getText("SignInPage", "usernameField")));
+      await tester.enterText(usernameTextInputField, testUsername);
+      Finder passwordTextInputField = find.byKey(Key(langProv.getText("SignInPage", "passwordField")));
+      await tester.enterText(passwordTextInputField, testPassword);
       await tester.pumpAndSettle();
       await tester.tap(find.text(langProv.getText("SignInPage", "buttonText")));
       await tester.pumpAndSettle();

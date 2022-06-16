@@ -3,7 +3,7 @@ import 'dart:core';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  group("AccountProvider autoSignIn",() {
+  group("AccountFunctionalityProvider autoSignIn",() {
     test(
       """
         Should XXX

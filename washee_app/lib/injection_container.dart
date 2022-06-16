@@ -9,13 +9,14 @@ import 'package:washee/core/externalities/web/web_communicator.dart';
 import 'package:washee/core/externalities/box/box_communicator.dart';
 import 'package:washee/core/externalities/web/web_connector.dart';
 import 'package:washee/core/standards/base_usecase/usecase.dart';
+import 'package:washee/core/standards/environments/environment.dart';
 import 'package:washee/features/account/data/datasources/account_remote.dart';
 import 'package:washee/features/account/data/datasources/user_remote.dart';
 import 'package:washee/features/account/data/repositories/account_repository_impl.dart';
 import 'package:washee/features/account/data/repositories/user_repository.dart';
 import 'package:washee/features/account/domain/usecases/auto_sign_in.dart';
 import 'package:washee/features/account/presentation/provider/account_language_provider.dart';
-import 'package:washee/features/account/presentation/provider/account_provider.dart';
+import 'package:washee/features/account/presentation/provider/account_functionality_provider.dart';
 import 'package:washee/features/booking/data/datasources/book_remote.dart';
 import 'package:washee/features/booking/data/repositories/book_repository_impl.dart';
 import 'package:washee/features/booking/domain/usecases/delete_booking.dart';
@@ -53,9 +54,10 @@ Future<void> initAll() async {
 }
 
 void initCore(){
+  sl.registerLazySingleton<Environment>(() => Environment());
   sl.registerLazySingleton<Dio>(() => Dio());
   sl.registerLazySingleton<FlutterSecureStorage>(() => FlutterSecureStorage());
-  sl.registerLazySingleton<IWebConnector>(() => WebConnector(httpConnection: sl(), secureStorage: sl()));
+  sl.registerLazySingleton<IWebConnector>(() => WebConnector(httpConnection: sl(), secureStorage: sl(), environment: sl()));
 }
 
 void initAccount() {
@@ -73,7 +75,7 @@ void initAccount() {
   sl.registerLazySingleton<UpdateAccountUseCase>(() => UpdateAccountUseCase(userRepository: sl(), accountRepository: sl()));
 
   // Providers
-  sl.registerLazySingleton<AccountProvider>(() => AccountProvider(autoSignInUsecase: sl(), signInUsecase: sl()));
+  sl.registerLazySingleton<AccountFunctionalityProvider>(() => AccountFunctionalityProvider(autoSignInUsecase: sl(), signInUsecase: sl()));
   sl.registerLazySingleton<AccountLanguageProvider>(() => AccountLanguageProvider());
 }
 

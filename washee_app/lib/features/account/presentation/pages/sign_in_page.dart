@@ -2,17 +2,15 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:washee/features/account/data/models/web_user.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:washee/core/ui/navigation/pages_enum.dart';
 import 'package:washee/core/ui/themes/colors.dart';
 import 'package:washee/core/ui/themes/dimens.dart';
 import 'package:washee/core/ui/themes/themes.dart';
 import 'package:washee/core/standards/base_usecase/usecase.dart';
-import 'package:washee/features/account/domain/usecases/sign_in.dart';
 import 'package:washee/features/account/presentation/pages/wrong_input.dart';
 import 'package:washee/features/account/presentation/provider/account_language_provider.dart';
-import 'package:washee/features/account/presentation/provider/account_provider.dart';
+import 'package:washee/features/account/presentation/provider/account_functionality_provider.dart';
 import 'package:washee/features/account/presentation/provider/sign_in_provider.dart';
 import 'package:washee/features/account/presentation/widgets/password_help_box.dart';
 import 'package:washee/features/account/presentation/widgets/text_input.dart';
@@ -39,8 +37,8 @@ class _SignInScreenState extends State<SignInPage> {
 
   @override
   Widget build(BuildContext context) {
-    AccountLanguageProvider alp = Provider.of<AccountLanguageProvider>(context, listen: false);
-    AccountProvider ap = Provider.of<AccountProvider>(context,listen: false);
+    var accLangProv = Provider.of<AccountLanguageProvider>(context, listen: false);
+    var accFuncProv = Provider.of<AccountFunctionalityProvider>(context,listen: true);
     return Scaffold(
       resizeToAvoidBottomInset: true,
       appBar: AppBar(
@@ -72,13 +70,13 @@ class _SignInScreenState extends State<SignInPage> {
             Padding(
               padding: EdgeInsets.only(bottom: 50.h),
               child: Text(
-                alp.getText("SignInPage", "presentationText"),
+                accLangProv.getText("SignInPage", "presentationText"),
                 style: textStyle.copyWith(
                     fontSize: textSize_54, fontWeight: FontWeight.bold),
               ),
             ),
             TextInput(
-              text: alp.getText("SignInPage", "usernameField"),
+              text: accLangProv.getText("SignInPage", "usernameField"),
               controller: _emailController,
               obscure: false,
               validator: (value) {
@@ -89,7 +87,7 @@ class _SignInScreenState extends State<SignInPage> {
               },
             ),
             TextInput(
-              text: alp.getText("SignInPage", "passwordField"),
+              text: accLangProv.getText("SignInPage", "passwordField"),
               controller: _passwordController,
               obscure: true,
               validator: (value) {
@@ -113,7 +111,7 @@ class _SignInScreenState extends State<SignInPage> {
                                 color: Colors.white,
                               )
                             : Text(
-                                alp.getText("SignInPage", "buttonText"),
+                                accLangProv.getText("SignInPage", "buttonText"),
                                 style: textStyle.copyWith(
                                     fontSize: textSize_38,
                                     fontWeight: FontWeight.w600),
@@ -127,9 +125,9 @@ class _SignInScreenState extends State<SignInPage> {
                             _formKey.currentState!.save();
                             try {
                               data.updateSignIn(true);
-                              var result = await ap.signIn(username: _emailController.text, password: _passwordController.text);
+                              await accFuncProv.signIn(username: _emailController.text, password: _passwordController.text);
 
-                              if (result.loggedIn) {
+                              if (accFuncProv.currentUser.loggedIn) {
                                 if (Platform.isAndroid) {
                                   await sl<GetWifiPermissionUsecase>()
                                       .call(NoParams());

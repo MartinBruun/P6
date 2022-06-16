@@ -7,6 +7,7 @@ import 'package:washee/core/standards/failures/failures.dart';
 
 abstract class IWebConnector{
   String get baseURL;
+  String get authorizeURL;
   Future<Response> authorize(String username, String password);
   Future<Response?> renewAuthorization();
   Future<Response> retrieve(String endpoint);
@@ -18,11 +19,12 @@ abstract class IWebConnector{
 class WebConnector extends IWebConnector{
   late Dio httpConnection;
   late FlutterSecureStorage secureStorage;
+  late Environment environment;
   late String secureStorageTokenKey;
   late String secureStorageUsernameKey;
   late String secureStoragePasswordKey;
 
-  WebConnector({required this.httpConnection, required this.secureStorage}){
+  WebConnector({required this.httpConnection, required this.secureStorage, required this.environment}){
     httpConnection.options.headers["content-Type"] = "application/json";
     secureStorageTokenKey = "token";
     secureStorageUsernameKey = "username";
@@ -30,12 +32,14 @@ class WebConnector extends IWebConnector{
   }
 
   @override
-  String get baseURL => Environment().config.webApiHost;
+  String get baseURL => environment.config.webApiHost;
+
+  @override
+  String get authorizeURL => environment.config.webApiHost + "/api-token-auth/";
 
   @override
   Future<Response> authorize(String username, String password) async {
     Response response;
-    String authorizeURL = baseURL + "/api-token-auth/";
 
     Map<String,dynamic> data = {
       "username": username,

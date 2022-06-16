@@ -29,6 +29,7 @@ class TextInput extends StatelessWidget {
           obscureText: obscure,
           style: TextStyle(color: Colors.white),
           cursorColor: Colors.white,
+          key: Key(this.text),
           decoration: InputDecoration(
               enabledBorder: _borderStyle,
               focusedBorder: _borderStyle,
