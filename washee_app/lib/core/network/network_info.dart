@@ -73,19 +73,19 @@ class NetworkInfoImpl implements NetworkInfo {
 
   @override
   Future<bool> disconnectFromBoxWifi() async {
-    // return true;
-    try {
-      await WiFiForIoTPlugin.forceWifiUsage(false);
-      await WiFiForIoTPlugin.disconnect();
-      return true;
-    } catch (e) {
-      ExceptionHandler().handle(
-          "Could not disconnect from wifi at NetworkInfo with error: " +
-              e.toString(),
-          log: true,
-          show: true,
-          crash: false);
-      return false;
-    }
+    return true;
+    // try {
+    //   await WiFiForIoTPlugin.forceWifiUsage(false);
+    //   await WiFiForIoTPlugin.disconnect();
+    //   return true;
+    // } catch (e) {
+    //   ExceptionHandler().handle(
+    //       "Could not disconnect from wifi at NetworkInfo with error: " +
+    //           e.toString(),
+    //       log: true,
+    //       show: true,
+    //       crash: false);
+    //   return false;
+    // }
   }
 }
