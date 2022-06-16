@@ -8,13 +8,18 @@ import 'package:provider/provider.dart';
 import 'package:washee/core/ui/navigation/home_screen.dart';
 import 'package:washee/core/ui/themes/themes.dart';
 import 'package:washee/features/account/domain/entities/user_entity.dart';
-import 'package:washee/features/account/presentation/provider/account_provider.dart';
+import 'package:washee/features/account/presentation/provider/account_functionality_provider.dart';
 
-class MockAccountProvider extends Mock implements AccountProvider {}
+class MockAccountProvider extends Mock implements AccountFunctionalityProvider {}
 
 void main() {
 
-    Future<void> initializeApp(WidgetTester tester, {required AccountProvider mockAcc}) async {
+    Future<void> initializeApp(WidgetTester tester, {required bool autoLogin, required AccountFunctionalityProvider mockAcc}) async {
+        // Setup Automatic login
+        UserEntity providedUser = UserEntity.anonymousUser();
+        providedUser.loggedIn = autoLogin;
+        when(() => mockAcc.currentUser).thenAnswer((_) => providedUser);
+        // Setup home widget
         await tester.pumpWidget(MultiProvider(
           providers: [
             ChangeNotifierProvider(create: (ctx) => mockAcc),
@@ -45,17 +50,14 @@ void main() {
       """,
       (tester) async {
         // arrange
-        AccountProvider mockAccountProvider = MockAccountProvider();
-        UserEntity providedUser = UserEntity.anonymousUser(); // CHANGE THIS to firstUserFixture(). It is only to avoid syntax errors in the template
-        providedUser.loggedIn = true;
-        when(() => mockAccountProvider.currentUser).thenAnswer((_) => providedUser);
-        await initializeApp(tester, mockAcc: mockAccountProvider);
+        AccountFunctionalityProvider mockAccountProvider = MockAccountProvider();
+        await initializeApp(tester, autoLogin: true, mockAcc: mockAccountProvider);
       
         // act
         await navigateToPage();
 
         // assert
-        String expectedTextToBeSeen = "UseALanguageProviderToSetTheTextHere";
+        String expectedTextToBeSeen = "UseANonMockedLanguageProviderToSetTheTextHere";
         expect(find.text(expectedTextToBeSeen),findsOneWidget);
     }, skip: true,
     tags: ["widgettest","FEATURE_NAME","pages"]);
@@ -69,17 +71,14 @@ void main() {
       """,
       (tester) async {
         // arrange
-        AccountProvider mockAccountProvider = MockAccountProvider();
-        UserEntity providedUser = UserEntity.anonymousUser(); // CHANGE THIS to firstUserFixture(). It is only to avoid syntax errors in the template
-        providedUser.loggedIn = true;
-        when(() => mockAccountProvider.currentUser).thenAnswer((_) => providedUser);
-        await initializeApp(tester, mockAcc: mockAccountProvider);
+        AccountFunctionalityProvider mockAccountProvider = MockAccountProvider();
+        await initializeApp(tester, autoLogin: true, mockAcc: mockAccountProvider);
         await navigateToPage();
       
         // act
         
         // assert
-        String expectedTextToBeSeen = "UseALanguageProviderToSetTheTextHere";
+        String expectedTextToBeSeen = "UseANonMockedLanguageProviderToSetTheTextHere";
         expect(find.text(expectedTextToBeSeen),findsOneWidget);
     },
     tags: ["widgettest","FEATURE_NAME","pages"]);
