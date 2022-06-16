@@ -8,7 +8,6 @@ import 'package:washee/core/externalities/web/authorizer.dart';
 import 'package:washee/core/externalities/web/web_communicator.dart';
 import 'package:washee/core/externalities/box/box_communicator.dart';
 import 'package:washee/core/externalities/web/web_connector.dart';
-import 'package:washee/core/standards/base_usecase/usecase.dart';
 import 'package:washee/core/standards/environments/environment.dart';
 import 'package:washee/features/account/data/datasources/account_remote.dart';
 import 'package:washee/features/account/data/datasources/user_remote.dart';

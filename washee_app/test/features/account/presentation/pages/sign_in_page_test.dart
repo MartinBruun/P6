@@ -8,7 +8,6 @@ import 'package:provider/provider.dart';
 import 'package:washee/core/ui/navigation/home_screen.dart';
 import 'package:washee/core/ui/themes/themes.dart';
 import 'package:washee/features/account/domain/entities/user_entity.dart';
-import 'package:washee/features/account/presentation/pages/sign_in_page.dart';
 import 'package:washee/features/account/presentation/provider/account_language_provider.dart';
 import 'package:washee/features/account/presentation/provider/account_functionality_provider.dart';
 import 'package:washee/features/account/presentation/provider/sign_in_provider.dart';
