@@ -7,8 +7,8 @@ abstract class IWebUserRemote{
   Future<Map<String,dynamic>> getUser(int userId);
   Future<List<Map<String,dynamic>>> getUsers(Map<String,dynamic> valuesToGet);
   Future<Map<String,dynamic>> postUser(Map<String,dynamic> userAsJson);
-  Future<Map<String,dynamic>> updateUser(Map<String,dynamic> userAsJson, Map<String,dynamic> valuesToUpdate);
-  Future<Map<String,dynamic>> deleteUser(Map<String,dynamic> userAsJson);
+  Future<Map<String,dynamic>> updateUser(int userId, Map<String,dynamic> valuesToUpdate);
+  Future<Map<String,dynamic>> deleteUser(int userId);
   Future<Map<String,dynamic>> signIn(String username, String password);
   Future<Map<String,dynamic>> autoSignIn();
 }
@@ -21,7 +21,7 @@ class WebUserRemote extends IWebUserRemote{
   String userEndpointURL = "/api/1/users/";
 
   @override
-  Future<Map<String, dynamic>> deleteUser(Map<String, dynamic> userAsJson) {
+  Future<Map<String, dynamic>> deleteUser(int userId) {
     // TODO: implement deleteUser
     throw UnimplementedError();
   }
@@ -46,7 +46,7 @@ class WebUserRemote extends IWebUserRemote{
   }
 
   @override
-  Future<Map<String, dynamic>> updateUser(Map<String, dynamic> userAsJson, Map<String, dynamic> valuesToUpdate) {
+  Future<Map<String, dynamic>> updateUser(int userId, Map<String, dynamic> valuesToUpdate) {
     // TODO: implement updateUser
     throw UnimplementedError();
   }

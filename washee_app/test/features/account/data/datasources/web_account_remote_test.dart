@@ -5,7 +5,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:washee/core/externalities/web/web_connector.dart';
 import 'package:washee/features/account/data/datasources/account_remote.dart';
-import 'package:washee/features/account/domain/entities/account_entity.dart';
 
 import '../../../../fixtures/entities/account/accounts.dart';
 
@@ -20,24 +19,24 @@ void main() {
       """,
       () async {
       // arrange
-      AccountEntity account = firstAccountFixture();
-      String endpoint = "/api/1/accounts/" + account.id.toString() + "/";
+      Map<String,dynamic> accountJson = firstAccountAsJsonFixture();
+      String endpoint = "/api/1/accounts/" + accountJson["id"].toString() + "/";
       WebConnector mockConnector = MockWebConnector();
       when(
         () => mockConnector.retrieve(endpoint))
         .thenAnswer(
           (_) async => Response
             (requestOptions: RequestOptions(path: endpoint),
-            data: firstAccountAsJsonFixture()
+            data: accountJson
           )
         );
       WebAccountRemote testRemote = WebAccountRemote(webConnector: mockConnector);
 
       // act
-      Map<String,dynamic> actualAccount = await testRemote.getAccount(account.id);
+      Map<String,dynamic> actualAccount = await testRemote.getAccount(accountJson["id"]);
 
       // assert
-      expect(actualAccount, firstAccountAsJsonFixture());
+      expect(actualAccount, accountJson);
     },
     tags: ["unittest","account","datasources"]);
   });
@@ -49,11 +48,26 @@ void main() {
       """,
       () async {
       // arrange
+      List<Map<String,dynamic>> accountJsons = [firstAccountAsJsonFixture()];
+      String endpoint = "/api/1/accounts/";
+      Map<String,dynamic> noOptions = {};
+      WebConnector mockConnector = MockWebConnector();
+      when(
+        () => mockConnector.retrieve(endpoint))
+        .thenAnswer(
+          (_) async => Response
+            (requestOptions: RequestOptions(path: endpoint),
+            data: accountJsons
+          )
+        );
+      WebAccountRemote testRemote = WebAccountRemote(webConnector: mockConnector);
 
       // act
+      List<Map<String,dynamic>> actualAccounts = await testRemote.getAccounts(noOptions);
 
       // assert
-    },skip: true,
+      expect(actualAccounts, accountJsons);
+    },
     tags: ["unittest","account","datasources"]);
   });
   group("WebAccountRemote updateAccount",() {
@@ -65,27 +79,63 @@ void main() {
       """,
       () async {
       // arrange
+      Map<String,dynamic> accountJson = firstAccountAsJsonFixture();
+      String endpoint = "/api/1/accounts/" + accountJson["id"].toString() + "/";
+      String newName = "New Name!";
+      Map<String,dynamic> valuesToUpdate = {
+        "name": newName
+      };
+      Map<String,dynamic> newAccount = accountJson;
+      newAccount["name"] = newName;
+      WebConnector mockConnector = MockWebConnector();
+      when(
+        () => mockConnector.update(endpoint, valuesToUpdate))
+        .thenAnswer(
+          (_) async => Response
+            (requestOptions: RequestOptions(path: endpoint),
+            data: accountJson
+          )
+        );
+      WebAccountRemote testRemote = WebAccountRemote(webConnector: mockConnector);
 
       // act
+      Map<String,dynamic> actualAccount = await testRemote.updateAccount(accountJson["id"], valuesToUpdate);
 
       // assert
-    }, skip: true,
+      expect(actualAccount, newAccount);
+    },
     tags: ["unittest","account","datasources"]);
   });
   group("WebAccountRemote postAccount",() {
     test(
       """
-        Should create the account on the backend and return the newly created account,
+        Should create the account on the backend, assign it an id, and return the newly created account,
         When called with the json of an unsaved account,
         Given the web connector properly sends the data to the backend
       """,
       () async {
       // arrange
+      Map<String,dynamic> accountJsonToCreate = firstAccountAsJsonFixture();
+      accountJsonToCreate.remove("id");
+      Map<String,dynamic> expectedAccountJson = firstAccountAsJsonFixture();
+      String endpoint = "/api/1/accounts/";
+      WebConnector mockConnector = MockWebConnector();
+      when(
+        () => mockConnector.create(endpoint, accountJsonToCreate))
+        .thenAnswer(
+          (_) async => Response
+            (requestOptions: RequestOptions(path: endpoint),
+            data: expectedAccountJson
+          )
+        );
+      WebAccountRemote testRemote = WebAccountRemote(webConnector: mockConnector);
 
       // act
+      Map<String,dynamic> actualAccount = await testRemote.postAccount(accountJsonToCreate);
 
       // assert
-    },skip: true,
+      expect(actualAccount, expectedAccountJson);
+    },
     tags: ["unittest","account","datasources"]);
   });
   group("WebAccountRemote deleteAccount",() {
@@ -97,11 +147,25 @@ void main() {
       """,
       () async {
       // arrange
+      Map<String,dynamic> accountJson = firstAccountAsJsonFixture();
+      String endpoint = "/api/1/accounts/" + accountJson["id"].toString() + "/";
+      WebConnector mockConnector = MockWebConnector();
+      when(
+        () => mockConnector.delete(endpoint))
+        .thenAnswer(
+          (_) async => Response
+            (requestOptions: RequestOptions(path: endpoint),
+            data: accountJson
+          )
+        );
+      WebAccountRemote testRemote = WebAccountRemote(webConnector: mockConnector);
 
       // act
+      Map<String,dynamic> actualAccount = await testRemote.deleteAccount(accountJson["id"]);
 
       // assert
-    },skip: true,
+      expect(actualAccount, accountJson);
+    },
     tags: ["unittest","account","datasources"]);
   });
 }

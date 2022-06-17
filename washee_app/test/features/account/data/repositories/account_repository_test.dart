@@ -43,11 +43,20 @@ void main() {
       """,
       () async {
       // arrange
+      List<WebAccountModel> expectedEntities = [WebAccountModel.fromEntity(firstAccountFixture())];
+      WebAccountRemote mockRemote = MockAccountRemote();
+      Map<String,dynamic> noOptions = {};
+      when(() => 
+        mockRemote.getAccounts(noOptions))
+        .thenAnswer((_) async => [expectedEntities[0].toJson()]);
+      AccountRepository testAccountRepository = AccountRepository(accountRemote: mockRemote);
 
       // act
+      List<AccountEntity> result = await testAccountRepository.getAccounts(noOptions);
 
       // assert
-    }, skip:true,
+      expect(result,expectedEntities);
+    },
     tags: ["unittest","account","repositories"]);
   });
   group("AccountRepository updateAccount",() {
@@ -59,11 +68,25 @@ void main() {
       """,
       () async {
       // arrange
+      WebAccountModel initialEntity = WebAccountModel.fromEntity(firstAccountFixture());
+      String newNameValue = "New Name!";
+      Map<String,dynamic> valuesToUpdate = {
+        "name": newNameValue
+      };
+      Map<String,dynamic> updatedEntityAsJson = initialEntity.toJson();
+      updatedEntityAsJson["name"] = newNameValue;
+      WebAccountRemote mockRemote = MockAccountRemote();
+      when(() => 
+        mockRemote.updateAccount(initialEntity.id, valuesToUpdate))
+        .thenAnswer((_) async => updatedEntityAsJson);
+      AccountRepository testAccountRepository = AccountRepository(accountRemote: mockRemote);
 
       // act
+      AccountEntity result = await testAccountRepository.updateAccunt(initialEntity, valuesToUpdate);
 
       // assert
-    }, skip:true,
+      expect(result,WebAccountModel.fromJson(updatedEntityAsJson));
+    },
     tags: ["unittest","account","repositories"]);
   });
   group("AccountRepository postAccount",() {
@@ -75,11 +98,20 @@ void main() {
       """,
       () async {
       // arrange
+      WebAccountModel entityToCreate = WebAccountModel.fromEntity(firstAccountFixture());
+      Map<String,dynamic> entityAsJson = entityToCreate.toJson();
+      WebAccountRemote mockRemote = MockAccountRemote();
+      when(() => 
+        mockRemote.postAccount(entityAsJson))
+        .thenAnswer((_) async => entityAsJson);
+      AccountRepository testAccountRepository = AccountRepository(accountRemote: mockRemote);
 
       // act
+      AccountEntity result = await testAccountRepository.postAccount(entityToCreate);
 
       // assert
-    }, skip:true,
+      expect(result,entityToCreate);
+    },
     tags: ["unittest","account","repositories"]);
   });
   group("AccountRepository deleteAccount",() {
@@ -91,11 +123,19 @@ void main() {
       """,
       () async {
       // arrange
+      WebAccountModel entityToDelete = WebAccountModel.fromEntity(firstAccountFixture());
+      WebAccountRemote mockRemote = MockAccountRemote();
+      when(() => 
+        mockRemote.deleteAccount(entityToDelete.id))
+        .thenAnswer((_) async => entityToDelete.toJson());
+      AccountRepository testAccountRepository = AccountRepository(accountRemote: mockRemote);
 
       // act
+      AccountEntity result = await testAccountRepository.deleteAccount(entityToDelete);
 
       // assert
-    }, skip:true,
+      expect(result,entityToDelete);
+    },
     tags: ["unittest","account","repositories"]);
   });
 }

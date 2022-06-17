@@ -18,9 +18,10 @@ class AccountRepository extends IAccountRepository{
   AccountRepository({required this.accountRemote});
 
   @override
-  Future<AccountEntity> deleteAccount(AccountEntity accountEntity) {
-    // TODO: implement deleteAccount
-    throw UnimplementedError();
+  Future<AccountEntity> deleteAccount(AccountEntity accountEntity) async {
+    Map<String,dynamic> accountAsJson = await accountRemote.deleteAccount(accountEntity.id);
+    AccountEntity result = WebAccountModel.fromJson(accountAsJson);
+    return result;
   }
 
   @override
@@ -31,20 +32,27 @@ class AccountRepository extends IAccountRepository{
   }
 
   @override
-  Future<List<AccountEntity>> getAccounts(Map<String, dynamic> valuesToGet) {
-    // TODO: implement getAccounts
-    throw UnimplementedError();
+  Future<List<AccountEntity>> getAccounts(Map<String, dynamic> valuesToGet) async {
+    List<Map<String,dynamic>> accountsAsJson = await accountRemote.getAccounts(valuesToGet);
+    List<AccountEntity> accountsList = [];
+    for(Map<String,dynamic> account in accountsAsJson){
+      accountsList.add(WebAccountModel.fromJson(account));
+    }
+    return accountsList;
   }
 
   @override
-  Future<AccountEntity> postAccount(AccountEntity accountEntity) {
-    // TODO: implement postAccount
-    throw UnimplementedError();
+  Future<AccountEntity> postAccount(AccountEntity accountEntity) async {
+    WebAccountModel serializableAccount = WebAccountModel.fromEntity(accountEntity);
+    Map<String,dynamic> accountAsJson = await accountRemote.postAccount(serializableAccount.toJson());
+    AccountEntity newAccount = WebAccountModel.fromJson(accountAsJson);
+    return newAccount;
   }
 
   @override
-  Future<AccountEntity> updateAccunt(AccountEntity accountEntity, Map<String, dynamic> valuesToUpdate) {
-    // TODO: implement updateAccunt
-    throw UnimplementedError();
+  Future<AccountEntity> updateAccunt(AccountEntity accountEntity, Map<String, dynamic> valuesToUpdate) async {
+    Map<String,dynamic> accountAsJson = await accountRemote.updateAccount(accountEntity.id, valuesToUpdate);
+    AccountEntity newAccount = WebAccountModel.fromJson(accountAsJson);
+    return newAccount;
   }
 }

@@ -5,7 +5,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:washee/core/externalities/web/web_connector.dart';
 import 'package:washee/features/account/data/datasources/user_remote.dart';
-import 'package:washee/features/account/domain/entities/user_entity.dart';
 
 import '../../../../fixtures/entities/account/users.dart';
 
@@ -19,24 +18,24 @@ void main() {
         Given the web connector can access an account with said id
       """,
       () async {
-      UserEntity user = firstUserFixture();
-      String endpoint = "/api/1/users/" + user.id.toString() + "/";
+      Map<String,dynamic> userJson = firstUserAsJsonFixture();
+      String endpoint = "/api/1/users/" + userJson["id"].toString() + "/";
       WebConnector mockConnector = MockWebConnector();
       when(
         () => mockConnector.retrieve(endpoint))
         .thenAnswer(
           (_) async => Response
             (requestOptions: RequestOptions(path: endpoint),
-            data: firstUserAsJsonFixture()
+            data: userJson
           )
         );
       WebUserRemote testRemote = WebUserRemote(webConnector: mockConnector);
 
       // act
-      Map<String,dynamic> actualUser = await testRemote.getUser(user.id);
+      Map<String,dynamic> actualUser = await testRemote.getUser(userJson["id"]);
 
       // assert
-      expect(actualUser, firstUserAsJsonFixture());
+      expect(actualUser, userJson);
     },
     tags: ["unittest","account","datasources"]);
   });

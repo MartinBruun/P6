@@ -266,7 +266,6 @@ void main() {
       String endpoint = "/some-data/1/";
       String expectedEndpoint = mockedDomain + endpoint;
       String validToken = "SomeToken";
-      Map<String,dynamic> dataToDelete = {"data": "some data"};
       Map<String,dynamic> expectedResponse = {"data": "some data"};
 
       final mockDio = Dio(BaseOptions());
@@ -277,7 +276,6 @@ void main() {
           200,
           expectedResponse,
         ),
-        data: dataToDelete
       );
 
       Environment mockEnvironment = MockEnvironment();
@@ -291,7 +289,7 @@ void main() {
       IWebConnector testWebConector = WebConnector(httpConnection: mockDio, secureStorage: mockSecureStorage, environment: mockEnvironment);
 
       // act
-      Response result = await testWebConector.delete(endpoint,dataToDelete);
+      Response result = await testWebConector.delete(endpoint);
 
       // assert
       expect(result.data["data"], expectedResponse["data"]);

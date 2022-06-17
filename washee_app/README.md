@@ -45,3 +45,16 @@ The architecture described is not being completely followed right now, but is ex
 Also, a static linting CI flow could be made to ensure that all calls to a usecase updates a provider, and these updates should at minimum catch the "everything" exception, in case of unforseen errors.
 
 CI flows should be made such that the core standards directory is always followed (ie. never initialize a DateTime model in the features application, make sure the failures are used correctly as described above and that a Logger is called when it happens, etc.)
+
+As an addition to the CI flow, there should be the following restrictions to secure the architecture is preserved:
+Datasources may ONLY import from core
+Models may ONLY import from core and other models
+Repostiries may ONLY import from entities and models
+Entities may NEVER import from anything (not even core!)
+Usecases may ONLY import from repositories (never core!)
+Providers may ONLY import from Usecases and core
+Pages and Widgets may ONLY import from Providers (never core!)
+
+The domain layer is the highest abstraction layer and should therefore never depend on anything else.
+As a safety precausion, Widgets may only depend on Providers, such as to keep the UI distinctly decoupled from the business logic.
+Layers can cross, ie. a BookingRepository depends on AccountRemote, BookingRemote and LocationRemote for instance.

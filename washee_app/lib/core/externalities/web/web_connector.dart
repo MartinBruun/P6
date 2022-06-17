@@ -13,7 +13,7 @@ abstract class IWebConnector{
   Future<Response> retrieve(String endpoint);
   Future<Response> update(String endpoint, Map<String,dynamic> data);
   Future<Response> create(String endpoint, Map<String,dynamic> data);
-  Future<Response> delete(String endpoint, Map<String,dynamic> data);
+  Future<Response> delete(String endpoint);
 }
 
 class WebConnector extends IWebConnector{
@@ -87,10 +87,10 @@ class WebConnector extends IWebConnector{
   }
 
   @override
-  Future<Response> delete(String endpoint, Map<String, dynamic> data) async {
+  Future<Response> delete(String endpoint) async {
     if(await isAuthorized()){
       String url = baseURL + endpoint;
-      return httpConnection.delete(url, data:data);
+      return httpConnection.delete(url);
     }
     else{
       throw new NotAuthorizedFailure();
