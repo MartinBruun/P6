@@ -16,6 +16,7 @@ class MockConfig extends Mock implements BaseConfig {}
 class MockSecureStorage extends Mock implements FlutterSecureStorage {}
 
 void main() {
+
   group("WebConnector authorize",() {
     test(
       """
@@ -76,17 +77,49 @@ void main() {
       """,
       () async {
       // arrange
-      /*Dio mockedDio = MockHttpConnector();
-      FlutterSecureStorage mockedSecureStorage = MockSecureStorage();
-      Environment mockedEnvironment = MockEnvironment();
-      IWebConnector testWebConnector = WebConnector(httpConnection: mockedDio, secureStorage: mockedSecureStorage, environment: mockedEnvironment);
+      String mockedDomain = "http://someUrl.com";
+      String expectedEndpoint = mockedDomain + "/api-token-auth/";
+      String mockUsername = "SomeUsername";
+      String mockPassword = "SomePassword";
+      String mockToken = "SomeToken";
+      Map<String,dynamic> mockResponse = firstUserAsJsonFixture();
+      mockResponse["token"] = "SomeToken";
 
-      when(() => mockedSecureStorage.read(key: "username")).thenAnswer((_) async => "ValidUsername");
-      when(() => mockedSecureStorage.read(key: "password")).thenAnswer((_) async => "ValidPassword");
+      final mockDio = Dio(BaseOptions());
+      final dioAdapter = DioAdapter(dio: mockDio);
+      dioAdapter.onPost(
+        expectedEndpoint,
+        (server) => server.reply(
+          200,
+          mockResponse,
+        ),
+        data: {
+          "username": mockUsername,
+          "password": mockPassword
+        },
+      );
+
+      Environment mockEnvironment = MockEnvironment();
+      BaseConfig testConfig = MockConfig();
+      when(() => mockEnvironment.config).thenAnswer((_) => testConfig);
+      when(() => testConfig.webApiHost).thenAnswer((_) => mockedDomain);
+
+      FlutterSecureStorage mockSecureStorage = MockSecureStorage();
+      when(() => mockSecureStorage.read(key: "username")).thenAnswer((_) async => mockUsername);
+      when(() => mockSecureStorage.read(key: "password")).thenAnswer((_) async => mockPassword);
+      when(() => mockSecureStorage.write(key: "username", value: mockUsername)).thenAnswer((_) async => null);
+      when(() => mockSecureStorage.write(key: "password", value: mockPassword)).thenAnswer((_) async => null);
+      when(() => mockSecureStorage.write(key: "token", value: mockToken)).thenAnswer((_) async => null);
+
+      IWebConnector testWebConector = WebConnector(httpConnection: mockDio, secureStorage: mockSecureStorage, environment: mockEnvironment);
+      expect(testWebConector.authorizeURL, expectedEndpoint);
+
       // act
-*/
+      await testWebConector.renewAuthorization();
+
       // assert
-    }, skip: true,
+      expect(mockDio.options.headers["authorization"], "TOKEN $mockToken");
+    },
     tags: ["unittest","core","externalities"]);
   });
   group("WebConnector retrieve",() {
