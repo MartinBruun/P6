@@ -1,8 +1,13 @@
 import 'dart:core';
 
+import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:washee/core/externalities/web/web_connector.dart';
+import 'package:washee/features/account/data/datasources/user_remote.dart';
+import 'package:washee/features/account/domain/entities/user_entity.dart';
+
+import '../../../../fixtures/entities/account/users.dart';
 
 class MockWebConnector extends Mock implements WebConnector {}
 
@@ -14,12 +19,25 @@ void main() {
         Given the web connector can access an account with said id
       """,
       () async {
-      // arrange
+      UserEntity user = firstUserFixture();
+      String endpoint = "/api/1/users/" + user.id.toString() + "/";
+      WebConnector mockConnector = MockWebConnector();
+      when(
+        () => mockConnector.retrieve(endpoint))
+        .thenAnswer(
+          (_) async => Response
+            (requestOptions: RequestOptions(path: endpoint),
+            data: firstUserAsJsonFixture()
+          )
+        );
+      WebUserRemote testRemote = WebUserRemote(webConnector: mockConnector);
 
       // act
+      Map<String,dynamic> actualUser = await testRemote.getUser(user.id);
 
       // assert
-    },skip: true,
+      expect(actualUser, firstUserAsJsonFixture());
+    },
     tags: ["unittest","account","datasources"]);
   });
   group("WebUserRemote getUsers",() {
@@ -93,11 +111,7 @@ void main() {
         Given the web connector correctly sends the data to the backend
       """,
       () async {
-      // arrange
-
-      // act
-
-      // assert
+      
     },skip: true,
     tags: ["unittest","account","datasources"]);
   });

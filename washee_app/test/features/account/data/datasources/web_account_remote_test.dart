@@ -1,8 +1,13 @@
 import 'dart:core';
 
+import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:washee/core/externalities/web/web_connector.dart';
+import 'package:washee/features/account/data/datasources/account_remote.dart';
+import 'package:washee/features/account/domain/entities/account_entity.dart';
+
+import '../../../../fixtures/entities/account/accounts.dart';
 
 class MockWebConnector extends Mock implements WebConnector {}
 
@@ -15,11 +20,25 @@ void main() {
       """,
       () async {
       // arrange
+      AccountEntity account = firstAccountFixture();
+      String endpoint = "/api/1/accounts/" + account.id.toString() + "/";
+      WebConnector mockConnector = MockWebConnector();
+      when(
+        () => mockConnector.retrieve(endpoint))
+        .thenAnswer(
+          (_) async => Response
+            (requestOptions: RequestOptions(path: endpoint),
+            data: firstAccountAsJsonFixture()
+          )
+        );
+      WebAccountRemote testRemote = WebAccountRemote(webConnector: mockConnector);
 
       // act
+      Map<String,dynamic> actualAccount = await testRemote.getAccount(account.id);
 
       // assert
-    },skip: true,
+      expect(actualAccount, firstAccountAsJsonFixture());
+    },
     tags: ["unittest","account","datasources"]);
   });
   group("WebAccountRemote getAccounts",() {

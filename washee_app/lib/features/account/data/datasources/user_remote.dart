@@ -18,6 +18,8 @@ class WebUserRemote extends IWebUserRemote{
 
   WebUserRemote({required this.webConnector});
 
+  String userEndpointURL = "/api/1/users/";
+
   @override
   Future<Map<String, dynamic>> deleteUser(Map<String, dynamic> userAsJson) {
     // TODO: implement deleteUser
@@ -25,9 +27,10 @@ class WebUserRemote extends IWebUserRemote{
   }
 
   @override
-  Future<Map<String, dynamic>> getUser(int userId) {
-    // TODO: implement getUser
-    throw UnimplementedError();
+  Future<Map<String, dynamic>> getUser(int userId) async {
+    String finalEndpoint = userEndpointURL + userId.toString() + "/";
+    Response response = await webConnector.retrieve(finalEndpoint);
+    return response.data;
   }
 
   @override

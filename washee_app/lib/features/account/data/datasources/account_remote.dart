@@ -1,5 +1,6 @@
 
 
+import 'package:dio/dio.dart';
 import 'package:washee/core/externalities/web/web_connector.dart';
 
 abstract class  IWebAccountRemote{
@@ -12,6 +13,7 @@ abstract class  IWebAccountRemote{
 
 class WebAccountRemote extends IWebAccountRemote{
   final IWebConnector webConnector;
+  String accountEndpointURL = "/api/1/accounts/";
 
   WebAccountRemote({required this.webConnector});
 
@@ -22,9 +24,10 @@ class WebAccountRemote extends IWebAccountRemote{
   }
 
   @override
-  Future<Map<String, dynamic>> getAccount(int accountId) {
-    // TODO: implement getAccount
-    throw UnimplementedError();
+  Future<Map<String, dynamic>> getAccount(int accountId) async {
+    String finalEndpoint = accountEndpointURL + accountId.toString() + "/";
+    Response response = await webConnector.retrieve(finalEndpoint);
+    return response.data;
   }
 
   @override
