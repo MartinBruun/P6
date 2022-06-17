@@ -82,7 +82,7 @@ class WebConnector extends IWebConnector{
     }
     else{
       Response response = await authorize(username, password);
-      return response.data;
+      return response;
     }
   }
 

@@ -65,7 +65,7 @@ void initAccount() {
   sl.registerLazySingleton<IWebUserRemote>(() => WebUserRemote(webConnector: sl()));
 
   // Repositories
-  sl.registerLazySingleton<IUserRepository>(() => UserRepository(webRemote: sl()));
+  sl.registerLazySingleton<IUserRepository>(() => UserRepository(userRemote: sl()));
   sl.registerLazySingleton<IAccountRepository>(() => AccountRepository(accountRemote: sl()));
 
   // Usecases

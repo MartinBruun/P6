@@ -20,18 +20,19 @@ void main() {
       """,
       () async {
       UserEntity signedInUser = firstUserFixture();
+      String usersPassword = "ValidPassword";
       UserRepository mockRepo = MockUserRepository();
       when(
-        () => mockRepo.autoSignIn())
+        () => mockRepo.signIn(signedInUser.email, usersPassword))
         .thenAnswer((_) async => signedInUser);
       SignInUseCase testUsecase = SignInUseCase(userRepository: mockRepo);
 
       // act
-      UserEntity actualUser = await testUsecase.call(SignInParams(email: signedInUser.email, password: "validPassword"));
+      UserEntity actualUser = await testUsecase.call(SignInParams(email: signedInUser.email, password: usersPassword));
 
       // assert
       expect(actualUser, signedInUser);
-    }, skip: true,
+    },
     tags: ["unittest","account","usecases"]);
   });
   group("SignInUsecase security (requirements)",() {

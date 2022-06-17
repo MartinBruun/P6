@@ -8,7 +8,7 @@ abstract class IAccountRepository {
   Future<AccountEntity> getAccount(int accountId);
   Future<List<AccountEntity>> getAccounts(Map<String,dynamic> valuesToGet);
   Future<AccountEntity> postAccount(AccountEntity accountEntity);
-  Future<AccountEntity> updateAccunt(AccountEntity accountEntity, Map<String,dynamic> valuesToUpdate);
+  Future<AccountEntity> updateAccount(AccountEntity accountEntity, Map<String,dynamic> valuesToUpdate);
   Future<AccountEntity> deleteAccount(AccountEntity accountEntity);
 }
 
@@ -50,7 +50,7 @@ class AccountRepository extends IAccountRepository{
   }
 
   @override
-  Future<AccountEntity> updateAccunt(AccountEntity accountEntity, Map<String, dynamic> valuesToUpdate) async {
+  Future<AccountEntity> updateAccount(AccountEntity accountEntity, Map<String, dynamic> valuesToUpdate) async {
     Map<String,dynamic> accountAsJson = await accountRemote.updateAccount(accountEntity.id, valuesToUpdate);
     AccountEntity newAccount = WebAccountModel.fromJson(accountAsJson);
     return newAccount;

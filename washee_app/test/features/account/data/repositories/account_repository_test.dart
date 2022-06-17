@@ -9,7 +9,7 @@ import 'package:washee/features/account/domain/entities/account_entity.dart';
 
 import '../../../../fixtures/entities/account/accounts.dart';
 
-class MockAccountRemote extends Mock implements WebAccountRemote {}
+class MockAccountRemote extends Mock implements IWebAccountRemote {}
 
 void main() {
   group("AccountRepository getAccount",() {
@@ -21,7 +21,7 @@ void main() {
       () async {
       // arrange
       WebAccountModel expectedEntity = WebAccountModel.fromEntity(firstAccountFixture());
-      WebAccountRemote mockRemote = MockAccountRemote();
+      IWebAccountRemote mockRemote = MockAccountRemote();
       when(() => 
         mockRemote.getAccount(expectedEntity.id))
         .thenAnswer((_) async => expectedEntity.toJson());
@@ -44,7 +44,7 @@ void main() {
       () async {
       // arrange
       List<WebAccountModel> expectedEntities = [WebAccountModel.fromEntity(firstAccountFixture())];
-      WebAccountRemote mockRemote = MockAccountRemote();
+      IWebAccountRemote mockRemote = MockAccountRemote();
       Map<String,dynamic> noOptions = {};
       when(() => 
         mockRemote.getAccounts(noOptions))
@@ -75,14 +75,14 @@ void main() {
       };
       Map<String,dynamic> updatedEntityAsJson = initialEntity.toJson();
       updatedEntityAsJson["name"] = newNameValue;
-      WebAccountRemote mockRemote = MockAccountRemote();
+      IWebAccountRemote mockRemote = MockAccountRemote();
       when(() => 
         mockRemote.updateAccount(initialEntity.id, valuesToUpdate))
         .thenAnswer((_) async => updatedEntityAsJson);
       AccountRepository testAccountRepository = AccountRepository(accountRemote: mockRemote);
 
       // act
-      AccountEntity result = await testAccountRepository.updateAccunt(initialEntity, valuesToUpdate);
+      AccountEntity result = await testAccountRepository.updateAccount(initialEntity, valuesToUpdate);
 
       // assert
       expect(result,WebAccountModel.fromJson(updatedEntityAsJson));
@@ -100,7 +100,7 @@ void main() {
       // arrange
       WebAccountModel entityToCreate = WebAccountModel.fromEntity(firstAccountFixture());
       Map<String,dynamic> entityAsJson = entityToCreate.toJson();
-      WebAccountRemote mockRemote = MockAccountRemote();
+      IWebAccountRemote mockRemote = MockAccountRemote();
       when(() => 
         mockRemote.postAccount(entityAsJson))
         .thenAnswer((_) async => entityAsJson);
@@ -124,7 +124,7 @@ void main() {
       () async {
       // arrange
       WebAccountModel entityToDelete = WebAccountModel.fromEntity(firstAccountFixture());
-      WebAccountRemote mockRemote = MockAccountRemote();
+      IWebAccountRemote mockRemote = MockAccountRemote();
       when(() => 
         mockRemote.deleteAccount(entityToDelete.id))
         .thenAnswer((_) async => entityToDelete.toJson());

@@ -10,9 +10,7 @@ void main() {
   group("SignOutUsecase base (requirements)",() {
     test(
       """
-        Should XXX
-        When YYY
-        Given ZZZ
+        Should sign the user out and set the user as an anonymous user
       """,
       () async {
       // arrange
