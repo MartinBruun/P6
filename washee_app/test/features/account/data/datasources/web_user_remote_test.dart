@@ -18,24 +18,26 @@ void main() {
         Given the web connector can access an account with said id
       """,
       () async {
-      Map<String,dynamic> userJson = firstUserAsJsonFixture();
-      String endpoint = "/api/1/users/" + userJson["id"].toString() + "/";
-      WebConnector mockConnector = MockWebConnector();
-      when(
-        () => mockConnector.retrieve(endpoint))
-        .thenAnswer(
-          (_) async => Response
-            (requestOptions: RequestOptions(path: endpoint),
-            data: userJson
-          )
-        );
-      WebUserRemote testRemote = WebUserRemote(webConnector: mockConnector);
+        //arrange
+        Map<String,dynamic> userJson = firstUserAsJsonFixture();
+        String endpoint = "/api/1/users/" + userJson["id"].toString() + "/";
+        WebConnector mockConnector = MockWebConnector();
+        when(
+          () => mockConnector.retrieve(endpoint, queryParameters: {}))
+          .thenAnswer(
+            (_) async => Response
+              (requestOptions: RequestOptions(path: endpoint),
+              statusCode: 200,
+              data: userJson
+            )
+          );
+        WebUserRemote testRemote = WebUserRemote(webConnector: mockConnector);
 
-      // act
-      Map<String,dynamic> actualUser = await testRemote.getUser(userJson["id"]);
+        // act
+        Map<String,dynamic> actualUser = await testRemote.getUser(userJson["id"]);
 
-      // assert
-      expect(actualUser, userJson);
+        // assert
+        expect(actualUser, userJson);
     },
     tags: ["unittest","account","datasources"]);
   });
@@ -46,12 +48,28 @@ void main() {
         When called with no specified options
       """,
       () async {
-      // arrange
-
-      // act
-
-      // assert
-    },skip: true,
+        //arrange
+        List<Map<String,dynamic>> userJsons = [firstUserAsJsonFixture()];
+        String endpoint = "/api/1/users/";
+        Map<String,dynamic> noOptions = {};
+        WebConnector mockConnector = MockWebConnector();
+        when(
+          () => mockConnector.retrieve(endpoint, queryParameters: {}))
+          .thenAnswer(
+            (_) async => Response
+              (requestOptions: RequestOptions(path: endpoint),
+              statusCode: 200,
+              data: userJsons
+            )
+          );
+        WebUserRemote testRemote = WebUserRemote(webConnector: mockConnector);
+  
+        // act
+        List<Map<String,dynamic>> actualUserList = await testRemote.getUsers(noOptions);
+  
+        // assert
+        expect(actualUserList, userJsons);
+    },
     tags: ["unittest","account","datasources"]);
   });
   group("WebUserRemote updateUser",() {
@@ -62,12 +80,33 @@ void main() {
         Given the user exists
       """,
       () async {
-      // arrange
+      //arrange
+        Map<String,dynamic> userJson = firstUserAsJsonFixture();
+        String endpoint = "/api/1/users/" + userJson["id"].toString() + "/";
+        String newName = "New Name!";
+        Map<String,dynamic> valuesToUpdate = {
+          "name": newName
+        };
+        Map<String,dynamic> updatedUserJson = firstUserAsJsonFixture();
+        updatedUserJson["name"] = newName;
+        WebConnector mockConnector = MockWebConnector();
+        when(
+          () => mockConnector.update(endpoint, valuesToUpdate))
+          .thenAnswer(
+            (_) async => Response
+              (requestOptions: RequestOptions(path: endpoint),
+              statusCode: 200,
+              data: updatedUserJson
+            )
+          );
+        WebUserRemote testRemote = WebUserRemote(webConnector: mockConnector);
 
-      // act
+        // act
+        Map<String,dynamic> actualUser = await testRemote.updateUser(userJson["id"], valuesToUpdate);
 
-      // assert
-    },skip: true,
+        // assert
+        expect(actualUser, updatedUserJson);
+    },
     tags: ["unittest","account","datasources"]);
   });
   group("WebUserRemote postUser",() {
@@ -78,12 +117,29 @@ void main() {
         Given the web connector properly sends the data to the backend
       """,
       () async {
-      // arrange
+      //arrange
+        Map<String,dynamic> userJsonToCreate = firstUserAsJsonFixture();
+        userJsonToCreate.remove("id");
+        Map<String,dynamic> userJsonCreated = firstUserAsJsonFixture();
+        String endpoint = "/api/1/users/";
+        WebConnector mockConnector = MockWebConnector();
+        when(
+          () => mockConnector.create(endpoint, userJsonToCreate))
+          .thenAnswer(
+            (_) async => Response
+              (requestOptions: RequestOptions(path: endpoint),
+              statusCode: 200,
+              data: userJsonCreated
+            )
+          );
+        WebUserRemote testRemote = WebUserRemote(webConnector: mockConnector);
 
-      // act
+        // act
+        Map<String,dynamic> actualUser = await testRemote.postUser(userJsonToCreate);
 
-      // assert
-    },skip: true,
+        // assert
+        expect(actualUser, userJsonCreated);
+    },
     tags: ["unittest","account","datasources"]);
   });
   group("WebUserRemote deleteUser",() {
@@ -94,12 +150,27 @@ void main() {
         Given the web connector correctly sends the data to the backend
       """,
       () async {
-      // arrange
+      ///arrange
+        Map<String,dynamic> userJson = firstUserAsJsonFixture();
+        String endpoint = "/api/1/users/" + userJson["id"].toString() + "/";
+        WebConnector mockConnector = MockWebConnector();
+        when(
+          () => mockConnector.delete(endpoint))
+          .thenAnswer(
+            (_) async => Response
+              (requestOptions: RequestOptions(path: endpoint),
+              statusCode: 200,
+              data: userJson
+            )
+          );
+        WebUserRemote testRemote = WebUserRemote(webConnector: mockConnector);
 
-      // act
+        // act
+        Map<String,dynamic> actualUser = await testRemote.deleteUser(userJson["id"]);
 
-      // assert
-    },skip: true,
+        // assert
+        expect(actualUser, userJson);
+    },
     tags: ["unittest","account","datasources"]);
   });
   group("WebUserRemote signIn",() {
@@ -110,8 +181,27 @@ void main() {
         Given the web connector correctly sends the data to the backend
       """,
       () async {
-      
-    },skip: true,
+        // arrange
+        Map<String,dynamic> userJson = firstUserAsJsonFixture();
+        String userJsonsPassword ="Valid Password";
+        WebConnector mockConnector = MockWebConnector();
+        when(
+          () => mockConnector.authorize(userJson["username"], userJsonsPassword))
+          .thenAnswer(
+            (_) async => Response
+              (requestOptions: RequestOptions(path: "/api-token-auth/"),
+              statusCode: 200,
+              data: userJson
+            )
+          );
+        WebUserRemote testRemote = WebUserRemote(webConnector: mockConnector);
+
+        // act
+        Map<String,dynamic> actualUser = await testRemote.signIn(userJson["username"], userJsonsPassword);
+
+        // assert
+        expect(actualUser, userJson);
+    },
     tags: ["unittest","account","datasources"]);
   });
   group("WebUserRemote autoSignIn",() {
@@ -121,12 +211,26 @@ void main() {
         Given the web connector correctly sends the data to the backend
       """,
       () async {
-      // arrange
+        // arrange
+        Map<String,dynamic> userJson = firstUserAsJsonFixture();
+        WebConnector mockConnector = MockWebConnector();
+        when(
+          () => mockConnector.renewAuthorization())
+          .thenAnswer(
+            (_) async => Response
+              (requestOptions: RequestOptions(path: "/api-token-auth/"),
+              statusCode: 200,
+              data: userJson
+            )
+          );
+        WebUserRemote testRemote = WebUserRemote(webConnector: mockConnector);
 
-      // act
+        // act
+        Map<String,dynamic> actualUser = await testRemote.autoSignIn();
 
-      // assert
-    },skip: true,
+        // assert
+        expect(actualUser, userJson);
+    },
     tags: ["unittest","account","datasources"]);
   });
 }

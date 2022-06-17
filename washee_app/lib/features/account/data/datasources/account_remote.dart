@@ -27,13 +27,13 @@ class WebAccountRemote extends IWebAccountRemote{
   @override
   Future<Map<String, dynamic>> getAccount(int accountId) async {
     String finalEndpoint = accountEndpointURL + accountId.toString() + "/";
-    Response response = await webConnector.retrieve(finalEndpoint);
+    Response response = await webConnector.retrieve(finalEndpoint, queryParameters: {});
     return response.data;
   }
 
   @override
   Future<List<Map<String, dynamic>>> getAccounts(Map<String, dynamic> valuesToGet) async {
-    Response response = await webConnector.retrieve(accountEndpointURL);
+    Response response = await webConnector.retrieve(accountEndpointURL, queryParameters: {});
     return response.data;
   }
 

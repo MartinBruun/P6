@@ -10,7 +10,7 @@ abstract class IWebConnector{
   String get authorizeURL;
   Future<Response> authorize(String username, String password);
   Future<Response?> renewAuthorization();
-  Future<Response> retrieve(String endpoint);
+  Future<Response> retrieve(String endpoint, {required Map<String,dynamic> queryParameters});
   Future<Response> update(String endpoint, Map<String,dynamic> data);
   Future<Response> create(String endpoint, Map<String,dynamic> data);
   Future<Response> delete(String endpoint);
@@ -82,7 +82,7 @@ class WebConnector extends IWebConnector{
     }
     else{
       Response response = await authorize(username, password);
-      return response;
+      return response.data;
     }
   }
 
@@ -98,10 +98,10 @@ class WebConnector extends IWebConnector{
   }
 
   @override
-  Future<Response> retrieve(String endpoint) async {
+  Future<Response> retrieve(String endpoint,{required Map<String,dynamic> queryParameters}) async {
     if(await isAuthorized()){
       String url = baseURL + endpoint;
-      return httpConnection.get(url);
+      return httpConnection.get(url, queryParameters:queryParameters);
     }
     else{
       throw new NotAuthorizedFailure();

@@ -23,10 +23,11 @@ void main() {
       String endpoint = "/api/1/accounts/" + accountJson["id"].toString() + "/";
       WebConnector mockConnector = MockWebConnector();
       when(
-        () => mockConnector.retrieve(endpoint))
+        () => mockConnector.retrieve(endpoint, queryParameters: {}))
         .thenAnswer(
           (_) async => Response
             (requestOptions: RequestOptions(path: endpoint),
+            statusCode: 200,
             data: accountJson
           )
         );
@@ -53,10 +54,11 @@ void main() {
       Map<String,dynamic> noOptions = {};
       WebConnector mockConnector = MockWebConnector();
       when(
-        () => mockConnector.retrieve(endpoint))
+        () => mockConnector.retrieve(endpoint, queryParameters: {}))
         .thenAnswer(
           (_) async => Response
             (requestOptions: RequestOptions(path: endpoint),
+            statusCode: 200,
             data: accountJsons
           )
         );
@@ -93,6 +95,7 @@ void main() {
         .thenAnswer(
           (_) async => Response
             (requestOptions: RequestOptions(path: endpoint),
+            statusCode: 200,
             data: accountJson
           )
         );
@@ -125,6 +128,7 @@ void main() {
         .thenAnswer(
           (_) async => Response
             (requestOptions: RequestOptions(path: endpoint),
+            statusCode: 200,
             data: expectedAccountJson
           )
         );
@@ -155,6 +159,7 @@ void main() {
         .thenAnswer(
           (_) async => Response
             (requestOptions: RequestOptions(path: endpoint),
+            statusCode: 200,
             data: accountJson
           )
         );

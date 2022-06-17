@@ -159,7 +159,7 @@ void main() {
       IWebConnector testWebConector = WebConnector(httpConnection: mockDio, secureStorage: mockSecureStorage, environment: mockEnvironment);
 
       // act
-      Response result = await testWebConector.retrieve(endpoint);
+      Response result = await testWebConector.retrieve(endpoint, queryParameters: {});
 
       // assert
       expect(result.data["data"], expectedResponse["data"]);

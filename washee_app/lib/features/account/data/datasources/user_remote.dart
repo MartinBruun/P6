@@ -21,34 +21,36 @@ class WebUserRemote extends IWebUserRemote{
   String userEndpointURL = "/api/1/users/";
 
   @override
-  Future<Map<String, dynamic>> deleteUser(int userId) {
-    // TODO: implement deleteUser
-    throw UnimplementedError();
+  Future<Map<String, dynamic>> deleteUser(int userId) async {
+    String finalEndpoint = userEndpointURL + userId.toString() + "/";
+    Response response = await webConnector.delete(finalEndpoint);
+    return response.data;
   }
 
   @override
   Future<Map<String, dynamic>> getUser(int userId) async {
     String finalEndpoint = userEndpointURL + userId.toString() + "/";
-    Response response = await webConnector.retrieve(finalEndpoint);
+    Response response = await webConnector.retrieve(finalEndpoint, queryParameters: {});
     return response.data;
   }
 
   @override
-  Future<List<Map<String, dynamic>>> getUsers(Map<String, dynamic> valuesToGet) {
-    // TODO: implement getUsers
-    throw UnimplementedError();
+  Future<List<Map<String, dynamic>>> getUsers(Map<String, dynamic> valuesToGet) async {
+    Response response = await webConnector.retrieve(userEndpointURL, queryParameters: valuesToGet);
+    return response.data;
   }
 
   @override
-  Future<Map<String, dynamic>> postUser(Map<String, dynamic> userAsJson) {
-    // TODO: implement postUser
-    throw UnimplementedError();
+  Future<Map<String, dynamic>> postUser(Map<String, dynamic> userAsJson) async {
+    Response response = await webConnector.create(userEndpointURL, userAsJson);
+    return response.data;
   }
 
   @override
-  Future<Map<String, dynamic>> updateUser(int userId, Map<String, dynamic> valuesToUpdate) {
-    // TODO: implement updateUser
-    throw UnimplementedError();
+  Future<Map<String, dynamic>> updateUser(int userId, Map<String, dynamic> valuesToUpdate) async {
+    String finalEndpoint = userEndpointURL + userId.toString() + "/";
+    Response response = await webConnector.update(finalEndpoint, valuesToUpdate);
+    return response.data;
   }
 
   @override
@@ -67,8 +69,7 @@ class WebUserRemote extends IWebUserRemote{
 
   @override
   Future<Map<String, dynamic>> signIn(String username, String password) async {
-
-    // TODO: implement signIn
-    throw UnimplementedError();
+    Response response = await webConnector.authorize(username, password);
+    return response.data;
   }
 }
