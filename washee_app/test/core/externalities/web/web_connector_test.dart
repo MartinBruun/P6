@@ -15,6 +15,8 @@ class MockEnvironment extends Mock implements Environment {}
 class MockConfig extends Mock implements BaseConfig {}
 class MockSecureStorage extends Mock implements FlutterSecureStorage {}
 
+// TODO: The test code here needs a proper refactoring to make it more readable
+
 void main() {
 
   group("WebConnector authorize",() {
@@ -105,7 +107,7 @@ void main() {
       when(() => testConfig.webApiHost).thenAnswer((_) => mockedDomain);
 
       FlutterSecureStorage mockSecureStorage = MockSecureStorage();
-      when(() => mockSecureStorage.read(key: "username")).thenAnswer((_) async => mockUsername);
+      when(() => mockSecureStorage.read(key: "username")).thenAnswer((_) async => mockUsername); // INSTEAD of reading "username" it should be injected by environment
       when(() => mockSecureStorage.read(key: "password")).thenAnswer((_) async => mockPassword);
       when(() => mockSecureStorage.write(key: "username", value: mockUsername)).thenAnswer((_) async => null);
       when(() => mockSecureStorage.write(key: "password", value: mockPassword)).thenAnswer((_) async => null);
@@ -125,15 +127,43 @@ void main() {
   group("WebConnector retrieve",() {
     test(
       """
-        
+        Should retrieve the information which it tries to get
+        Given the user is authorized and the backend responds properly
       """,
       () async {
       // arrange
+      String mockedDomain = "http://someUrl.com";
+      String endpoint = "/some-data/1/";
+      String expectedEndpoint = mockedDomain + endpoint;
+      String validToken = "SomeToken";
+      Map<String,dynamic> expectedResponse = {"data": "some data"};
+
+      final mockDio = Dio(BaseOptions());
+      final dioAdapter = DioAdapter(dio: mockDio);
+      dioAdapter.onGet(
+        expectedEndpoint,
+        (server) => server.reply(
+          200,
+          expectedResponse,
+        ),
+      );
+
+      Environment mockEnvironment = MockEnvironment();
+      BaseConfig testConfig = MockConfig();
+      when(() => mockEnvironment.config).thenAnswer((_) => testConfig);
+      when(() => testConfig.webApiHost).thenAnswer((_) => mockedDomain);
+
+      FlutterSecureStorage mockSecureStorage = MockSecureStorage();
+      when(() => mockSecureStorage.read(key: "token")).thenAnswer((_) async => validToken);
+
+      IWebConnector testWebConector = WebConnector(httpConnection: mockDio, secureStorage: mockSecureStorage, environment: mockEnvironment);
 
       // act
+      Response result = await testWebConector.retrieve(endpoint);
 
       // assert
-    }, skip: true,
+      expect(result.data["data"], expectedResponse["data"]);
+    },
     tags: ["unittest","core","externalities"]);
   });
   group("WebConnector update",() {

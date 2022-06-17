@@ -101,7 +101,7 @@ class WebConnector extends IWebConnector{
   Future<Response> retrieve(String endpoint) async {
     if(await isAuthorized()){
       String url = baseURL + endpoint;
-      return httpConnection.delete(url);
+      return httpConnection.get(url);
     }
     else{
       throw new NotAuthorizedFailure();
