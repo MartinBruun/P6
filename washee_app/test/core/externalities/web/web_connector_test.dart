@@ -169,43 +169,133 @@ void main() {
   group("WebConnector update",() {
     test(
       """
-        
+        Should update the information which it sends and return the newly updated resource
+        Given the user is authorized and the backend responds properly
       """,
       () async {
       // arrange
+      String mockedDomain = "http://someUrl.com";
+      String endpoint = "/some-data/1/";
+      String expectedEndpoint = mockedDomain + endpoint;
+      String validToken = "SomeToken";
+      Map<String,dynamic> dataToUpdate = {"data": "some data"};
+      Map<String,dynamic> expectedResponse = {"data": "some data"};
+
+      final mockDio = Dio(BaseOptions());
+      final dioAdapter = DioAdapter(dio: mockDio);
+      dioAdapter.onPatch(
+        expectedEndpoint,
+        (server) => server.reply(
+          200,
+          expectedResponse,
+        ),
+        data: dataToUpdate
+      );
+
+      Environment mockEnvironment = MockEnvironment();
+      BaseConfig testConfig = MockConfig();
+      when(() => mockEnvironment.config).thenAnswer((_) => testConfig);
+      when(() => testConfig.webApiHost).thenAnswer((_) => mockedDomain);
+
+      FlutterSecureStorage mockSecureStorage = MockSecureStorage();
+      when(() => mockSecureStorage.read(key: "token")).thenAnswer((_) async => validToken);
+
+      IWebConnector testWebConector = WebConnector(httpConnection: mockDio, secureStorage: mockSecureStorage, environment: mockEnvironment);
 
       // act
+      Response result = await testWebConector.update(endpoint,dataToUpdate);
 
       // assert
-    }, skip: true,
+      expect(result.data["data"], expectedResponse["data"]);
+    },
     tags: ["unittest","core","externalities"]);
   });
   group("WebConnector create",() {
     test(
       """
-        
+        Should create the resource which it sends and return the newly created resource
+        Given the user is authorized and the backend responds properly
       """,
       () async {
       // arrange
+      String mockedDomain = "http://someUrl.com";
+      String endpoint = "/some-data/";
+      String expectedEndpoint = mockedDomain + endpoint;
+      String validToken = "SomeToken";
+      Map<String,dynamic> dataToCreate = {"data": "some data"};
+      Map<String,dynamic> expectedResponse = {"data": "some data"};
+
+      final mockDio = Dio(BaseOptions());
+      final dioAdapter = DioAdapter(dio: mockDio);
+      dioAdapter.onPost(
+        expectedEndpoint,
+        (server) => server.reply(
+          200,
+          expectedResponse,
+        ),
+        data: dataToCreate
+      );
+
+      Environment mockEnvironment = MockEnvironment();
+      BaseConfig testConfig = MockConfig();
+      when(() => mockEnvironment.config).thenAnswer((_) => testConfig);
+      when(() => testConfig.webApiHost).thenAnswer((_) => mockedDomain);
+
+      FlutterSecureStorage mockSecureStorage = MockSecureStorage();
+      when(() => mockSecureStorage.read(key: "token")).thenAnswer((_) async => validToken);
+
+      IWebConnector testWebConector = WebConnector(httpConnection: mockDio, secureStorage: mockSecureStorage, environment: mockEnvironment);
 
       // act
+      Response result = await testWebConector.create(endpoint,dataToCreate);
 
       // assert
-    }, skip: true,
+      expect(result.data["data"], expectedResponse["data"]);
+    },
     tags: ["unittest","core","externalities"]);
   });
   group("WebConnector delete",() {
     test(
       """
-        
+        Should delete the resource which it sends and return the deleted resource
+        Given the user is authorized and the backend responds properly
       """,
       () async {
       // arrange
+      String mockedDomain = "http://someUrl.com";
+      String endpoint = "/some-data/1/";
+      String expectedEndpoint = mockedDomain + endpoint;
+      String validToken = "SomeToken";
+      Map<String,dynamic> dataToDelete = {"data": "some data"};
+      Map<String,dynamic> expectedResponse = {"data": "some data"};
+
+      final mockDio = Dio(BaseOptions());
+      final dioAdapter = DioAdapter(dio: mockDio);
+      dioAdapter.onDelete(
+        expectedEndpoint,
+        (server) => server.reply(
+          200,
+          expectedResponse,
+        ),
+        data: dataToDelete
+      );
+
+      Environment mockEnvironment = MockEnvironment();
+      BaseConfig testConfig = MockConfig();
+      when(() => mockEnvironment.config).thenAnswer((_) => testConfig);
+      when(() => testConfig.webApiHost).thenAnswer((_) => mockedDomain);
+
+      FlutterSecureStorage mockSecureStorage = MockSecureStorage();
+      when(() => mockSecureStorage.read(key: "token")).thenAnswer((_) async => validToken);
+
+      IWebConnector testWebConector = WebConnector(httpConnection: mockDio, secureStorage: mockSecureStorage, environment: mockEnvironment);
 
       // act
+      Response result = await testWebConector.delete(endpoint,dataToDelete);
 
       // assert
-    }, skip: true,
+      expect(result.data["data"], expectedResponse["data"]);
+    },
     tags: ["unittest","core","externalities"]);
   });
 }
