@@ -10,8 +10,15 @@ class SignInUseCase implements UseCase<void, SignInParams> {
 
   @override
   Future<UserEntity> call(SignInParams params) async {
-    return await userRepository.signIn(
+    UserEntity user = await userRepository.signIn(
         params.email, params.password);
+    if(user.id == 0){
+      user.loggedIn = false;
+    }
+    else{
+      user.loggedIn = true;
+    }
+    return user;
   }
 }
 

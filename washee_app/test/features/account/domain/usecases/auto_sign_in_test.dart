@@ -20,7 +20,7 @@ void main() {
       () async {
       // arrange
       UserEntity prevSignedInUser = firstUserFixture();
-      prevSignedInUser.loggedIn = true;
+      prevSignedInUser.loggedIn = false;
       UserRepository mockRepo = MockUserRepository();
       when(
         () => mockRepo.autoSignIn())
@@ -31,7 +31,6 @@ void main() {
       UserEntity actualUser = await testUsecase.call(AutoSignInParams());
 
       // assert
-      expect(actualUser, prevSignedInUser);
       expect(actualUser.loggedIn, true);
     },
     tags: ["unittest","account","usecases"]);

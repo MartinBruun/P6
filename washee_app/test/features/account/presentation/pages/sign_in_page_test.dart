@@ -49,6 +49,7 @@ void main() {
       UserEntity providedUser = UserEntity.anonymousUser();
       providedUser.loggedIn = false;
       when(() => mockAccountProvider.currentUser).thenAnswer((_) => providedUser);
+      when(() => mockAccountProvider.signinIn).thenAnswer((_) => false);
       AccountLanguageProvider langProv = AccountLanguageProvider();
       await initializeApp(tester, mockAcc: mockAccountProvider, mockAccountLang: langProv);
       
@@ -98,6 +99,7 @@ void main() {
       when(() => mockAccountProvider.signIn(username: testUsername, password: testPassword)).thenAnswer((_) async {
         initialUser.loggedIn = true;
       });
+      when(() => mockAccountProvider.signinIn).thenAnswer((_) => false);
       AccountLanguageProvider langProv = AccountLanguageProvider();
       await initializeApp(tester, mockAcc: mockAccountProvider, mockAccountLang: langProv);
       

@@ -4,7 +4,6 @@ import 'package:washee/features/account/data/models/web_user_model.dart';
 import 'package:washee/features/account/domain/entities/user_entity.dart';
 
 abstract class IUserRepository {
-  late UserEntity currentUser;
   Future<UserEntity> getUser(int userId);
   Future<List<UserEntity>> getUsers(Map<String,dynamic> valuesToGet);
   Future<UserEntity> postUser(UserEntity userEntity);
@@ -17,11 +16,8 @@ abstract class IUserRepository {
 
 class UserRepository extends IUserRepository{
   late IWebUserRemote userRemote;
-  late UserEntity currentUser;
 
-  UserRepository({required this.userRemote}){
-    currentUser = UserEntity.anonymousUser();
-  }
+  UserRepository({required this.userRemote});
 
   @override
   Future<UserEntity> deleteUser(UserEntity userEntity) async {
@@ -79,14 +75,7 @@ class UserRepository extends IUserRepository{
   @override
   Future<UserEntity> autoSignIn() async {
     Map<String,dynamic> userAsJson = await userRemote.autoSignIn();
-    if(userAsJson.isEmpty){
-      currentUser = UserEntity.anonymousUser();
-      currentUser.loggedIn = false;
-    }
-    else{
-      currentUser = WebUserModel.fromJson(userAsJson);
-      currentUser.loggedIn = true;
-    }
+    UserEntity currentUser = userAsJson.isEmpty ? UserEntity.anonymousUser() : WebUserModel.fromJson(userAsJson);
     return currentUser;
   }
 }

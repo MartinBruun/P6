@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-import 'package:washee/features/account/data/models/web_user.dart';
 import 'package:washee/core/standards/time/date_helper.dart';
 import 'package:washee/features/account/presentation/provider/account_current_user_provider.dart';
 import 'package:washee/features/location/presentation/pages/machine_enum.dart';

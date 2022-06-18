@@ -11,6 +11,12 @@ class AutoSignInUsecase implements UseCase<void, AutoSignInParams> {
   @override
   Future<UserEntity> call(AutoSignInParams params) async {
     UserEntity user = await userRepository.autoSignIn();
+    if(user.id == 0){
+      user.loggedIn = false;
+    }
+    else{
+      user.loggedIn = true;
+    }
     return user;
   }
 }

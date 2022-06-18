@@ -11,6 +11,7 @@ class SignOutUsecase implements UseCase<void, SignOutParams> {
   @override
   Future<UserEntity> call(SignOutParams params) async {
     UserEntity user = await userRepository.signOut();
+    user.loggedIn = false;
     return user;
   }
 }

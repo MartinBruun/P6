@@ -19,19 +19,20 @@ void main() {
         Given the repository have a valid, authorized user registered
       """,
       () async {
-      UserEntity signedInUser = firstUserFixture();
+      UserEntity userVerifiedForSignIn = firstUserFixture();
+      userVerifiedForSignIn.loggedIn = false;
       String usersPassword = "ValidPassword";
       UserRepository mockRepo = MockUserRepository();
       when(
-        () => mockRepo.signIn(signedInUser.email, usersPassword))
-        .thenAnswer((_) async => signedInUser);
+        () => mockRepo.signIn(userVerifiedForSignIn.email, usersPassword))
+        .thenAnswer((_) async => userVerifiedForSignIn);
       SignInUseCase testUsecase = SignInUseCase(userRepository: mockRepo);
 
       // act
-      UserEntity actualUser = await testUsecase.call(SignInParams(email: signedInUser.email, password: usersPassword));
+      UserEntity actualUser = await testUsecase.call(SignInParams(email: userVerifiedForSignIn.email, password: usersPassword));
 
       // assert
-      expect(actualUser, signedInUser);
+      expect(actualUser.loggedIn, true);
     },
     tags: ["unittest","account","usecases"]);
   });
