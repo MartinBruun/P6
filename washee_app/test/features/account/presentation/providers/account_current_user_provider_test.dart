@@ -32,6 +32,7 @@ void main() {
         autoSignInUsecase: mockAutoSignInUsecase, 
         signInUsecase: MockSignInUsecase(), 
         signOutUsecase: MockSignOutUsecase());
+      providerUnderTest.currentUser = UserEntity.anonymousUser();
 
       // act
       await providerUnderTest.autoSignIn();

@@ -11,7 +11,6 @@ import 'package:washee/core/standards/base_usecase/usecase.dart';
 import 'package:washee/features/account/presentation/pages/wrong_input.dart';
 import 'package:washee/features/account/presentation/provider/account_language_provider.dart';
 import 'package:washee/features/account/presentation/provider/account_current_user_provider.dart';
-import 'package:washee/features/account/presentation/provider/sign_in_provider.dart';
 import 'package:washee/features/account/presentation/widgets/password_help_box.dart';
 import 'package:washee/features/account/presentation/widgets/text_input.dart';
 import 'package:washee/features/location/domain/usecases/get_wifi_permission.dart';
@@ -38,7 +37,6 @@ class _SignInScreenState extends State<SignInPage> {
   @override
   Widget build(BuildContext context) {
     var accLangProv = Provider.of<AccountLanguageProvider>(context, listen: false);
-    var accUserProv = Provider.of<AccountCurrentUserProvider>(context,listen: true);
     return Scaffold(
       resizeToAvoidBottomInset: true,
       appBar: AppBar(
@@ -104,9 +102,9 @@ class _SignInScreenState extends State<SignInPage> {
                   Container(
                     height: 82.h,
                     width: 279.81.w,
-                    child: Consumer<SignInProvider>(
-                      builder: (context, data, _) => ElevatedButton(
-                        child: data.signingIn
+                    child: Consumer<AccountCurrentUserProvider>(
+                      builder: (context, userProvider, _) => ElevatedButton(
+                        child: userProvider.signinIn
                             ? CircularProgressIndicator(
                                 color: Colors.white,
                               )
@@ -124,17 +122,14 @@ class _SignInScreenState extends State<SignInPage> {
                           if (_formKey.currentState != null) {
                             _formKey.currentState!.save();
                             try {
-                              data.updateSignIn(true);
-                              await accUserProv.signIn(username: _emailController.text, password: _passwordController.text);
+                              await userProvider.signIn(username: _emailController.text, password: _passwordController.text);
 
-                              if (accUserProv.currentUser.loggedIn) {
+                              if (userProvider.currentUser.loggedIn) {
                                 if (Platform.isAndroid) {
                                   await sl<GetWifiPermissionUsecase>()
                                       .call(NoParams());
                                 }
 
-                                await data.delay();
-                                data.updateSignIn(false);
                                 Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(
@@ -144,7 +139,6 @@ class _SignInScreenState extends State<SignInPage> {
                                   ),
                                 );
                               } else {
-                                data.updateSignIn(false);
                                 showDialog(
                                     context: context,
                                     builder: (BuildContext context) {

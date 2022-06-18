@@ -13,7 +13,6 @@ import 'package:washee/features/account/presentation/provider/account_language_p
 import 'package:washee/features/account/presentation/provider/account_current_user_provider.dart';
 import 'package:washee/features/booking/presentation/provider/booking_provider.dart';
 import 'package:washee/features/booking/presentation/provider/calendar_provider.dart';
-import 'package:washee/features/account/presentation/provider/sign_in_provider.dart';
 import 'package:washee/features/location/presentation/provider/unlock_provider.dart';
 import 'injection_container.dart' as ic;
 import 'core/ui/themes/themes.dart';
@@ -50,7 +49,6 @@ class WasheeApp extends StatelessWidget {
         ChangeNotifierProvider(create: (ctx) => UnlockProvider()),
         ChangeNotifierProvider(create: (ctx) => GlobalProvider()),
         ChangeNotifierProvider(create: (ctx) => CalendarProvider()),
-        ChangeNotifierProvider(create: (ctx) => SignInProvider()),
         ChangeNotifierProvider(create: (ctx) => BookingProvider()),
         ChangeNotifierProvider(create: (ctx) => sl<AccountCurrentUserProvider>()),
         ChangeNotifierProvider(create: (ctx) => sl<AccountLanguageProvider>()),

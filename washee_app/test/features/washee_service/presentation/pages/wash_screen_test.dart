@@ -14,7 +14,6 @@ import 'package:washee/core/ui/themes/themes.dart';
 import 'package:washee/core/ui/global_providers/global_provider.dart';
 import 'package:washee/features/booking/presentation/provider/booking_provider.dart';
 import 'package:washee/features/booking/presentation/provider/calendar_provider.dart';
-import 'package:washee/features/account/presentation/provider/sign_in_provider.dart';
 import 'package:washee/features/location/presentation/provider/unlock_provider.dart';
 
 class MockGetMachinesUseCase extends Mock implements GetMachinesUseCase {}
@@ -60,7 +59,6 @@ void main() {
         ChangeNotifierProvider(create: (ctx) => UnlockProvider()),
         ChangeNotifierProvider(create: (ctx) => GlobalProvider()),
         ChangeNotifierProvider(create: (ctx) => CalendarProvider()),
-        ChangeNotifierProvider(create: (ctx) => SignInProvider()),
         ChangeNotifierProvider(create: (ctx) => BookingProvider()),
       ],
       child: ScreenUtilInit(
