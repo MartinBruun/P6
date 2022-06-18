@@ -3,7 +3,8 @@
 cd ..
 cd ..
 cd washee_app
-cd flutter test
+echo ------------ Only runs Unit and Widget tests! ------------
+call flutter test
 cd ..
 cd scripts
 cd win
