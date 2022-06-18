@@ -10,7 +10,7 @@ env:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
 
     steps:
     - uses: actions/checkout@v2
@@ -67,6 +67,7 @@ jobs:
     - name: (App CI) Run flutter tests and check for minimum coverage afterwards
       working-directory: ./washee_app
       run: |
+        flutter clean
         flutter pub get
         flutter test --coverage
 
@@ -75,6 +76,11 @@ jobs:
         path: "./washee_app/coverage/lcov.info"
         min_coverage: 13
         exclude: "**/*_observer.dart **/change.dart"
+    
+    - name: (App CI) Start an Android Emulator
+      uses: reactivecircus/android-emulator-runner@v2
+      with:
+        api-level: 29
 
     - name: (App CI) Run Integration Tests (which also builds an APK)
       working-directory: ./washee_app

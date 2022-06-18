@@ -11,8 +11,7 @@ on:
 
 jobs:
   build:
-    # This job will run on ubuntu virtual machine
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     steps:
     
     # Setup Java environment in order to build the Android app.
@@ -53,6 +52,11 @@ jobs:
         path: "./washee_app/coverage/lcov.info"
         min_coverage: 13
         exclude: "**/*_observer.dart **/change.dart"
+
+    - name: Start an Android Emulator
+      uses: reactivecircus/android-emulator-runner@v2
+      with:
+        api-level: 29
 
     - name: Run Integration Tests (which also builds APK)
       working-directory: ./washee_app
