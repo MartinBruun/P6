@@ -3,10 +3,8 @@ import 'package:provider/provider.dart';
 import 'package:washee/core/standards/time/date_helper.dart';
 import 'package:washee/core/ui/themes/dimens.dart';
 import 'package:washee/core/ui/themes/themes.dart';
-import 'package:washee/core/standards/base_usecase/usecase.dart';
 import 'package:washee/features/booking/domain/usecases/delete_booking.dart';
 import 'package:washee/features/booking/presentation/provider/booking_provider.dart';
-import 'package:washee/features/account/domain/usecases/update_account.dart';
 import 'package:washee/features/account/presentation/widgets/booking_info.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:washee/injection_container.dart';
@@ -81,7 +79,6 @@ class ListOfBookingsView extends StatelessWidget {
                         await sl<DeleteBookingUseCase>().call(
                             DeleteBookingParams(
                                 bookingID: bookings[index].bookingID!));
-                        await sl<UpdateAccountUseCase>().call(NoParams());
 
                         var booking = Provider.of<BookingProvider>(context,
                             listen: false);

@@ -11,6 +11,7 @@ abstract class IUserRepository {
   Future<UserEntity> updateUser(UserEntity userEntity, Map<String,dynamic> valuesToUpdate);
   Future<UserEntity> deleteUser(UserEntity userEntity);
   Future<UserEntity> signIn(String username, String password);
+  Future<UserEntity> signOut();
   Future<UserEntity> autoSignIn();
 }
 
@@ -66,6 +67,13 @@ class UserRepository extends IUserRepository{
     Map<String,dynamic> userAsJson = await userRemote.signIn(username, password);
     UserEntity result = WebUserModel.fromJson(userAsJson);
     return result;
+  }
+
+  @override
+  Future<UserEntity> signOut() async {
+    // TODO: Should probably also send a request to the backend, so it get notified the user is logged out!
+    UserEntity signedOutUser = UserEntity.anonymousUser();
+    return signedOutUser;
   }
 
   @override

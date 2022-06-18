@@ -14,6 +14,7 @@ import 'package:washee/features/account/data/datasources/user_remote.dart';
 import 'package:washee/features/account/data/repositories/account_repository_impl.dart';
 import 'package:washee/features/account/data/repositories/user_repository.dart';
 import 'package:washee/features/account/domain/usecases/auto_sign_in.dart';
+import 'package:washee/features/account/domain/usecases/sign_out.dart';
 import 'package:washee/features/account/presentation/provider/account_language_provider.dart';
 import 'package:washee/features/account/presentation/provider/account_current_user_provider.dart';
 import 'package:washee/features/booking/data/datasources/book_remote.dart';
@@ -25,7 +26,6 @@ import 'package:washee/features/location/data/repositories/get_machines_repo_imp
 import 'package:washee/features/location/domain/repositories/get_machines_repository.dart';
 import 'package:washee/features/location/domain/usecases/get_machines.dart';
 import 'package:washee/features/account/domain/usecases/sign_in.dart';
-import 'package:washee/features/account/domain/usecases/update_account.dart';
 import 'package:washee/features/location/data/datasources/unlock_remote.dart';
 import 'package:washee/features/location/data/repositories/unlock_repo_impl.dart';
 import 'package:washee/features/location/domain/repositories/unlock_repository.dart';
@@ -71,10 +71,10 @@ void initAccount() {
   // Usecases
   sl.registerLazySingleton<AutoSignInUsecase>(() => AutoSignInUsecase(userRepository: sl()));
   sl.registerLazySingleton<SignInUseCase>(() => SignInUseCase(userRepository: sl()));
-  sl.registerLazySingleton<UpdateAccountUseCase>(() => UpdateAccountUseCase(userRepository: sl(), accountRepository: sl()));
+  sl.registerLazySingleton<SignOutUsecase>(() => SignOutUsecase(userRepository: sl()));
 
   // Providers
-  sl.registerLazySingleton<AccountCurrentUserProvider>(() => AccountCurrentUserProvider(autoSignInUsecase: sl(), signInUsecase: sl()));
+  sl.registerLazySingleton<AccountCurrentUserProvider>(() => AccountCurrentUserProvider(autoSignInUsecase: sl(), signInUsecase: sl(), signOutUsecase: sl()));
   sl.registerLazySingleton<AccountLanguageProvider>(() => AccountLanguageProvider());
 }
 

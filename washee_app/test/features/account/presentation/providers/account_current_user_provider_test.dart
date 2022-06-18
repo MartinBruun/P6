@@ -5,12 +5,14 @@ import 'package:mocktail/mocktail.dart';
 import 'package:washee/features/account/domain/entities/user_entity.dart';
 import 'package:washee/features/account/domain/usecases/auto_sign_in.dart';
 import 'package:washee/features/account/domain/usecases/sign_in.dart';
+import 'package:washee/features/account/domain/usecases/sign_out.dart';
 import 'package:washee/features/account/presentation/provider/account_current_user_provider.dart';
 
 import '../../../../fixtures/entities/account/users.dart';
 
 class MockAutoSignInUsecase extends Mock implements AutoSignInUsecase {}
 class MockSignInUsecase extends Mock implements SignInUseCase {}
+class MockSignOutUsecase extends Mock implements SignOutUsecase {}
 
 void main() {
   group("AccountCurrentUserProvider autoSignIn",() {
@@ -26,8 +28,10 @@ void main() {
       when(
         () => mockAutoSignInUsecase.call(AutoSignInParams()))
         .thenAnswer((_) async => newUser);
-      SignInUseCase mockSignInUsecase = MockSignInUsecase();
-      var providerUnderTest = AccountCurrentUserProvider(autoSignInUsecase: mockAutoSignInUsecase, signInUsecase: mockSignInUsecase);
+      var providerUnderTest = AccountCurrentUserProvider(
+        autoSignInUsecase: mockAutoSignInUsecase, 
+        signInUsecase: MockSignInUsecase(), 
+        signOutUsecase: MockSignOutUsecase());
 
       // act
       await providerUnderTest.autoSignIn();
@@ -48,14 +52,16 @@ void main() {
       () async {
       // arrange
       UserEntity newUser = firstUserFixture();
-      AutoSignInUsecase mockAutoSignInUsecase = MockAutoSignInUsecase();
       SignInUseCase mockSignInUsecase = MockSignInUsecase();
       String email = newUser.email;
       String password = "valid password";
       when(
         () => mockSignInUsecase.call(SignInParams(email: email, password:password)))
         .thenAnswer((_) async => newUser);
-      var providerUnderTest = AccountCurrentUserProvider(autoSignInUsecase: mockAutoSignInUsecase, signInUsecase: mockSignInUsecase);
+      var providerUnderTest = AccountCurrentUserProvider(
+        autoSignInUsecase: MockAutoSignInUsecase(), 
+        signInUsecase: mockSignInUsecase,
+        signOutUsecase: MockSignOutUsecase());
 
       // act
       await providerUnderTest.signIn(username: email, password: password);
@@ -64,6 +70,35 @@ void main() {
       verify(() => mockSignInUsecase.call(SignInParams(email: email, password:password))).called(1);
       expect(providerUnderTest.currentUser, newUser);
       expect(providerUnderTest.currentUser.loggedIn, true);
+    },
+    tags: ["unittest","account","providers"]);
+  });
+  group("AccountCurrentUserProvider signOut",() {
+    test(
+      """
+        Should make the current user an anonymous user and log the person out
+        Given the usecase correctly signs in the new user
+      """,
+      () async {
+      // arrange
+      UserEntity loggedOutUser = UserEntity.anonymousUser();
+      SignOutUsecase mockSignOutUsecase = MockSignOutUsecase();
+      when(
+        () => mockSignOutUsecase.call(SignOutParams()))
+        .thenAnswer((_) async => loggedOutUser);
+      var providerUnderTest = AccountCurrentUserProvider(
+        autoSignInUsecase: MockAutoSignInUsecase(), 
+        signInUsecase: MockSignInUsecase(),
+        signOutUsecase: mockSignOutUsecase);
+      providerUnderTest.currentUser = firstUserFixture();
+
+      // act
+      await providerUnderTest.signOut();
+
+      // assert
+      verify(() => mockSignOutUsecase.call(SignOutParams())).called(1);
+      expect(providerUnderTest.currentUser, loggedOutUser);
+      expect(providerUnderTest.currentUser.loggedIn, false);
     },
     tags: ["unittest","account","providers"]);
   });
