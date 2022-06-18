@@ -10,7 +10,7 @@ abstract class IUserRepository {
   Future<UserEntity> updateUser(UserEntity userEntity, Map<String,dynamic> valuesToUpdate);
   Future<UserEntity> deleteUser(UserEntity userEntity);
   Future<UserEntity> signIn(String username, String password);
-  Future<UserEntity> signOut();
+  Future<UserEntity> signOut(UserEntity userLoggingOut);
   Future<UserEntity> autoSignIn();
 }
 
