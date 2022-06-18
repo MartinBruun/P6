@@ -1,0 +1,18 @@
+name: Done
+
+on:
+  workflow_run:
+    workflows: [Box CI, Web CI, App CI]
+    types:
+      - completed
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Tear down
+      run: |
+        docker-compose down -v

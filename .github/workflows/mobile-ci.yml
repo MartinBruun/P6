@@ -1,6 +1,10 @@
-name: Mobile CI
+name: App CI
 
 on:
+  workflow_run:
+    workflows: [Build]
+    types:
+      - completed
   pull_request:
     paths:
       - 'washee_app/**'
@@ -50,10 +54,10 @@ jobs:
         min_coverage: 13
         exclude: "**/*_observer.dart **/change.dart"
 
-    - name: Build APK 
+    - name: Run Integration Tests (which also builds an APK)
       working-directory: ./washee_app
       run: |
-        flutter build apk --debug 
+        flutter test integration_test
 
       
     

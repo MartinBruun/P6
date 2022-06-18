@@ -1,6 +1,10 @@
 name: Web CI
 
 on:
+  workflow_run:
+    workflows: [Build]
+    types:
+      - completed
   pull_request:
     paths:
       - 'washee_web/**'
@@ -21,10 +25,7 @@ jobs:
           path: "washee_web"
           max-line-length: 9000
 
-    - name: Build, run, test and tear down
+    - name: Run Tests
       working-directory: ./washee_web
       run: |
-        chmod +x entrypoint.sh
-        docker-compose up -d --build web
         docker-compose exec -T web pytest --cov=. --cov-fail-under=$MIN_COVERAGE
-        docker-compose down -v

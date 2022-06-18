@@ -1,6 +1,10 @@
 name: Box CI
 
 on:
+  workflow_run:
+    workflows: [Build]
+    types:
+      - completed
   pull_request:
     paths:
       - "washee_box/**"
@@ -21,8 +25,6 @@ jobs:
           path: "washee_box"
           max-line-length: 9000
 
-      - name: Build, run, test and tear down
+      - name: Run Tests
         run: |
-          docker-compose up -d --build box
           docker-compose exec -T box python3 -m pytest --cov=. --cov-fail-under=$MIN_COVERAGE
-          docker-compose down -v
