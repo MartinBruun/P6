@@ -82,22 +82,23 @@ void main() {
       """,
       () async {
       // arrange
+      UserEntity currentUser = firstUserFixture();
       UserEntity loggedOutUser = UserEntity.anonymousUser();
       SignOutUsecase mockSignOutUsecase = MockSignOutUsecase();
       when(
-        () => mockSignOutUsecase.call(SignOutParams()))
+        () => mockSignOutUsecase.call(SignOutParams(userLoggingOut: currentUser)))
         .thenAnswer((_) async => loggedOutUser);
       var providerUnderTest = AccountCurrentUserProvider(
         autoSignInUsecase: MockAutoSignInUsecase(), 
         signInUsecase: MockSignInUsecase(),
         signOutUsecase: mockSignOutUsecase);
-      providerUnderTest.currentUser = firstUserFixture();
+      providerUnderTest.currentUser = currentUser;
 
       // act
       await providerUnderTest.signOut();
 
       // assert
-      verify(() => mockSignOutUsecase.call(SignOutParams())).called(1);
+      verify(() => mockSignOutUsecase.call(SignOutParams(userLoggingOut: currentUser))).called(1);
       expect(providerUnderTest.currentUser, loggedOutUser);
       expect(providerUnderTest.currentUser.loggedIn, false);
     },

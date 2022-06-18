@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:path/path.dart';
 import 'package:washee/features/account/domain/entities/user_entity.dart';
 import 'package:washee/features/account/domain/usecases/auto_sign_in.dart';
 import 'package:washee/features/account/domain/usecases/sign_in.dart';
@@ -33,7 +34,7 @@ class AccountCurrentUserProvider extends ChangeNotifier {
   Future<void> signOut() async {
     signinIn = true;
     notifyListeners();
-    currentUser = await signOutUsecase.call(SignOutParams());
+    currentUser = await signOutUsecase.call(SignOutParams(userLoggingOut: currentUser));
     signinIn = false;
     notifyListeners();
   }

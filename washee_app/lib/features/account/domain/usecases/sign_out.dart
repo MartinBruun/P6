@@ -17,7 +17,9 @@ class SignOutUsecase implements UseCase<void, SignOutParams> {
 }
 
 class SignOutParams extends Equatable {
-  SignOutParams();
+  final UserEntity userLoggingOut;
+
+  SignOutParams({required this.userLoggingOut});
 
   @override
   List<Object?> get props => [];

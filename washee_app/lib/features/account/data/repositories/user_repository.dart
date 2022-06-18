@@ -66,7 +66,7 @@ class UserRepository extends IUserRepository{
   }
 
   @override
-  Future<UserEntity> signOut() async {
+  Future<UserEntity> signOut(UserEntity userLoggingOut) async {
     // TODO: Should probably also send a request to the backend, so it get notified the user is logged out!
     UserEntity signedOutUser = UserEntity.anonymousUser();
     return signedOutUser;
