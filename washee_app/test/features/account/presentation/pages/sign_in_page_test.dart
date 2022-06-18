@@ -107,8 +107,10 @@ void main() {
       //expect(find.text(langProv.getText("SignInPage", "usernameField")), findsOneWidget);
       //expect(1,0);
       Finder usernameTextInputField = find.byKey(Key(langProv.getText("SignInPage", "usernameField")));
+      expect(usernameTextInputField, findsOneWidget);
       await tester.enterText(usernameTextInputField, testUsername);
       Finder passwordTextInputField = find.byKey(Key(langProv.getText("SignInPage", "passwordField")));
+      expect(passwordTextInputField, findsOneWidget);
       await tester.enterText(passwordTextInputField, testPassword);
       await tester.pumpAndSettle();
       await tester.tap(find.text(langProv.getText("SignInPage", "buttonText")));

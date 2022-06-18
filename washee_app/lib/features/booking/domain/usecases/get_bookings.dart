@@ -1,8 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:washee/core/standards/base_usecase/usecase.dart';
-
-import '../../data/models/booking_model.dart';
-import '../repositories/book_repository.dart';
+import 'package:washee/features/booking/data/models/booking_model.dart';
+import 'package:washee/features/booking/domain/repositories/book_repository.dart';
 
 class GetBookingsUseCase implements UseCase<List<BookingModel>, GetBookingsParams> {
   final BookRepository repository;

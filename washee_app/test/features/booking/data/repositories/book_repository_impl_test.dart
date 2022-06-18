@@ -7,6 +7,7 @@ import 'package:washee/core/externalities/network/network_info.dart';
 import 'package:washee/features/booking/data/datasources/book_remote.dart';
 import 'package:washee/features/booking/data/repositories/book_repository_impl.dart';
 import 'package:timezone/timezone.dart' as tz;
+import 'package:washee/features/booking/domain/repositories/book_repository.dart';
 
 class MockNetworkInfo extends Mock implements NetworkInfo {}
 
@@ -19,7 +20,7 @@ class FakeLocation extends Mock implements tz.Location {}
 // class MockBookingModel extends Mock implements BookingModelHelper {}
 
 void main() {
-  late BookRepositoryImpl sut_bookRepositoryImpl;
+  late BookRepository sut_bookRepositoryImpl;
   late MockNetworkInfo mockNetworkInfo;
   late MockBookRemote mockRemote;
   // late MockBookingModel mockBookingHelper;

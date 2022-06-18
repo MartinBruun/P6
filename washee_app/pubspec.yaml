@@ -54,6 +54,8 @@ dependencies:
   timezone: ^0.8.0
   
 dev_dependencies:
+  integration_test:
+    sdk: flutter
   flutter_test:
     sdk: flutter
   test: ^1.17.10

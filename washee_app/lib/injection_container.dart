@@ -36,30 +36,29 @@ import 'package:washee/features/location/domain/usecases/unlock.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import 'core/externalities/network/network_info.dart';
-import 'features/booking/domain/repositories/book_repository.dart';
 import 'features/booking/domain/usecases/get_bookings.dart';
 
 // sl is short for service locater
 final GetIt sl = GetIt.instance;
 
 Future<void> initAll() async {
-  initCore();
-  initCoreAndExternal();
-  initAccount();
-  initUnlock();
-  initGetMachines();
+  await initCore();
+  await initCoreAndExternal();
+  await initAccount();
+  await initUnlock();
+  await initGetMachines();
   
-  initBooking();
+  await initBooking();
 }
 
-void initCore(){
+Future<void> initCore() async {
   sl.registerLazySingleton<Environment>(() => Environment());
   sl.registerLazySingleton<Dio>(() => Dio());
   sl.registerLazySingleton<FlutterSecureStorage>(() => FlutterSecureStorage());
   sl.registerLazySingleton<IWebConnector>(() => WebConnector(httpConnection: sl(), secureStorage: sl(), environment: sl()));
 }
 
-void initAccount() {
+Future<void> initAccount() async {
   // Data Sources
   sl.registerLazySingleton<IWebAccountRemote>(() => WebAccountRemote(webConnector: sl()));
   sl.registerLazySingleton<IWebUserRemote>(() => WebUserRemote(webConnector: sl()));
@@ -80,23 +79,21 @@ void initAccount() {
 
 
 // EVERYTHING BELOW HERE IS OLD and should be moved to the top structure
-initCoreAndExternal() {
+Future<void> initCoreAndExternal() async {
   sl.registerLazySingleton<NetworkInfo>(
       () => NetworkInfoImpl(connectionChecker: sl()));
   sl.registerLazySingleton(() => http.Client());
   sl.registerLazySingleton(() => Connectivity());
 
-  sl.registerLazySingleton<BoxCommunicator>(
-      () => BoxCommunicatorImpl(dio: sl()));
+  sl.registerLazySingleton<BoxCommunicator>(() => BoxCommunicatorImpl(dio: sl()));
   
 
   sl.registerLazySingleton<Authorizer>(() => AuthorizerImpl(dio: sl()));
 
-  sl.registerLazySingleton<WebCommunicator>(
-      () => WebCommunicatorImpl(dio: sl(), authorizer: sl()));
+  sl.registerLazySingleton<WebCommunicator>(() => WebCommunicatorImpl(dio: sl(), authorizer: sl()));
 }
 
-void initBooking() {
+Future<void> initBooking() async {
   // Usecases
   sl.registerLazySingleton(() => PostBookingUsecase(repository: sl()));
   sl.registerLazySingleton(() => GetBookingsUseCase(repository: sl()));
@@ -104,17 +101,13 @@ void initBooking() {
   sl.registerLazySingleton(() => DeleteBookingUseCase(repository: sl()));
 
   // Repositories
-  sl.registerLazySingleton<BookRepository>(
-    () => BookRepositoryImpl(networkInfo: sl(), remote: sl()),
-  );
+  sl.registerLazySingleton<BookRepositoryImpl>(() => BookRepositoryImpl(networkInfo: sl(), remote: sl()));
 
   // Data Sources
-  sl.registerLazySingleton<BookRemote>(
-    () => BookRemoteImpl(networkInfo: sl(), communicator: sl()),
-  );
+  sl.registerLazySingleton<BookRemote>(() => BookRemoteImpl(networkInfo: sl(), communicator: sl()));
 }
 
-void initUnlock() {
+Future<void> initUnlock() async {
   // Usecases
   sl.registerLazySingleton(() => UnlockUseCase(repository: sl()));
   if (Platform.isAndroid) {
@@ -132,7 +125,7 @@ void initUnlock() {
       () => UnlockRemoteImpl(communicator: sl()));
 }
 
-void initGetMachines() {
+Future<void> initGetMachines() async {
   // Usecases
   sl.registerLazySingleton(() => GetMachinesUseCase(repository: sl()));
 

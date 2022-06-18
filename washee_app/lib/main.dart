@@ -33,9 +33,11 @@ void main() async {
   print(
       "From main.dart: boxHasInternetAccess = ${Environment().config.boxHasInternetAccess}");
 
-  await sl<Authorizer>().autoSignIn();
-
-  await sl<AccountCurrentUserProvider>().autoSignIn();
+  if(!kDebugMode){
+    await sl<Authorizer>().autoSignIn();
+    await sl<AccountCurrentUserProvider>().autoSignIn();
+  }
+  
   runApp(WasheeApp());
 }
 
