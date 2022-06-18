@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:washee/core/ui/navigation/pages_enum.dart';
 import 'package:washee/features/account/presentation/pages/sign_in_page.dart';
 import 'package:washee/features/account/presentation/pages/washee_screen.dart';
-import 'package:washee/features/account/presentation/provider/account_functionality_provider.dart';
+import 'package:washee/features/account/presentation/provider/account_current_user_provider.dart';
 import 'package:washee/features/location/presentation/pages/wash_screen.dart';
 import 'package:washee/features/booking/presentation/pages/calendar_screen.dart';
 
@@ -44,8 +44,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var accountProvider = Provider.of<AccountFunctionalityProvider>(context, listen: true);
-    return !accountProvider.currentUser.loggedIn
+    var currentUserProvider = Provider.of<AccountCurrentUserProvider>(context, listen: true);
+    return !currentUserProvider.currentUser.loggedIn
         ? SignInPage()
         : Scaffold(
             body: _pages[_selectedPageIndex],

@@ -10,7 +10,7 @@ import 'package:washee/core/externalities/web/authorizer.dart';
 import 'package:washee/core/ui/navigation/home_screen.dart';
 import 'package:washee/core/ui/global_providers/global_provider.dart';
 import 'package:washee/features/account/presentation/provider/account_language_provider.dart';
-import 'package:washee/features/account/presentation/provider/account_functionality_provider.dart';
+import 'package:washee/features/account/presentation/provider/account_current_user_provider.dart';
 import 'package:washee/features/booking/presentation/provider/booking_provider.dart';
 import 'package:washee/features/booking/presentation/provider/calendar_provider.dart';
 import 'package:washee/features/account/presentation/provider/sign_in_provider.dart';
@@ -36,7 +36,7 @@ void main() async {
 
   await sl<Authorizer>().autoSignIn();
 
-  await sl<AccountFunctionalityProvider>().autoSignIn();
+  await sl<AccountCurrentUserProvider>().autoSignIn();
   runApp(WasheeApp());
 }
 
@@ -52,7 +52,7 @@ class WasheeApp extends StatelessWidget {
         ChangeNotifierProvider(create: (ctx) => CalendarProvider()),
         ChangeNotifierProvider(create: (ctx) => SignInProvider()),
         ChangeNotifierProvider(create: (ctx) => BookingProvider()),
-        ChangeNotifierProvider(create: (ctx) => sl<AccountFunctionalityProvider>()),
+        ChangeNotifierProvider(create: (ctx) => sl<AccountCurrentUserProvider>()),
         ChangeNotifierProvider(create: (ctx) => sl<AccountLanguageProvider>()),
       ],
       child: ScreenUtilInit(

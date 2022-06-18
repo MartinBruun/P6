@@ -3,14 +3,14 @@ import 'package:washee/features/account/domain/entities/user_entity.dart';
 import 'package:washee/features/account/domain/usecases/auto_sign_in.dart';
 import 'package:washee/features/account/domain/usecases/sign_in.dart';
 
-class AccountFunctionalityProvider extends ChangeNotifier {
+class AccountCurrentUserProvider extends ChangeNotifier {
   final AutoSignInUsecase autoSignInUsecase;
   final SignInUseCase signInUsecase;
 
-  UserEntity currentUser = UserEntity.anonymousUser();
-  bool signinIn = false;
+  late UserEntity currentUser = UserEntity.anonymousUser();
+  late bool signinIn = false;
 
-  AccountFunctionalityProvider({required this.autoSignInUsecase, required this.signInUsecase});
+  AccountCurrentUserProvider({required this.autoSignInUsecase, required this.signInUsecase});
 
   Future<void> autoSignIn() async {
     signinIn = true;

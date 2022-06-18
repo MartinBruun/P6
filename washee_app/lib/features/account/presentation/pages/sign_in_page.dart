@@ -10,7 +10,7 @@ import 'package:washee/core/ui/themes/themes.dart';
 import 'package:washee/core/standards/base_usecase/usecase.dart';
 import 'package:washee/features/account/presentation/pages/wrong_input.dart';
 import 'package:washee/features/account/presentation/provider/account_language_provider.dart';
-import 'package:washee/features/account/presentation/provider/account_functionality_provider.dart';
+import 'package:washee/features/account/presentation/provider/account_current_user_provider.dart';
 import 'package:washee/features/account/presentation/provider/sign_in_provider.dart';
 import 'package:washee/features/account/presentation/widgets/password_help_box.dart';
 import 'package:washee/features/account/presentation/widgets/text_input.dart';
@@ -38,7 +38,7 @@ class _SignInScreenState extends State<SignInPage> {
   @override
   Widget build(BuildContext context) {
     var accLangProv = Provider.of<AccountLanguageProvider>(context, listen: false);
-    var accFuncProv = Provider.of<AccountFunctionalityProvider>(context,listen: true);
+    var accUserProv = Provider.of<AccountCurrentUserProvider>(context,listen: true);
     return Scaffold(
       resizeToAvoidBottomInset: true,
       appBar: AppBar(
@@ -125,9 +125,9 @@ class _SignInScreenState extends State<SignInPage> {
                             _formKey.currentState!.save();
                             try {
                               data.updateSignIn(true);
-                              await accFuncProv.signIn(username: _emailController.text, password: _passwordController.text);
+                              await accUserProv.signIn(username: _emailController.text, password: _passwordController.text);
 
-                              if (accFuncProv.currentUser.loggedIn) {
+                              if (accUserProv.currentUser.loggedIn) {
                                 if (Platform.isAndroid) {
                                   await sl<GetWifiPermissionUsecase>()
                                       .call(NoParams());

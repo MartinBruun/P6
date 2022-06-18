@@ -9,16 +9,16 @@ import 'package:washee/core/ui/navigation/home_screen.dart';
 import 'package:washee/core/ui/themes/themes.dart';
 import 'package:washee/features/account/domain/entities/user_entity.dart';
 import 'package:washee/features/account/presentation/provider/account_language_provider.dart';
-import 'package:washee/features/account/presentation/provider/account_functionality_provider.dart';
+import 'package:washee/features/account/presentation/provider/account_current_user_provider.dart';
 import 'package:washee/features/account/presentation/provider/sign_in_provider.dart';
 
 import '../../../../fixtures/entities/account/users.dart';
 
-class MockAccountFunctionalityProvider extends Mock implements AccountFunctionalityProvider {}
+class MockAccountFunctionalityProvider extends Mock implements AccountCurrentUserProvider {}
 
 void main() {
 
-  Future<void> initializeApp(WidgetTester tester, {required AccountFunctionalityProvider mockAcc, required AccountLanguageProvider mockAccountLang}) async {
+  Future<void> initializeApp(WidgetTester tester, {required AccountCurrentUserProvider mockAcc, required AccountLanguageProvider mockAccountLang}) async {
     await tester.pumpWidget(MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (ctx) => SignInProvider()),
@@ -47,7 +47,7 @@ void main() {
       """,
       (tester) async {
       // arrange
-      AccountFunctionalityProvider mockAccountProvider = MockAccountFunctionalityProvider();
+      AccountCurrentUserProvider mockAccountProvider = MockAccountFunctionalityProvider();
       UserEntity providedUser = UserEntity.anonymousUser();
       providedUser.loggedIn = false;
       when(() => mockAccountProvider.currentUser).thenAnswer((_) => providedUser);
@@ -68,7 +68,7 @@ void main() {
       """,
       (tester) async {
       // arrange
-      AccountFunctionalityProvider mockAccountProvider = MockAccountFunctionalityProvider();
+      AccountCurrentUserProvider mockAccountProvider = MockAccountFunctionalityProvider();
       UserEntity providedUser = firstUserFixture();
       providedUser.loggedIn = true;
       when(() => mockAccountProvider.currentUser).thenAnswer((_) => providedUser);
@@ -91,7 +91,7 @@ void main() {
       """,
       (tester) async {
       // arrange
-      AccountFunctionalityProvider mockAccountProvider = MockAccountFunctionalityProvider();
+      AccountCurrentUserProvider mockAccountProvider = MockAccountFunctionalityProvider();
       UserEntity initialUser = UserEntity.anonymousUser();
       initialUser.loggedIn = false;
       String testUsername = initialUser.username;

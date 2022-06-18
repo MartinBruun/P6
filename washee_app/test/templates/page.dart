@@ -8,13 +8,13 @@ import 'package:provider/provider.dart';
 import 'package:washee/core/ui/navigation/home_screen.dart';
 import 'package:washee/core/ui/themes/themes.dart';
 import 'package:washee/features/account/domain/entities/user_entity.dart';
-import 'package:washee/features/account/presentation/provider/account_functionality_provider.dart';
+import 'package:washee/features/account/presentation/provider/account_current_user_provider.dart';
 
-class MockAccountProvider extends Mock implements AccountFunctionalityProvider {}
+class MockAccountProvider extends Mock implements AccountCurrentUserProvider {}
 
 void main() {
 
-    Future<void> initializeApp(WidgetTester tester, {required bool autoLogin, required AccountFunctionalityProvider mockAcc}) async {
+    Future<void> initializeApp(WidgetTester tester, {required bool autoLogin, required AccountCurrentUserProvider mockAcc}) async {
         // Setup Automatic login
         UserEntity providedUser = UserEntity.anonymousUser();
         providedUser.loggedIn = autoLogin;
@@ -50,7 +50,7 @@ void main() {
       """,
       (tester) async {
         // arrange
-        AccountFunctionalityProvider mockAccountProvider = MockAccountProvider();
+        AccountCurrentUserProvider mockAccountProvider = MockAccountProvider();
         await initializeApp(tester, autoLogin: true, mockAcc: mockAccountProvider);
       
         // act
@@ -71,7 +71,7 @@ void main() {
       """,
       (tester) async {
         // arrange
-        AccountFunctionalityProvider mockAccountProvider = MockAccountProvider();
+        AccountCurrentUserProvider mockAccountProvider = MockAccountProvider();
         await initializeApp(tester, autoLogin: true, mockAcc: mockAccountProvider);
         await navigateToPage();
       

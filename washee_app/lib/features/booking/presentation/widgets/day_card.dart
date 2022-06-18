@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:washee/features/account/data/models/web_user.dart';
 import 'package:washee/core/standards/time/date_helper.dart';
+import 'package:washee/features/account/presentation/provider/account_current_user_provider.dart';
 import 'package:washee/features/location/presentation/pages/machine_enum.dart';
 import 'package:washee/core/ui/themes/dimens.dart';
 import 'package:washee/core/ui/themes/themes.dart';
@@ -59,7 +60,8 @@ class _DayCardState extends State<DayCard> {
 
   @override
   Widget build(BuildContext context) {
-    var calendar = Provider.of<CalendarProvider>(context, listen: false);
+    var currentUserProvider = Provider.of<AccountCurrentUserProvider>(context, listen: false);
+    var calendarProvider = Provider.of<CalendarProvider>(context, listen: false);
     return Container(
       color: Colors.black12,
       width: 0.13.sw,
@@ -67,7 +69,7 @@ class _DayCardState extends State<DayCard> {
       padding: EdgeInsets.all(1.w),
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-          primary: calendar.determineGreenScoreColor(_greenScoreAverage),
+          primary: calendarProvider.determineGreenScoreColor(_greenScoreAverage),
         ),
         child: Consumer<CalendarProvider>(
           builder: (context, data, _) => Column(
@@ -114,7 +116,6 @@ class _DayCardState extends State<DayCard> {
           ),
         ),
         onPressed: () async {
-          ActiveUser user = ActiveUser();
           if ((widget.currentDate.month == DateHelper().currentTime().month) &&
               (widget.currentDate.day < DateHelper().currentTime().day)) {
             await showDialog(
@@ -123,7 +124,7 @@ class _DayCardState extends State<DayCard> {
                 return OutDatedDateDialog();
               },
             );
-          } else if (user.activeAccount!.balance > 0) {
+          } else if (currentUserProvider.currentUser.activeAccount!.balance > 0) {
             await showDialog(
               context: context,
               builder: (BuildContext context) {
