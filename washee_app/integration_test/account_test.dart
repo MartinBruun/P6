@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:get_it/get_it.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:washee/features/account/presentation/provider/account_language_provider.dart';
 
@@ -8,11 +9,14 @@ import '../lib/main.dart' as app;
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
-  Future<void> navigateToFeature() async {
+  tearDown(() async {
+    // Reset dependencies for each test
+    final getIt = GetIt.instance;
 
-  }
+    await getIt.reset();
+  });
 
-  group('FEATURE Navigation Test', () {
+  group('Account Navigation Test', () {
     testWidgets(
       """
       Should be the initial page seen without any navigation
@@ -24,12 +28,11 @@ void main() {
       var langProv = AccountLanguageProvider();
 
       // act
-      await navigateToFeature();
 
       // assert
       expect(find.text(langProv.getText("SignInPage", "presentationText")), findsOneWidget);
     },
-    tags: ["integrationtest","FEATURE","navigationtest"]);
+    tags: ["integrationtest","account","navigationtest"]);
   });
 
   group('Account End to End Tests', () {
@@ -59,7 +62,7 @@ void main() {
       // assert
       String expectedTextNotToBeSeen = langProv.getText("SignInPage", "presentationText");
       expect(find.text(expectedTextNotToBeSeen),findsNothing);
-    }, skip: true,
+    },
     tags: ["integrationtest","account","endtoendtest"]);
   });
 }

@@ -6,10 +6,10 @@ import 'package:washee/core/ui/themes/dimens.dart';
 import 'package:washee/features/booking/presentation/provider/calendar_provider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:washee/injection_container.dart';
-import '../../../../core/ui/themes/colors.dart';
-import '../../../../core/ui/themes/themes.dart';
-import '../../data/models/booking_model.dart';
-import '../widgets/calendar_view.dart';
+import 'package:washee/core/ui/themes/colors.dart';
+import 'package:washee/core/ui/themes/themes.dart';
+import 'package:washee/features/booking/data/models/booking_model.dart';
+import 'package:washee/features/booking/presentation/widgets/calendar_view.dart';
 
 class CalendarScreen extends StatefulWidget {
   static const routeName = "/calendar-screen";

@@ -58,3 +58,6 @@ Pages and Widgets may ONLY import from Providers (never core!)
 The domain layer is the highest abstraction layer and should therefore never depend on anything else.
 As a safety precausion, Widgets may only depend on Providers, such as to keep the UI distinctly decoupled from the business logic.
 Layers can cross, ie. a BookingRepository depends on AccountRemote, BookingRemote and LocationRemote for instance.
+
+Relative import (ie. ../../import/something.dart) can mess with the integrationtests.
+Therefore they should also be banned, making a linter that makes sure only 'package:' imports are used.

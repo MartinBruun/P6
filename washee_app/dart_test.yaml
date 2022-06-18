@@ -8,6 +8,12 @@ tags:
     timeout: 30s
   integrationtest:
     timeout: 2m
+  
+  # Integrationtest types, split up due to their longer runtime
+  navigationtest:
+    timeout: none
+  endtoendtest:
+    timeout: none
 
   # If some tests surpase their expected max time above, give them this tag instead
   slow:

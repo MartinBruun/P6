@@ -35,8 +35,8 @@ import 'package:washee/features/location/domain/usecases/get_wifi_permission.dar
 import 'package:washee/features/location/domain/usecases/unlock.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-import 'core/externalities/network/network_info.dart';
-import 'features/booking/domain/usecases/get_bookings.dart';
+import 'package:washee/core/externalities/network/network_info.dart';
+import 'package:washee/features/booking/domain/usecases/get_bookings.dart';
 
 // sl is short for service locater
 final GetIt sl = GetIt.instance;
@@ -80,10 +80,10 @@ Future<void> initAccount() async {
 
 // EVERYTHING BELOW HERE IS OLD and should be moved to the top structure
 Future<void> initCoreAndExternal() async {
+  sl.registerLazySingleton(() => Connectivity());
   sl.registerLazySingleton<NetworkInfo>(
       () => NetworkInfoImpl(connectionChecker: sl()));
   sl.registerLazySingleton(() => http.Client());
-  sl.registerLazySingleton(() => Connectivity());
 
   sl.registerLazySingleton<BoxCommunicator>(() => BoxCommunicatorImpl(dio: sl()));
   
@@ -108,6 +108,14 @@ Future<void> initBooking() async {
 }
 
 Future<void> initUnlock() async {
+  // Data sources
+  sl.registerLazySingleton<UnlockRemote>(
+      () => UnlockRemoteImpl(communicator: sl()));
+
+  // Repositories
+  sl.registerLazySingleton<UnlockRepository>(
+      () => UnlockRepositoryImpl(remote: sl(), networkInfo: sl()));
+
   // Usecases
   sl.registerLazySingleton(() => UnlockUseCase(repository: sl()));
   if (Platform.isAndroid) {
@@ -115,14 +123,6 @@ Future<void> initUnlock() async {
   }
   sl.registerLazySingleton(() => ConnectBoxWifiUsecase(repository: sl()));
   sl.registerLazySingleton(() => DisconnectBoxWifiUsecase(repository: sl()));
-
-  // Repositories
-  sl.registerLazySingleton<UnlockRepository>(
-      () => UnlockRepositoryImpl(remote: sl(), networkInfo: sl()));
-
-  // Data sources
-  sl.registerLazySingleton<UnlockRemote>(
-      () => UnlockRemoteImpl(communicator: sl()));
 }
 
 Future<void> initGetMachines() async {
