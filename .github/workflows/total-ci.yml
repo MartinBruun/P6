@@ -16,7 +16,7 @@ jobs:
     - uses: actions/checkout@v2
     - uses: actions/setup-java@v1 # For App
       with:
-        java-version: '12.x'
+        java-version: '8.x'
     
     # Setup the flutter environment.
     - uses: subosito/flutter-action@v1
@@ -76,12 +76,16 @@ jobs:
         path: "./washee_app/coverage/lcov.info"
         min_coverage: 13
         exclude: "**/*_observer.dart **/change.dart"
-    
+
     - name: (App CI) Start an Android Emulator
       uses: reactivecircus/android-emulator-runner@v2
       with:
         api-level: 29
-        script: ./gradlew connectedCheck
+        script: |
+          /Users/runner/Library/Android/sdk/tools/bin/avdmanager list
+          cd ./washee_app
+          flutter pub get
+          flutter drive --target=test_driver/app.dart
 
     - name: (App CI) Run Integration Tests (which also builds an APK)
       working-directory: ./washee_app
