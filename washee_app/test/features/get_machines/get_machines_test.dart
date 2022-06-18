@@ -1,15 +1,14 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:washee/core/externalities/box/box_communicator.dart';
-import 'package:mockito/annotations.dart';
+import 'package:washee/core/externalities/network/network_info.dart';
+import 'package:washee/core/externalities/web/web_communicator.dart';
 import 'package:washee/features/location/data/repositories/get_machines_repo_impl.dart';
 
-import '../unlock/data/repositories/unlock_repo_impl_test.mocks.dart';
-import 'get_machines_test.mock_web.dart';
+class MockNetworkInfo extends Mock implements NetworkInfo {}
+class MockCommunicator extends Mock implements BoxCommunicator {}
+class MockWebCommunicator extends Mock implements WebCommunicator {}
 
-@GenerateMocks([], customMocks: [
-  MockSpec<BoxCommunicator>(
-      as: #MockCommunicator, returnNullOnMissingStub: true),
-])
 void main() {
   test(
     'should return a list of MachineModel from JSON response',
