@@ -316,3 +316,6 @@ washee_web/security/exception_log.txt
 
 # Ignore the generated file made by secure storage
 washee_app/lib/generated_plugin_registrant.dart
+
+# Ignore generated exception log files
+washee_box/exception_handling/exception_log.txt
