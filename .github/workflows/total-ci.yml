@@ -86,8 +86,7 @@ jobs:
         api-level: 29
         profile: pixel
         script: |
-          flutter drive --target=test_driver/android_driver.dart
-          flutter test integration_test
+          flutter drive --driver=test_driver/android_driver.dart --target=integration_test/account_test.dart
 
     - name: (Done) Tear down
       run: |
