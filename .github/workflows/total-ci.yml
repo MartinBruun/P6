@@ -98,12 +98,6 @@ jobs:
     # The staging server should function as "the place where test users get the newest features and rapport the newest bugs"
     # With a press of a button, the changes on staging should be deployable to production
     
-
-  done:
-    runs-on: ubuntu-latest
-    needs: [webci, boxci, appci, appint]
-
-    steps:
     - name: (Done) Tear down
       run: |
         docker-compose down -v
