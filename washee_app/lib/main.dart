@@ -39,6 +39,7 @@ void main() async {
   }
 
   await sl<ConnectBoxWifiUsecase>().call(NoParams());
+  
   await sl<Authorizer>().autoSignIn();
   
   runApp(WasheeApp());
