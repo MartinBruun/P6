@@ -40,4 +40,4 @@ jobs:
       with:
         api-level: 29
         profile: pixel
-        script: ./scripts/app/integration_test.sh
+        script: ./integration_test.sh
