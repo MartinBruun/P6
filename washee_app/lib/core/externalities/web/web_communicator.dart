@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:washee/features/account/data/models/web_account.dart';
 import 'package:washee/features/account/data/models/web_user.dart';
 import 'package:washee/core/standards/environments/environment.dart';
 import 'package:washee/core/standards/logger/exception_handler.dart';
@@ -7,6 +6,7 @@ import 'package:washee/core/externalities/web/authorizer.dart';
 import 'package:washee/core/standards/time/date_helper.dart';
 
 import 'package:timezone/timezone.dart' as tz;
+import 'package:washee/features/account/domain/entities/account_entity.dart';
 
 abstract class WebCommunicator {
   // ALL ID and Resource should be changed to their corresponding Model instead!
@@ -38,7 +38,7 @@ abstract class WebCommunicator {
       required String accountResource,
       required String machineResource,
       required String serviceResource});
-  Future<Map<String, dynamic>> getAccount(Account account);
+  Future<Map<String, dynamic>> getAccount(AccountEntity account);
   Future<bool> deleteBooking(bookingID);
   Future<List<Map<String, dynamic>>> getMachines();
   Future<bool> postLog(String content);
@@ -233,7 +233,7 @@ class WebCommunicatorImpl implements WebCommunicator {
   }
 
   @override
-  Future<Map<String, dynamic>> getAccount(Account account) async {
+  Future<Map<String, dynamic>> getAccount(AccountEntity account) async {
     Response response;
     String url = accountsURL + "/${account.id.toString()}/";
 

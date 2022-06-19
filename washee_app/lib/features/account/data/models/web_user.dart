@@ -1,19 +1,23 @@
-import 'package:washee/features/account/data/models/web_account.dart';
+import 'package:washee/features/account/data/models/web_account_model.dart';
+import 'package:washee/features/account/domain/entities/account_entity.dart';
+
+// REMOVE THIS AFTER MIGRATING EVERYWHERE ELSE TO THE NEW STRUCTURE!
+// This method breaks the architechture by being an Entity, Model, Provider and Repository all in one!
 
 class ActiveUser {
   bool _loggedIn = false;
   int? _id;
   String? _email;
   String? _username;
-  Account? _activeAccount;
-  List<Account> _accounts = [];
+  AccountEntity? _activeAccount;
+  List<AccountEntity> _accounts = [];
 
   bool get loggedIn => _loggedIn;
   int? get id => _id;
   String? get email => _email;
   String? get username => _username;
   //get accounts => _accounts;
-  Account? get activeAccount => _activeAccount;
+  AccountEntity? get activeAccount => _activeAccount;
 
   factory ActiveUser() {
     return _singleton;
@@ -28,7 +32,7 @@ class ActiveUser {
     _email = email;
     _username = username;
     _accounts =
-        List<Account>.from(accounts.map((model) => Account.fromJson(model)));
+        List<AccountEntity>.from(accounts.map((model) => WebAccountModel.fromJson(model)));
     _activeAccount = _accounts[0];
     _loggedIn = true;
   }
@@ -42,7 +46,7 @@ class ActiveUser {
     _loggedIn = false;
   }
 
-  void upDateAccount(Account account) {
+  void upDateAccount(AccountEntity account) {
     this._activeAccount = account;
   }
 
@@ -50,15 +54,15 @@ class ActiveUser {
         'id': _id,
         'email': _email,
         'username': _username,
-        'accounts': List<Account>.of(_accounts)
+        'accounts': List<AccountEntity>.of(_accounts)
       };
 
   factory ActiveUser.fromJson(Map<String, dynamic> json) {
     _singleton._id = int.parse(json["id"]);
     _singleton._email = json["email"];
     _singleton._username = json['username'];
-    _singleton._accounts = List<Account>.from(
-        json["accounts"].map((model) => Account.fromJson(model)));
+    _singleton._accounts = List<AccountEntity>.from(
+        json["accounts"].map((model) => WebAccountModel.fromJson(model)));
     return _singleton;
   }
 }

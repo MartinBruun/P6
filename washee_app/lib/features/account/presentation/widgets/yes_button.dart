@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:washee/features/account/data/models/web_user.dart';
+import 'package:provider/provider.dart';
 import 'package:washee/core/ui/themes/colors.dart';
 import 'package:washee/core/ui/themes/dimens.dart';
 import 'package:washee/core/ui/themes/themes.dart';
-
-import '../../../account/domain/usecases/log_out.dart';
+import 'package:washee/features/account/presentation/provider/account_current_user_provider.dart';
 
 class YesButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    var accCurUserProv = Provider.of<AccountCurrentUserProvider>(context, listen:false);
     return Padding(
         padding: EdgeInsets.symmetric(horizontal: 30.w),
         child: ElevatedButton(
@@ -28,9 +28,7 @@ class YesButton extends StatelessWidget {
           ),
           onPressed: () {
             // breaking architecture!
-            LogOutUseCase().call(LogoutParams(
-              user: ActiveUser(),
-            ));
+            accCurUserProv.signOut();
             Navigator.of(context).pop();
           },
         ));
