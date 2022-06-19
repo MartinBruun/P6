@@ -50,7 +50,7 @@ class _DayCardState extends State<DayCard> {
     _dryNumberOfPossibleBookings = calendar.getNumberOfPossibleBookings(
         _dryBookingsForCurrentDay, widget.currentDate);
 
-    _greenScoreAverage = widget.currentDate.month == 5
+    _greenScoreAverage = widget.currentDate.month == 6
         ? calendar.getGreenScoreAverage(
             _washBookingsForCurrentDay, widget.currentDate)
         : -1;

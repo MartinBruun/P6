@@ -9,9 +9,11 @@ import 'package:washee/core/environments/environment.dart';
 import 'package:washee/core/helpers/authorizer.dart';
 import 'package:washee/core/pages/home_screen.dart';
 import 'package:washee/core/providers/global_provider.dart';
+import 'package:washee/core/usecases/usecase.dart';
 import 'package:washee/features/booking/presentation/provider/booking_provider.dart';
 import 'package:washee/features/booking/presentation/provider/calendar_provider.dart';
 import 'package:washee/features/sign_in/presentation/provider/sign_in_provider.dart';
+import 'package:washee/features/unlock/domain/usecases/connect_box_wifi.dart';
 import 'package:washee/features/unlock/presentation/provider/unlock_provider.dart';
 import 'injection_container.dart' as ic;
 import 'core/presentation/themes/themes.dart';
@@ -36,6 +38,7 @@ void main() async {
     await sl<Authorizer>().removeAllCredentials();
   }
   await sl<Authorizer>().autoSignIn();
+  await sl<ConnectBoxWifiUsecase>().call(NoParams());
   runApp(WasheeApp());
 }
 
