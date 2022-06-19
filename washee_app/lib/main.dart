@@ -37,8 +37,10 @@ void main() async {
   if (kDebugMode) {
     await sl<Authorizer>().removeAllCredentials();
   }
-  await sl<Authorizer>().autoSignIn();
+
   await sl<ConnectBoxWifiUsecase>().call(NoParams());
+  await sl<Authorizer>().autoSignIn();
+  
   runApp(WasheeApp());
 }
 
