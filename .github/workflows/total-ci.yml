@@ -84,7 +84,7 @@ jobs:
     #    api-level: 29
     #    profile: pixel
     #    script: ./scripts/app/integration_test.sh
-      
+        # NEED TO BE CHMOD +x TO WORK!!!
 
     - name: (Done) Tear down
       run: |

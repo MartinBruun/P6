@@ -13,7 +13,7 @@ import 'package:washee/features/account/presentation/provider/account_current_us
 
 import '../../../../fixtures/entities/account/users.dart';
 
-class MockAccountFunctionalityProvider extends Mock implements AccountCurrentUserProvider {}
+class MockAccountCurrentUserProvider extends Mock implements AccountCurrentUserProvider {}
 
 void main() {
 
@@ -45,7 +45,7 @@ void main() {
       """,
       (tester) async {
       // arrange
-      AccountCurrentUserProvider mockAccountProvider = MockAccountFunctionalityProvider();
+      AccountCurrentUserProvider mockAccountProvider = MockAccountCurrentUserProvider();
       UserEntity providedUser = UserEntity.anonymousUser();
       providedUser.loggedIn = false;
       when(() => mockAccountProvider.currentUser).thenAnswer((_) => providedUser);
@@ -67,7 +67,7 @@ void main() {
       """,
       (tester) async {
       // arrange
-      AccountCurrentUserProvider mockAccountProvider = MockAccountFunctionalityProvider();
+      AccountCurrentUserProvider mockAccountProvider = MockAccountCurrentUserProvider();
       UserEntity providedUser = firstUserFixture();
       providedUser.loggedIn = true;
       when(() => mockAccountProvider.currentUser).thenAnswer((_) => providedUser);
@@ -90,7 +90,7 @@ void main() {
       """,
       (tester) async {
       // arrange
-      AccountCurrentUserProvider mockAccountProvider = MockAccountFunctionalityProvider();
+      AccountCurrentUserProvider mockAccountProvider = MockAccountCurrentUserProvider();
       UserEntity initialUser = UserEntity.anonymousUser();
       initialUser.loggedIn = false;
       String testUsername = initialUser.username;
