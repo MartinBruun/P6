@@ -77,13 +77,12 @@ jobs:
         min_coverage: 13
         exclude: "**/*_observer.dart **/change.dart"
 
-    #- name: (App CI) Start an Android Emulator and Run Integration Tests
-    #  uses: reactivecircus/android-emulator-runner@v2
-    #  with:
-    #    api-level: 29
-    #    profile: pixel
-    #    script: |
-    #      flutter drive --driver=test_driver/android_driver.dart --target=integration_test/account_test.dart
+    - name: (App CI) Start an Android Emulator and Run Integration Tests
+      uses: reactivecircus/android-emulator-runner@v2
+      with:
+        api-level: 29
+        profile: pixel
+        script: ./scripts/app/integration_test.sh
       
 
     - name: (Done) Tear down
