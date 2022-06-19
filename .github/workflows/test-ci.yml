@@ -1,0 +1,43 @@
+name: Total CI
+# If possible, should be replaced with the best_ci_but_not_working if possible down the line
+
+on:
+  pull_request:
+
+env:
+  WEB_MIN_COVERAGE: 75
+  BOX_MIN_COVERAGE: 43
+  APP_MIN_COVERAGE: "Last set to 13, but don't know how to inject as environment variable"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-java@v1 # For App
+      with:
+        java-version: '8.x'
+    
+    # Setup the flutter environment.
+    - uses: subosito/flutter-action@v1
+      with:
+        channel: 'stable' # 'dev', 'alpha', or 'stable' default to: 'stable'
+        flutter-version: '2.10.5' # set to the flutter version of MartinBruun due to previous errors
+
+    - name: (App CI) Setup necessary environment files
+      working-directory: ./washee_app
+      run: |
+        echo "WEB_API_HOST=http://localhost:8000" > .env.dev
+        echo "BOX_API_HOST=http://localhost:8001" >> .env.dev
+        echo "BOX_WIFI_SSID=boxNetworkName" >> .env.dev
+        echo "BOX_WIFI_PASSWORD=boxNetworkPassword" >> .env.dev
+        echo "BOX_HAS_INTERNET=true" >> .env.dev
+        echo "Necessary production environment to satisfy flutter assets" > .env.prod
+
+    - name: (App Int) Start an Android Emulator and Run Integration Tests
+      uses: reactivecircus/android-emulator-runner@v2
+      with:
+        api-level: 29
+        profile: pixel
+        script: ls
