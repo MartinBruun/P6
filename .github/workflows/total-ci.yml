@@ -81,11 +81,8 @@ jobs:
       uses: reactivecircus/android-emulator-runner@v2
       with:
         api-level: 29
-        script: |
-          /Users/runner/Library/Android/sdk/tools/bin/avdmanager list
-          cd ./washee_app
-          flutter pub get
-          flutter drive --target=test_driver/app.dart
+        profile: pixel
+        script: flutter drive --target=test_driver/app.dart
 
     - name: (App CI) Run Integration Tests (which also builds an APK)
       working-directory: ./washee_app
