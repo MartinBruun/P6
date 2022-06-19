@@ -2,11 +2,11 @@
 
 cd ..
 cd ..
-cd washee_app
-flutter pub get
-osascript -e 'tell application "System Events" to tell process "Terminal" to keystroke "t" using command down' > /dev/null
-osascript -e "tell application \"Terminal\" to do script \"cd $PWD && flutter run --dart-define=ENVIRONMENT=DEV\" in window 1" > /dev/null
-cd ..
+# cd washee_app
+# flutter pub get
+# osascript -e 'tell application "System Events" to tell process "Terminal" to keystroke "t" using command down' > /dev/null
+# osascript -e "tell application \"Terminal\" to do script \"cd $PWD && flutter run --dart-define=ENVIRONMENT=DEV\" in window 1" > /dev/null
+# cd ..
 docker-compose up -d --build
 docker-compose exec web python3 manage.py flush --no-input
 docker-compose exec web python3 manage.py makemigrations
