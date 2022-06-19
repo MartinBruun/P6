@@ -77,16 +77,17 @@ jobs:
         min_coverage: 13
         exclude: "**/*_observer.dart **/change.dart"
 
+    - name: (App CI) Go into washee_app directory
+      run: cd washee_app
+
     - name: (App CI) Start an Android Emulator and Run Integration Tests
       uses: reactivecircus/android-emulator-runner@v2
       with:
         api-level: 29
         profile: pixel
         script: |
-          cd washee_app
-          flutter drive --target=test_driver/app.dart
+          flutter drive --target=test_driver/android_driver.dart
           flutter test integration_test
-          cd ..
 
     - name: (Done) Tear down
       run: |
