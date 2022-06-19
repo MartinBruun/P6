@@ -7,6 +7,7 @@ on:
 env:
   WEB_MIN_COVERAGE: 75
   BOX_MIN_COVERAGE: 43
+  APP_MIN_COVERAGE: "Last set to 13, but don't know how to inject as environment variable"
 
 jobs:
   build:
@@ -77,12 +78,12 @@ jobs:
         min_coverage: 13
         exclude: "**/*_observer.dart **/change.dart"
 
-    - name: (App CI) Start an Android Emulator and Run Integration Tests
-      uses: reactivecircus/android-emulator-runner@v2
-      with:
-        api-level: 29
-        profile: pixel
-        script: ./scripts/app/integration_test.sh
+    #- name: (App CI) Start an Android Emulator and Run Integration Tests
+    #  uses: reactivecircus/android-emulator-runner@v2
+    #  with:
+    #    api-level: 29
+    #    profile: pixel
+    #    script: ./scripts/app/integration_test.sh
       
 
     - name: (Done) Tear down
