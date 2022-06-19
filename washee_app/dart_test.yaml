@@ -12,7 +12,9 @@ tags:
   # Integrationtest types, split up due to their longer runtime
   navigationtest:
     timeout: none
-  endtoendtest:
+  acceptance:
+    timeout: none
+  penetration:
     timeout: none
 
   # If some tests surpase their expected max time above, give them this tag instead

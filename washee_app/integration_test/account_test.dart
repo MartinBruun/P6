@@ -35,10 +35,12 @@ void main() {
     tags: ["integrationtest","account","navigationtest"]);
   });
 
-  group('Account End to End Tests', () {
+  group('Account Acceptance Tests', () {
     testWidgets("""
-      Should be possible to login as a user on the sign in page
-      Given the supplied user exists on the backend
+      As a User
+      I want to be able to login to my account
+      Because i want the application to register my actions, 
+        so it remembers what i did previously making my use more seamless
       """,
         (tester) async {
       // arrange
@@ -63,6 +65,23 @@ void main() {
       String expectedTextNotToBeSeen = langProv.getText("SignInPage", "presentationText");
       expect(find.text(expectedTextNotToBeSeen),findsNothing);
     },
-    tags: ["integrationtest","account","endtoendtest"]);
+    tags: ["integrationtest","account","acceptance"]);
+  });
+    group('Account Penetration Tests', () {
+    testWidgets("""
+      As an *Hacker*
+      I will try *Attack*
+      Because of *Reason*
+      """,
+        (tester) async {
+      // arrange
+      app.main();
+      await tester.pumpAndSettle();
+
+      // act
+
+      // assert
+    }, skip: true,
+    tags: ["integrationtest","account","penetration"]);
   });
 }

@@ -35,11 +35,11 @@ void main() {
     tags: ["integrationtest","FEATURE","navigationtest"]);
   });
 
-  group('FEATURE End to End Tests', () {
+  group('FEATURE Acceptance Tests', () {
     testWidgets("""
-      Should XXX
-      When YYY
-      Given ZZZ
+      As a *User*
+      I want *Benefit*
+      Because of *Reason*
       """,
         (tester) async {
       // arrange
@@ -51,6 +51,24 @@ void main() {
 
       // assert
     }, skip: true,
-    tags: ["integrationtest","FEATURE","endtoendtest"]);
+    tags: ["integrationtest","FEATURE","acceptance"]);
+  });
+  group('FEATURE Penetration Tests', () {
+    testWidgets("""
+      As an *Hacker*
+      I will try *Attack*
+      Because of *Reason*
+      """,
+        (tester) async {
+      // arrange
+      app.main();
+      await tester.pumpAndSettle();
+      await navigateToFeature();
+
+      // act
+
+      // assert
+    }, skip: true,
+    tags: ["integrationtest","FEATURE","penetration"]);
   });
 }
