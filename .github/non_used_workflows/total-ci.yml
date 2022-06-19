@@ -83,7 +83,7 @@ jobs:
       with:
         api-level: 29
         profile: pixel
-        script: ls
+        script: ./scripts/app/integration_test.sh
 
     # INCLUDE MORE TESTS! Ie. include enough tests, so that it is certain that it is releasable (Continious Delivery goal)
     # The test server running the pipeline should simulate a production server, for proper Communication Testing
