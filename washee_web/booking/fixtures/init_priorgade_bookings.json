@@ -1,15 +1,41 @@
 [
-    {
-        "model": "booking.booking", 
-        "pk": 1, 
-        "fields": {
-            "start_time": "2022-04-30T12:00:00Z", 
-            "end_time": "2022-04-30T14:30:00Z", 
-            "created": "2022-04-01T13:07:08.711Z", 
-            "last_updated": "2022-04-01T13:07:08.711Z", 
-            "machine": 1, 
-            "service": 1, 
-            "account": 10
-        }
+  {
+    "model": "booking.booking",
+    "pk": 1,
+    "fields": {
+      "start_time": "2022-06-22T18:30:00Z",
+      "end_time": "2022-06-22T21:00:00Z",
+      "created": "2022-04-01T13:07:08.711Z",
+      "last_updated": "2022-04-01T13:07:08.711Z",
+      "machine": 1,
+      "service": 1,
+      "account": 10
     }
+  },
+  {
+    "model": "booking.booking",
+    "pk": 2,
+    "fields": {
+      "start_time": "2022-06-22T18:30:00Z",
+      "end_time": "2022-06-22T21:00:00Z",
+      "created": "2022-04-01T13:07:08.711Z",
+      "last_updated": "2022-04-01T13:07:08.711Z",
+      "machine": 2,
+      "service": 2,
+      "account": 10
+    }
+  },
+  {
+    "model": "booking.booking",
+    "pk": 3,
+    "fields": {
+      "start_time": "2022-06-22T8:30:00Z",
+      "end_time": "2022-06-22T11:00:00Z",
+      "created": "2022-04-01T13:07:08.711Z",
+      "last_updated": "2022-04-01T13:07:08.711Z",
+      "machine": 2,
+      "service": 2,
+      "account": 10
+    }
+  }
 ]
