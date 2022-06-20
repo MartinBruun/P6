@@ -1,0 +1,50 @@
+name: Assurance
+
+# General assurance continious delivery testing
+# Assurance testing are slow end-to-end, acceptance, performance, security, etc. tests
+
+on:
+  pull_request:
+  workflow_run:
+    workflows: [App Confidence, Box Confidence, Web Confidence]
+    types:
+      - completed
+
+jobs:
+  assurance:
+    runs-on: ubuntu-latest
+
+    steps:
+    # SETUP
+    - uses: actions/checkout@v2
+    - uses: actions/setup-java@v1
+      with:
+        java-version: '12.x'
+    
+    - uses: subosito/flutter-action@v1
+      with:
+        channel: 'stable' # 'dev', 'alpha', or 'stable' default to: 'stable'
+        flutter-version: '2.10.5' # set to the flutter version of MartinBruun due to previous errors
+    
+    - name: Setup necessary environment files
+      working-directory: ./washee_app
+      run: |
+        echo "WEB_API_HOST=http://localhost:8000" > .env.dev
+        echo "BOX_API_HOST=http://localhost:8001" >> .env.dev
+        echo "BOX_WIFI_SSID=boxNetworkName" >> .env.dev
+        echo "BOX_WIFI_PASSWORD=boxNetworkPassword" >> .env.dev
+        echo "BOX_HAS_INTERNET=true" >> .env.dev
+        echo "Necessary production environment to satisfy flutter assets" > .env.prod
+
+    # TESTING
+
+    - name: Start an Android Emulator and Run App Integration Tests
+      uses: reactivecircus/android-emulator-runner@v2
+      with:
+        api-level: 29
+        profile: pixel
+        script: ./scripts/app/integration_test.sh
+
+    - name: Finish testing and Clean Up
+      run: |
+        docker-compose down -v

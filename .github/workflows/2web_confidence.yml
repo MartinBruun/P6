@@ -1,0 +1,37 @@
+name: Web Confidence
+
+# Box confidence continious integration testing
+# Confidence testing are for getting quick feedback
+
+on:
+  pull_request:
+    paths:
+      - 'washee_web/**'
+  workflow_run:
+    workflows: [Build]
+    types:
+      - completed
+
+env:
+  MIN_COVERAGE: 75
+
+jobs:
+  web_confidence:
+    runs-on: ubuntu-latest
+
+    steps:
+    # SETUP
+    - uses: actions/checkout@v2
+
+    # TESTING
+
+    - name: Check for linting before running tests
+      uses: py-actions/flake8@v2
+      with:
+          path: "washee_web"
+          max-line-length: 9000
+
+    - name: Run Tests
+      working-directory: ./washee_web
+      run: |
+        docker-compose exec -T web pytest --cov=. --cov-fail-under=$MIN_COVERAGE

@@ -1,0 +1,44 @@
+name: Auto Deployment
+
+# Creates a release and automatic deployment of a new version of the software 
+# using versioning X.Y.Z (where XYZ are version numbers).
+
+# It is triggered by running the following 2 commands on the branch being released:
+# git tag -a X.Y.Z -m "Release X.Y.Z"
+# git push upstream X.Y.Z
+
+on:
+  push:
+    tags:
+      - '[0-9]+.[0-9]+.[0-9]+'
+
+jobs:
+  auto_deployment:
+    runs-on: ubuntu-latest
+
+    steps:
+    # SETUP
+    - uses: actions/checkout@v2
+
+    # DEPLOYMENT
+    - name: Create Changelog from last release
+      uses: scottbrenner/generate-changelog-action@master
+      id: Changelog
+      env:
+        REPO: ${{ github.repository }}
+
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@latest
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ github.ref }}
+        release_name: Release ${{ github.ref }}
+        body: |
+          ${{ steps.Changelog.outputs.changelog }}
+        draft: false
+        prerelease: false
+
+    # NEEDS: After release it should also deploy (Web to a backend server and App to the different playstores)
+    #         Box update should be handled by App in some fashion

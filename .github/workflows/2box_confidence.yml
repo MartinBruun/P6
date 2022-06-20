@@ -1,0 +1,36 @@
+name: Box Confidence
+
+# Box confidence continious integration testing
+# Confidence testing are for getting quick feedback
+
+on:
+  pull_request:
+    paths:
+      - 'washee_box/**'
+  workflow_run:
+    workflows: [Build]
+    types:
+      - completed
+
+env:
+  MIN_COVERAGE: 42
+
+jobs:
+  box_confidence:
+    runs-on: ubuntu-latest
+
+    steps:
+    # SETUP
+    - uses: actions/checkout@v2
+
+    # TESTING
+
+    - name: Check for linting before running tests
+      uses: py-actions/flake8@v2
+      with:
+        path: "washee_box"
+        max-line-length: 9000
+
+    - name: Run Tests
+      run: |
+        docker-compose exec -T box python3 -m pytest --cov=. --cov-fail-under=$MIN_COVERAGE
