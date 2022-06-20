@@ -29,8 +29,8 @@
     "model": "booking.booking",
     "pk": 3,
     "fields": {
-      "start_time": "2022-06-22T8:30:00Z",
-      "end_time": "2022-06-22T11:00:00Z",
+      "start_time": "2022-06-22T12:30:00Z",
+      "end_time": "2022-06-22T14:00:00Z",
       "created": "2022-04-01T13:07:08.711Z",
       "last_updated": "2022-04-01T13:07:08.711Z",
       "machine": 2,
