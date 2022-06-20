@@ -8,7 +8,7 @@ on:
     paths:
       - 'washee_web/**'
   workflow_run:
-    workflows: [Build]
+    workflows: [Setup]
     types:
       - completed
 
