@@ -78,12 +78,22 @@ jobs:
         min_coverage: 13
         exclude: "**/*_observer.dart **/change.dart"
 
-    - name: (App Int) Start an Android Emulator and Run Integration Tests
-      uses: reactivecircus/android-emulator-runner@v2
-      with:
-        api-level: 29
-        profile: pixel
-        script: ./scripts/app/integration_test.sh
+
+    # Tests above should be run as a "Quick Feedback" commit tests, running max for 5 minutes
+    # These tests should build and run on the development software
+    # Tests below here should be a seperate job that runs given the previous tests pass
+    # These tests should build and run on the production software
+    # For all tests, they should run on a specified .env.test environment, which simulate production
+    # When these tests are done, and the merge completed, the code should get loaded up to a staging server
+    # The staging server should have its own .env.stage environment
+
+    # Put on hold for now. It takes 1+ hour to complete on githubs runners
+    #- name: (App Int) Start an Android Emulator and Run Integration Tests
+    #  uses: reactivecircus/android-emulator-runner@v2
+    #  with:
+    #    api-level: 29
+    #    profile: pixel
+    #    script: ./scripts/app/integration_test.sh
 
     # INCLUDE MORE TESTS! Ie. include enough tests, so that it is certain that it is releasable (Continious Delivery goal)
     # The test server running the pipeline should simulate a production server, for proper Communication Testing
