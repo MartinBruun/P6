@@ -37,5 +37,33 @@
       "service": 2,
       "account": 10
     }
+  },
+  {
+    "model": "booking.booking",
+    "pk": 4,
+    "fields": {
+      "start_time": "2022-06-20T11:30:00Z",
+      "end_time": "2022-06-20T14:00:00Z",
+      "created": "2022-04-01T13:07:08.711Z",
+      "last_updated": "2022-04-01T13:07:08.711Z",
+      "machine": 2,
+      "service": 2,
+      "account": 10,
+      "activated": true
+    }
+  },
+  {
+    "model": "booking.booking",
+    "pk": 5,
+    "fields": {
+      "start_time": "2022-06-22T06:30:00Z",
+      "end_time": "2022-06-22T9:00:00Z",
+      "created": "2022-04-01T13:07:08.711Z",
+      "last_updated": "2022-04-01T13:07:08.711Z",
+      "machine": 2,
+      "service": 2,
+      "account": 10,
+      "activated": true
+    }
   }
 ]
