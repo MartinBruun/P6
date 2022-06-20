@@ -1,112 +1,112 @@
 [
-    {
-        "model": "account.account", 
-        "pk": 1, 
-        "fields": {
-            "name": "Stue", 
-            "balance": "0.0000", 
-            "created": "2022-04-01T12:36:31.580Z", 
-            "last_updated": "2022-04-01T12:36:31.580Z", 
-            "owners": [2]
-        }
-    }, 
-    {
-        "model": "account.account", 
-        "pk": 2, 
-        "fields": {
-            "name": "1. TV", 
-            "balance": "50.0000", 
-            "created": "2022-04-01T12:36:36.694Z", 
-            "last_updated": "2022-04-01T12:36:36.694Z", 
-            "owners": [3]
-        }
-    }, 
-    {
-        "model": "account.account", 
-        "pk": 3, 
-        "fields": {
-            "name": "1. TH", 
-            "balance": "50.0000", 
-            "created": "2022-04-01T12:36:45.950Z", 
-            "last_updated": "2022-04-01T12:37:41.245Z", 
-            "owners": [8]
-        }
-    }, 
-    {
-        "model": "account.account", 
-        "pk": 4, 
-        "fields": {
-            "name": "2. TV", 
-            "balance": "50.0000", 
-            "created": "2022-04-01T12:36:56.811Z", 
-            "last_updated": "2022-04-01T12:36:56.811Z", 
-            "owners": [6,12]
-        }
-    }, 
-    {
-        "model": "account.account", 
-        "pk": 5, 
-        "fields": {
-            "name": "2. TH", 
-            "balance": "50.0000", 
-            "created": "2022-04-01T12:37:11.807Z", 
-            "last_updated": "2022-04-01T12:37:11.807Z", 
-            "owners": [7]
-        }
-    }, 
-    {
-        "model": "account.account", 
-        "pk": 6, 
-        "fields": {
-            "name": "3. TH", 
-            "balance": "50.0000", 
-            "created": "2022-04-01T12:37:19.870Z", 
-            "last_updated": "2022-04-01T12:37:19.870Z", 
-            "owners": [5]
-        }
-    }, 
-    {
-        "model": "account.account", 
-        "pk": 7, 
-        "fields": {
-            "name": "4. TV", 
-            "balance": "50.0000", 
-            "created": "2022-04-01T12:37:34.165Z", 
-            "last_updated": "2022-04-01T12:37:34.165Z", 
-            "owners": [9, 10]
-        }
-    },
-    {
-        "model": "account.account",
-        "pk": 8, 
-        "fields": {
-            "name": "3. TV", 
-            "balance": "50.0000", 
-            "created": "2022-04-01T12:37:34.165Z", 
-            "last_updated": "2022-04-01T12:37:34.165Z", 
-            "owners": [11]
-        }
-    },
-    {
-        "model": "account.account",
-        "pk": 9, 
-        "fields": {
-            "name": "4. TH", 
-            "balance": "50.0000", 
-            "created": "2022-04-01T12:37:34.165Z", 
-            "last_updated": "2022-04-01T12:37:34.165Z", 
-            "owners": []
-        }
-    },
-    {
-        "model": "account.account",
-        "pk": 10, 
-        "fields": {
-            "name": "admin secret stash", 
-            "balance": "100", 
-            "created": "2022-04-01T12:37:34.165Z", 
-            "last_updated": "2022-04-01T12:37:34.165Z", 
-            "owners": [1]
-        }
+  {
+    "model": "account.account",
+    "pk": 1,
+    "fields": {
+      "name": "Stue",
+      "balance": "0.0000",
+      "created": "2022-04-01T12:36:31.580Z",
+      "last_updated": "2022-04-01T12:36:31.580Z",
+      "owners": [2]
     }
+  },
+  {
+    "model": "account.account",
+    "pk": 2,
+    "fields": {
+      "name": "1. TV",
+      "balance": "50.0000",
+      "created": "2022-04-01T12:36:36.694Z",
+      "last_updated": "2022-04-01T12:36:36.694Z",
+      "owners": [3]
+    }
+  },
+  {
+    "model": "account.account",
+    "pk": 3,
+    "fields": {
+      "name": "1. TH",
+      "balance": "50.0000",
+      "created": "2022-04-01T12:36:45.950Z",
+      "last_updated": "2022-04-01T12:37:41.245Z",
+      "owners": [8]
+    }
+  },
+  {
+    "model": "account.account",
+    "pk": 4,
+    "fields": {
+      "name": "2. TV",
+      "balance": "50.0000",
+      "created": "2022-04-01T12:36:56.811Z",
+      "last_updated": "2022-04-01T12:36:56.811Z",
+      "owners": [6, 12]
+    }
+  },
+  {
+    "model": "account.account",
+    "pk": 5,
+    "fields": {
+      "name": "2. TH",
+      "balance": "50.0000",
+      "created": "2022-04-01T12:37:11.807Z",
+      "last_updated": "2022-04-01T12:37:11.807Z",
+      "owners": [7]
+    }
+  },
+  {
+    "model": "account.account",
+    "pk": 6,
+    "fields": {
+      "name": "3. TH",
+      "balance": "50.0000",
+      "created": "2022-04-01T12:37:19.870Z",
+      "last_updated": "2022-04-01T12:37:19.870Z",
+      "owners": [5]
+    }
+  },
+  {
+    "model": "account.account",
+    "pk": 7,
+    "fields": {
+      "name": "4. TV",
+      "balance": "50.0000",
+      "created": "2022-04-01T12:37:34.165Z",
+      "last_updated": "2022-04-01T12:37:34.165Z",
+      "owners": [9, 10]
+    }
+  },
+  {
+    "model": "account.account",
+    "pk": 8,
+    "fields": {
+      "name": "3. TV",
+      "balance": "50.0000",
+      "created": "2022-04-01T12:37:34.165Z",
+      "last_updated": "2022-04-01T12:37:34.165Z",
+      "owners": [11]
+    }
+  },
+  {
+    "model": "account.account",
+    "pk": 9,
+    "fields": {
+      "name": "4. TH",
+      "balance": "50.0000",
+      "created": "2022-04-01T12:37:34.165Z",
+      "last_updated": "2022-04-01T12:37:34.165Z",
+      "owners": []
+    }
+  },
+  {
+    "model": "account.account",
+    "pk": 10,
+    "fields": {
+      "name": "admin secret stash",
+      "balance": "1000000",
+      "created": "2022-04-01T12:37:34.165Z",
+      "last_updated": "2022-04-01T12:37:34.165Z",
+      "owners": [1]
+    }
+  }
 ]
