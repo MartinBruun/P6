@@ -25,7 +25,7 @@ jobs:
     - uses: subosito/flutter-action@v1
       with:
         channel: 'stable' # 'dev', 'alpha', or 'stable' default to: 'stable'
-        flutter-version: '2.10.5' # set to the flutter version of MartinBruun due to previous errors
+        flutter-version: '3.0.2' # set to the flutter version of MartinBruun due to previous errors
     
     - name: Necessary App environment files
       working-directory: ./washee_app

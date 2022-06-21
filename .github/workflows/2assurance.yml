@@ -49,3 +49,9 @@ jobs:
     - name: Finish testing and Clean Up
       run: |
         docker-compose down -v
+
+    - name: Assurance Testing Should Fail
+      uses: actions/github-script@v3
+      with:
+        script: |
+          core.setFailed('Assurance Testing is not setup properly, so should fail!')
