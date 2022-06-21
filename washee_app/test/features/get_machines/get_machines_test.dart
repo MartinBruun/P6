@@ -2,12 +2,12 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:washee/core/externalities/box/box_communicator.dart';
 import 'package:washee/core/externalities/network/network_info.dart';
-import 'package:washee/core/externalities/web/web_communicator.dart';
+import 'package:washee/core/externalities/web/web_connector.dart';
 import 'package:washee/features/location/data/repositories/get_machines_repo_impl.dart';
 
 class MockNetworkInfo extends Mock implements NetworkInfo {}
 class MockCommunicator extends Mock implements BoxCommunicator {}
-class MockWebCommunicator extends Mock implements WebCommunicator {}
+class MockWebConnector extends Mock implements WebConnector {}
 
 void main() {
   test(
@@ -15,9 +15,9 @@ void main() {
     () async {
       // arrange
       var networkInfo = MockNetworkInfo();
-      var communicator = MockWebCommunicator();
+      var connector = MockWebConnector();
       var repository = GetMachinesRepositoryImpl(
-          communicator: communicator, networkInfo: networkInfo);
+          connector: connector, networkInfo: networkInfo);
 
       var mockMachinesAsJson = listOfTestMachines();
       // act

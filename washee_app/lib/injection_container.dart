@@ -4,8 +4,6 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
-import 'package:washee/core/externalities/web/authorizer.dart';
-import 'package:washee/core/externalities/web/web_communicator.dart';
 import 'package:washee/core/externalities/box/box_communicator.dart';
 import 'package:washee/core/externalities/web/web_connector.dart';
 import 'package:washee/core/standards/environments/environment.dart';
@@ -86,11 +84,6 @@ Future<void> initCoreAndExternal() async {
   sl.registerLazySingleton(() => http.Client());
 
   sl.registerLazySingleton<BoxCommunicator>(() => BoxCommunicatorImpl(dio: sl()));
-  
-
-  sl.registerLazySingleton<Authorizer>(() => AuthorizerImpl(dio: sl()));
-
-  sl.registerLazySingleton<WebCommunicator>(() => WebCommunicatorImpl(dio: sl(), authorizer: sl()));
 }
 
 Future<void> initBooking() async {
@@ -104,7 +97,7 @@ Future<void> initBooking() async {
   sl.registerLazySingleton<BookRepositoryImpl>(() => BookRepositoryImpl(networkInfo: sl(), remote: sl()));
 
   // Data Sources
-  sl.registerLazySingleton<BookRemote>(() => BookRemoteImpl(networkInfo: sl(), communicator: sl()));
+  sl.registerLazySingleton<BookRemote>(() => BookRemoteImpl(networkInfo: sl(), connector: sl()));
 }
 
 Future<void> initUnlock() async {
@@ -131,5 +124,5 @@ Future<void> initGetMachines() async {
 
   // Repositories
   sl.registerLazySingleton<GetMachinesRepository>(
-      () => GetMachinesRepositoryImpl(communicator: sl(), networkInfo: sl()));
+      () => GetMachinesRepositoryImpl(connector: sl(), networkInfo: sl()));
 }

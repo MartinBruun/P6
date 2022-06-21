@@ -1,6 +1,7 @@
+import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
+import 'package:washee/core/externalities/web/web_connector.dart';
 import 'package:washee/core/standards/time/date_helper.dart';
-import 'package:washee/core/externalities/web/web_communicator.dart';
 import 'package:washee/core/standards/base_usecase/usecase.dart';
 import 'package:washee/features/location/data/models/box_machine_model.dart';
 import 'package:washee/features/location/domain/usecases/disconnect_box_wifi.dart';
@@ -28,12 +29,13 @@ class UnlockUseCase implements UseCase<MachineModel?, UnlockParams> {
       // Bad practice, should be severely reorganized, when we have a proper understanding of the domain structure
       // There is no strict seperation of Machine and Booking, giving these problems
       Future.delayed(Duration(seconds: 3), () async {
-        List<Map<String,dynamic>> currentBooking = await sl<WebCommunicator>().getCurrentBookings(
-            machineID: int.parse(params.machine.machineID.toString()),
-            startTimeLessThan: DateHelper().currentTime(),
-            endTimeGreaterThan: DateHelper().currentTime()
-          );
-        sl<WebCommunicator>().updateBooking(currentBooking[0]["id"].toString(), activated: true);
+        Response response = await sl<WebConnector>().retrieve("api/1/bookings", queryParameters: {
+            "machineID": int.parse(params.machine.machineID.toString()),
+            "startTimeLessThan": DateHelper().currentTime(),
+            "endTimeGreaterThan": DateHelper().currentTime()
+      });
+      List<Map<String,dynamic>> currentBooking = response.data;
+        sl<WebConnector>().update("api/1/bookings/" + currentBooking[0]["id"].toString(), { "activated": true });
       });
     }
     

@@ -2,10 +2,11 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-import 'package:washee/features/account/data/models/web_user.dart';
+import 'package:washee/core/standards/environments/environment.dart';
+import 'package:washee/features/account/domain/entities/user_entity.dart';
+import 'package:washee/features/account/presentation/provider/account_current_user_provider.dart';
 import 'package:washee/features/booking/presentation/widgets/booking_error_prompt.dart';
 import 'package:washee/core/standards/logger/error_handler.dart';
-import 'package:washee/core/externalities/web/web_communicator.dart';
 import 'package:washee/features/booking/presentation/provider/calendar_provider.dart';
 import 'package:washee/features/booking/presentation/widgets/booking_success_dialog.dart';
 import 'package:washee/injection_container.dart';
@@ -31,6 +32,8 @@ class _SaveTimeButtonState extends State<SaveTimeButton> {
   @override
   Widget build(BuildContext context) {
     var calendar = Provider.of<CalendarProvider>(context, listen: false);
+    var accCurUserProv = Provider.of<AccountCurrentUserProvider>(context, listen:false);
+    UserEntity user = accCurUserProv.currentUser;
     return Container(
       height: 84.h,
       width: 293.69.w,
@@ -49,10 +52,9 @@ class _SaveTimeButtonState extends State<SaveTimeButton> {
                 setState(() {
                   _isBookingTimeSlot = true;
                 });
-                ActiveUser user = ActiveUser();
-                String machineResource = sl<WebCommunicator>().machinesURL+"/${widget.machineType.toString()}/";
-                String serviceResource = sl<WebCommunicator>().servicesURL+"/${widget.machineType.toString()}/";
-                String accountResource = sl<WebCommunicator>().accountsURL+"/${user.activeAccount!.id.toString()}/";
+                String machineResource = Environment().config.webApiHost + "/api/1/machines"+"/${widget.machineType.toString()}/";
+                String serviceResource = Environment().config.webApiHost + "/api/1/services"+"/${widget.machineType.toString()}/";
+                String accountResource = Environment().config.webApiHost + "/api/1/account"+"/${user.activeAccount!.id.toString()}/";
                 if (kDebugMode){
                   machineResource = "http://localhost:8000/api/1/machines/${widget.machineType.toString()}/";
                   serviceResource = "http://localhost:8000/api/1/services/${widget.machineType.toString()}/";

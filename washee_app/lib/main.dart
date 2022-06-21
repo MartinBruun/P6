@@ -6,7 +6,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:timezone/timezone.dart';
 import 'package:washee/core/standards/environments/environment.dart';
-import 'package:washee/core/externalities/web/authorizer.dart';
 import 'package:washee/core/ui/navigation/home_screen.dart';
 import 'package:washee/core/ui/global_providers/global_provider.dart';
 import 'package:washee/features/account/presentation/provider/account_language_provider.dart';
@@ -34,7 +33,6 @@ void main() async {
       "From main.dart: boxHasInternetAccess = ${Environment().config.boxHasInternetAccess}");
 
   if(!kDebugMode){
-    await sl<Authorizer>().autoSignIn();
     await sl<AccountCurrentUserProvider>().autoSignIn();
   }
   

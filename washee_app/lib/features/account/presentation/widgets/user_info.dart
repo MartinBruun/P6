@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 import 'package:washee/features/account/data/models/web_user.dart';
 import 'package:washee/core/ui/themes/colors.dart';
 import 'package:washee/core/ui/themes/dimens.dart';
 import 'package:washee/core/ui/themes/themes.dart';
+import 'package:washee/features/account/domain/entities/user_entity.dart';
+import 'package:washee/features/account/presentation/provider/account_current_user_provider.dart';
 import 'package:washee/features/account/presentation/widgets/user_text.dart';
 import 'package:washee/features/booking/presentation/widgets/my_bookings_list.dart';
 
@@ -13,10 +16,10 @@ class UserInfo extends StatefulWidget {
 }
 
 class _UserInfoState extends State<UserInfo> {
-  ActiveUser user = ActiveUser();
-
   @override
   Widget build(BuildContext context) {
+    var accCurUserProv = Provider.of<AccountCurrentUserProvider>(context, listen:false);
+    UserEntity user = accCurUserProv.currentUser;
     return Container(
         alignment: Alignment.center,
         height: 1050.h,

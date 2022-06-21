@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:washee/core/externalities/web/web_connector.dart';
+import 'package:washee/core/standards/environments/environment.dart';
 import 'package:washee/core/standards/time/date_helper.dart';
 import 'package:washee/features/green_info/data/datasources/green_score_database.dart';
-import 'package:washee/core/externalities/web/web_communicator.dart';
 import 'package:washee/features/booking/data/models/booking_model.dart';
 import 'package:washee/core/standards/logger/exception_handler.dart';
 import '../../../../core/ui/themes/colors.dart';
@@ -200,8 +201,7 @@ class CalendarProvider extends ChangeNotifier {
   List<BookingModel> getBookingsForDay(DateTime date, int machineID) {
     var validBookings = _bookings.where((element) =>
         element.startTime!.day == date.day &&
-        element.machineResource ==
-            sl<WebCommunicator>().machinesURL + "/${machineID.toString()}/");
+        element.machineResource == Environment().config.webApiHost + "/api/1/machines/${machineID.toString()}/");
     if (validBookings.isNotEmpty) {
       return validBookings.toList();
     }

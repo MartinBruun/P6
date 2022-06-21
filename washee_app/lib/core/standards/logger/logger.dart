@@ -1,5 +1,5 @@
+import 'package:washee/core/externalities/web/web_connector.dart';
 import 'package:washee/core/standards/time/date_helper.dart';
-import 'package:washee/core/externalities/web/web_communicator.dart';
 import 'package:washee/core/externalities/network/network_info.dart';
 
 // TODO: Needs tests
@@ -10,12 +10,12 @@ import 'package:washee/core/externalities/network/network_info.dart';
 
 class Logger{
   late DateHelper dateHelper;
-  late WebCommunicator webCommunicator;
+  late WebConnector webConnector;
   late NetworkInfo networkInfo;
 
-  Logger(DateHelper dateHelp, WebCommunicator webCom, NetworkInfo netInfo){
+  Logger(DateHelper dateHelp, WebConnector webCon, NetworkInfo netInfo){
     dateHelper = dateHelp;
-    webCommunicator = webCom;
+    webConnector = webCon;
     networkInfo = netInfo;
   }
 
@@ -24,7 +24,8 @@ class Logger{
     try{
       networkInfo.isConnected.then((connected) => {
         if(connected){
-          webCommunicator.postLog(exceptionMsg)
+          //webConnector.postLog(exceptionMsg)
+          throw UnimplementedError()
         }
     });
     }

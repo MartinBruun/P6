@@ -1,5 +1,7 @@
-import 'package:washee/core/externalities/web/web_communicator.dart';
+
+import 'package:dio/dio.dart';
 import 'package:washee/core/externalities/network/network_info.dart';
+import 'package:washee/core/externalities/web/web_connector.dart';
 
 abstract class BookRemote {
   Future<List<Map<String, dynamic>>> getBookings(
@@ -21,10 +23,10 @@ abstract class BookRemote {
 }
 
 class BookRemoteImpl implements BookRemote {
-  WebCommunicator communicator;
+  IWebConnector connector;
   NetworkInfo networkInfo;
 
-  BookRemoteImpl({required this.communicator, required this.networkInfo});
+  BookRemoteImpl({required this.connector, required this.networkInfo});
 
   @override
   Future<List<Map<String, dynamic>>> getBookings(
@@ -37,16 +39,17 @@ class BookRemoteImpl implements BookRemote {
       int? accountID,
       int? serviceID}) async {
     if (await networkInfo.isConnected) {
-      var data = await communicator.getCurrentBookings(
-          activated: activated,
-          startTimeGreaterThan: startTimeGreaterThan,
-          startTimeLessThan: startTimeLessThan,
-          endTimeGreaterThan: endTimeGreaterThan,
-          endTimeLessThan: endTimeLessThan,
-          machineID: machineID,
-          accountID: accountID,
-          serviceID: serviceID);
-      return data;
+      // SHOULD receive the data as Map<String,dynamic> directly from the repository (That would use a WebBookingModel for the serialization/deserialization)
+      var response = await connector.retrieve("api/1/bookings", queryParameters: {
+          "activated": activated,
+          "startTimeGreaterThan": startTimeGreaterThan,
+          "startTimeLessThan": startTimeLessThan,
+          "endTimeGreaterThan": endTimeGreaterThan,
+          "endTimeLessThan": endTimeLessThan,
+          "machineID": machineID,
+          "accountID": accountID,
+          "serviceID": serviceID});
+      return response.data;
     }
     throw new Exception(
         "I would argue this should not return an empty list. No response from database is not the same as there are no bookings on the database!");
@@ -58,16 +61,17 @@ class BookRemoteImpl implements BookRemote {
       required String serviceResource,
       required String accountResource}) async {
     if (await networkInfo.isConnected) {
-      var data = await communicator.postBooking(
-          startTime: startTime,
-          machineResource: machineResource,
-          serviceResource: serviceResource,
-          accountResource: accountResource);
-      if (data.isEmpty) {
+      // SHOULD receive the data as Map<String,dynamic> directly from the repository (That would use a WebBookingModel for the serialization/deserialization)
+      var response = await connector.create("api/1/bookings", {
+          "startTime": startTime,
+          "machineResource": machineResource,
+          "serviceResource": serviceResource,
+          "accountResource": accountResource});
+      if (response.data.isEmpty) {
         throw new Exception(
             "Wont make sense to return an 'empty' booking model, what is that?");
       } else {
-        return data;
+        return response.data;
       }
     }
     throw new Exception(
@@ -77,8 +81,13 @@ class BookRemoteImpl implements BookRemote {
   @override
   Future<bool> deleteBooking(bookingID) async {
     if (await networkInfo.isConnected) {
-      bool wasDeleted = await communicator.deleteBooking(bookingID);
-      return wasDeleted;
+      Response response = await connector.delete("/api/1/bookings/" + bookingID.toString() + "/");
+      if(response.statusCode == 200){
+        return true;
+      }
+      else{
+        return false;
+      }
     }
     return false;
   }

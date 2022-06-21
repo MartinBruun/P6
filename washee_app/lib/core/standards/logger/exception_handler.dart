@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:washee/core/externalities/web/web_communicator.dart';
 import 'package:washee/core/externalities/network/network_info.dart';
 import 'package:washee/injection_container.dart';
 import 'package:washee/core/standards/time/date_helper.dart';
@@ -34,7 +33,7 @@ class ExceptionHandler{
       try{
         sl<NetworkInfo>().isConnected.then((connected) => {
           if(connected){
-            sl<WebCommunicator>().postLog(exception)
+            throw UnimplementedError()
           }
       });
       }

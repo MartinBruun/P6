@@ -1,7 +1,8 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:washee/core/externalities/web/web_connector.dart';
 import 'package:washee/core/standards/time/date_helper.dart';
-import 'package:washee/core/externalities/web/web_communicator.dart';
 import 'package:washee/core/ui/themes/dimens.dart';
 import 'package:washee/features/booking/presentation/provider/calendar_provider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -54,10 +55,11 @@ class _CalendarScreenState extends State<CalendarScreen> {
   _getBookings() async {
     var calendar = Provider.of<CalendarProvider>(context, listen: false);
     // var global = Provider.of<GlobalProvider>(context, listen: false);
+  
 
-    var jsonBookings = await sl<WebCommunicator>().getCurrentBookings();
+    Response response = await sl<WebConnector>().retrieve("/api/1/bookings", queryParameters: {});
     // var jsonBookings = global.getMockBookings();
-    var parsedBookings = constructBookingList(jsonBookings);
+    var parsedBookings = constructBookingList(response.data);
     calendar.updateBookings(parsedBookings);
   }
 

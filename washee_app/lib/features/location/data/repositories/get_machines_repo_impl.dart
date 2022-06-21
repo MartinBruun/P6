@@ -1,19 +1,19 @@
-import 'package:washee/core/externalities/web/web_communicator.dart';
 import 'package:washee/core/externalities/network/network_info.dart';
+import 'package:washee/core/externalities/web/web_connector.dart';
 import 'package:washee/features/location/data/models/box_machine_model.dart';
 import 'package:washee/features/location/domain/repositories/get_machines_repository.dart';
 
 class GetMachinesRepositoryImpl implements GetMachinesRepository {
-  WebCommunicator communicator;
+  IWebConnector connector;
   NetworkInfo networkInfo;
 
   GetMachinesRepositoryImpl(
-      {required this.communicator, required this.networkInfo});
+      {required this.connector, required this.networkInfo});
   @override
   Future<List<MachineModel>> getMachines() async {
     if (await networkInfo.isConnected) {
-      var data = await communicator.getMachines();
-      return constructMachineList(data);
+      var response = await connector.retrieve("api/1/machines", queryParameters: {});
+      return constructMachineList(response.data);
     }
     return List.empty();
   }

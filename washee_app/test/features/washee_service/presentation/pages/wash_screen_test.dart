@@ -4,6 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:provider/provider.dart';
 import 'package:washee/core/standards/base_usecase/usecase.dart';
+import 'package:washee/features/account/domain/entities/user_entity.dart';
 import 'package:washee/features/location/data/models/box_machine_model.dart';
 import 'package:washee/features/location/presentation/widgets/machine_card.dart';
 import 'package:washee/features/location/domain/usecases/get_machines.dart';
@@ -23,10 +24,6 @@ late List<MachineModel> mockMachines;
 // This function sets up the prerequisites needed for the tests to run.
 setUp() {
   ic.initAll();
-  ActiveUser user = ActiveUser();
-  user.initUser(1, "email", "username", [
-    {'id': 1, 'name': "some_name", 'balance': 20.0}
-  ]);
   mockMachines = [
     MachineModel(machineID: "machineID1", name: "name1", machineType: "Wash"),
     MachineModel(machineID: "machineID2", name: "name2", machineType: "Wash"),

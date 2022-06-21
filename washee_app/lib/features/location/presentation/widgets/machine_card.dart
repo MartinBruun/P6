@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 import 'package:washee/features/account/data/models/web_user.dart';
+import 'package:washee/features/account/domain/entities/user_entity.dart';
+import 'package:washee/features/account/presentation/provider/account_current_user_provider.dart';
 import 'package:washee/features/location/data/models/box_machine_model.dart';
 import 'package:washee/injection_container.dart';
 import 'package:washee/features/booking/domain/usecases/has_current_booking.dart';
@@ -16,7 +19,6 @@ import 'wash_timer_on_card.dart';
 class MachineCard extends StatelessWidget {
   MachineCard({required this.machine});
   MachineModel machine;
-  ActiveUser user = ActiveUser();
 
   @override
   Widget build(BuildContext context) {
@@ -112,6 +114,8 @@ class MachineCard extends StatelessWidget {
   }
 
   void _cardPressed(BuildContext context, MachineModel machine) async {
+    var userProvider = Provider.of<AccountCurrentUserProvider>(context,listen:false);
+    UserEntity user = userProvider.currentUser;
     if (user.loggedIn && user.activeAccount != null) {
       if (true ==
           await sl<HasCurrentBookingUseCase>().call(HasCurrentBookingParams(
