@@ -35,3 +35,7 @@ jobs:
       working-directory: ./washee_web
       run: |
         docker-compose exec -T web pytest --cov=. --cov-fail-under=$MIN_COVERAGE
+
+    - name: Tear down web container
+      run: |
+        docker-compose rm -s -v web

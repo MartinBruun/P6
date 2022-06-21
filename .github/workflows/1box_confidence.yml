@@ -34,3 +34,7 @@ jobs:
     - name: Run Tests
       run: |
         docker-compose exec -T box python3 -m pytest --cov=. --cov-fail-under=$MIN_COVERAGE
+
+    - name: Tear down box container
+      run: |
+        docker-compose rm -s -v box
