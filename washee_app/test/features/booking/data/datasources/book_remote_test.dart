@@ -80,6 +80,7 @@ main() {
       'should verify that comunicator.postBooking is never called when isConnected is false',
       () async {
     //arrange
+    /*
     Map<String, dynamic> mockReturnedBookings = {
       "start_time": mockBookingModel!.startTime!,
       "end_time":
@@ -92,6 +93,7 @@ main() {
       "id": "12",
       "activated": false
     };
+    */
 
     when(() => mockNetworkInfo.isConnected).thenAnswer((_) async => false);
     //act

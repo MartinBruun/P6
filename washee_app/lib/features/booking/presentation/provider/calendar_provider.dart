@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:washee/core/externalities/web/web_connector.dart';
 import 'package:washee/core/standards/environments/environment.dart';
 import 'package:washee/core/standards/time/date_helper.dart';
 import 'package:washee/features/green_info/data/datasources/green_score_database.dart';
@@ -7,7 +6,6 @@ import 'package:washee/features/booking/data/models/booking_model.dart';
 import 'package:washee/core/standards/logger/exception_handler.dart';
 import '../../../../core/ui/themes/colors.dart';
 import '../../data/models/booking_model.dart';
-import 'package:washee/injection_container.dart';
 
 class CalendarProvider extends ChangeNotifier {
   bool _isLoadingDays = false;

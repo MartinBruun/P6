@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-import 'package:washee/features/account/data/models/web_user.dart';
 import 'package:washee/core/ui/themes/colors.dart';
 import 'package:washee/core/ui/themes/dimens.dart';
 import 'package:washee/core/ui/themes/themes.dart';
@@ -33,11 +32,11 @@ class _UserInfoState extends State<UserInfo> {
             children: [
               UserText(
                 textInfo: "Brugernavn",
-                textValue: user.username!,
+                textValue: user.username,
               ),
               UserText(
                 textInfo: "Email",
-                textValue: user.email!,
+                textValue: user.email,
               ),
               UserText(
                 textInfo: "Saldo",
