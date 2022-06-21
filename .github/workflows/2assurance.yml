@@ -17,9 +17,12 @@ jobs:
 
     steps:
     # SETUP
-    # Should probably be changed to starting up some staging like server (making a more production like environment to make it possible to test https etc.)
-    # Works for now though!
-    - uses: ./.github/workflows/setup.yml
+    - uses: actions/checkout@v2
+
+    # SHOULD be a production looking build it starts up instead!
+    - name: Startup all containers
+      run: |
+        docker-compose up -d --build
 
     # TESTING
 
@@ -37,6 +40,10 @@ jobs:
     # Shell scripts called "assurance_test" should hold all the logic for assuring the outcome is in a releaseable state
     # (Releaseable state => the branch can be the new production release in under 5 seconds)
 
+    # SHOULD be a production looking build it tears down instead!
     - name: Finish testing and Clean Up
       run: |
         docker-compose down -v
+
+    - name: Fail Assurance, given it is not yet setup properly
+      run: exit 1

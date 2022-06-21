@@ -41,4 +41,4 @@ jobs:
         prerelease: false
 
     # NEEDS: After release it should also deploy (Web to a backend server and App to the different playstores)
-    #         Box update should be handled by App in some fashion
+    #         Box update should be handled by App in some fashion, downloading the data from Web or by giving access over hotspot

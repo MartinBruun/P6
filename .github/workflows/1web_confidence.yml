@@ -7,10 +7,6 @@ on:
   pull_request:
     paths:
       - 'washee_web/**'
-  workflow_run:
-    workflows: [Setup]
-    types:
-      - completed
 
 env:
   MIN_COVERAGE: 75
@@ -18,11 +14,14 @@ env:
 jobs:
   web_confidence:
     runs-on: ubuntu-latest
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
 
     steps:
     # SETUP
-    - uses: ./.github/workflows/setup.yml
+    - uses: actions/checkout@v2
+
+    - name: Startup web container
+      run: |
+        docker-compose up -d --build web
 
     # TESTING
 
