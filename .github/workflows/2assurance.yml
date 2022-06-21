@@ -13,9 +13,14 @@ on:
 jobs:
   assurance:
     runs-on: ubuntu-latest
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
 
     steps:
+    - name: Check coverage tolerance
+      if: ${{ github.event.workflow_run.conclusion != 'success' }}
+      uses: actions/github-script@v3
+      with:
+        script: |
+          core.setFailed('At least one previous event did not succeed. Will not run Assurance Testing because of that.')
     # SETUP
     - uses: actions/checkout@v2
 
@@ -44,6 +49,3 @@ jobs:
     - name: Finish testing and Clean Up
       run: |
         docker-compose down -v
-
-    - name: Fail Assurance, given it is not yet setup properly
-      run: exit 1
