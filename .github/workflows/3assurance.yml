@@ -17,6 +17,8 @@ jobs:
 
     steps:
     # SETUP
+    # Should probably be changed to starting up some staging like server (making a more production like environment to make it possible to test https etc.)
+    # Works for now though!
     - uses: ./.github/workflows/setup.yml
 
     # TESTING
