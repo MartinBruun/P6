@@ -12,7 +12,10 @@ void main() {
     List<String> fileContent = await fileToCheck.readAsLines();
     int i = 0;
     while(i < fileContent.length && !fileContent[i].contains("class ")){ // Runs until it hits a class in the sourcecode or EOF, since we are only interested in analyzing the packages at the start of the file
-      if(fileContent[i].contains("import")){
+      if(fileContent[i].contains("injection_container.dart")){ // No code other than main may use the dependency injector!
+        dependenciesBroken.add(fileContent[i]);
+      }
+      else if(fileContent[i].contains("import")){
         layersAllowed.forEach((layerName, layerAllowed) {
           if(layerAllowed ==  false){
             if(fileContent[i].contains("/"+layerName+"/")){ // Ie. the layer is importet in some way thereby breaking the architechture
@@ -39,7 +42,6 @@ void main() {
       String filename = "SomeName";
       File file = File(filename);
       Map<String,dynamic> allowedDependencies = {
-        "injection_container": false,
         "core": true,
         "datasources": false,
         "models": false,
@@ -74,7 +76,6 @@ void main() {
       String filename = "SomeName";
       File file = File(filename);
       Map<String,dynamic> allowedDependencies = {
-        "injection_container": false,
         "core": true,
         "datasources": false,
         "models": false,
@@ -105,7 +106,6 @@ void main() {
       String filename = "SomeName";
       File file = File(filename);
       Map<String,dynamic> allowedDependencies = {
-        "injection_container": false,
         "core": true,
         "datasources": false,
         "models": true,
@@ -139,7 +139,6 @@ void main() {
       String filename = "SomeName";
       File file = File(filename);
       Map<String,dynamic> allowedDependencies = {
-        "injection_container": false,
         "core": true,
         "datasources": true,
         "models": true,
@@ -173,7 +172,6 @@ void main() {
       String filename = "SomeName";
       File file = File(filename);
       Map<String,dynamic> allowedDependencies = {
-        "injection_container": false,
         "core": false,
         "datasources": false,
         "models": false,
@@ -207,7 +205,6 @@ void main() {
       String filename = "SomeName";
       File file = File(filename);
       Map<String,dynamic> allowedDependencies = {
-        "injection_container": false,
         "core": false,
         "datasources": false,
         "models": false,
@@ -239,7 +236,6 @@ void main() {
       String filename = "SomeName";
       File file = File(filename);
       Map<String,dynamic> allowedDependencies = {
-        "injection_container": false,
         "core": true,
         "datasources": false,
         "models": false,
@@ -259,18 +255,16 @@ void main() {
     }, skip: true,
     tags: ["architechture", "providers"]);
   });
-  group("Architechture Check Pages and Widgets",() {
+  group("Architechture Check Pages",() {
     test(
       """
-        Should only be allowed to depend on other widgets, providers or core.
+        Should only be allowed to depend on other widgets (not pages!), providers or core.
         The reason is the UI layer should have no logic or computation. 
         All state is handled by the Provider.
       """,
       () async {
       // arrange
-      String filename = "SomeName";
       Map<String,dynamic> allowedDependencies = {
-        "injection_container": false,
         "core": true,
         "datasources": false,
         "models": false,
@@ -278,24 +272,66 @@ void main() {
         "entities": false,
         "usecases": false,
         "providers": true,
-        "pages": true,
+        "pages": false,
         "widgets": true
       };
+      Stream<FileSystemEntity> featureDir = await Directory(path.join(Directory.current.path, "lib", "features")).list();
+      featureDir.forEach((element) async {
+        if(element is Directory){
+          Stream<FileSystemEntity> pagesList = await Directory(path.join(element.path, "presentation","widgets")).list();
+          pagesList.forEach((element) async {
+            // arrange
+            File pageFile = (element as File);
 
-      
-      List<dynamic> pageAndWidgetFiles = [];
-      pageAndWidgetFiles.forEach((element) async {
-        // arrange
-        File pageAndWidgetFile = File(element);
+            // act
+            List<String> dependenciesBroken = await upholdsArchitechture(pageFile, allowedDependencies);
 
-        // act
-        List<String> dependenciesBroken = await upholdsArchitechture(pageAndWidgetFile, allowedDependencies);
-
-        // assert
-        expect(dependenciesBroken, []);
+            // assert
+            expect(dependenciesBroken, [], reason: "Filename " + pageFile.path + " breaks the architechture in the given areas");
+          });
+        }
       });
-    }, skip: true,
-    tags: ["architechture", "pages", "widgets"]);
+    },
+    tags: ["architechture", "widgets"]);
+  });
+  group("Architechture Check Widgets",() {
+    test(
+      """
+        Should only be allowed to depend on other widgets (not pages!), providers or core.
+        The reason is the UI layer should have no logic or computation. 
+        All state is handled by the Provider.
+      """,
+      () async {
+      // arrange
+      Map<String,dynamic> allowedDependencies = {
+        "core": true,
+        "datasources": false,
+        "models": false,
+        "repositories": false,
+        "entities": false,
+        "usecases": false,
+        "providers": true,
+        "pages": false,
+        "widgets": true
+      };
+      Stream<FileSystemEntity> featureDir = await Directory(path.join(Directory.current.path, "lib", "features")).list();
+      featureDir.forEach((element) async {
+        if(element is Directory){
+          Stream<FileSystemEntity> widgetList = await Directory(path.join(element.path, "presentation","widgets")).list();
+          widgetList.forEach((element) async {
+            // arrange
+            File widgetFile = (element as File);
+
+            // act
+            List<String> dependenciesBroken = await upholdsArchitechture(widgetFile, allowedDependencies);
+
+            // assert
+            expect(dependenciesBroken, [], reason: "Filename " + widgetFile.path + " breaks the architechture in the given areas");
+          });
+        }
+      });
+    },
+    tags: ["architechture", "widgets"]);
   });
   group("Architechture Check upholdsArchitechture",() {
     test(
@@ -412,6 +448,24 @@ void main() {
 
       // assert
       expect(dependenciesBroken.length, 0);
+    },
+    tags: ["architechture"]);
+  test(
+      """
+        Should at all times disallow the use of injection container.
+        Only the main file (ie. something outside the layers) should make use of the injection container.
+      """,
+      () async {
+      // arrange
+      String testFilePath = path.join(Directory.current.path, "test", "architechture", "test_file_that_imports_injection_container.txt");
+      File testFile = File(testFilePath);
+      Map<String,dynamic> allowedDependencies = {};
+
+      // act
+      List<String> dependenciesBroken = await upholdsArchitechture(testFile, allowedDependencies);
+
+      // assert
+      expect(dependenciesBroken.length, 1);
     },
     tags: ["architechture"]);
 }
