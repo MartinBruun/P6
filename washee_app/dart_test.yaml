@@ -8,6 +8,8 @@ tags:
     timeout: 30s
   integrationtest:
     timeout: 2m
+  architechture:
+    timeout: 5s
   
   # Integrationtest types, split up due to their longer runtime
   navigationtest:

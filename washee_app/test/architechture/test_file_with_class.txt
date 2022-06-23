@@ -1,0 +1,7 @@
+
+
+class SomeClass {
+
+}
+
+import 'package:washee/thingtolookfor/file.dart';
