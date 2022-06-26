@@ -5,6 +5,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:path/path.dart' as path;
 
 void main() {
+  late Map<String,dynamic> allowedDependencies;
 
   Future<List<String>> upholdsArchitechture(File fileToCheck, Map<String,dynamic> layersAllowed) async {
     List<String> dependenciesBroken = [];
@@ -18,7 +19,7 @@ void main() {
       else if(fileContent[i].contains("import")){
         layersAllowed.forEach((layerName, layerAllowed) {
           if(layerAllowed ==  false){
-            if(fileContent[i].contains("/"+layerName+"/")){ // Ie. the layer is importet in some way thereby breaking the architechture
+            if(fileContent[i].contains("/"+layerName+"/")){ // Ie. the layer is importet in some way thereby breaking the architecture
               dependenciesBroken.add(fileContent[i]);
             }
           }
@@ -29,20 +30,11 @@ void main() {
     return dependenciesBroken;
   }
 
-  // Make a setup function that sets up the basics of allowedDependencies, disallowing any dependencies pr. default
-
-  group("Architechture Check Core",() {
-    test(
-      """
-        Should only depend on other packages in core.
-        Core is used to standardize and generalize implementation details.
-        It is therefore important it never gets muddled up with the features and actual business logic!
-        If something needs to depend on something in the layers, it probably belong as part of that feature.
-      """,
-      () async {
-      // arrange
-      Map<String,dynamic> allowedDependencies = {
-        "core": true,
+  setUp() {
+    allowedDependencies = {
+        "externalities": false,
+        "standards": false,
+        "ui": false,
         "datasources": false,
         "models": false,
         "repositories": false,
@@ -52,26 +44,104 @@ void main() {
         "pages": false,
         "widgets": false
       };
+  }
 
-      // IS NOT WORKING! Maybe even split it out into externalities (only remotes), standards (all logic layers) and ui (only presentation)?
-      Stream<FileSystemEntity> featureDir = await Directory(path.join(Directory.current.path, "lib", "core")).list();
-      featureDir.forEach((element) async {
+  group("Architechture Check Externalities",() {
+    test(
+      """
+        Should only depend on standardizations and other externalities.
+        Externalities describe the contract with any external service, typically the phone settings, a remote server, etc.
+        Remotes will use these to make sure the contract is not broken (security checks etc.) which is not relevant for the feature domain.
+      """,
+      () async {
+      // arrange
+      setUp();
+      allowedDependencies["standards"] = true;
+      allowedDependencies["externalities"] = true;
+
+      Stream<FileSystemEntity> coreDir = await Directory(path.join(Directory.current.path, "lib", "core", "externalities")).list();
+      coreDir.forEach((element) async {
         if(element is Directory){
-          Stream<FileSystemEntity> widgetList = await Directory(path.join(element.path, "presentation","core")).list();
-          widgetList.forEach((element) async {
+          Stream<FileSystemEntity> externalityList = await Directory(path.join(element.path)).list();
+          externalityList.forEach((element) async {
             // arrange
-            File datasourceFile = (element as File);
+            File externalityFile = (element as File);
 
             // act
-            List<String> dependenciesBroken = await upholdsArchitechture(datasourceFile, allowedDependencies);
+            List<String> dependenciesBroken = await upholdsArchitechture(externalityFile, allowedDependencies);
 
             // assert
-            expect(dependenciesBroken, [], reason: "Filename " + datasourceFile.path + " breaks the architechture in the given areas");
+            expect(dependenciesBroken, [], reason: "Filename " + externalityFile.path + " breaks the architecture in the given areas");
           });
         }
       });
     }, skip: true,
-    tags: ["architechture", "core"]);
+    tags: ["architecture", "core", "externalities"]);
+  });
+  group("Architechture Check Standards",() {
+    test(
+      """
+        Should only depend on other standards packages in core.
+        Core is used to standardize and generalize implementation details.
+        It is therefore important it never gets muddled up with the features and actual business logic!
+        If something needs to depend on something in the layers, it probably belong as part of that feature.
+      """,
+      () async {
+      // arrange
+      setUp();
+      allowedDependencies["standards"] = true;
+
+      // IS NOT WORKING! Maybe even split it out into externalities (only remotes), standards (all logic layers) and ui (only presentation)?
+      Stream<FileSystemEntity> coreDir = await Directory(path.join(Directory.current.path, "lib", "core", "standards")).list();
+      coreDir.forEach((element) async {
+        if(element is Directory){
+          Stream<FileSystemEntity> standardsList = await Directory(path.join(element.path)).list();
+          standardsList.forEach((element) async {
+            // arrange
+            File standardsFile = (element as File);
+
+            // act
+            List<String> dependenciesBroken = await upholdsArchitechture(standardsFile, allowedDependencies);
+
+            // assert
+            expect(dependenciesBroken, [], reason: "Filename " + standardsFile.path + " breaks the architecture in the given areas");
+          });
+        }
+      });
+    }, skip: true,
+    tags: ["architecture", "core", "standards"]);
+  });
+  group("Architechture Checks UI",() {
+    test(
+      """
+        Should only depend on other ui packages.
+        UI packages are widgets that should be used across the project to make it have a unified UI feeling.
+        It is therefore important it never gets muddled up with the features and actual business logic!
+        If something needs to depend on something in the layers, it probably belong as part of that feature.
+      """,
+      () async {
+      // arrange
+      setUp();
+      allowedDependencies["ui"] = true;
+
+      Stream<FileSystemEntity> coreDir = await Directory(path.join(Directory.current.path, "lib", "core", "ui")).list();
+      coreDir.forEach((element) async {
+        if(element is Directory){
+          Stream<FileSystemEntity> uiList = await Directory(path.join(element.path)).list();
+          uiList.forEach((element) async {
+            // arrange
+            File widgetFile = (element as File);
+
+            // act
+            List<String> dependenciesBroken = await upholdsArchitechture(widgetFile, allowedDependencies);
+
+            // assert
+            expect(dependenciesBroken, [], reason: "Filename " + widgetFile.path + " breaks the architecture in the given areas");
+          });
+        }
+      });
+    }, skip: true,
+    tags: ["architecture", "core", "ui"]);
   });
   group("Architechture Check Datasources",() {
     test(
@@ -85,17 +155,8 @@ void main() {
       """,
       () async {
       // arrange
-      Map<String,dynamic> allowedDependencies = {
-        "core": true,
-        "datasources": false,
-        "models": false,
-        "repositories": false,
-        "entities": false,
-        "usecases": false,
-        "providers": false,
-        "pages": false,
-        "widgets": false
-      };
+      setUp();
+      allowedDependencies["core"] = true;
 
       Stream<FileSystemEntity> featureDir = await Directory(path.join(Directory.current.path, "lib", "features")).list();
       featureDir.forEach((element) async {
@@ -109,12 +170,12 @@ void main() {
             List<String> dependenciesBroken = await upholdsArchitechture(datasourceFile, allowedDependencies);
 
             // assert
-            expect(dependenciesBroken, [], reason: "Filename " + datasourceFile.path + " breaks the architechture in the given areas");
+            expect(dependenciesBroken, [], reason: "Filename " + datasourceFile.path + " breaks the architecture in the given areas");
           });
         }
       });
-    },
-    tags: ["architechture", "datasources"]);
+    }, skip: true,
+    tags: ["architecture", "features", "datasources"]);
   });
   group("Architechture Check Models",() {
     test(
@@ -124,17 +185,9 @@ void main() {
       """,
       () async {
       // arrange
-      Map<String,dynamic> allowedDependencies = {
-        "core": true,
-        "datasources": false,
-        "models": true,
-        "repositories": false,
-        "entities": false,
-        "usecases": false,
-        "providers": false,
-        "pages": false,
-        "widgets": false
-      };
+      setUp();
+      allowedDependencies["core"] = true;
+      allowedDependencies["models"] = true;
 
       Stream<FileSystemEntity> featureDir = await Directory(path.join(Directory.current.path, "lib", "features")).list();
       featureDir.forEach((element) async {
@@ -148,12 +201,12 @@ void main() {
             List<String> dependenciesBroken = await upholdsArchitechture(modelFile, allowedDependencies);
 
             // assert
-            expect(dependenciesBroken, [], reason: "Filename " + modelFile.path + " breaks the architechture in the given areas");
+            expect(dependenciesBroken, [], reason: "Filename " + modelFile.path + " breaks the architecture in the given areas");
           });
         }
       });
-    },
-    tags: ["architechture", "models"]);
+    }, skip: true,
+    tags: ["architecture", "features", "models"]);
   });
   group("Architechture Check Repositories",() {
     test(
@@ -166,17 +219,10 @@ void main() {
       """,
       () async {
       // arrange
-      Map<String,dynamic> allowedDependencies = {
-        "core": true,
-        "datasources": true,
-        "models": true,
-        "repositories": false,
-        "entities": false,
-        "usecases": false,
-        "providers": false,
-        "pages": false,
-        "widgets": false
-      };
+      setUp();
+      allowedDependencies["core"] = true;
+      allowedDependencies["datasources"] = true;
+      allowedDependencies["models"] = true;
 
       Stream<FileSystemEntity> featureDir = await Directory(path.join(Directory.current.path, "lib", "features")).list();
       featureDir.forEach((element) async {
@@ -190,17 +236,17 @@ void main() {
             List<String> dependenciesBroken = await upholdsArchitechture(repositoryFile, allowedDependencies);
 
             // assert
-            expect(dependenciesBroken, [], reason: "Filename " + repositoryFile.path + " breaks the architechture in the given areas");
+            expect(dependenciesBroken, [], reason: "Filename " + repositoryFile.path + " breaks the architecture in the given areas");
           });
         }
       });
-    },
-    tags: ["architechture", "repositories"]);
+    }, skip: true,
+    tags: ["architecture", "features", "repositories"]);
   });
   group("Architechture Check Usecases",() {
     test(
       """
-        Should only depend on repositories. May not depend on anything else (not even core or other usecases!).
+        Should only depend on repositories and entities. May not depend on anything else (not even core or other usecases!).
         Usecases define the business logic, signifying a representation of "what can be done in the domain".
         Usecases should be seen as just as abstract as entities. A Usecase is a model of what a user want to do.
         A Usecase (in the code) is NOT the thing the user actually wants to do! It is just a model of it.
@@ -208,17 +254,9 @@ void main() {
       """,
       () async {
       // arrange
-      Map<String,dynamic> allowedDependencies = {
-        "core": false,
-        "datasources": false,
-        "models": false,
-        "repositories": true,
-        "entities": false,
-        "usecases": false,
-        "providers": false,
-        "pages": false,
-        "widgets": false
-      };
+      setUp();
+      allowedDependencies["repositories"] = true;
+      allowedDependencies["entities"] = true;
 
       Stream<FileSystemEntity> featureDir = await Directory(path.join(Directory.current.path, "lib", "features")).list();
       featureDir.forEach((element) async {
@@ -232,12 +270,12 @@ void main() {
             List<String> dependenciesBroken = await upholdsArchitechture(usecaseFile, allowedDependencies);
 
             // assert
-            expect(dependenciesBroken, [], reason: "Filename " + usecaseFile.path + " breaks the architechture in the given areas");
+            expect(dependenciesBroken, [], reason: "Filename " + usecaseFile.path + " breaks the architecture in the given areas");
           });
         }
       });
-    },
-    tags: ["architechture", "usecases"]);
+    }, skip: true,
+    tags: ["architecture", "features", "usecases"]);
   });
   group("Architechture Check Entities",() {
     test(
@@ -250,17 +288,8 @@ void main() {
       """,
       () async {
       // arrange
-      Map<String,dynamic> allowedDependencies = {
-        "core": false,
-        "datasources": false,
-        "models": false,
-        "repositories": false,
-        "entities": true,
-        "usecases": false,
-        "providers": false,
-        "pages": false,
-        "widgets": false
-      };
+      setUp();
+      allowedDependencies["entities"] = true;
 
       Stream<FileSystemEntity> featureDir = await Directory(path.join(Directory.current.path, "lib", "features")).list();
       featureDir.forEach((element) async {
@@ -274,33 +303,26 @@ void main() {
             List<String> dependenciesBroken = await upholdsArchitechture(entityFile, allowedDependencies);
 
             // assert
-            expect(dependenciesBroken, [], reason: "Filename " + entityFile.path + " breaks the architechture in the given areas");
+            expect(dependenciesBroken, [], reason: "Filename " + entityFile.path + " breaks the architecture in the given areas");
           });
         }
       });
-    },
-    tags: ["architechture", "entities"]);
+    }, skip: true,
+    tags: ["architecture", "features", "entities"]);
   });
   group("Architechture Check Providers",() {
     test(
       """
-        Should only be allowed to depend on usecases and core. (not even other providers)
+        Should only be allowed to depend on usecases, entities and core. (not even other providers)
         Providers handle all the state of the UI, but actions that change the state is the business logic defined in the usecases.
         Cross dependency between providers is also confusing and should therefore be kept seperate.
       """,
       () async {
       // arrange
-      Map<String,dynamic> allowedDependencies = {
-        "core": true,
-        "datasources": false,
-        "models": false,
-        "repositories": false,
-        "entities": false,
-        "usecases": true,
-        "providers": false,
-        "pages": false,
-        "widgets": false
-      };
+      setUp();
+      allowedDependencies["core"] = true;
+      allowedDependencies["usecases"] = true;
+      allowedDependencies["entities"] = true;
 
       Stream<FileSystemEntity> featureDir = await Directory(path.join(Directory.current.path, "lib", "features")).list();
       featureDir.forEach((element) async {
@@ -314,37 +336,32 @@ void main() {
             List<String> dependenciesBroken = await upholdsArchitechture(providerFile, allowedDependencies);
 
             // assert
-            expect(dependenciesBroken, [], reason: "Filename " + providerFile.path + " breaks the architechture in the given areas");
+            expect(dependenciesBroken, [], reason: "Filename " + providerFile.path + " breaks the architecture in the given areas");
           });
         }
       });
-    },
-    tags: ["architechture", "providers"]);
+    }, skip: true,
+    tags: ["architecture", "features", "providers"]);
   });
   group("Architechture Check Pages",() {
     test(
       """
-        Should only be allowed to depend on other widgets (not pages!), providers or core.
+        Should only be allowed to depend on other widgets (not pages!), providers, entities or core.
         The reason is the UI layer should have no logic or computation. 
         All state is handled by the Provider.
       """,
       () async {
       // arrange
-      Map<String,dynamic> allowedDependencies = {
-        "core": true,
-        "datasources": false,
-        "models": false,
-        "repositories": false,
-        "entities": false,
-        "usecases": false,
-        "providers": true,
-        "pages": false,
-        "widgets": true
-      };
+      setUp();
+      allowedDependencies["core"] = true;
+      allowedDependencies["entities"] = true;
+      allowedDependencies["providers"] = true;
+      allowedDependencies["widgets"] = true;
+
       Stream<FileSystemEntity> featureDir = await Directory(path.join(Directory.current.path, "lib", "features")).list();
       featureDir.forEach((element) async {
         if(element is Directory){
-          Stream<FileSystemEntity> pagesList = await Directory(path.join(element.path, "presentation","widgets")).list();
+          Stream<FileSystemEntity> pagesList = await Directory(path.join(element.path, "presentation","pages")).list();
           pagesList.forEach((element) async {
             // arrange
             File pageFile = (element as File);
@@ -353,33 +370,28 @@ void main() {
             List<String> dependenciesBroken = await upholdsArchitechture(pageFile, allowedDependencies);
 
             // assert
-            expect(dependenciesBroken, [], reason: "Filename " + pageFile.path + " breaks the architechture in the given areas");
+            expect(dependenciesBroken, [], reason: "Filename " + pageFile.path + " breaks the architecture in the given areas");
           });
         }
       });
-    },
-    tags: ["architechture", "widgets"]);
+    }, skip: true,
+    tags: ["architecture", "features", "pages"]);
   });
   group("Architechture Check Widgets",() {
     test(
       """
-        Should only be allowed to depend on other widgets (not pages!), providers or core.
+        Should only be allowed to depend on other widgets (not pages!), providers, entities or core.
         The reason is the UI layer should have no logic or computation. 
         All state is handled by the Provider.
       """,
       () async {
       // arrange
-      Map<String,dynamic> allowedDependencies = {
-        "core": true,
-        "datasources": false,
-        "models": false,
-        "repositories": false,
-        "entities": false,
-        "usecases": false,
-        "providers": true,
-        "pages": false,
-        "widgets": true
-      };
+      setUp();
+      allowedDependencies["core"] = true;
+      allowedDependencies["entities"] = true;
+      allowedDependencies["providers"] = true;
+      allowedDependencies["widgets"] = true;
+
       Stream<FileSystemEntity> featureDir = await Directory(path.join(Directory.current.path, "lib", "features")).list();
       featureDir.forEach((element) async {
         if(element is Directory){
@@ -392,12 +404,12 @@ void main() {
             List<String> dependenciesBroken = await upholdsArchitechture(widgetFile, allowedDependencies);
 
             // assert
-            expect(dependenciesBroken, [], reason: "Filename " + widgetFile.path + " breaks the architechture in the given areas");
+            expect(dependenciesBroken, [], reason: "Filename " + widgetFile.path + " breaks the architecture in the given areas");
           });
         }
       });
-    },
-    tags: ["architechture", "widgets"]);
+    }, skip: true,
+    tags: ["architecture", "features", "widgets"]);
   });
   group("Architechture Check upholdsArchitechture",() {
     test(
@@ -405,7 +417,7 @@ void main() {
         Should terminate at end of file
       """,
       () async {
-      String testFilePath = path.join(Directory.current.path, "test", "architechture", "test_empty_file.txt");
+      String testFilePath = path.join(Directory.current.path, "test", "architecture", "test_empty_file.txt");
       File testFile = File(testFilePath);
       
       Map<String,dynamic> allowedDependencies = {};
@@ -416,14 +428,14 @@ void main() {
       // assert
       expect(dependenciesBroken, []);
     },
-    tags: ["architechture"]);
+    tags: ["architecture"]);
     test(
       """
         Should terminate when the file arrives at a class definition, cutting down runtime
       """,
       () async {
       // arrange
-      String testFilePath = path.join(Directory.current.path, "test", "architechture", "test_file_with_class.txt");
+      String testFilePath = path.join(Directory.current.path, "test", "architecture", "test_file_with_class.txt");
       File testFile = File(testFilePath);
       Map<String,dynamic> allowedDependencies = {
         "thingtolookfor": false
@@ -435,7 +447,7 @@ void main() {
       // assert
       expect(dependenciesBroken, []);
     },
-    tags: ["architechture"]);
+    tags: ["architecture"]);
   });
   test(
       """
@@ -444,7 +456,7 @@ void main() {
       """,
       () async {
       // arrange
-      String testFilePath = path.join(Directory.current.path, "test", "architechture", "test_file_with_0_imports_to_be_found.txt");
+      String testFilePath = path.join(Directory.current.path, "test", "architecture", "test_file_with_0_imports_to_be_found.txt");
       File testFile = File(testFilePath);
       Map<String,dynamic> allowedDependencies = {
         "thingtolookfor": false
@@ -456,15 +468,15 @@ void main() {
       // assert
       expect(dependenciesBroken, []);
     },
-    tags: ["architechture"]);
+    tags: ["architecture"]);
   test(
       """
-        Should return a list of 1 dependency broken, specifying what line is breaking the architechture
+        Should return a list of 1 dependency broken, specifying what line is breaking the architecture
         Given the specific test file.
       """,
       () async {
       // arrange
-      String testFilePath = path.join(Directory.current.path, "test", "architechture", "test_file_with_1_import_that_should_be_found.txt");
+      String testFilePath = path.join(Directory.current.path, "test", "architecture", "test_file_with_1_import_that_should_be_found.txt");
       File testFile = File(testFilePath);
       Map<String,dynamic> allowedDependencies = {
         "thingtolookfor": false
@@ -476,15 +488,15 @@ void main() {
       // assert
       expect(dependenciesBroken.length, 1);
     },
-    tags: ["architechture"]);
+    tags: ["architecture"]);
   test(
       """
-        Should return a list of 2 dependency broken, specifying what line is breaking the architechture
+        Should return a list of 2 dependency broken, specifying what line is breaking the architecture
         Given the specific test file.
       """,
       () async {
       // arrange
-      String testFilePath = path.join(Directory.current.path, "test", "architechture", "test_file_with_2_imports_that_should_be_found.txt");
+      String testFilePath = path.join(Directory.current.path, "test", "architecture", "test_file_with_2_imports_that_should_be_found.txt");
       File testFile = File(testFilePath);
       Map<String,dynamic> allowedDependencies = {
         "thingtolookfor": false
@@ -496,14 +508,14 @@ void main() {
       // assert
       expect(dependenciesBroken.length, 2);
     },
-    tags: ["architechture"]);
+    tags: ["architecture"]);
   test(
       """
         When allowing something to be a dependency, it should just skip it entirely
       """,
       () async {
       // arrange
-      String testFilePath = path.join(Directory.current.path, "test", "architechture", "test_file_with_2_imports_that_should_be_found.txt");
+      String testFilePath = path.join(Directory.current.path, "test", "architecture", "test_file_with_2_imports_that_should_be_found.txt");
       File testFile = File(testFilePath);
       Map<String,dynamic> allowedDependencies = {
         "thingtolookfor": true
@@ -515,7 +527,7 @@ void main() {
       // assert
       expect(dependenciesBroken.length, 0);
     },
-    tags: ["architechture"]);
+    tags: ["architecture"]);
   test(
       """
         Should at all times disallow the use of injection container.
@@ -523,7 +535,7 @@ void main() {
       """,
       () async {
       // arrange
-      String testFilePath = path.join(Directory.current.path, "test", "architechture", "test_file_that_imports_injection_container.txt");
+      String testFilePath = path.join(Directory.current.path, "test", "architecture", "test_file_that_imports_injection_container.txt");
       File testFile = File(testFilePath);
       Map<String,dynamic> allowedDependencies = {};
 
@@ -533,13 +545,57 @@ void main() {
       // assert
       expect(dependenciesBroken.length, 1);
     },
-    tags: ["architechture"]);
+    tags: ["architecture"]);
   test(
       """
         Should check that only layers specified in allowedDependencies are the ones allowed in the features and core directory
       """,
       () async {
-      expect("Not implemented", "Create the checker using externalities, standards and ui instead of just 'core'");
+        setUp();
+
+        // Basic folders accepted
+        allowedDependencies["core"] = true;
+        allowedDependencies["features"] = true;
+        allowedDependencies["data"] = true;
+        allowedDependencies["domain"] = true;
+        allowedDependencies["presentation"] = true;
+        // Features implemented
+        allowedDependencies["account"] = true;
+        allowedDependencies["booking"] = true;
+        allowedDependencies["green_info"] = true;
+        allowedDependencies["location"] = true;
+        // Specifications of core accepted (should probably be made as their own tests)
+        // Externalities
+        allowedDependencies["box"] = true;
+        allowedDependencies["network"] = true;
+        allowedDependencies["web"] = true;
+        // Standards
+        allowedDependencies["base_usecase"] = true;
+        allowedDependencies["environments"] = true;
+        allowedDependencies["failures"] = true;
+        allowedDependencies["logger"] = true;
+        allowedDependencies["time"] = true;
+        // UI
+        allowedDependencies["global_providers"] = true;
+        allowedDependencies["navigation"] = true;
+        allowedDependencies["themes"] = true;
+        allowedDependencies["widgets"] = true;
+
+        Stream<FileSystemEntity> featureDir = await Directory(path.join(Directory.current.path, "lib")).list(recursive: true);
+        await featureDir.forEach((element) async {
+          // act
+          if(element is Directory){
+            String dirName = element.toString().split(Platform.pathSeparator).last;
+            dirName = dirName.substring(0, dirName.length - 1); // Remove trailing '
+            bool validDirectory = false;
+            allowedDependencies.forEach((key, value) {
+              if(dirName == key){
+                validDirectory = true;
+              }
+            });
+            expect(validDirectory, true, reason: "Layername " + dirName + " is not registered as being a valid layer in " + element.toString());
+          }
+        });
     },
-    tags: ["architechture"]);
+    tags: ["architecture"]);
 }

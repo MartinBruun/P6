@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:washee/features/green_info/data/datasources/green_score_database.dart';
-import 'package:washee/features/booking/presentation/provider/calendar_provider.dart';
+import 'package:washee/features/booking/presentation/providers/calendar_provider.dart';
 import 'package:washee/features/booking/presentation/widgets/time_slot_item.dart';
 
 import '../../data/models/booking_model.dart';

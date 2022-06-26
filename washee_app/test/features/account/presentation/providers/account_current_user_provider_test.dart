@@ -6,7 +6,7 @@ import 'package:washee/features/account/domain/entities/user_entity.dart';
 import 'package:washee/features/account/domain/usecases/auto_sign_in.dart';
 import 'package:washee/features/account/domain/usecases/sign_in.dart';
 import 'package:washee/features/account/domain/usecases/sign_out.dart';
-import 'package:washee/features/account/presentation/provider/account_current_user_provider.dart';
+import 'package:washee/features/account/presentation/providers/account_current_user_provider.dart';
 
 import '../../../../fixtures/entities/account/users.dart';
 

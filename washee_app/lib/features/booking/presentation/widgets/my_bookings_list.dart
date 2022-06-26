@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:washee/features/account/domain/entities/user_entity.dart';
-import 'package:washee/features/account/presentation/provider/account_current_user_provider.dart';
-import 'package:washee/features/booking/presentation/provider/booking_provider.dart';
+import 'package:washee/features/account/presentation/providers/account_current_user_provider.dart';
+import 'package:washee/features/booking/presentation/providers/booking_provider.dart';
 
 import '../../../../injection_container.dart';
 import '../../data/models/booking_model.dart';

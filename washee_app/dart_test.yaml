@@ -8,7 +8,7 @@ tags:
     timeout: 30s
   integrationtest:
     timeout: 2m
-  architechture:
+  architecture:
     timeout: 5s
   
   # Integrationtest types, split up due to their longer runtime
@@ -25,6 +25,8 @@ tags:
 
   # Feature tags
   core:
+    timeout: none
+  features:
     timeout: none
   account:
     timeout: none

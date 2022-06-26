@@ -1,7 +1,7 @@
 import 'dart:core';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:washee/features/account/presentation/provider/account_language_provider.dart';
+import 'package:washee/features/account/presentation/providers/account_language_provider.dart';
 
 void main() {
   group("AccountLanguageProvider shownText",() {

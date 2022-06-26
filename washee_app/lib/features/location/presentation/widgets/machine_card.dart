@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:washee/features/account/domain/entities/user_entity.dart';
-import 'package:washee/features/account/presentation/provider/account_current_user_provider.dart';
+import 'package:washee/features/account/presentation/providers/account_current_user_provider.dart';
 import 'package:washee/features/location/data/models/box_machine_model.dart';
 import 'package:washee/injection_container.dart';
 import 'package:washee/features/booking/domain/usecases/has_current_booking.dart';

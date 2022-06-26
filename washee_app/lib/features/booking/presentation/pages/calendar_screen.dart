@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:washee/core/externalities/web/web_connector.dart';
 import 'package:washee/core/standards/time/date_helper.dart';
 import 'package:washee/core/ui/themes/dimens.dart';
-import 'package:washee/features/booking/presentation/provider/calendar_provider.dart';
+import 'package:washee/features/booking/presentation/providers/calendar_provider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:washee/injection_container.dart';
 import 'package:washee/core/ui/themes/colors.dart';

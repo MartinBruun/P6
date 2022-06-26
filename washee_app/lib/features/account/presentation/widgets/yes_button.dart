@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:washee/core/ui/themes/colors.dart';
 import 'package:washee/core/ui/themes/dimens.dart';
 import 'package:washee/core/ui/themes/themes.dart';
-import 'package:washee/features/account/presentation/provider/account_current_user_provider.dart';
+import 'package:washee/features/account/presentation/providers/account_current_user_provider.dart';
 
 class YesButton extends StatelessWidget {
   @override

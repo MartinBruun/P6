@@ -4,7 +4,7 @@ import 'package:washee/core/standards/time/date_helper.dart';
 import 'package:washee/core/ui/themes/dimens.dart';
 import 'package:washee/core/ui/themes/themes.dart';
 import 'package:washee/features/booking/domain/usecases/delete_booking.dart';
-import 'package:washee/features/booking/presentation/provider/booking_provider.dart';
+import 'package:washee/features/booking/presentation/providers/booking_provider.dart';
 import 'package:washee/features/account/presentation/widgets/booking_info.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:washee/injection_container.dart';

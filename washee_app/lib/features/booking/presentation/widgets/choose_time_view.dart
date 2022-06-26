@@ -6,7 +6,7 @@ import 'package:washee/features/location/presentation/pages/machine_enum.dart';
 import 'package:washee/core/ui/themes/dimens.dart';
 import 'package:washee/core/ui/themes/themes.dart';
 import 'package:washee/features/booking/data/models/booking_model.dart';
-import 'package:washee/features/booking/presentation/provider/calendar_provider.dart';
+import 'package:washee/features/booking/presentation/providers/calendar_provider.dart';
 import 'package:washee/features/booking/presentation/widgets/save_time_button.dart';
 import 'package:washee/features/booking/presentation/widgets/time_slots.dart';
 

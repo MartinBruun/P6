@@ -6,7 +6,7 @@ import 'package:washee/features/booking/presentation/widgets/day_card.dart';
 
 import '../../../../core/ui/themes/dimens.dart';
 import '../../../../core/ui/themes/themes.dart';
-import '../provider/calendar_provider.dart';
+import '../providers/calendar_provider.dart';
 
 class CalendarView extends StatefulWidget {
   CalendarView({

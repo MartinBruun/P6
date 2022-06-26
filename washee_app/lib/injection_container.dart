@@ -13,8 +13,8 @@ import 'package:washee/features/account/data/repositories/account_repository_imp
 import 'package:washee/features/account/data/repositories/user_repository.dart';
 import 'package:washee/features/account/domain/usecases/auto_sign_in.dart';
 import 'package:washee/features/account/domain/usecases/sign_out.dart';
-import 'package:washee/features/account/presentation/provider/account_language_provider.dart';
-import 'package:washee/features/account/presentation/provider/account_current_user_provider.dart';
+import 'package:washee/features/account/presentation/providers/account_language_provider.dart';
+import 'package:washee/features/account/presentation/providers/account_current_user_provider.dart';
 import 'package:washee/features/booking/data/datasources/book_remote.dart';
 import 'package:washee/features/booking/data/repositories/book_repository_impl.dart';
 import 'package:washee/features/booking/domain/usecases/delete_booking.dart';

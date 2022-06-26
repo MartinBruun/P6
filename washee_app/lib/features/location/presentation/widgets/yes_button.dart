@@ -14,7 +14,7 @@ import 'package:washee/core/standards/base_usecase/usecase.dart';
 import 'package:washee/features/location/data/models/box_machine_model.dart';
 import 'package:washee/features/location/domain/usecases/connect_box_wifi.dart';
 import 'package:washee/features/location/domain/usecases/unlock.dart';
-import 'package:washee/features/location/presentation/provider/unlock_provider.dart';
+import 'package:washee/features/location/presentation/providers/unlock_provider.dart';
 import 'package:washee/features/location/presentation/widgets/wash_started_dialog.dart';
 import 'package:washee/injection_container.dart';
 

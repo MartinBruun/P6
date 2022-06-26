@@ -8,8 +8,8 @@ import 'package:provider/provider.dart';
 import 'package:washee/core/ui/navigation/home_screen.dart';
 import 'package:washee/core/ui/themes/themes.dart';
 import 'package:washee/features/account/domain/entities/user_entity.dart';
-import 'package:washee/features/account/presentation/provider/account_language_provider.dart';
-import 'package:washee/features/account/presentation/provider/account_current_user_provider.dart';
+import 'package:washee/features/account/presentation/providers/account_language_provider.dart';
+import 'package:washee/features/account/presentation/providers/account_current_user_provider.dart';
 
 import '../../../../fixtures/entities/account/users.dart';
 
