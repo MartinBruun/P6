@@ -25,7 +25,7 @@ void main() {
       ],
       child: ScreenUtilInit(
         designSize: Size(1000, 1600),
-        builder: (_) => MaterialApp(
+        builder: (context, child) => MaterialApp(
           title: "Washee App",
           debugShowCheckedModeBanner: true,
           theme: getMainTheme(),

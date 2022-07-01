@@ -6,14 +6,14 @@ publish_to: 'none'
 version: 1.0.1+6
 
 environment:
-  sdk: '>=2.12.0 <3.0.0'
+  sdk: '>=2.17.0 <3.0.0'
 
 dependencies:
   flutter:
     sdk: flutter
   
   #State Management
-  provider: ^5.0.0
+  provider: ^6.0.3
 
   # Service locator
   get_it: ^7.2.0
@@ -26,9 +26,6 @@ dependencies:
   
   # Path provider
   path_provider: ^2.0.2
-  ext_storage: 
-    git:
-      url: https://github.com/Rallefar1103/ext_storage.git
   package_info: ^2.0.2
   open_file: ^3.2.1
 
@@ -39,15 +36,15 @@ dependencies:
   connectivity_plus: ^2.2.0
   wifi_info_flutter: ^2.0.2
   dio: ^4.0.0
-  permission_handler: ^8.1.4+2
+  permission_handler: ^10.0.0
   path: ^1.8.0
   location: ^4.3.0
 
   # UI
-  scrollable_positioned_list: ^0.2.0-nullsafety.0
+  scrollable_positioned_list: ^0.3.2
   cached_network_image: ^3.1.0
   flutter_screenutil: ^5.0.0+2
-  flutter_svg: ^0.22.0
+  flutter_svg: ^1.1.1
   intl: ^0.17.0
   flutter_dotenv: ^5.0.2
   flutter_secure_storage: ^5.0.2
@@ -60,7 +57,7 @@ dev_dependencies:
     sdk: flutter
   test: ^1.17.10
   build_runner: ^2.1.1
-  mocktail: '^0.2.0'
+  mocktail: ^0.3.0
   http_mock_adapter: ^0.3.3
 
 flutter:

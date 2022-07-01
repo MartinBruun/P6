@@ -55,7 +55,7 @@ class WasheeApp extends StatelessWidget {
       ],
       child: ScreenUtilInit(
         designSize: Size(1000, 1600),
-        builder: (_) => MaterialApp(
+        builder: (_, child) => MaterialApp(
           title: "Washee App",
           debugShowCheckedModeBanner: true,
           theme: getMainTheme(),
