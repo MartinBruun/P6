@@ -30,7 +30,7 @@ jobs:
       with:
         java-version: '12.x'
     
-    - uses: subosito/flutter-action@v1
+    - uses: subosito/flutter-action@v2
       with:
         channel: 'stable' # 'dev', 'alpha', or 'stable' default to: 'stable'
         flutter-version: '3.0.2' # set to the flutter version of MartinBruun due to previous errors
