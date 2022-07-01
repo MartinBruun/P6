@@ -3,6 +3,6 @@
 cd washee_app
 flutter clean
 flutter pub get
-#flutter drive --driver=test_driver/android_driver.dart --target=integration_test/account_test.dart
-flutter test integration_test
+flutter drive --driver=test_driver/android_driver.dart --target=integration_test/account_test.dart
+#flutter test integration_test
 cd ..
