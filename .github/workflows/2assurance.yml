@@ -23,10 +23,8 @@ jobs:
     #      core.setFailed('At least one previous event did not succeed. Will not run Assurance Testing because of that.')
     # SETUP
     - uses: actions/checkout@v2
-    
-    - uses: KengoTODA/actions-setup-docker-compose@main
-      with:
-        version: '1.29.2'
+
+    - uses: docker-practice/actions-setup-docker@master
     
     - uses: actions/setup-java@v1
       with:
