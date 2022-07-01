@@ -23,6 +23,24 @@ jobs:
     #      core.setFailed('At least one previous event did not succeed. Will not run Assurance Testing because of that.')
     # SETUP
     - uses: actions/checkout@v2
+    - uses: actions/setup-java@v1
+      with:
+        java-version: '12.x'
+    
+    - uses: subosito/flutter-action@v1
+      with:
+        channel: 'stable' # 'dev', 'alpha', or 'stable' default to: 'stable'
+        flutter-version: '3.0.2' # set to the flutter version of MartinBruun due to previous errors
+    
+    - name: Necessary App environment files
+      working-directory: ./washee_app
+      run: |
+        echo "WEB_API_HOST=http://localhost:8000" > .env.dev
+        echo "BOX_API_HOST=http://localhost:8001" >> .env.dev
+        echo "BOX_WIFI_SSID=boxNetworkName" >> .env.dev
+        echo "BOX_WIFI_PASSWORD=boxNetworkPassword" >> .env.dev
+        echo "BOX_HAS_INTERNET=true" >> .env.dev
+        echo "Necessary production environment to satisfy flutter assets" > .env.prod
 
     # SHOULD be a production looking build it starts up instead!
     - name: Startup all containers
@@ -37,6 +55,7 @@ jobs:
       with:
         api-level: 29
         profile: pixel
+        disable-animations: true
         script: ./scripts/app/integration_test.sh
 
     # NEEDS a renaming of "integration test" to "assurance test" for app
