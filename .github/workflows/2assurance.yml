@@ -15,12 +15,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Check coverage tolerance
-      if: ${{ github.event.workflow_run.conclusion != 'success' }}
-      uses: actions/github-script@v3
-      with:
-        script: |
-          core.setFailed('At least one previous event did not succeed. Will not run Assurance Testing because of that.')
+    #- name: Check a previous run succeeded
+    #  if: ${{ github.event.workflow_run.conclusion != 'success' }}
+    #  uses: actions/github-script@v3
+    #  with:
+    #    script: |
+    #      core.setFailed('At least one previous event did not succeed. Will not run Assurance Testing because of that.')
     # SETUP
     - uses: actions/checkout@v2
 
@@ -32,12 +32,12 @@ jobs:
     # TESTING
 
     # THIS IS NOT WORKING as of now!
-    #- name: Start an Android Emulator and Run App Integration Tests
-    #  uses: reactivecircus/android-emulator-runner@v2
-    #  with:
-    #    api-level: 29
-    #    profile: pixel
-    #    script: ./scripts/app/integration_test.sh
+    - name: Start an Android Emulator and Run App Integration Tests
+      uses: reactivecircus/android-emulator-runner@v2
+      with:
+        api-level: 29
+        profile: pixel
+        script: ./scripts/app/integration_test.sh
 
     # NEEDS a renaming of "integration test" to "assurance test" for app
     # NEEDS Web Assurance test setup
