@@ -79,7 +79,8 @@ void main() {
       // act
 
       // assert
-    }, skip: true,
+      expect(true, false, reason: "Should fail in the CI pipeline, and exit correctly at this job");
+    },
     tags: ["integrationtest","account","penetration"]);
   });
 }

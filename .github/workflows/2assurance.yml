@@ -59,7 +59,8 @@ jobs:
         api-level: 29
         profile: pixel
         disable-animations: true
-        script: ./scripts/app/integration_test.sh
+        working-directory: ./washee_app
+        script: flutter test integration_test
 
     # NEEDS a renaming of "integration test" to "assurance test" for app
     # NEEDS Web Assurance test setup
