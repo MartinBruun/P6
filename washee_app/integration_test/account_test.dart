@@ -79,7 +79,7 @@ void main() {
       // act
 
       // assert
-      expect(true, false, reason: "Should fail in the CI pipeline, and exit correctly at this job");
+      expect(true, true, reason: "Should pass in the CI pipeline, to see if it can go through a whole pass");
     },
     tags: ["integrationtest","account","penetration"]);
   });
