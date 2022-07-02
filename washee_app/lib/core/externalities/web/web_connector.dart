@@ -58,7 +58,10 @@ class WebConnector extends IWebConnector{
   Future<bool> isAuthorized() async {
     String? token = await secureStorage.read(key: secureStorageTokenKey);
     if(token == null){
-      Response? response = await renewAuthorization();
+
+      Response? response;
+      response = await renewAuthorization();
+
       if(response == null){
         return false;
       }
@@ -90,7 +93,9 @@ class WebConnector extends IWebConnector{
   Future<Response> delete(String endpoint) async {
     if(await isAuthorized()){
       String url = baseURL + endpoint;
-      return httpConnection.delete(url);
+      Response response;
+      response = await httpConnection.delete(url);
+      return response;
     }
     else{
       throw new NotAuthorizedFailure();
@@ -100,8 +105,10 @@ class WebConnector extends IWebConnector{
   @override
   Future<Response> retrieve(String endpoint,{required Map<String,dynamic> queryParameters}) async {
     if(await isAuthorized()){
+      Response response;
       String url = baseURL + endpoint;
-      return httpConnection.get(url, queryParameters:queryParameters);
+      response = await httpConnection.get(url, queryParameters:queryParameters);
+      return response;
     }
     else{
       throw new NotAuthorizedFailure();
@@ -111,8 +118,10 @@ class WebConnector extends IWebConnector{
   @override
   Future<Response> create(String endpoint, Map<String, dynamic> data) async {
     if(await isAuthorized()){
+      Response response;
       String url = baseURL + endpoint;
-      return httpConnection.post(url, data:data);
+      response = await httpConnection.post(url, data:data);
+      return response;
     }
     else{
       throw new NotAuthorizedFailure();

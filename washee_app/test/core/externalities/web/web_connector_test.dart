@@ -64,9 +64,10 @@ void main() {
       expect(testWebConector.authorizeURL, expectedEndpoint);
 
       // act
-      await testWebConector.authorize(mockUsername, mockPassword);
+      Response actual = await testWebConector.authorize(mockUsername, mockPassword);
 
       // assert
+      expect(actual.statusCode, 200);
       expect(mockDio.options.headers["authorization"], "TOKEN $mockToken");
     },
     tags: ["unittest","core","externalities"]);
