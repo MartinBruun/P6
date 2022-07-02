@@ -46,6 +46,10 @@ jobs:
         echo Necessary production environment to satisfy flutter assets > .env.prod
 
     # SHOULD be a production looking build it starts up instead!
+    - name: Make sure all containers are down
+      run: |
+        docker-compose down -v
+    
     - name: Startup all containers
       run: |
         docker-compose up -d --build
