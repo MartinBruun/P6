@@ -90,6 +90,7 @@ void main() {
       // arrange
       setUp();
       allowedDependencies["standards"] = true;
+      allowedDependencies["externalities"] = true;
 
       // IS NOT WORKING! Maybe even split it out into externalities (only remotes), standards (all logic layers) and ui (only presentation)?
       Stream<FileSystemEntity> coreDir = await Directory(path.join(Directory.current.path, "lib", "core", "standards")).list();
@@ -108,7 +109,7 @@ void main() {
           });
         }
       });
-    }, skip: true,
+    },
     tags: ["architecture", "core", "standards"]);
   });
   group("Architechture Checks UI",() {

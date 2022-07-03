@@ -1,7 +1,5 @@
 import 'dart:io';
 
-import 'package:washee/core/externalities/network/network_info.dart';
-import 'package:washee/injection_container.dart';
 import 'package:washee/core/standards/time/date_helper.dart';
 
 class ExceptionHandler{
@@ -31,11 +29,7 @@ class ExceptionHandler{
 
     if (log){
       try{
-        sl<NetworkInfo>().isConnected.then((connected) => {
-          if(connected){
-            throw UnimplementedError()
-          }
-      });
+        throw UnimplementedError();
       }
       catch (e){
         print("Error could not be send to logs: " + exception);
