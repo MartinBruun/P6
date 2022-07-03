@@ -1,7 +1,7 @@
 import 'package:washee/core/standards/base_usecase/usecase.dart';
 
 import 'package:washee/features/location/data/models/box_machine_model.dart';
-import '../repositories/get_machines_repository.dart';
+import 'package:washee/features/location/data/repositories/get_machines_repo.dart';
 
 class GetMachinesUseCase implements UseCase<List<MachineModel>, NoParams> {
   final GetMachinesRepository repository;

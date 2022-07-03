@@ -1,7 +1,10 @@
 import 'package:dio/dio.dart';
-import 'package:washee/features/location/domain/repositories/connect_repository.dart';
 
 import '../datasources/connect_remote.dart';
+
+abstract class ConnectRepository {
+  Future<Response> connect();
+}
 
 class ConnectRepositoryImpl implements ConnectRepository {
   final ConnectRemote remote;

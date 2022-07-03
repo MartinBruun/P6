@@ -8,8 +8,8 @@ import 'package:washee/core/externalities/box/box_communicator.dart';
 import 'package:washee/core/externalities/web/web_connector.dart';
 import 'package:washee/core/standards/environments/environment.dart';
 import 'package:washee/core/standards/time/date_helper.dart';
-import 'package:washee/features/account/data/datasources/account_remote.dart';
-import 'package:washee/features/account/data/datasources/user_remote.dart';
+import 'package:washee/features/account/data/datasources/web_account_remote.dart';
+import 'package:washee/features/account/data/datasources/web_user_remote.dart';
 import 'package:washee/features/account/data/repositories/account_repository_impl.dart';
 import 'package:washee/features/account/data/repositories/user_repository.dart';
 import 'package:washee/features/account/domain/usecases/auto_sign_in.dart';
@@ -21,13 +21,12 @@ import 'package:washee/features/booking/data/repositories/book_repository_impl.d
 import 'package:washee/features/booking/domain/usecases/delete_booking.dart';
 import 'package:washee/features/booking/domain/usecases/has_current_booking.dart';
 import 'package:washee/features/booking/domain/usecases/post_booking.dart';
-import 'package:washee/features/location/data/repositories/get_machines_repo_impl.dart';
-import 'package:washee/features/location/domain/repositories/get_machines_repository.dart';
+import 'package:washee/features/location/data/datasources/web_machine_remote.dart';
+import 'package:washee/features/location/data/repositories/get_machines_repo.dart';
 import 'package:washee/features/location/domain/usecases/get_machines.dart';
 import 'package:washee/features/account/domain/usecases/sign_in.dart';
 import 'package:washee/features/location/data/datasources/unlock_remote.dart';
-import 'package:washee/features/location/data/repositories/unlock_repo_impl.dart';
-import 'package:washee/features/location/domain/repositories/unlock_repository.dart';
+import 'package:washee/features/location/data/repositories/unlock_repo.dart';
 import 'package:washee/features/location/domain/usecases/connect_box_wifi.dart';
 import 'package:washee/features/location/domain/usecases/disconnect_box_wifi.dart';
 import 'package:washee/features/location/domain/usecases/get_wifi_permission.dart';
@@ -101,7 +100,7 @@ Future<void> initBooking() async {
   sl.registerLazySingleton(() => DeleteBookingUseCase(repository: sl()));
 
   // Repositories
-  sl.registerLazySingleton<BookRepositoryImpl>(() => BookRepositoryImpl(networkInfo: sl(), remote: sl()));
+  sl.registerLazySingleton<BookRepository>(() => BookRepository(remote: sl()));
 
   // Data Sources
   sl.registerLazySingleton<BookRemote>(() => BookRemoteImpl(networkInfo: sl(), connector: sl()));
@@ -110,11 +109,11 @@ Future<void> initBooking() async {
 Future<void> initUnlock() async {
   // Data sources
   sl.registerLazySingleton<UnlockRemote>(
-      () => UnlockRemoteImpl(communicator: sl()));
+      () => UnlockRemoteImpl(communicator: sl(), networkInfo: sl()));
 
   // Repositories
   sl.registerLazySingleton<UnlockRepository>(
-      () => UnlockRepositoryImpl(remote: sl(), networkInfo: sl(), dateHelper: sl()));
+      () => UnlockRepositoryImpl(remote: sl(), dateHelper: sl()));
 
   // Usecases
   sl.registerLazySingleton(() => UnlockUseCase(repository: sl()));
@@ -126,10 +125,13 @@ Future<void> initUnlock() async {
 }
 
 Future<void> initGetMachines() async {
-  // Usecases
-  sl.registerLazySingleton(() => GetMachinesUseCase(repository: sl()));
+  // Remotes
+  sl.registerLazySingleton<WebMachineRemote>(() => WebMachineRemote(connector: sl(), networkInfo: sl()));
 
   // Repositories
   sl.registerLazySingleton<GetMachinesRepository>(
-      () => GetMachinesRepositoryImpl(connector: sl(), networkInfo: sl()));
+      () => GetMachinesRepositoryImpl(webMachineRemote: sl()));
+
+  // Usecases
+  sl.registerLazySingleton(() => GetMachinesUseCase(repository: sl()));
 }

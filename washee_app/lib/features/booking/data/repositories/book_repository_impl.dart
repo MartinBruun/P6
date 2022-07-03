@@ -1,16 +1,29 @@
-import 'package:washee/core/standards/logger/exception_handler.dart';
 import 'package:washee/core/standards/time/date_helper.dart';
 import 'package:washee/features/booking/data/models/booking_model.dart';
-import 'package:washee/features/booking/domain/repositories/book_repository.dart';
-
-import 'package:washee/core/externalities/network/network_info.dart';
 import '../datasources/book_remote.dart';
 
-class BookRepositoryImpl implements BookRepository {
-  final NetworkInfo networkInfo;
+abstract class IBookRepository {
+  Future<List<BookingModel>> getBookings({
+    int? accountID,
+    bool? activated
+  });
+  Future<BookingModel?> postBooking(
+      {required DateTime startTime,
+      required String machineResource,
+      required String serviceResource,
+      required String accountResource});
+  Future<bool> hasCurrentBooking({
+    required int accountID,
+    required int machineID
+  });
+  Future<bool> deleteBooking({required int bookingID});
+}
+
+
+class BookRepository implements IBookRepository {
   final BookRemote remote;
 
-  BookRepositoryImpl({required this.networkInfo, required this.remote});
+  BookRepository({required this.remote});
 
   @override
   Future<List<BookingModel>> getBookings(
@@ -27,48 +40,35 @@ class BookRepositoryImpl implements BookRepository {
       required String machineResource,
       required String serviceResource,
       required String accountResource}) async {
-    if (await networkInfo.isConnected) {
       Map<String, dynamic> postetBookingJson = await remote.postBooking(
           startTime: startTime,
           machineResource: machineResource,
           serviceResource: serviceResource,
           accountResource: accountResource);
       return constructBooking(postetBookingJson);
-    }
-    return null;
   }
 
   @override
   Future<bool> hasCurrentBooking(
-      {required int accountID, required int machineID}) async {
-    if (await networkInfo.isConnected) {
-      List<Map<String, dynamic>> validBooking = await remote.getBookings(
-          accountID: accountID,
-          machineID: machineID,
-          startTimeLessThan:
-              DateTime.parse(DateHelper().convertToNonNaiveTime(DateHelper().currentTime())),
-          endTimeGreaterThan:
-              DateTime.parse(DateHelper().convertToNonNaiveTime(DateHelper().currentTime())));
-      if (validBooking.isEmpty) {
-        return false;
-      } else {
-        return true;
-      }
+    {required int accountID, required int machineID}) async {
+    List<Map<String, dynamic>> validBooking = await remote.getBookings(
+        accountID: accountID,
+        machineID: machineID,
+        startTimeLessThan:
+            DateTime.parse(DateHelper().convertToNonNaiveTime(DateHelper().currentTime())),
+        endTimeGreaterThan:
+            DateTime.parse(DateHelper().convertToNonNaiveTime(DateHelper().currentTime())));
+    if (validBooking.isEmpty) {
+      return false;
+    } else {
+      return true;
     }
-    ExceptionHandler()
-        .handle("Not on network", log: true, show: true, crash: false);
-    throw new Exception("Not on network");
   }
 
   @override
   Future<bool> deleteBooking({required int bookingID}) async {
-    if (await networkInfo.isConnected) {
-      bool wasDeleted = await remote.deleteBooking(bookingID);
-      return wasDeleted;
-    }
-    ExceptionHandler()
-        .handle("Not on network", log: true, show: true, crash: false);
-    throw new Exception("Not on network");
+    bool wasDeleted = await remote.deleteBooking(bookingID);
+    return wasDeleted;
   }
 
   List<BookingModel> constructBookingList(
@@ -83,5 +83,4 @@ class BookRepositoryImpl implements BookRepository {
   BookingModel constructBooking(Map<String, dynamic> bookingAsJson) {
     return BookingModel.fromJson(bookingAsJson);
   }
-
 }

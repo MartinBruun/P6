@@ -1,23 +1,19 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:washee/core/externalities/box/box_communicator.dart';
-import 'package:washee/core/externalities/network/network_info.dart';
-import 'package:washee/core/externalities/web/web_connector.dart';
-import 'package:washee/features/location/data/repositories/get_machines_repo_impl.dart';
+import 'package:washee/features/location/data/datasources/web_machine_remote.dart';
+import 'package:washee/features/location/data/repositories/get_machines_repo.dart';
 
-class MockNetworkInfo extends Mock implements NetworkInfo {}
+class MockWebMachineRemote extends Mock implements WebMachineRemote {}
 class MockCommunicator extends Mock implements BoxCommunicator {}
-class MockWebConnector extends Mock implements WebConnector {}
 
 void main() {
   test(
     'should return a list of MachineModel from JSON response',
     () async {
       // arrange
-      var networkInfo = MockNetworkInfo();
-      var connector = MockWebConnector();
-      var repository = GetMachinesRepositoryImpl(
-          connector: connector, networkInfo: networkInfo);
+      var mockMachineRemote = MockWebMachineRemote();
+      var repository = GetMachinesRepositoryImpl(webMachineRemote: mockMachineRemote);
 
       var mockMachinesAsJson = listOfTestMachines();
       // act

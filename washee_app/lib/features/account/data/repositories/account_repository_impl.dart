@@ -1,6 +1,6 @@
 
 
-import 'package:washee/features/account/data/datasources/account_remote.dart';
+import 'package:washee/features/account/data/datasources/web_account_remote.dart';
 import 'package:washee/features/account/data/models/web_account_model.dart';
 import 'package:washee/features/account/domain/entities/account_entity.dart';
 

@@ -5,8 +5,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:path/path.dart' as path;
 
 void main() {
-  late Map<String,dynamic> allowedDependencies;
-
   Future<List<String>> upholdsArchitechture(File fileToCheck, Map<String,dynamic> layersAllowed) async {
     List<String> dependenciesBroken = [];
 
@@ -214,7 +212,7 @@ void main() {
   group("Architechture Check Repositories",() {
     test(
       """
-        Should only be allowed to depend on other remotes, models and core. (not other repositories!)
+        Should only be allowed to depend on other remotes, models, their entities and standards. (not other repositories!)
         The repository handles serialization (to remotes) and deserialization (back to usecases) using models as serializers.
         The repository generally handles all the logic containing "transforming" outside raw data (from remotes)
         into internal entities that is useful for the usecase to understand.
@@ -223,9 +221,10 @@ void main() {
       () async {
       // arrange
       Map<String,dynamic> allowedDependencies = allDependencies();
-      allowedDependencies["core"] = true;
+      allowedDependencies["standards"] = true;
       allowedDependencies["datasources"] = true;
       allowedDependencies["models"] = true;
+      allowedDependencies["entities"] = true;
 
       Stream<FileSystemEntity> featureDir = await Directory(path.join(Directory.current.path, "lib", "features")).list();
       featureDir.forEach((element) async {
@@ -243,7 +242,7 @@ void main() {
           });
         }
       });
-    }, skip: true,
+    },
     tags: ["architecture", "features", "repositories"]);
   });
   group("Architechture Check Usecases",() {

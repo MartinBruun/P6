@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:washee/core/standards/time/date_helper.dart';
 import 'package:washee/core/standards/environments/environment.dart';
 
 import 'package:washee/core/standards/logger/exception_handler.dart';

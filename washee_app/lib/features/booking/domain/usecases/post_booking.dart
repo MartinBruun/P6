@@ -2,7 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:washee/core/standards/base_usecase/usecase.dart';
 
 import 'package:washee/features/booking/data/models/booking_model.dart';
-import '../repositories/book_repository.dart';
+import 'package:washee/features/booking/data/repositories/book_repository_impl.dart';
 
 class PostBookingUsecase implements UseCase<BookingModel?, PostBookingParams> {
   final BookRepository repository;

@@ -1,5 +1,5 @@
 
-import 'package:washee/features/account/data/datasources/user_remote.dart';
+import 'package:washee/features/account/data/datasources/web_user_remote.dart';
 import 'package:washee/features/account/data/models/web_user_model.dart';
 import 'package:washee/features/account/domain/entities/user_entity.dart';
 

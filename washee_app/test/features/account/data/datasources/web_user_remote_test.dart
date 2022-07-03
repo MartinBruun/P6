@@ -4,7 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:washee/core/externalities/web/web_connector.dart';
-import 'package:washee/features/account/data/datasources/user_remote.dart';
+import 'package:washee/features/account/data/datasources/web_user_remote.dart';
 
 import '../../../../fixtures/entities/account/users.dart';
 
