@@ -30,8 +30,8 @@ void main() {
     return dependenciesBroken;
   }
 
-  setUp() {
-    allowedDependencies = {
+  Map<String,dynamic> allDependencies() {
+    return {
         "externalities": false,
         "standards": false,
         "ui": false,
@@ -55,7 +55,7 @@ void main() {
       """,
       () async {
       // arrange
-      setUp();
+      Map<String,dynamic> allowedDependencies = allDependencies();
       allowedDependencies["standards"] = true;
       allowedDependencies["externalities"] = true;
 
@@ -82,13 +82,13 @@ void main() {
     test(
       """
         Should only depend on other standards packages in core.
-        Core is used to standardize and generalize implementation details.
+        Standards is used to standardize and generalize implementation details.
         It is therefore important it never gets muddled up with the features and actual business logic!
         If something needs to depend on something in the layers, it probably belong as part of that feature.
       """,
       () async {
       // arrange
-      setUp();
+      Map<String,dynamic> allowedDependencies = allDependencies();
       allowedDependencies["standards"] = true;
       allowedDependencies["externalities"] = true;
 
@@ -122,7 +122,7 @@ void main() {
       """,
       () async {
       // arrange
-      setUp();
+      Map<String,dynamic> allowedDependencies = allDependencies();
       allowedDependencies["ui"] = true;
 
       Stream<FileSystemEntity> coreDir = await Directory(path.join(Directory.current.path, "lib", "core", "ui")).list();
@@ -156,7 +156,7 @@ void main() {
       """,
       () async {
       // arrange
-      setUp();
+      Map<String,dynamic> allowedDependencies = allDependencies();
       allowedDependencies["externalities"] = true;
       allowedDependencies["standards"] = true;
 
@@ -182,14 +182,15 @@ void main() {
   group("Architechture Check Models",() {
     test(
       """
-        Should only be allowed to depend on other models and core.
+        Should only be allowed to depend on other models, their entities and implementation standards.
         A model is generally just a serializer transforming raw data received by the remote, into an entity type object.
       """,
       () async {
       // arrange
-      setUp();
-      allowedDependencies["core"] = true;
+      Map<String,dynamic> allowedDependencies = allDependencies();
+      allowedDependencies["standards"] = true;
       allowedDependencies["models"] = true;
+      allowedDependencies["entities"] = true;
 
       Stream<FileSystemEntity> featureDir = await Directory(path.join(Directory.current.path, "lib", "features")).list();
       featureDir.forEach((element) async {
@@ -207,7 +208,7 @@ void main() {
           });
         }
       });
-    }, skip: true,
+    },
     tags: ["architecture", "features", "models"]);
   });
   group("Architechture Check Repositories",() {
@@ -221,7 +222,7 @@ void main() {
       """,
       () async {
       // arrange
-      setUp();
+      Map<String,dynamic> allowedDependencies = allDependencies();
       allowedDependencies["core"] = true;
       allowedDependencies["datasources"] = true;
       allowedDependencies["models"] = true;
@@ -256,7 +257,7 @@ void main() {
       """,
       () async {
       // arrange
-      setUp();
+      Map<String,dynamic> allowedDependencies = allDependencies();
       allowedDependencies["repositories"] = true;
       allowedDependencies["entities"] = true;
 
@@ -290,7 +291,7 @@ void main() {
       """,
       () async {
       // arrange
-      setUp();
+      Map<String,dynamic> allowedDependencies = allDependencies();
       allowedDependencies["entities"] = true;
 
       Stream<FileSystemEntity> featureDir = await Directory(path.join(Directory.current.path, "lib", "features")).list();
@@ -321,7 +322,7 @@ void main() {
       """,
       () async {
       // arrange
-      setUp();
+      Map<String,dynamic> allowedDependencies = allDependencies();
       allowedDependencies["core"] = true;
       allowedDependencies["usecases"] = true;
       allowedDependencies["entities"] = true;
@@ -354,7 +355,7 @@ void main() {
       """,
       () async {
       // arrange
-      setUp();
+      Map<String,dynamic> allowedDependencies = allDependencies();
       allowedDependencies["core"] = true;
       allowedDependencies["entities"] = true;
       allowedDependencies["providers"] = true;
@@ -388,7 +389,7 @@ void main() {
       """,
       () async {
       // arrange
-      setUp();
+      Map<String,dynamic> allowedDependencies = allDependencies();
       allowedDependencies["core"] = true;
       allowedDependencies["entities"] = true;
       allowedDependencies["providers"] = true;
@@ -553,7 +554,7 @@ void main() {
         Should check that only layers specified in allowedDependencies are the ones allowed in the features and core directory
       """,
       () async {
-        setUp();
+        Map<String,dynamic> allowedDependencies = allDependencies();
 
         // Basic folders accepted
         allowedDependencies["core"] = true;
