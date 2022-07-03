@@ -126,7 +126,7 @@ Future<void> initUnlock() async {
 
 Future<void> initGetMachines() async {
   // Remotes
-  sl.registerLazySingleton<WebMachineRemote>(() => WebMachineRemote(connector: sl(), networkInfo: sl()));
+  sl.registerLazySingleton<IWebMachineRemote>(() => WebMachineRemote(connector: sl(), networkInfo: sl()));
 
   // Repositories
   sl.registerLazySingleton<GetMachinesRepository>(

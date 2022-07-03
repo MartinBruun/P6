@@ -315,14 +315,15 @@ void main() {
   group("Architechture Check Providers",() {
     test(
       """
-        Should only be allowed to depend on usecases, entities and core. (not even other providers)
+        Should only be allowed to depend on usecases, entities, standards and shared ui. (not even other providers)
         Providers handle all the state of the UI, but actions that change the state is the business logic defined in the usecases.
         Cross dependency between providers is also confusing and should therefore be kept seperate.
       """,
       () async {
       // arrange
       Map<String,dynamic> allowedDependencies = allDependencies();
-      allowedDependencies["core"] = true;
+      allowedDependencies["standards"] = true;
+      allowedDependencies["ui"] = true;
       allowedDependencies["usecases"] = true;
       allowedDependencies["entities"] = true;
 
@@ -348,14 +349,14 @@ void main() {
   group("Architechture Check Pages",() {
     test(
       """
-        Should only be allowed to depend on other widgets (not pages!), providers, entities or core.
+        Should only be allowed to depend on other widgets (not pages!), providers, entities or core ui components.
         The reason is the UI layer should have no logic or computation. 
         All state is handled by the Provider.
       """,
       () async {
       // arrange
       Map<String,dynamic> allowedDependencies = allDependencies();
-      allowedDependencies["core"] = true;
+      allowedDependencies["ui"] = true;
       allowedDependencies["entities"] = true;
       allowedDependencies["providers"] = true;
       allowedDependencies["widgets"] = true;
@@ -382,14 +383,14 @@ void main() {
   group("Architechture Check Widgets",() {
     test(
       """
-        Should only be allowed to depend on other widgets (not pages!), providers, entities or core.
+        Should only be allowed to depend on other widgets (not pages!), providers, entities or core ui components.
         The reason is the UI layer should have no logic or computation. 
         All state is handled by the Provider.
       """,
       () async {
       // arrange
       Map<String,dynamic> allowedDependencies = allDependencies();
-      allowedDependencies["core"] = true;
+      allowedDependencies["ui"] = true;
       allowedDependencies["entities"] = true;
       allowedDependencies["providers"] = true;
       allowedDependencies["widgets"] = true;
@@ -550,7 +551,9 @@ void main() {
     tags: ["architecture"]);
   test(
       """
-        Should check that only layers specified in allowedDependencies are the ones allowed in the features and core directory
+        Should check that only layers specified in allowedDependencies are the ones allowed in the features and core directory.
+        This should probably be refactored, so the allDepedencies fixture shows the information,
+          rather than being hidden in this test, what the acceptable structure is.
       """,
       () async {
         Map<String,dynamic> allowedDependencies = allDependencies();
