@@ -157,7 +157,8 @@ void main() {
       () async {
       // arrange
       setUp();
-      allowedDependencies["core"] = true;
+      allowedDependencies["externalities"] = true;
+      allowedDependencies["standards"] = true;
 
       Stream<FileSystemEntity> featureDir = await Directory(path.join(Directory.current.path, "lib", "features")).list();
       featureDir.forEach((element) async {
@@ -175,7 +176,7 @@ void main() {
           });
         }
       });
-    }, skip: true,
+    },
     tags: ["architecture", "features", "datasources"]);
   });
   group("Architechture Check Models",() {

@@ -110,11 +110,11 @@ Future<void> initBooking() async {
 Future<void> initUnlock() async {
   // Data sources
   sl.registerLazySingleton<UnlockRemote>(
-      () => UnlockRemoteImpl(communicator: sl(), dateHelper: sl()));
+      () => UnlockRemoteImpl(communicator: sl()));
 
   // Repositories
   sl.registerLazySingleton<UnlockRepository>(
-      () => UnlockRepositoryImpl(remote: sl(), networkInfo: sl()));
+      () => UnlockRepositoryImpl(remote: sl(), networkInfo: sl(), dateHelper: sl()));
 
   // Usecases
   sl.registerLazySingleton(() => UnlockUseCase(repository: sl()));
