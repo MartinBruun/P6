@@ -46,9 +46,13 @@ jobs:
         echo BOX_HAS_INTERNET=true >> .env.dev
         echo Necessary production environment to satisfy flutter assets > .env.prod
     
-    - name: Startup all containers
+    - name: Startup all containers and load data
       run: |
         docker-compose up -d --build
+        docker-compose exec web python3 manage.py flush --no-input  
+        docker-compose exec web python3 manage.py makemigrations
+        docker-compose exec web python3 manage.py migrate
+        docker-compose exec web python3 manage.py loaddata init_priorgade_users.json init_priorgade_accounts.json init_priorgade_models.json init_priorgade_services.json init_priorgade_locations.json init_priorgade_machines.json init_priorgade_bookings.json
 
     # TESTING
 
