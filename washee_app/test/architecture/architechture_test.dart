@@ -75,7 +75,7 @@ void main() {
           });
         }
       });
-    }, skip: true,
+    },
     tags: ["architecture", "core", "externalities"]);
   });
   group("Architechture Check Standards",() {

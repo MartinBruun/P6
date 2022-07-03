@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:washee/core/standards/time/date_helper.dart';
-import 'package:washee/features/location/data/models/box_machine_model.dart';
 import 'package:washee/core/standards/environments/environment.dart';
 
 import 'package:washee/core/standards/logger/exception_handler.dart';
@@ -11,7 +10,7 @@ import 'package:washee/core/standards/failures/failures.dart';
 abstract class BoxCommunicator {
   Future<Map<String, dynamic>> getMachines();
   Future<Map<String, dynamic>> lockOrUnlock(
-      String command, MachineModel machine, Duration duration);
+      String command, Map<String,dynamic> machine, Duration duration);
   String get lockURL;
   String get unlockURL;
   String get getMachinesURL;
@@ -47,14 +46,11 @@ class BoxCommunicatorImpl implements BoxCommunicator {
   }
 
   Future<Map<String, dynamic>> _unlock(
-    MachineModel machine, Duration duration) async {
+    Map<String,dynamic> machine, Duration duration) async {
       Response response;
 
-      var startTime = DateHelper().currentTime();
-      machine.startTime = startTime;
-      machine.endTime = startTime.add(duration);
       try {
-        response = await dio.post(unlockURL, data: machine.toJson());
+        response = await dio.post(unlockURL, data: machine);
         if (response.statusCode == 200) {
           return response.data;
         } else {
@@ -72,7 +68,7 @@ class BoxCommunicatorImpl implements BoxCommunicator {
 
   @override
   Future<Map<String, dynamic>> lockOrUnlock(
-      String command, MachineModel machine, Duration duration) {
+      String command, Map<String,dynamic> machine, Duration duration) {
     if (command == "lock") {
       return _lock();
     }
