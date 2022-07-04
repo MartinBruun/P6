@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:washee/core/standards/base_usecase/usecase.dart';
+import 'package:washee/core/base_usecase/usecase.dart';
 import 'package:washee/features/location/data/models/box_machine_model.dart';
 import 'package:washee/features/location/data/repositories/get_machines_repo.dart';
 import 'package:washee/features/location/domain/usecases/get_machines.dart';

@@ -14,7 +14,7 @@ import '../../../../core/ui/themes/colors.dart';
 import '../../../../core/ui/themes/dimens.dart';
 import '../../../../core/ui/themes/themes.dart';
 import '../../../../core/global_providers/global_provider.dart';
-import '../../../../core/standards/base_usecase/usecase.dart';
+import '../../../../core/base_usecase/usecase.dart';
 import '../../../../core/ui/base_widgets/common_used_widgets.dart';
 import '../../../../injection_container.dart';
 import '../../domain/usecases/connect_box_wifi.dart';

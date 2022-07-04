@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 import 'package:washee/core/externalities/web/web_connector.dart';
 import 'package:washee/core/standards/time/date_helper.dart';
-import 'package:washee/core/standards/base_usecase/usecase.dart';
+import 'package:washee/core/base_usecase/usecase.dart';
 import 'package:washee/features/location/data/models/box_machine_model.dart';
 import 'package:washee/features/location/data/repositories/unlock_repo.dart';
 import 'package:washee/features/location/domain/usecases/disconnect_box_wifi.dart';

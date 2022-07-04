@@ -10,7 +10,7 @@ import 'package:washee/core/ui/themes/colors.dart';
 import 'package:washee/core/ui/themes/dimens.dart';
 import 'package:washee/core/ui/themes/themes.dart';
 import 'package:washee/core/global_providers/global_provider.dart';
-import 'package:washee/core/standards/base_usecase/usecase.dart';
+import 'package:washee/core/base_usecase/usecase.dart';
 import 'package:washee/features/location/data/models/box_machine_model.dart';
 import 'package:washee/features/location/domain/usecases/connect_box_wifi.dart';
 import 'package:washee/features/location/domain/usecases/unlock.dart';

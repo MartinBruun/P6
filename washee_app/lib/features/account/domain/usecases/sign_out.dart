@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:washee/core/standards/base_usecase/usecase.dart';
+import 'package:washee/core/base_usecase/usecase.dart';
 import 'package:washee/features/account/data/repositories/user_repository.dart';
 import 'package:washee/features/account/domain/entities/user_entity.dart';
 

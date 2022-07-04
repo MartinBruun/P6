@@ -1,4 +1,4 @@
-import 'package:washee/core/standards/base_usecase/usecase.dart';
+import 'package:washee/core/base_usecase/usecase.dart';
 import 'package:washee/features/location/data/repositories/unlock_repo.dart';
 
 class ConnectBoxWifiUsecase implements UseCase<bool, NoParams> {

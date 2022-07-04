@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:provider/provider.dart';
-import 'package:washee/core/standards/base_usecase/usecase.dart';
+import 'package:washee/core/base_usecase/usecase.dart';
 import 'package:washee/features/location/data/models/box_machine_model.dart';
 import 'package:washee/features/location/presentation/widgets/machine_card.dart';
 import 'package:washee/features/location/domain/usecases/get_machines.dart';

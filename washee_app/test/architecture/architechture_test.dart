@@ -30,6 +30,7 @@ void main() {
 
   Map<String,dynamic> allDependencies() {
     return {
+        "base_usecase": false,
         "externalities": false,
         "standards": false,
         "ui": false,
@@ -283,7 +284,7 @@ void main() {
   group("Architechture Check Usecases",() {
     test(
       """
-        Should only depend on repositories and entities. May not depend on anything else (not even core or other usecases!).
+        Should only depend on the base_usecase, repositories and entities. May not depend on anything else (not even core or other usecases!).
         Usecases define the business logic, signifying a representation of "what can be done in the domain".
         Usecases should be seen as just as abstract as entities. A Usecase is a model of what a user want to do.
         A Usecase (in the code) is NOT the thing the user actually wants to do! It is just a model of it.
@@ -292,8 +293,10 @@ void main() {
       () async {
       // arrange
       Map<String,dynamic> allowedDependencies = allDependencies();
+      allowedDependencies["base_usecase"] = true;
       allowedDependencies["repositories"] = true;
       allowedDependencies["entities"] = true;
+
 
       Stream<FileSystemEntity> featureDir = await Directory(path.join(Directory.current.path, "lib", "features")).list();
       featureDir.forEach((element) async {
@@ -311,7 +314,7 @@ void main() {
           });
         }
       });
-    }, skip: true,
+    },
     tags: ["architecture", "features", "usecases"]);
   });
   group("Architechture Check Entities",() {
@@ -344,7 +347,7 @@ void main() {
           });
         }
       });
-    }, skip: true,
+    },
     tags: ["architecture", "features", "entities"]);
   });
   group("Architechture Check Providers",() {

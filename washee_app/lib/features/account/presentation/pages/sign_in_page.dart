@@ -7,7 +7,7 @@ import 'package:washee/core/navigation/pages_enum.dart';
 import 'package:washee/core/ui/themes/colors.dart';
 import 'package:washee/core/ui/themes/dimens.dart';
 import 'package:washee/core/ui/themes/themes.dart';
-import 'package:washee/core/standards/base_usecase/usecase.dart';
+import 'package:washee/core/base_usecase/usecase.dart';
 import 'package:washee/features/account/presentation/pages/wrong_input.dart';
 import 'package:washee/features/account/presentation/providers/account_language_provider.dart';
 import 'package:washee/features/account/presentation/providers/account_current_user_provider.dart';
