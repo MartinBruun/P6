@@ -2,8 +2,6 @@ import 'package:equatable/equatable.dart';
 import 'package:washee/core/standards/base_usecase/usecase.dart';
 import 'package:washee/features/booking/data/repositories/book_repository_impl.dart';
 
-
-
 class DeleteBookingUseCase implements UseCase<bool, DeleteBookingParams> {
   final BookRepository repository;
 
