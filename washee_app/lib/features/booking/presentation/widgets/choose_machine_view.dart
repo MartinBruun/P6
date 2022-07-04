@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:washee/features/location/presentation/pages/machine_enum.dart';
 import 'package:washee/core/ui/themes/dimens.dart';
 import 'package:washee/core/ui/themes/themes.dart';
-import 'package:washee/core/ui/widgets/dialog_exit.dart';
+import 'package:washee/core/ui/base_widgets/dialog_exit.dart';
 import 'package:washee/features/booking/presentation/widgets/machine_type_button.dart';
 
 import '../../../../core/ui/themes/colors.dart';

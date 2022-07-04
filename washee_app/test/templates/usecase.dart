@@ -22,20 +22,4 @@ void main() {
     }, skip: true,
     tags: ["unittest","FEATURE_NAME","usecases"]);
   });
-  group("TEST_USECASE security (requirements)",() {
-    test(
-      """
-        Should XXX
-        When YYY
-        Given ZZZ
-      """,
-      () async {
-      // arrange
-
-      // act
-
-      // assert
-    }, skip: true,
-    tags: ["unittest","FEATURE_NAME","usecases"]);
-  });
 }

@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../core/ui/themes/colors.dart';
 import '../../../../core/ui/themes/dimens.dart';
 import '../../../../core/ui/themes/themes.dart';
-import '../../../../core/ui/widgets/common_used_widgets.dart';
+import '../../../../core/ui/base_widgets/common_used_widgets.dart';
 
 class BookingErrorPrompt extends StatefulWidget {
   final String message;

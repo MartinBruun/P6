@@ -8,14 +8,14 @@ import 'package:washee/features/location/presentation/widgets/wash_started_dialo
 import 'package:washee/features/location/presentation/widgets/http_error_prompt.dart';
 
 import '../../../../core/standards/logger/error_handler.dart';
-import '../../../../core/ui/navigation/home_screen.dart';
-import '../../../../core/ui/navigation/pages_enum.dart';
+import '../../../../core/navigation/home_screen.dart';
+import '../../../../core/navigation/pages_enum.dart';
 import '../../../../core/ui/themes/colors.dart';
 import '../../../../core/ui/themes/dimens.dart';
 import '../../../../core/ui/themes/themes.dart';
-import '../../../../core/ui/global_providers/global_provider.dart';
+import '../../../../core/global_providers/global_provider.dart';
 import '../../../../core/standards/base_usecase/usecase.dart';
-import '../../../../core/ui/widgets/common_used_widgets.dart';
+import '../../../../core/ui/base_widgets/common_used_widgets.dart';
 import '../../../../injection_container.dart';
 import '../../domain/usecases/connect_box_wifi.dart';
 import '../../domain/usecases/unlock.dart';

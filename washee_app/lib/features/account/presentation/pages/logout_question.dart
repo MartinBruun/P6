@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:washee/core/ui/themes/colors.dart';
 import 'package:washee/core/ui/themes/dimens.dart';
 import 'package:washee/core/ui/themes/themes.dart';
-import 'package:washee/core/ui/widgets/common_used_widgets.dart';
+import 'package:washee/core/ui/base_widgets/common_used_widgets.dart';
 import 'package:washee/features/account/presentation/widgets/no_buttton.dart';
 import 'package:washee/features/account/presentation/widgets/yes_button.dart';
 

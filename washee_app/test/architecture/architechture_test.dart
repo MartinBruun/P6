@@ -33,6 +33,8 @@ void main() {
         "externalities": false,
         "standards": false,
         "ui": false,
+        "global_providers": false, // TODO: Remove and refactor the logic in this out into its relevant features!
+        "navigation": false,
         "datasources": false,
         "models": false,
         "repositories": false,
@@ -139,8 +141,41 @@ void main() {
           });
         }
       });
-    }, skip: true,
+    },
     tags: ["architecture", "core", "ui"]);
+  });
+  group("Architechture Checks Navigation",() {
+    test(
+      """
+        Should depend on pages, providers and its own packages.
+        The Navigation core module handles all cross navigation between features.
+        It therefore depends on the pages it should navigate to, as well as any necessary providers.
+      """,
+      () async {
+      // arrange
+      Map<String,dynamic> allowedDependencies = allDependencies();
+      allowedDependencies["navigation"] = true;
+      allowedDependencies["pages"] = true;
+      allowedDependencies["providers"] = true;
+
+      Stream<FileSystemEntity> coreDir = await Directory(path.join(Directory.current.path, "lib", "core", "navigation")).list();
+      coreDir.forEach((element) async {
+        if(element is Directory){
+          Stream<FileSystemEntity> uiList = await Directory(path.join(element.path)).list();
+          uiList.forEach((element) async {
+            // arrange
+            File widgetFile = (element as File);
+
+            // act
+            List<String> dependenciesBroken = await upholdsArchitechture(widgetFile, allowedDependencies);
+
+            // assert
+            expect(dependenciesBroken, [], reason: "Filename " + widgetFile.path + " breaks the architecture in the given areas");
+          });
+        }
+      });
+    },
+    tags: ["architecture", "core", "navigation"]);
   });
   group("Architechture Check Datasources",() {
     test(
@@ -584,7 +619,7 @@ void main() {
         allowedDependencies["global_providers"] = true;
         allowedDependencies["navigation"] = true;
         allowedDependencies["themes"] = true;
-        allowedDependencies["widgets"] = true;
+        allowedDependencies["base_widgets"] = true;
 
         Stream<FileSystemEntity> featureDir = await Directory(path.join(Directory.current.path, "lib")).list(recursive: true);
         await featureDir.forEach((element) async {

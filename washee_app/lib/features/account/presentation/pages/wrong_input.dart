@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:washee/core/ui/widgets/dialog_box_Ok.dart';
+import 'package:washee/core/ui/base_widgets/dialog_box_Ok.dart';
 
 class IncorrectInput extends StatelessWidget {
   const IncorrectInput({Key? key}) : super(key: key);

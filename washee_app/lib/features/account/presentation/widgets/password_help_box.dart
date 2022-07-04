@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:washee/core/ui/themes/colors.dart';
 import 'package:washee/core/ui/themes/dimens.dart';
 import 'package:washee/core/ui/themes/themes.dart';
-import 'package:washee/core/ui/widgets/ok_button.dart';
+import 'package:washee/core/ui/base_widgets/ok_button.dart';
 
 class PasswordHelpDialog extends StatelessWidget {
   @override

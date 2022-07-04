@@ -34,20 +34,4 @@ void main() {
     },
     tags: ["unittest","account","usecases"]);
   });
-  group("SignOutUsecase security (requirements)",() {
-    test(
-      """
-        Should XXX
-        When YYY
-        Given ZZZ
-      """,
-      () async {
-      // arrange
-
-      // act
-
-      // assert
-    }, skip: true,
-    tags: ["unittest","account","usecases"]);
-  });
 }

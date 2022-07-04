@@ -5,7 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:provider/provider.dart';
-import 'package:washee/core/ui/navigation/home_screen.dart';
+import 'package:washee/core/navigation/home_screen.dart';
 import 'package:washee/core/ui/themes/themes.dart';
 import 'package:washee/features/account/domain/entities/user_entity.dart';
 import 'package:washee/features/account/presentation/providers/account_language_provider.dart';

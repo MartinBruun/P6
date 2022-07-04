@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:washee/core/ui/navigation/pages_enum.dart';
+import 'package:washee/core/navigation/pages_enum.dart';
 import 'package:washee/features/account/presentation/pages/sign_in_page.dart';
 import 'package:washee/features/account/presentation/pages/washee_screen.dart';
 import 'package:washee/features/account/presentation/providers/account_current_user_provider.dart';

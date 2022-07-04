@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:washee/features/location/data/models/box_machine_model.dart';
 import 'package:washee/injection_container.dart';
 
-import '../../../../core/ui/global_providers/global_provider.dart';
+import '../../../../core/global_providers/global_provider.dart';
 import '../../../../core/standards/base_usecase/usecase.dart';
 import 'machine_card.dart';
 import '../../../../injection_container.dart';

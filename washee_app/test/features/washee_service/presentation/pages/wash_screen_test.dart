@@ -10,7 +10,7 @@ import 'package:washee/features/location/domain/usecases/get_machines.dart';
 import 'package:washee/features/location/presentation/pages/wash_screen.dart';
 import 'package:washee/injection_container.dart' as ic;
 import 'package:washee/core/ui/themes/themes.dart';
-import 'package:washee/core/ui/global_providers/global_provider.dart';
+import 'package:washee/core/global_providers/global_provider.dart';
 import 'package:washee/features/booking/presentation/providers/booking_provider.dart';
 import 'package:washee/features/booking/presentation/providers/calendar_provider.dart';
 import 'package:washee/features/location/presentation/providers/unlock_provider.dart';

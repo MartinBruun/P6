@@ -44,6 +44,8 @@ tags:
     timeout: none
   ui:
     timeout: none
+  navigation:
+    timeout: none
   datasources:
     timeout: none
   models:

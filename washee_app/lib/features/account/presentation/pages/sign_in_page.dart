@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:washee/core/ui/navigation/pages_enum.dart';
+import 'package:washee/core/navigation/pages_enum.dart';
 import 'package:washee/core/ui/themes/colors.dart';
 import 'package:washee/core/ui/themes/dimens.dart';
 import 'package:washee/core/ui/themes/themes.dart';
@@ -16,7 +16,7 @@ import 'package:washee/features/account/presentation/widgets/text_input.dart';
 import 'package:washee/features/location/domain/usecases/get_wifi_permission.dart';
 import 'package:washee/injection_container.dart';
 
-import 'package:washee/core/ui/navigation/home_screen.dart';
+import 'package:washee/core/navigation/home_screen.dart';
 
 class SignInPage extends StatefulWidget {
   @override
