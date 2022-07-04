@@ -381,7 +381,7 @@ void main() {
           });
         }
       });
-    }, skip: true,
+    },
     tags: ["architecture", "features", "providers"]);
   });
   group("Architechture Check Pages",() {
@@ -395,6 +395,7 @@ void main() {
       // arrange
       Map<String,dynamic> allowedDependencies = allDependencies();
       allowedDependencies["ui"] = true;
+      allowedDependencies["global_providers"] = true; // Should be refactored away, but put here temporarily!!!
       allowedDependencies["entities"] = true;
       allowedDependencies["providers"] = true;
       allowedDependencies["widgets"] = true;
@@ -415,7 +416,7 @@ void main() {
           });
         }
       });
-    }, skip: true,
+    },
     tags: ["architecture", "features", "pages"]);
   });
   group("Architechture Check Widgets",() {
@@ -429,6 +430,7 @@ void main() {
       // arrange
       Map<String,dynamic> allowedDependencies = allDependencies();
       allowedDependencies["ui"] = true;
+      allowedDependencies["global_providers"] = true; // Should be refactored away, but put here temporarily!!!
       allowedDependencies["entities"] = true;
       allowedDependencies["providers"] = true;
       allowedDependencies["widgets"] = true;
@@ -449,7 +451,7 @@ void main() {
           });
         }
       });
-    }, skip: true,
+    }, 
     tags: ["architecture", "features", "widgets"]);
   });
   group("Architechture Check upholdsArchitechture",() {
